@@ -66,7 +66,7 @@ export default function CheckoutPage() {
       <Navbar />
       <Cart />
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-32 md:pb-20">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-40 md:pb-20">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <Link
