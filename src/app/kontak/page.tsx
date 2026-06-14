@@ -7,6 +7,7 @@ import {
   ExternalLink, ShoppingBag,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import Cart from '@/components/Cart';
 import BottomNav from '@/components/BottomNav';
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
@@ -45,6 +46,7 @@ export default function KontakPage() {
   return (
     <main className="min-h-screen pb-28" style={{ background: '#FFFBF5' }}>
       <Navbar />
+      <Cart />
 
       <div className="max-w-lg mx-auto px-4 pt-24">
 

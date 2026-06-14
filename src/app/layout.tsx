@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+import SplashScreen from '@/components/SplashScreen';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className={`${playfair.variable} ${inter.variable}`}>
       <body className="antialiased">
+        <SplashScreen />
         {children}
         <Toaster
           position="bottom-right"
