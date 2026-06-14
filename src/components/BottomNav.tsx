@@ -33,8 +33,8 @@ export default function BottomNav() {
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div
-        className="bg-white/97 backdrop-blur-xl border-t border-amber-200"
-        style={{ boxShadow: '0 -4px 20px rgba(146,64,14,0.12)' }}
+        className="border-t border-amber-200"
+        style={{ background: '#FFFBF5', boxShadow: '0 -4px 20px rgba(146,64,14,0.12)' }}
       >
         <div className="flex items-stretch">
           {allItems.map(item => {
