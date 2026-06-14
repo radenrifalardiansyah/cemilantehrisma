@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import SplashScreen from '@/components/SplashScreen';
+import IOSInstallBanner from '@/components/IOSInstallBanner';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -81,8 +82,16 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${playfair.variable} ${inter.variable}`}>
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Cemilan Teh Risma" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      </head>
       <body className="antialiased">
         <SplashScreen />
+        <IOSInstallBanner />
         {children}
         <Toaster
           position="bottom-right"
