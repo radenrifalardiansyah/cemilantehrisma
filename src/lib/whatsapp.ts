@@ -11,37 +11,42 @@ export const formatWhatsAppMessage = (
   customer: CustomerInfo,
   totalPrice: number
 ): string => {
+  const SEP = '─────────────────────';
+
   const orderLines = items
     .map(
       (item, i) =>
-        `${i + 1}. ${item.product.name} (${item.product.weight})\n    ${item.quantity} pcs x ${formatCurrency(item.product.price)} = *${formatCurrency(item.product.price * item.quantity)}*`
+        `${i + 1}. *${item.product.name}*\n   ${item.quantity} pcs × ${formatCurrency(item.product.price)} = *${formatCurrency(item.product.price * item.quantity)}*`
     )
-    .join('\n');
+    .join('\n\n');
 
-  const metodeLine =
+  const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
+
+  const alamatLine =
     customer.deliveryMethod === 'delivery'
-      ? `Delivery\nAlamat : ${customer.address}`
+      ? `Delivery\nAlamat  : ${customer.address}`
       : `Ambil Sendiri (Pickup)`;
 
   const noteLine = customer.note ? `\nCatatan : ${customer.note}` : '';
 
-  const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  return `*PESANAN CEMILAN TEH RISMA* 🛒
+${SEP}
 
-  return `*PESANAN CEMILAN TEH RISMA*
-_Keripik Kimpul - Gurih, Bikin Nagih!_
+*Detail Pesanan:*
 
-*Detail Pesanan*
 ${orderLines}
 
-Jumlah item  : ${itemCount} pcs
+${SEP}
+Jumlah item : ${itemCount} pcs
 *Total bayar : ${formatCurrency(totalPrice)}*
+${SEP}
 
-*Data Pemesan*
-Nama   : ${customer.name}
-No HP  : ${customer.phone}
-Metode : ${metodeLine}${noteLine}
+*Data Pemesan:*
+Nama    : ${customer.name}
+No. HP  : ${customer.phone}
+Metode  : ${alamatLine}${noteLine}
 
-Mohon segera dikonfirmasi pesanannya ya Teh, terima kasih! 🙏`.trim();
+_Mohon dikonfirmasi ya Teh, terima kasih!_ 🙏`.trim();
 };
 
 export interface ResellerInfo {
