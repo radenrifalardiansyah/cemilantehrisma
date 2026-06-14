@@ -5,18 +5,30 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import banner1 from '@/assets/images/Banner 1 Keripik Kimpul.png';
-import banner2 from '@/assets/images/Banner 2 Keripik Kimpul.png';
+import bannerMieKremes1 from '@/assets/images/Banner Mie Kremes 1.png';
+import bannerMieKremes2 from '@/assets/images/Banner Mie Kremes 2.png';
+import bannerKeripik1 from '@/assets/images/Banner 1 Keripik Kimpul.png';
+import bannerKeripik2 from '@/assets/images/Banner 2 Keripik Kimpul.png';
 
 const banners = [
   {
     id: 1,
-    image: banner1,
-    alt: 'Keripik Kimpul Cemilan Teh Risma — Gurih Bikin Nagih',
+    image: bannerMieKremes1,
+    alt: 'Mie Kremes Teh Risma — Crispy, Gurih, Bikin Nagih',
   },
   {
     id: 2,
-    image: banner2,
+    image: bannerMieKremes2,
+    alt: 'Mie Kremes Teh Risma — 2 Varian Rasa',
+  },
+  {
+    id: 3,
+    image: bannerKeripik1,
+    alt: 'Keripik Kimpul Cemilan Teh Risma — Gurih Bikin Nagih',
+  },
+  {
+    id: 4,
+    image: bannerKeripik2,
     alt: 'Keripik Kimpul Teh Risma — 3 Varian Rasa',
   },
 ];
