@@ -54,12 +54,27 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://warungtehrisma-one.vercel.app',
   },
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'Cemilan Teh Risma',
+    statusBarStyle: 'default',
+  },
+  icons: {
+    apple: '/apple-touch-icon.png',
+    icon: [
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FFFBF5',
+  maximumScale: 1,
+  themeColor: '#D97706',
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
