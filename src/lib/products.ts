@@ -165,7 +165,7 @@ export const products: Product[] = [
       'Tanpa pengawet, tekstur super crispy',
       'Untuk pecinta pedas sejati!',
     ],
-    price: 20000,
+    price: 10000,
     images: [imgMiePdas100, imgMiePdas150, imgMieCombined],
     emoji: '🍜',
     category: 'mie',
