@@ -109,27 +109,21 @@ export default function ProductCard({ product, index = 0 }: Props) {
         </span>
       </div>
 
-      {/* Stock badge — bottom-left of image */}
-      <div className="absolute bottom-3 left-3 z-10">
-        <span
-          className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold shadow-sm"
-          style={{ background: stock.bg, border: `1px solid ${stock.border}`, color: stock.color }}
-        >
-          <stock.Icon size={10} />
-          {stock.label}
-        </span>
-      </div>
-
-      {/* Overlay habis */}
-      {product.stock === 'habis' && (
-        <div className="absolute inset-0 z-[5] rounded-2xl" style={{ background: 'rgba(255,251,245,0.55)' }} />
-      )}
-
       {/* Image area */}
       <div
         className="relative w-full h-44 overflow-hidden"
         style={{ background: `linear-gradient(135deg, ${product.bgColor}12, ${product.bgColor}06)` }}
       >
+        {/* Stock badge — top-left inside image */}
+        <div className="absolute top-3 left-3 z-20">
+          <span
+            className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold shadow-sm"
+            style={{ background: stock.bg, border: `1px solid ${stock.border}`, color: stock.color, backdropFilter: 'blur(4px)' }}
+          >
+            <stock.Icon size={10} />
+            {stock.label}
+          </span>
+        </div>
         {images.length > 0 ? (
           <>
             <AnimatePresence initial={false} custom={imgDir}>
@@ -147,7 +141,8 @@ export default function ProductCard({ product, index = 0 }: Props) {
                   src={images[imgIndex]}
                   alt={product.name}
                   fill
-                  className="object-contain p-3"
+                  className="object-contain p-3 transition-all duration-300"
+                  style={product.stock === 'habis' ? { filter: 'grayscale(60%) opacity(0.75)' } : {}}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </motion.div>
