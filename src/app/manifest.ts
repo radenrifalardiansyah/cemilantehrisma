@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Cemilan Teh Risma',
-    short_name: 'Teh Risma',
+    short_name: 'Cemilan Teh Risma',
     description: 'Keripik Kimpul & Mie Kremes khas Bogor. Halal, renyah, tanpa pengawet.',
     start_url: '/',
     display: 'standalone',
