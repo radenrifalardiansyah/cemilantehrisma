@@ -6,6 +6,8 @@ import imgOriJgn100   from '@/assets/images/Keripik Kimpul 100g Jagung.png';
 import imgOriOri250   from '@/assets/images/Keripik Kimpul 250g Original.png';
 import imgOriBBQ250   from '@/assets/images/Keripik Kimpul 250g BBQ Pedas.png';
 import imgOriJgn250   from '@/assets/images/Keripik Kimpul 250g Jagung.png';
+import imgMieOri100   from '@/assets/images/Mie Kremes 100g Rasa Original.jpeg';
+import imgMiePdas100  from '@/assets/images/Mie Kremes 100g Rasa Pedas.jpeg';
 import imgMieOri150   from '@/assets/images/Mie Kremes 150g Original.png';
 import imgMiePdas150  from '@/assets/images/Mie Kremes 150g Pedas.png';
 import imgMieCombined from '@/assets/images/Produk Mie Kremes Original dan Pedas.jpeg';
@@ -144,7 +146,7 @@ export const products: Product[] = [
       'Cocok untuk camilan sore & menemani santai',
     ],
     price: 10000,
-    images: [imgMieOri150, imgMieCombined],
+    images: [imgMieOri100, imgMieOri150, imgMieCombined],
     emoji: '🍜',
     category: 'mie',
     badge: 'New',
@@ -164,7 +166,7 @@ export const products: Product[] = [
       'Untuk pecinta pedas sejati!',
     ],
     price: 20000,
-    images: [imgMiePdas150, imgMieCombined],
+    images: [imgMiePdas100, imgMiePdas150, imgMieCombined],
     emoji: '🍜',
     category: 'mie',
     badge: 'New',
