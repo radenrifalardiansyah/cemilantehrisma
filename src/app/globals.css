@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary:   #FFFBF5;
+  --bg-secondary: #FFF3E0;
+  --bg-card:      #FFFFFF;
+  --primary:      #D97706;
+  --secondary:    #92400E;
+  --accent:       #F59E0B;
+  --text-primary: #1C0A00;
+  --text-secondary: #78350F;
+  --text-muted:   #A16207;
+  --border:       rgba(217, 119, 6, 0.18);
+  --shadow-card:  0 2px 20px rgba(146, 64, 14, 0.08), 0 1px 4px rgba(146, 64, 14, 0.06);
+  --shadow-hover: 0 8px 40px rgba(146, 64, 14, 0.14), 0 2px 8px rgba(146, 64, 14, 0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter, 'Inter', system-ui, sans-serif);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair, 'Playfair Display', Georgia, serif);
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #FFF3E0; }
+::-webkit-scrollbar-thumb { background: #D97706; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #92400E; }
+
+/* Cards */
+.card {
+  background: #FFFFFF;
+  border: 1px solid rgba(217, 119, 6, 0.14);
+  box-shadow: var(--shadow-card);
+  border-radius: 1rem;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #B45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Navbar glass (light) */
+.navbar-glass {
+  background: rgba(255, 251, 245, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(217, 119, 6, 0.15);
+  box-shadow: 0 2px 20px rgba(146, 64, 14, 0.06);
+}
+
+/* Cart drawer (light) */
+.cart-surface {
+  background: #FFFBF5;
+  border-left: 1px solid rgba(217, 119, 6, 0.15);
+}
+
+/* Primary button */
+.btn-primary {
+  background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.btn-primary:hover::after { opacity: 1; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35); }
+.btn-primary:active { transform: translateY(0); }
+
+/* Secondary button */
+.btn-outline {
+  border: 1.5px solid #D97706;
+  color: #D97706;
+  background: transparent;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.25s ease;
+}
+.btn-outline:hover {
+  background: rgba(217, 119, 6, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Badge */
+.badge-popular  { background: linear-gradient(135deg, #D97706, #F59E0B); color: #fff; }
+.badge-new      { background: linear-gradient(135deg, #059669, #10B981); color: #fff; }
+.badge-best     { background: linear-gradient(135deg, #DC2626, #EF4444); color: #fff; }
+
+/* Section bg */
+.bg-section {
+  background: linear-gradient(180deg, #FFFBF5 0%, #FFF3E0 50%, #FFFBF5 100%);
+}
+
+/* Float */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+.animate-float { animation: float 4.5s ease-in-out infinite; }
+
+/* Shimmer */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* Input */
+.input-field {
+  background: #FFF;
+  border: 1.5px solid rgba(217, 119, 6, 0.2);
+  border-radius: 0.75rem;
+  color: #1C0A00;
+  transition: border-color 0.2s;
+}
+.input-field:focus {
+  outline: none;
+  border-color: #D97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+}
+.input-field::placeholder { color: rgba(161, 98, 7, 0.4); }
+
+/* Warm background */
+.bg-warm {
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 70%, rgba(251, 191, 36, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 90% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 60%),
+    #FFFBF5;
+}
