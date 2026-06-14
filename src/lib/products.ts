@@ -13,6 +13,47 @@ import imgMiePdas150  from '@/assets/images/Mie Kremes 150g Pedas.png';
 import imgMieCombined from '@/assets/images/Produk Mie Kremes Original dan Pedas.jpeg';
 
 export const products: Product[] = [
+  // ── MIE KREMES ─────────────────────────────────────────────
+  {
+    id: 'mk-ori-150',
+    name: 'Mie Kremes Original',
+    description: 'Mie kremes renyah dengan bumbu original gurih. Perpaduan mie kering & rempah alami yang bikin nagih.',
+    details: [
+      'Bahan: Mie Kering, Minyak Nabati, Kencur, Bawang Putih, Daun Jeruk',
+      'Bersertifikat HALAL Indonesia',
+      'NIB: 0403260068412 — Produksi Bogor',
+      'Tanpa pengawet, tekstur super crispy',
+      'Cocok untuk camilan sore & menemani santai',
+    ],
+    price: 10000,
+    images: [imgMieOri150, imgMieOri100, imgMieCombined],
+    emoji: '🍜',
+    category: 'mie',
+    badge: 'Best Seller',
+    gradient: 'from-orange-700 via-amber-600 to-yellow-400',
+    bgColor: '#C2410C',
+    weight: '150g',
+  },
+  {
+    id: 'mk-pdas-150',
+    name: 'Mie Kremes Pedas',
+    description: 'Mie kremes dengan bubuk cabai asli dan bumbu pedas khas. Pedas yang nendang, renyah yang maknyuss!',
+    details: [
+      'Bahan: Mie Kering, Bubuk Cabai Asli, Bumbu Pedas, Daun Jeruk, Kencur',
+      'Bersertifikat HALAL Indonesia',
+      'NIB: 0403260068412 — Produksi Bogor',
+      'Tanpa pengawet, tekstur super crispy',
+      'Untuk pecinta pedas sejati!',
+    ],
+    price: 10000,
+    images: [imgMiePdas150, imgMiePdas100, imgMieCombined],
+    emoji: '🍜',
+    category: 'mie',
+    badge: 'Popular',
+    gradient: 'from-red-700 via-rose-600 to-orange-400',
+    bgColor: '#BE123C',
+    weight: '150g',
+  },
   // ── KERIPIK KIMPUL 100g ────────────────────────────────────
   {
     id: 'kk-ori-100',
@@ -133,47 +174,6 @@ export const products: Product[] = [
     bgColor: '#A16207',
     weight: '250g',
   },
-  // ── MIE KREMES ─────────────────────────────────────────────
-  {
-    id: 'mk-ori-150',
-    name: 'Mie Kremes Original',
-    description: 'Mie kremes renyah dengan bumbu original gurih. Perpaduan mie kering & rempah alami yang bikin nagih.',
-    details: [
-      'Bahan: Mie Kering, Minyak Nabati, Kencur, Bawang Putih, Daun Jeruk',
-      'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
-      'Tanpa pengawet, tekstur super crispy',
-      'Cocok untuk camilan sore & menemani santai',
-    ],
-    price: 10000,
-    images: [imgMieOri150, imgMieOri100, imgMieCombined],
-    emoji: '🍜',
-    category: 'mie',
-    badge: 'New',
-    gradient: 'from-orange-700 via-amber-600 to-yellow-400',
-    bgColor: '#C2410C',
-    weight: '150g',
-  },
-  {
-    id: 'mk-pdas-150',
-    name: 'Mie Kremes Pedas',
-    description: 'Mie kremes dengan bubuk cabai asli dan bumbu pedas khas. Pedas yang nendang, renyah yang maknyuss!',
-    details: [
-      'Bahan: Mie Kering, Bubuk Cabai Asli, Bumbu Pedas, Daun Jeruk, Kencur',
-      'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
-      'Tanpa pengawet, tekstur super crispy',
-      'Untuk pecinta pedas sejati!',
-    ],
-    price: 10000,
-    images: [imgMiePdas150, imgMiePdas100, imgMieCombined],
-    emoji: '🍜',
-    category: 'mie',
-    badge: 'New',
-    gradient: 'from-red-700 via-rose-600 to-orange-400',
-    bgColor: '#BE123C',
-    weight: '150g',
-  },
   // ── PAKET HEMAT ────────────────────────────────────────────
   {
     id: 'pk-mix3',
@@ -239,20 +239,20 @@ export const products: Product[] = [
 
 export const categoryData = [
   {
-    id: 'keripik' as const,
-    name: 'Keripik Kimpul',
-    emoji: '🥔',
-    description: 'Keripik Talas Renyah',
-    gradient: 'from-amber-800 to-amber-500',
-    count: products.filter(p => p.category === 'keripik').length,
-  },
-  {
     id: 'mie' as const,
     name: 'Mie Kremes',
     emoji: '🍜',
     description: 'Mie Crispy Gurih',
     gradient: 'from-orange-700 to-yellow-500',
     count: products.filter(p => p.category === 'mie').length,
+  },
+  {
+    id: 'keripik' as const,
+    name: 'Keripik Kimpul',
+    emoji: '🥔',
+    description: 'Keripik Talas Renyah',
+    gradient: 'from-amber-800 to-amber-500',
+    count: products.filter(p => p.category === 'keripik').length,
   },
   {
     id: 'snack' as const,
