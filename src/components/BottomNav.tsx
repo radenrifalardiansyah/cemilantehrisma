@@ -32,12 +32,12 @@ export default function BottomNav() {
       className="fixed bottom-0 left-0 right-0 z-50 md:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      {/* Top shadow line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent" />
-
       <div
-        className="bg-white/95 backdrop-blur-xl border-t border-amber-100"
-        style={{ boxShadow: '0 -4px 24px rgba(146,64,14,0.08)' }}
+        className="backdrop-blur-xl border-t border-amber-800/40"
+        style={{
+          background: 'rgba(28, 10, 0, 0.96)',
+          boxShadow: '0 -6px 32px rgba(0,0,0,0.35)',
+        }}
       >
         <div className="flex items-stretch">
           {allItems.map(item => {
@@ -53,11 +53,10 @@ export default function BottomNav() {
                   onClick={toggleCart}
                   className="relative flex-1 flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
                 >
-                  {/* Cart active dot when has items */}
                   <div className="relative">
                     <Icon
                       size={22}
-                      className={totalItems > 0 ? 'text-amber-600' : 'text-amber-400/60'}
+                      className={totalItems > 0 ? 'text-amber-400' : 'text-white/40'}
                       strokeWidth={totalItems > 0 ? 2.2 : 1.8}
                     />
                     <AnimatePresence>
@@ -77,7 +76,7 @@ export default function BottomNav() {
                   </div>
                   <span
                     className={`text-[10px] font-semibold tracking-tight ${
-                      totalItems > 0 ? 'text-amber-600' : 'text-amber-400/60'
+                      totalItems > 0 ? 'text-amber-400' : 'text-white/40'
                     }`}
                   >
                     Keranjang
@@ -92,24 +91,23 @@ export default function BottomNav() {
                   whileTap={{ scale: 0.88 }}
                   className="relative flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
                 >
-                  {/* Active pill indicator */}
                   {isActive && (
                     <motion.div
                       layoutId="bottom-nav-pill"
-                      className="absolute inset-x-3 top-1.5 h-1 rounded-full"
-                      style={{ background: 'linear-gradient(90deg, #D97706, #F59E0B)' }}
+                      className="absolute inset-x-3 top-1.5 h-0.5 rounded-full"
+                      style={{ background: 'linear-gradient(90deg, #F59E0B, #FCD34D)' }}
                       transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
                     />
                   )}
 
                   <Icon
                     size={22}
-                    className={isActive ? 'text-amber-600' : 'text-amber-400/55'}
+                    className={isActive ? 'text-amber-400' : 'text-white/45'}
                     strokeWidth={isActive ? 2.3 : 1.7}
                   />
                   <span
                     className={`text-[10px] font-semibold tracking-tight transition-colors ${
-                      isActive ? 'text-amber-600' : 'text-amber-400/55'
+                      isActive ? 'text-amber-400' : 'text-white/45'
                     }`}
                   >
                     {item.label}
