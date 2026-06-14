@@ -55,7 +55,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const handleAdd = () => {
     if (!isAvailable) return;
     addItem(product);
-    toast.success(`${product.name} (${product.weight}) ditambahkan!`, { icon: product.emoji });
+    toast.success(`${product.name} (${product.weight}) ${t.product.added}!`, { icon: product.emoji });
     openCart();
   };
 

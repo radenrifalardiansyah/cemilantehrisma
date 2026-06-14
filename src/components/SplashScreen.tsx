@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function SplashScreen() {
   const [visible, setVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Only show on PWA (standalone) or first visit this session
@@ -72,7 +74,7 @@ export default function SplashScreen() {
             className="text-sm mt-3"
             style={{ color: '#B45309' }}
           >
-            Gurih, Renyah, Bikin Nagih!
+            {t.splash.tagline}
           </motion.p>
 
           {/* Loading dots */}

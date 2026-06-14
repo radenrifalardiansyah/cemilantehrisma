@@ -20,7 +20,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem('locale') as Locale | null;
-    if (saved && ['id', 'en', 'su'].includes(saved)) {
+    if (saved && ['id', 'en'].includes(saved)) {
       setLocaleState(saved);
     }
   }, []);

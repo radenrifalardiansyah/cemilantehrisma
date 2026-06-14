@@ -23,7 +23,12 @@ function ProductsPage() {
   const { t } = useLanguage();
 
   const allTab = { id: 'semua' as Category, name: t.products.allCategory, emoji: '🛒', count: products.length };
-  const tabs = [allTab, ...categoryData.map(c => ({ ...c, id: c.id as Category }))];
+  const catNames = t.footer.categories;
+  const tabs = [allTab, ...categoryData.map(c => ({
+    ...c,
+    id: c.id as Category,
+    name: catNames[c.id as keyof typeof catNames] ?? c.name,
+  }))];
 
   useEffect(() => {
     const cat = searchParams.get('category') as Category | null;

@@ -70,7 +70,7 @@ export default function BottomNav() {
                       totalItems > 0 ? 'text-amber-600' : 'text-amber-400'
                     }`}
                   >
-                    Keranjang
+                    {t.nav.cart}
                   </span>
                 </motion.button>
               );

@@ -14,7 +14,6 @@ import logo from '@/assets/images/logo-tehrisma.jpeg';
 const LOCALES: { code: Locale; label: string }[] = [
   { code: 'id', label: 'ID' },
   { code: 'en', label: 'EN' },
-  { code: 'su', label: 'SU' },
 ];
 
 export default function Navbar() {
