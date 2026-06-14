@@ -7,11 +7,11 @@ import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function SplashScreen() {
-  const [visible, setVisible] = useState(false);
+  // null = belum dicek (cover layar), true = tampilkan, false = sembunyikan
+  const [visible, setVisible] = useState<boolean | null>(null);
   const { t } = useLanguage();
 
   useEffect(() => {
-    // Only show on PWA (standalone) or first visit this session
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||
       ('standalone' in window.navigator && (window.navigator as { standalone?: boolean }).standalone === true);
@@ -21,8 +21,15 @@ export default function SplashScreen() {
       setVisible(true);
       sessionStorage.setItem('splash_shown', '1');
       setTimeout(() => setVisible(false), 2400);
+    } else {
+      setVisible(false);
     }
   }, []);
+
+  // Cover layar sebelum useEffect selesai — mencegah konten halaman terlihat sekilas
+  if (visible === null) {
+    return <div className="fixed inset-0 z-[999]" style={{ background: '#FFFBF5' }} />;
+  }
 
   return (
     <AnimatePresence>
