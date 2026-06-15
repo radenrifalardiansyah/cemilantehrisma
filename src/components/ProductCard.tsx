@@ -39,7 +39,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const stockConfig = {
     ready:   { label: t.product.available,  Icon: CheckCircle, color: '#16A34A', bg: 'rgba(22,163,74,0.1)',  border: 'rgba(22,163,74,0.25)'  },
     habis:   { label: t.product.outOfStock, Icon: XCircle,    color: '#DC2626', bg: 'rgba(220,38,38,0.08)', border: 'rgba(220,38,38,0.22)'  },
-    open_po: { label: t.product.openPO,    Icon: Clock3,      color: '#D97706', bg: 'rgba(217,119,6,0.1)',  border: 'rgba(217,119,6,0.25)'  },
+    open_po: { label: t.product.openPO,    Icon: Clock3,      color: '#ffffff', bg: 'linear-gradient(135deg, #D97706, #EA580C)', border: 'transparent' },
   };
   const [imgIndex, setImgIndex] = useState(0);
   const [imgDir, setImgDir] = useState(1);

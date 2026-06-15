@@ -67,7 +67,7 @@ export default function Footer() {
                 <p className="font-display text-base font-bold gradient-text leading-none">Teh Risma</p>
               </div>
             </div>
-            <div className="mb-5 max-w-xs h-10 relative overflow-hidden">
+            <div className="mb-5 max-w-xs h-14 relative overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={descIndex}

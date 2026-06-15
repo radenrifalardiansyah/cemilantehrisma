@@ -72,9 +72,9 @@ export default function FeaturedSection() {
         <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
           <div>
             <h3 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-amber-950 mb-2">
-              {t.featured.ctaTitle.replace('WhatsApp', '')}
+              {t.featured.ctaTitle.split('WhatsApp')[0]}
               <span className="gradient-text">WhatsApp</span>
-              {t.featured.ctaTitle.includes('WhatsApp') ? t.featured.ctaTitle.split('WhatsApp')[1] : ''}
+              {t.featured.ctaTitle.split('WhatsApp')[1] ?? ''}
             </h3>
             <p className="text-amber-800/60 text-sm sm:text-base max-w-sm">
               {t.featured.ctaDesc}
