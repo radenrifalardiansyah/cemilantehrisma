@@ -22,7 +22,7 @@ const en: Record<string, ProductLocale> = {
     name: 'Spicy Mie Kremes',
     description: 'Mie kremes with real chili powder and signature spicy seasoning. A kick of spice, a crunch of deliciousness!',
     details: [
-      'Ingredients: Dried Noodles, Real Chili Powder, Spicy Seasoning, Lime Leaves, Kencur',
+      'Ingredients: Dried Noodles, Real Chili Powder, Spicy Seasoning, Lime Leaves, Kencur, Garlic',
       'HALAL Indonesia Certified',
       'NIB: 0403260068412 — Made in Bogor',
       'No preservatives, super crispy texture',
