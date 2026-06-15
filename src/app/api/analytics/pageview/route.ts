@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     };
 
     if (sessionId) {
-      update[`visitors.${sessionId}`] = true;
+      update['visitors'] = FieldValue.arrayUnion(sessionId);
     }
 
     await getDb().collection('analytics').doc(today).set(update, { merge: true });

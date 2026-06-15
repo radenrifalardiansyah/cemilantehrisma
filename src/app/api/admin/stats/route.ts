@@ -46,20 +46,30 @@ export async function GET(req: NextRequest) {
     let desktop   = 0;
     const pageAgg: Record<string, number> = {};
     const visitorSet = new Set<string>();
+    const daily: Array<{ date: string; views: number; visitors: number }> = [];
 
-    for (const snap of snapshots) {
-      if (!snap.exists) continue;
-      const data = snap.data()!;
-      pageViews += Number(data.views   ?? 0);
-      mobile    += Number(data.mobile  ?? 0);
-      desktop   += Number(data.desktop ?? 0);
-
-      for (const key of Object.keys(data.visitors ?? {})) {
-        visitorSet.add(key);
+    for (let i = 0; i < snapshots.length; i++) {
+      const snap = snapshots[i];
+      if (!snap.exists) {
+        daily.push({ date: days[i], views: 0, visitors: 0 });
+        continue;
       }
+      const data = snap.data()!;
+      const dayViews    = Number(data.views ?? 0);
+      const dayMobile   = Number(data.mobile  ?? 0);
+      const dayDesktop  = Number(data.desktop ?? 0);
+      pageViews += dayViews;
+      mobile    += dayMobile;
+      desktop   += dayDesktop;
+
+      const visArr = Array.isArray(data.visitors) ? (data.visitors as string[]) : [];
+      for (const id of visArr) visitorSet.add(id);
+
       for (const [key, count] of Object.entries(data.pages ?? {})) {
         pageAgg[key] = (pageAgg[key] ?? 0) + Number(count);
       }
+
+      daily.push({ date: days[i], views: dayViews, visitors: visArr.length });
     }
 
     const paths = Object.entries(PAGE_KEYS)
@@ -74,6 +84,7 @@ export async function GET(req: NextRequest) {
         { type: 'desktop', count: desktop },
       ],
       paths,
+      daily: daily.slice(0, 7).reverse(),
     });
   } catch (err) {
     console.error('[admin/stats] Firebase error:', err);
