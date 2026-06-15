@@ -5,7 +5,7 @@ import SplashScreen from '@/components/SplashScreen';
 import IOSInstallBanner from '@/components/IOSInstallBanner';
 import AndroidInstallBanner from '@/components/AndroidInstallBanner';
 import ScrollToTop from '@/components/ScrollToTop';
-import VisitorTracker from '@/components/VisitorTracker';
+import { Analytics } from '@vercel/analytics/next';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import './globals.css';
 
@@ -95,7 +95,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased">
         <LanguageProvider>
-        <VisitorTracker />
         <SplashScreen />
         <IOSInstallBanner />
         <AndroidInstallBanner />
@@ -123,6 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );
