@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Inter } from 'next/font/google';
+import { Satisfy, Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import SplashScreen from '@/components/SplashScreen';
 import IOSInstallBanner from '@/components/IOSInstallBanner';
@@ -7,8 +7,9 @@ import AndroidInstallBanner from '@/components/AndroidInstallBanner';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import './globals.css';
 
-const playfair = Playfair_Display({
+const satisfy = Satisfy({
   subsets: ['latin'],
+  weight: '400',
   variable: '--font-playfair',
   display: 'swap',
 });
@@ -83,7 +84,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="id" className={`${satisfy.variable} ${inter.variable}`}>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
