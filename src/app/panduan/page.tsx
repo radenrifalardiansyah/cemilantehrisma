@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import {
   Search, ShoppingCart, ClipboardList, UserCheck,
   Truck, CheckCircle2, MessageCircle, Users,
-  FileText, Clock, Gift, BookOpen,
+  FileText, Clock, Gift, BookOpen, Tag,
+  CheckCircle, XCircle, Clock3, Flame, Star, Sparkles,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Cart from '@/components/Cart';
@@ -55,14 +56,15 @@ const resellerSteps = {
 
 export default function PanduanPage() {
   const { t, locale } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'order' | 'reseller'>('order');
+  const [activeTab, setActiveTab] = useState<'order' | 'reseller' | 'status'>('order');
 
   const oSteps = orderSteps[locale] ?? orderSteps.id;
   const rSteps = resellerSteps[locale] ?? resellerSteps.id;
 
   const tabs = [
-    { key: 'order',    label: locale === 'en' ? 'How to Order'   : 'Cara Memesan',         emoji: '🛒' },
-    { key: 'reseller', label: locale === 'en' ? 'Join Reseller'  : 'Daftar Reseller',       emoji: '🤝' },
+    { key: 'order',    label: locale === 'en' ? 'How to Order'   : 'Cara Memesan',   emoji: '🛒' },
+    { key: 'reseller', label: locale === 'en' ? 'Join Reseller'  : 'Daftar Reseller', emoji: '🤝' },
+    { key: 'status',   label: locale === 'en' ? 'Product Status' : 'Status Produk',   emoji: '🏷️' },
   ] as const;
 
   return (
@@ -219,6 +221,110 @@ export default function PanduanPage() {
                 </div>
               </motion.div>
             </motion.div>
+          ) : (
+            <motion.div
+              key="status"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.28 }}
+              className="space-y-6"
+            >
+              {/* Stock statuses */}
+              <StatusGroup
+                title={locale === 'en' ? 'Stock Status' : 'Status Stok'}
+                desc={locale === 'en'
+                  ? 'Each product card shows a small badge indicating its current availability.'
+                  : 'Setiap kartu produk menampilkan label kecil yang menunjukkan ketersediaan produk saat ini.'}
+                items={[
+                  {
+                    icon: CheckCircle,
+                    color: '#16A34A',
+                    bg: 'rgba(22,163,74,0.1)',
+                    border: 'rgba(22,163,74,0.25)',
+                    label: locale === 'en' ? 'In Stock' : 'Tersedia',
+                    desc: locale === 'en'
+                      ? 'Product is ready and can be ordered right now.'
+                      : 'Produk siap dan langsung bisa dipesan sekarang.',
+                  },
+                  {
+                    icon: Clock3,
+                    color: '#D97706',
+                    bg: 'rgba(217,119,6,0.1)',
+                    border: 'rgba(217,119,6,0.25)',
+                    label: 'Purchase Order (PO)',
+                    desc: locale === 'en'
+                      ? 'Product is available via pre-order. Order now and we will process your request.'
+                      : 'Produk tersedia via pre-order. Pesan sekarang dan kami akan proses permintaanmu.',
+                  },
+                  {
+                    icon: XCircle,
+                    color: '#DC2626',
+                    bg: 'rgba(220,38,38,0.08)',
+                    border: 'rgba(220,38,38,0.2)',
+                    label: locale === 'en' ? 'Out of Stock' : 'Stok Habis',
+                    desc: locale === 'en'
+                      ? 'Product is currently unavailable. Check back soon or contact us via WhatsApp.'
+                      : 'Produk sedang tidak tersedia. Pantau terus atau hubungi kami via WhatsApp.',
+                  },
+                ]}
+              />
+
+              {/* Badge labels */}
+              <StatusGroup
+                title={locale === 'en' ? 'Product Badges' : 'Badge Produk'}
+                desc={locale === 'en'
+                  ? 'Some products have a special badge in the top corner of the card.'
+                  : 'Beberapa produk memiliki badge khusus di sudut atas kartu produk.'}
+                items={[
+                  {
+                    icon: Flame,
+                    color: '#EA580C',
+                    bg: 'rgba(234,88,12,0.1)',
+                    border: 'rgba(234,88,12,0.25)',
+                    label: locale === 'en' ? 'Best Seller' : 'Best Seller',
+                    desc: locale === 'en'
+                      ? 'The most purchased product — a top favourite among our customers.'
+                      : 'Produk paling banyak dibeli — favorit utama pelanggan kami.',
+                  },
+                  {
+                    icon: Star,
+                    color: '#9333EA',
+                    bg: 'rgba(147,51,234,0.08)',
+                    border: 'rgba(147,51,234,0.2)',
+                    label: locale === 'en' ? 'Popular' : 'Populer',
+                    desc: locale === 'en'
+                      ? 'Highly sought-after product that many customers love.'
+                      : 'Produk yang banyak diminati dan disukai banyak pelanggan.',
+                  },
+                  {
+                    icon: Sparkles,
+                    color: '#0891B2',
+                    bg: 'rgba(8,145,178,0.08)',
+                    border: 'rgba(8,145,178,0.2)',
+                    label: locale === 'en' ? 'New' : 'Baru',
+                    desc: locale === 'en'
+                      ? 'Newly launched product — be one of the first to try it!'
+                      : 'Produk baru yang baru diluncurkan — jadilah yang pertama mencobanya!',
+                  },
+                ]}
+              />
+
+              {/* Info note */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="flex gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4"
+              >
+                <Tag size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                <p className="text-amber-700/80 text-xs leading-relaxed">
+                  {locale === 'en'
+                    ? 'Still have questions about a product? Chat directly with us via WhatsApp — we respond quickly!'
+                    : 'Masih bingung dengan status produk? Chat langsung ke WhatsApp kami — kami balas dengan cepat!'}
+                </p>
+              </motion.div>
+            </motion.div>
           )}
         </AnimatePresence>
       </main>
@@ -226,6 +332,54 @@ export default function PanduanPage() {
       <Footer />
       <BottomNav />
     </div>
+  );
+}
+
+type StatusItem = {
+  icon: React.ElementType;
+  color: string;
+  bg: string;
+  border: string;
+  label: string;
+  desc: string;
+};
+
+function StatusGroup({ title, desc, items }: { title: string; desc: string; items: StatusItem[] }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm"
+    >
+      <div className="px-4 pt-4 pb-2 border-b border-amber-50">
+        <p className="font-bold text-amber-900 text-sm">{title}</p>
+        <p className="text-amber-600/60 text-xs mt-0.5">{desc}</p>
+      </div>
+      <div className="divide-y divide-amber-50">
+        {items.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <div key={i} className="flex items-start gap-3.5 px-4 py-3.5">
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+                style={{ background: item.bg, border: `1.5px solid ${item.border}` }}
+              >
+                <Icon size={17} style={{ color: item.color }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span
+                  className="inline-block text-[11px] font-bold px-2 py-0.5 rounded-full mb-1"
+                  style={{ background: item.bg, color: item.color, border: `1px solid ${item.border}` }}
+                >
+                  {item.label}
+                </span>
+                <p className="text-amber-700/65 text-xs leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </motion.div>
   );
 }
 

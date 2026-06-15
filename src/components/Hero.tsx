@@ -103,7 +103,6 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const y = useTransform(scrollYProgress, [0, 1], [0, 180]);
-  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
   const { t, locale } = useLanguage();
 
   const [current, setCurrent] = useState(0);
@@ -201,7 +200,7 @@ export default function Hero() {
       />
 
       <motion.div
-        style={{ y, opacity }}
+        style={{ y }}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full"
       >
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
