@@ -11,6 +11,11 @@ import imgMiePdas100  from '@/assets/images/Mie Kremes 100g Rasa Pedas.jpeg';
 import imgMieOri150   from '@/assets/images/Mie Kremes 150g Original.png';
 import imgMiePdas150  from '@/assets/images/Mie Kremes 150g Pedas.png';
 import imgMieCombined from '@/assets/images/Produk Mie Kremes Original dan Pedas.jpeg';
+import imgAllMie     from '@/assets/images/Product All Mie Kremes.jpeg';
+import imgAllMie1    from '@/assets/images/Product All Mie Kremes 1.jpeg';
+import imgKimpulAll    from '@/assets/images/Kimpul All.jpeg';
+import imgKimpulAll1   from '@/assets/images/Kimpul All 1.jpeg';
+import imgKimpulBBQ    from '@/assets/images/Kimpul BBQ Pedas.jpeg';
 
 export const products: Product[] = [
   // ── MIE KREMES ─────────────────────────────────────────────
@@ -90,7 +95,7 @@ export const products: Product[] = [
       'Cocok untuk menemani kumpul bareng',
     ],
     price: 15000,
-    images: [imgOriBBQ100],
+    images: [imgOriBBQ100, imgKimpulBBQ],
     emoji: '🌶️',
     category: 'keripik',
     badge: 'Popular',
@@ -153,7 +158,7 @@ export const products: Product[] = [
       'Tahan hingga 3 bulan setelah produksi',
     ],
     price: 26500,
-    images: [imgOriBBQ250],
+    images: [imgOriBBQ250, imgKimpulBBQ],
     emoji: '🌶️',
     category: 'keripik',
     badge: 'Popular',
@@ -196,6 +201,7 @@ export const products: Product[] = [
     ],
     price: 40000,
     originalPrice: 45000,
+    images: [imgKimpulAll],
     emoji: '🎁',
     category: 'paket',
     badge: 'Best Seller',
@@ -217,6 +223,7 @@ export const products: Product[] = [
     ],
     price: 65000,
     originalPrice: 75000,
+    images: [imgKimpulAll1],
     emoji: '🛍️',
     category: 'paket',
     badge: 'Popular',
@@ -238,6 +245,7 @@ export const products: Product[] = [
     ],
     price: 44000,
     originalPrice: 50000,
+    images: [imgAllMie, imgAllMie1],
     emoji: '📦',
     category: 'paket',
     badge: 'New',
