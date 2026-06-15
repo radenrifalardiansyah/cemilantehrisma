@@ -124,7 +124,7 @@ export default function Hero() {
       title1: t.hero.mie.title1, title2: t.hero.mie.title2,
       sub1: t.hero.mie.sub1, sub2: t.hero.mie.sub2,
       flavors: [
-        { emoji: '🍜', label: t.hero.mie.flavors[0], bg: 'bg-orange-100', text: 'text-orange-800' },
+        { emoji: '🍝', label: t.hero.mie.flavors[0], bg: 'bg-orange-100', text: 'text-orange-800' },
         { emoji: '🌶️', label: t.hero.mie.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'    },
       ],
       desc: t.hero.mie.desc, price: 'Rp 10.000',

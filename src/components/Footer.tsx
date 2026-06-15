@@ -40,7 +40,7 @@ export default function Footer() {
 
   const categories = [
     { emoji: '🥔', label: t.footer.categories.keripik, href: '/products?category=keripik' },
-    { emoji: '🍜', label: t.footer.categories.mie, href: '/products?category=mie' },
+    { emoji: '🍝', label: t.footer.categories.mie, href: '/products?category=mie' },
     { emoji: '🍿', label: t.footer.categories.snack, href: '/products?category=snack' },
     { emoji: '🎁', label: t.footer.categories.paket, href: '/products?category=paket' },
   ];
