@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   const phone  = process.env.NOTIFY_PHONE ?? '6281212132014';
   if (!apiKey) return NextResponse.json({ error: 'no_callmebot_key' }, { status: 500 });
 
-  // Ambil data kemarin + 7 hari terakhir
+  // Ambil data 7 hari terakhir
   const days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - i);
@@ -36,11 +36,6 @@ export async function GET(req: NextRequest) {
   let totalViews = 0, totalMobile = 0, totalDesktop = 0;
   const visitorSet = new Set<string>();
   const pageAgg: Record<string, number> = {};
-
-  // Data kemarin (index 1)
-  const yesterdaySnap = snapshots[1];
-  const yesterday = days[1];
-  let yViews = 0, yVisitors = 0;
 
   for (let i = 0; i < snapshots.length; i++) {
     const snap = snapshots[i];
@@ -56,39 +51,28 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  if (yesterdaySnap.exists) {
-    const yd = yesterdaySnap.data()!;
-    yViews    = Number(yd.views ?? 0);
-    yVisitors = Array.isArray(yd.visitors) ? (yd.visitors as string[]).length : 0;
-  }
-
   const topPages = Object.entries(pageAgg)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
-    .map(([key, count]) => `• ${PAGE_LABELS[key] ?? key}: ${count}`)
+    .map(([key, count]) => `• ${PAGE_LABELS[key] ?? key}: ${count} pengunjung`)
     .join('\n');
 
-  const devTotal = totalMobile + totalDesktop;
-  const mPct = devTotal > 0 ? Math.round((totalMobile / devTotal) * 100) : 0;
-
-  const dateLabel = new Date(yesterday + 'T00:00:00+07:00')
-    .toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const date = new Date().toLocaleDateString('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  });
 
   const msg =
-    `📊 *Rekap Harian — Cemilan Teh Risma*\n` +
-    `📅 ${dateLabel}\n\n` +
-    `*Kemarin:*\n` +
-    `👁️ Pageview: ${yViews}\n` +
-    `👥 Pengunjung unik: ${yVisitors}\n\n` +
-    `*7 Hari Terakhir:*\n` +
-    `📄 Total pageview: ${totalViews}\n` +
-    `👥 Total pengunjung: ${visitorSet.size}\n` +
-    `📱 Mobile: ${totalMobile} (${mPct}%)  💻 Desktop: ${totalDesktop}\n\n` +
+    `📊 *Rekap Cemilan Teh Risma*\n` +
+    `📅 ${date}\n\n` +
+    `👥 Total Pengunjung: ${visitorSet.size}\n` +
+    `📄 Total Halaman Dibuka: ${totalViews}\n` +
+    `📱 Mobile: ${totalMobile}  💻 Desktop: ${totalDesktop}\n\n` +
     (topPages ? `🔥 *Halaman Terpopuler:*\n${topPages}\n\n` : '') +
-    `_Rekap otomatis dikirim setiap pagi 07.00 WIB_`;
+    `_Dikirim otomatis setiap pagi 07.00 WIB_`;
 
   const url = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodeURIComponent(msg)}&apikey=${apiKey}`;
   await fetch(url, { cache: 'no-store' });
 
-  return NextResponse.json({ ok: true, date: yesterday, views: yViews, visitors: yVisitors });
+  return NextResponse.json({ ok: true, views: totalViews, visitors: visitorSet.size });
 }
