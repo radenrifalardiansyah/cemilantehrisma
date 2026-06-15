@@ -66,37 +66,44 @@ export default function PanduanPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen" style={{ background: '#FFFBF5' }}>
       <Navbar />
       <Cart />
 
       {/* Hero */}
-      <div className="relative overflow-hidden pt-16 sm:pt-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-800 via-amber-700 to-orange-700" />
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }}
-        />
-        <div className="relative max-w-3xl mx-auto px-4 py-14 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+      <section className="relative pt-28 pb-10 px-4 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(251,191,36,0.13) 0%, transparent 60%), #FFFBF5',
+        }} />
+        <div className="relative max-w-3xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100 border border-amber-300/60 text-amber-700 text-sm font-semibold mb-5"
           >
-            <span className="text-5xl mb-4 block">📖</span>
-            <h1 className="font-display text-3xl sm:text-4xl font-bold text-white mb-3">
-              {locale === 'en' ? 'Order & Reseller Guide' : 'Panduan Order & Reseller'}
-            </h1>
-            <p className="text-amber-200 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
-              {locale === 'en'
-                ? 'Step-by-step guide on how to order and how to join as a reseller.'
-                : 'Panduan langkah demi langkah cara memesan produk dan cara bergabung sebagai reseller.'}
-            </p>
+            <BookOpen size={14} />
+            {locale === 'en' ? 'Complete Guide' : 'Panduan Lengkap'}
           </motion.div>
+
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }}
+            className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
+          >
+            <span className="text-amber-950">{locale === 'en' ? 'How to ' : 'Cara '}</span>
+            <span className="gradient-text">{locale === 'en' ? 'Order' : 'Pesan'}</span>
+            <span className="text-amber-950"> & </span>
+            <span className="text-amber-800">{locale === 'en' ? 'Join Reseller' : 'Daftar Reseller'}</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+            className="text-amber-800/60 text-sm sm:text-base max-w-xl mx-auto"
+          >
+            {locale === 'en'
+              ? 'Step-by-step guide on how to order and how to join as a reseller.'
+              : 'Panduan langkah demi langkah cara memesan produk dan cara bergabung sebagai reseller.'}
+          </motion.p>
         </div>
-      </div>
+      </section>
 
       {/* Sticky tab switcher */}
-      <div className="sticky top-16 sm:top-20 z-20 bg-amber-50/95 backdrop-blur-md border-b border-amber-100 shadow-sm">
+      <div className="sticky top-16 sm:top-20 z-20 bg-white/90 backdrop-blur-md border-b border-amber-100 shadow-sm">
         <div className="max-w-3xl mx-auto px-4">
           <div className="flex gap-1 py-2">
             {tabs.map(tab => (
@@ -123,7 +130,7 @@ export default function PanduanPage() {
       </div>
 
       {/* Steps content */}
-      <main className="max-w-3xl mx-auto px-4 py-10 pb-28 md:pb-16">
+      <main className="max-w-3xl mx-auto px-4 py-8 pb-28 md:pb-16">
         <AnimatePresence mode="wait">
           {activeTab === 'order' ? (
             <motion.div
