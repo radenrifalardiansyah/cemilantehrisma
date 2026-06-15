@@ -379,6 +379,25 @@ export default function AdminPage() {
         <p className="text-center text-amber-400/60 text-xs">
           Data akan terbuka di WhatsApp — tap Send untuk kirim ke nomor sendiri
         </p>
+
+        {/* Footer */}
+        <div className="border-t border-amber-100 pt-5 flex flex-col items-center gap-3">
+          <a
+            href="/"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-amber-200 text-amber-700 text-sm font-semibold hover:bg-amber-50 transition-colors shadow-sm"
+          >
+            <span>🏪</span>
+            Lihat Halaman Utama
+          </a>
+          <p className="text-amber-400/50 text-xs text-center">
+            © {new Date().getFullYear()} Cemilan Teh Risma · Dibuat oleh{' '}
+            <a href="https://rmediasolutions.id" target="_blank" rel="noopener noreferrer"
+              className="text-amber-500 hover:text-amber-700 transition-colors">
+              RMedia Solutions
+            </a>
+          </p>
+        </div>
+
       </div>
     </div>
   );
