@@ -4,7 +4,7 @@ export const translations = {
   id: {
     nav: {
       home: 'Beranda', menu: 'Menu', reseller: 'Reseller',
-      checkout: 'Checkout', cart: 'Keranjang', kontak: 'Kontak',
+      checkout: 'Checkout', cart: 'Keranjang', kontak: 'Kontak', guide: 'Panduan',
     },
     hero: {
       brand: 'Cemilan Teh Risma · Kota Bogor',
@@ -81,7 +81,7 @@ export const translations = {
       hours: 'Setiap Hari, 08.00 – 21.00', mapsLink: 'Lihat di Google Maps →',
       copyright: '© 2026 Cemilan Teh Risma. Semua hak dilindungi.',
       madeWith: 'Dibuat dengan', madeFrom: 'dari Bogor 🍟',
-      links: { home: 'Beranda', products: 'Produk', checkout: 'Checkout' },
+      links: { home: 'Beranda', products: 'Produk', checkout: 'Checkout', guide: 'Panduan' },
       categories: { keripik: 'Keripik Kimpul', mie: 'Mie Kremes', snack: 'Snack Lainnya', paket: 'Paket Hemat' },
     },
     products: {
@@ -178,7 +178,7 @@ export const translations = {
   en: {
     nav: {
       home: 'Home', menu: 'Menu', reseller: 'Reseller',
-      checkout: 'Checkout', cart: 'Cart', kontak: 'Contact',
+      checkout: 'Checkout', cart: 'Cart', kontak: 'Contact', guide: 'Guide',
     },
     hero: {
       brand: 'Cemilan Teh Risma · Bogor City',
@@ -254,7 +254,7 @@ export const translations = {
       hours: 'Every Day, 08.00 – 21.00', mapsLink: 'View on Google Maps →',
       copyright: '© 2026 Cemilan Teh Risma. All rights reserved.',
       madeWith: 'Made with', madeFrom: 'from Bogor 🍟',
-      links: { home: 'Home', products: 'Products', checkout: 'Checkout' },
+      links: { home: 'Home', products: 'Products', checkout: 'Checkout', guide: 'Guide' },
       categories: { keripik: 'Keripik Kimpul', mie: 'Mie Kremes', snack: 'Other Snacks', paket: 'Bundle Pack' },
     },
     products: {

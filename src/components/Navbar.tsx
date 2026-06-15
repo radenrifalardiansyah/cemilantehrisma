@@ -26,6 +26,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: t.nav.home },
     { href: '/products', label: t.nav.menu },
+    { href: '/panduan', label: t.nav.guide },
     { href: '/reseller', label: t.nav.reseller },
     { href: '/checkout', label: t.nav.checkout },
   ];

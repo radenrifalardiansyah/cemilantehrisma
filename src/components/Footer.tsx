@@ -14,6 +14,7 @@ export default function Footer() {
   const quickLinks = [
     { href: '/', label: t.footer.links.home },
     { href: '/products', label: t.footer.links.products },
+    { href: '/panduan', label: t.footer.links.guide },
     { href: '/checkout', label: t.footer.links.checkout },
   ];
 
