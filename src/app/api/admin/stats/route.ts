@@ -6,7 +6,6 @@ function isAuthed(req: NextRequest) {
   const pass = rest.join(':');
   const validUser = (process.env.ADMIN_USERNAME ?? '').trim();
   const validPass = (process.env.ADMIN_PASSWORD ?? '').trim();
-  // also accept cookie fallback
   if (!!validUser && user === validUser && pass === validPass) return true;
   const cookie = req.cookies.get('admin_auth')?.value ?? '';
   const [cu, ...cr] = cookie.split(':');
@@ -20,7 +19,10 @@ export async function GET(req: NextRequest) {
   const projectId = process.env.VERCEL_PROJECT_ID ?? 'prj_CzuhuEPKOJJOaxxuMCp1HUHDeDqn';
   const teamId    = process.env.VERCEL_TEAM_ID    ?? 'team_PPsqarVrOJJcNwp8MhSedLMM';
 
-  if (!token) return NextResponse.json({ error: 'no_token' }, { status: 500 });
+  if (!token) {
+    console.error('[admin/stats] VERCEL_TOKEN is not set');
+    return NextResponse.json({ error: 'no_token' }, { status: 500 });
+  }
 
   const now = Date.now();
   const day = 86_400_000;
@@ -34,28 +36,24 @@ export async function GET(req: NextRequest) {
     to:          String(now),
   });
 
-  const [statsRes, pathsRes, devicesRes] = await Promise.all([
-    fetch(`https://vercel.com/api/web/insights/stats?${params}`,         { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
-    fetch(`https://vercel.com/api/web/insights/paths?${params}&limit=5`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
-    fetch(`https://vercel.com/api/web/insights/devices?${params}`,       { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
-  ]);
+  try {
+    const [statsRes, pathsRes, devicesRes] = await Promise.all([
+      fetch(`https://vercel.com/api/web/insights/stats?${params}`,         { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
+      fetch(`https://vercel.com/api/web/insights/paths?${params}&limit=5`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
+      fetch(`https://vercel.com/api/web/insights/devices?${params}`,       { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
+    ]);
 
-  const statsRaw   = await statsRes.text();
-  const pathsRaw   = await pathsRes.text();
-  const devicesRaw = await devicesRes.text();
+    console.log('[admin/stats] API responses:', statsRes.status, pathsRes.status, devicesRes.status);
 
-  let stats: unknown   = null;
-  let paths: unknown   = null;
-  let devices: unknown = null;
-  try { stats   = JSON.parse(statsRaw);   } catch { /* ignore */ }
-  try { paths   = JSON.parse(pathsRaw);   } catch { /* ignore */ }
-  try { devices = JSON.parse(devicesRaw); } catch { /* ignore */ }
+    const stats   = statsRes.ok   ? await statsRes.json()   : null;
+    const paths   = pathsRes.ok   ? await pathsRes.json()   : null;
+    const devices = devicesRes.ok ? await devicesRes.json() : null;
 
-  const debug = {
-    stats:   { status: statsRes.status,   ok: statsRes.ok,   body: statsRaw.slice(0, 2000) },
-    paths:   { status: pathsRes.status,   ok: pathsRes.ok,   body: pathsRaw.slice(0, 2000) },
-    devices: { status: devicesRes.status, ok: devicesRes.ok, body: devicesRaw.slice(0, 2000) },
-  };
+    console.log('[admin/stats] data:', JSON.stringify({ stats, paths, devices }));
 
-  return NextResponse.json({ stats, paths, devices, debug });
+    return NextResponse.json({ stats, paths, devices });
+  } catch (err) {
+    console.error('[admin/stats] fetch error:', err);
+    return NextResponse.json({ error: 'fetch_failed' }, { status: 500 });
+  }
 }
