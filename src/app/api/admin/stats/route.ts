@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const REDIS_URL   = process.env.UPSTASH_REDIS_REST_URL   ?? '';
+const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN ?? '';
+
 function isAuthed(req: NextRequest) {
   const auth = req.headers.get('x-admin-auth') ?? '';
   const [user, ...rest] = auth.split(':');
@@ -12,48 +15,66 @@ function isAuthed(req: NextRequest) {
   return !!validUser && cu === validUser && cr.join(':') === validPass;
 }
 
+async function redisPipeline(commands: string[][]): Promise<Array<{ result: unknown }>> {
+  if (!REDIS_URL || !REDIS_TOKEN) return [];
+  try {
+    const res = await fetch(`${REDIS_URL}/pipeline`, {
+      method:  'POST',
+      headers: { Authorization: `Bearer ${REDIS_TOKEN}`, 'Content-Type': 'application/json' },
+      body:    JSON.stringify(commands),
+      cache:   'no-store',
+    });
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
+}
+
+const PAGES = ['/', '/products', '/reseller', '/panduan', '/kontak', '/checkout'];
+
 export async function GET(req: NextRequest) {
   if (!isAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const token     = process.env.VERCEL_TOKEN ?? process.env.ANALYTICS_TOKEN;
-  const projectId = process.env.VERCEL_PROJECT_ID ?? 'prj_CzuhuEPKOJJOaxxuMCp1HUHDeDqn';
-  const teamId    = process.env.VERCEL_TEAM_ID    ?? 'team_PPsqarVrOJJcNwp8MhSedLMM';
-
-  if (!token) {
-    console.error('[admin/stats] VERCEL_TOKEN is not set');
-    return NextResponse.json({ error: 'no_token' }, { status: 500 });
+  if (!REDIS_URL || !REDIS_TOKEN) {
+    return NextResponse.json({ error: 'no_redis' }, { status: 500 });
   }
 
-  const now = Date.now();
-  const day = 86_400_000;
-
-  const params = new URLSearchParams({
-    projectId,
-    teamId,
-    environment: 'production',
-    filter:      '{}',
-    from:        String(now - 30 * day),
-    to:          String(now),
+  // Last 30 days
+  const days = Array.from({ length: 30 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    return d.toISOString().slice(0, 10);
   });
 
-  try {
-    const [statsRes, pathsRes, devicesRes] = await Promise.all([
-      fetch(`https://vercel.com/api/web/insights/stats?${params}`,         { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
-      fetch(`https://vercel.com/api/web/insights/paths?${params}&limit=5`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
-      fetch(`https://vercel.com/api/web/insights/devices?${params}`,       { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
-    ]);
+  const commands: string[][] = [
+    ...days.map(d => ['get',   `analytics:views:${d}`]),
+    ...days.map(d => ['scard', `analytics:visitors:${d}`]),
+    ...PAGES.map(p => ['get',  `analytics:page:${p}`]),
+    ['get', 'analytics:device:mobile'],
+    ['get', 'analytics:device:desktop'],
+  ];
 
-    console.log('[admin/stats] API responses:', statsRes.status, pathsRes.status, devicesRes.status);
+  const results = await redisPipeline(commands);
 
-    const stats   = statsRes.ok   ? await statsRes.json()   : null;
-    const paths   = pathsRes.ok   ? await pathsRes.json()   : null;
-    const devices = devicesRes.ok ? await devicesRes.json() : null;
+  const n = (r: { result: unknown } | undefined) => Number(r?.result) || 0;
 
-    console.log('[admin/stats] data:', JSON.stringify({ stats, paths, devices }));
+  const pageViews = days.reduce((sum, _, i) => sum + n(results[i]), 0);
+  const visitors  = days.reduce((sum, _, i) => sum + n(results[30 + i]), 0);
+  const mobile    = n(results[60 + PAGES.length]);
+  const desktop   = n(results[61 + PAGES.length]);
 
-    return NextResponse.json({ stats, paths, devices });
-  } catch (err) {
-    console.error('[admin/stats] fetch error:', err);
-    return NextResponse.json({ error: 'fetch_failed' }, { status: 500 });
-  }
+  const paths = PAGES
+    .map((p, i) => ({ path: p, visitors: n(results[60 + i]) }))
+    .filter(p => p.visitors > 0)
+    .sort((a, b) => b.visitors - a.visitors);
+
+  return NextResponse.json({
+    stats:   { visitors, pageViews },
+    devices: [
+      { type: 'mobile',  count: mobile  },
+      { type: 'desktop', count: desktop },
+    ],
+    paths,
+  });
 }

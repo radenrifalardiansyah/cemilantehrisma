@@ -24,14 +24,32 @@ export default function VisitorTracker() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    // hanya kirim 1x per sesi browser (tidak per navigasi halaman)
-    if (sessionStorage.getItem('_vt')) return;
-    sessionStorage.setItem('_vt', '1');
-
-    const ua = navigator.userAgent;
+    const ua       = navigator.userAgent;
     const isMobile =
       /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) ||
       window.innerWidth < 768;
+
+    // Session ID untuk unique visitor tracking
+    let sessionId = sessionStorage.getItem('_sid');
+    if (!sessionId) {
+      sessionId = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      sessionStorage.setItem('_sid', sessionId);
+    }
+
+    // Track page view ke Upstash (setiap navigasi)
+    fetch('/api/analytics/pageview', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        path:      pathname,
+        device:    isMobile ? 'mobile' : 'desktop',
+        sessionId,
+      }),
+    }).catch(() => {});
+
+    // Notifikasi WhatsApp — hanya 1x per sesi browser
+    if (sessionStorage.getItem('_vt')) return;
+    sessionStorage.setItem('_vt', '1');
 
     const device  = isMobile ? '📱 Mobile' : '💻 Desktop';
     const browser = detectBrowser(ua);
@@ -44,7 +62,7 @@ export default function VisitorTracker() {
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ device, page: pathname, browser, ref }),
     }).catch(() => {});
-  }, []);
+  }, [pathname]);
 
   return null;
 }
