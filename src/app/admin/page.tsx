@@ -386,7 +386,11 @@ export default function AdminPage() {
 
         {/* Credit */}
         <p className="text-amber-400/50 text-xs text-center pt-2 border-t border-amber-100">
-          Dikembangkan oleh <span className="text-amber-500">PT. Eleven Digital Indonesia</span>
+          Dikembangkan oleh{' '}
+          <a href="https://eleven-digital.id/" target="_blank" rel="noopener noreferrer"
+            className="text-amber-500 hover:text-amber-700 transition-colors">
+            PT. Eleven Digital Indonesia
+          </a>
           {' · '}didukung oleh <span className="text-amber-500">PT. RMedia Production</span>
         </p>
 
