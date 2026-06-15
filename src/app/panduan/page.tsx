@@ -166,7 +166,7 @@ export default function PanduanPage() {
                 </Link>
               </motion.div>
             </motion.div>
-          ) : (
+          ) : activeTab === 'reseller' ? (
             <motion.div
               key="reseller"
               initial={{ opacity: 0, x: 20 }}
