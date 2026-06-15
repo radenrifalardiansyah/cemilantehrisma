@@ -7,6 +7,7 @@ import AndroidInstallBanner from '@/components/AndroidInstallBanner';
 import ScrollToTop from '@/components/ScrollToTop';
 import { Analytics } from '@vercel/analytics/next';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import VisitorTracker from '@/components/VisitorTracker';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -99,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <IOSInstallBanner />
         <AndroidInstallBanner />
         <ScrollToTop />
+        <VisitorTracker />
         {children}
         <Toaster
           position="bottom-right"
