@@ -44,7 +44,7 @@ const resellers = [
   { id: 3, nama: 'Pak Rudi', kota: 'Bogor Timur', platform: ['Offline', 'WhatsApp'], bergabung: 'Apr 2025' },
 ];
 
-const platformOptions = ['WhatsApp', 'Instagram', 'Shopee', 'Tokopedia', 'TikTok Shop', 'Offline / Warung'];
+const PLATFORM_FIXED = ['WhatsApp', 'Instagram', 'Shopee', 'Tokopedia', 'TikTok Shop'];
 
 const defaultForm: ResellerInfo = {
   nama: '', whatsapp: '', kota: '', alamat: '', platform: [], paket: '', pengalaman: '',
@@ -52,6 +52,7 @@ const defaultForm: ResellerInfo = {
 
 export default function ResellerPage() {
   const { t } = useLanguage();
+  const platformOptions = [...PLATFORM_FIXED, t.reseller.platformOffline];
   const [form, setForm] = useState<ResellerInfo>(defaultForm);
   const [errors, setErrors] = useState<Partial<Record<keyof ResellerInfo, string>>>({});
   const [openFaq, setOpenFaq] = useState<number | null>(null);

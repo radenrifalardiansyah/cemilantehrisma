@@ -22,6 +22,13 @@ const badgeClass: Record<string, string> = {
   'Best Seller': 'badge-best',
 };
 
+function translateBadge(badge: string, t: import('@/lib/i18n').Translation): string {
+  if (badge === 'Best Seller') return t.badge.bestSeller;
+  if (badge === 'Popular') return t.badge.popular;
+  if (badge === 'New') return t.badge.new;
+  return badge;
+}
+
 export default function ProductCard({ product, index = 0 }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
   const { addItem, openCart } = useCartStore();
@@ -104,7 +111,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
             transition={{ delay: index * 0.05 + 0.25, type: 'spring' }}
             className={`px-2.5 py-0.5 rounded-full text-xs font-bold shadow ${badgeClass[product.badge]}`}
           >
-            {product.badge}
+            {translateBadge(product.badge, t)}
           </motion.span>
         )}
         <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-white/90 text-amber-700 border border-amber-200 shadow-sm">
@@ -143,7 +150,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
               >
                 <Image
                   src={images[imgIndex]}
-                  alt={product.name}
+                  alt={lp.name}
                   fill
                   className="object-contain p-3 transition-all duration-300"
                   style={product.stock === 'habis' ? { filter: 'grayscale(60%) opacity(0.75)' } : {}}

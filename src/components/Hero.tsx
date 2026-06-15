@@ -373,7 +373,7 @@ export default function Hero() {
                     >
                       <Image
                         src={slide.image}
-                        alt={slide.name}
+                        alt={slideDisplayName}
                         fill
                         className="object-contain p-8"
                         sizes="(max-width: 640px) 100vw, 400px"
@@ -393,7 +393,7 @@ export default function Hero() {
                       className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold text-white shadow-md"
                       style={{ background: slide.badgeColor }}
                     >
-                      {slide.badge}
+                      {slide.badge === 'Best Seller' ? t.badge.bestSeller : slide.badge === 'Popular' ? t.badge.popular : t.badge.new}
                     </motion.div>
                   </AnimatePresence>
 

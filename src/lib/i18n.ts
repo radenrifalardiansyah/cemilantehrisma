@@ -108,6 +108,11 @@ export const translations = {
       install: 'Pasang Sekarang',
       later: 'Nanti Dulu',
     },
+    badge: {
+      bestSeller: 'Terlaris',
+      popular: 'Populer',
+      new: 'Baru',
+    },
     splash: {
       tagline: 'Gurih, Renyah, Bikin Nagih!',
     },
@@ -164,6 +169,7 @@ export const translations = {
       errKota: 'Kota wajib diisi', errAlamat: 'Alamat wajib diisi', errPaket: 'Pilih salah satu paket',
       submit: 'Kirim Pendaftaran via WhatsApp',
       privacy: 'Data Anda aman dan hanya digunakan untuk keperluan program reseller.',
+      platformOffline: 'Offline / Warung',
     },
   },
 
@@ -271,6 +277,11 @@ export const translations = {
       install: 'Install Now',
       later: 'Maybe Later',
     },
+    badge: {
+      bestSeller: 'Best Seller',
+      popular: 'Popular',
+      new: 'New',
+    },
     splash: {
       tagline: 'Savory, Crunchy, Addictively Delicious!',
     },
@@ -327,6 +338,7 @@ export const translations = {
       errKota: 'City is required', errAlamat: 'Address is required', errPaket: 'Please select a package',
       submit: 'Submit Registration via WhatsApp',
       privacy: 'Your data is safe and only used for the reseller program.',
+      platformOffline: 'Offline / Physical Store',
     },
   },
 } as const;
