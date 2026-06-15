@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -24,6 +25,7 @@ const defaultCustomer: CustomerInfo = {
 };
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const { items, getTotalItems, getTotalPrice, clearCart, updateQuantity, removeItem } = useCartStore();
   const [customer, setCustomer] = useState<CustomerInfo>(defaultCustomer);
   const [loading, setLoading] = useState(false);
@@ -70,12 +72,27 @@ export default function CheckoutPage() {
       <Navbar />
       <Cart />
 
+      {/* Mobile sticky top bar */}
+      <div className="sticky top-16 z-30 bg-amber-50/90 backdrop-blur-md border-b border-amber-100 md:hidden">
+        <div className="flex items-center gap-3 px-4 h-14">
+          <button
+            onClick={() => router.back()}
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-amber-200 text-amber-700 flex-shrink-0"
+          >
+            <ArrowLeft size={18} />
+          </button>
+          <h2 className="font-display font-bold text-amber-900 text-sm line-clamp-1 flex-1">
+            {t.checkout.title1} {t.checkout.title2}
+          </h2>
+        </div>
+      </div>
+
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-40 md:pb-20">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <Link
             href="/products"
-            className="inline-flex items-center gap-1.5 text-amber-600/70 hover:text-amber-700 text-sm mb-5 transition-colors"
+            className="hidden md:inline-flex items-center gap-1.5 text-amber-600/70 hover:text-amber-700 text-sm mb-5 transition-colors"
           >
             <ArrowLeft size={14} /> {t.checkout.backToMenu}
           </Link>
