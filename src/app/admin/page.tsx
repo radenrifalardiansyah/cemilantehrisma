@@ -22,26 +22,32 @@ export default function AdminPage() {
   const [checking, setChecking] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [creds,    setCreds]    = useState('');
   const [loginErr, setLoginErr] = useState('');
   const [loading,  setLoading]  = useState(false);
   const [stats,    setStats]    = useState<Record<string, unknown> | null>(null);
   const [statsErr, setStatsErr] = useState('');
 
-  const fetchStats = useCallback(async () => {
+  const fetchStats = useCallback(async (authHeader?: string) => {
     setLoading(true);
     setStatsErr('');
     try {
-      const res = await fetch('/api/admin/stats');
+      const token = authHeader ?? creds;
+      const res = await fetch('/api/admin/stats', {
+        headers: token ? { 'x-admin-auth': token } : {},
+      });
       if (res.ok) {
         setStats(await res.json());
-      } else {
+      } else if (res.status === 500) {
         setStatsErr('Gagal memuat data. Pastikan VERCEL_TOKEN sudah diset.');
+      } else {
+        setStatsErr('Sesi habis. Silakan login ulang.');
       }
     } catch {
       setStatsErr('Gagal memuat data.');
     }
     setLoading(false);
-  }, []);
+  }, [creds]);
 
   useEffect(() => {
     fetch('/api/admin/stats').then(r => {
@@ -58,8 +64,14 @@ export default function AdminPage() {
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ username, password }),
     });
-    if (res.ok) { setAuthed(true); fetchStats(); }
-    else setLoginErr('Username atau password salah.');
+    if (res.ok) {
+      const authHeader = `${username}:${password}`;
+      setCreds(authHeader);
+      setAuthed(true);
+      fetchStats(authHeader);
+    } else {
+      setLoginErr('Username atau password salah.');
+    }
   };
 
   const logout = async () => {
@@ -172,7 +184,7 @@ export default function AdminPage() {
             <span className="text-amber-400/60 text-xs ml-0.5">· Cemilan Teh Risma</span>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={fetchStats} disabled={loading}
+            <button onClick={() => fetchStats()} disabled={loading}
               className="p-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 hover:bg-amber-100 transition-colors disabled:opacity-50">
               <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
             </button>
