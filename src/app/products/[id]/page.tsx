@@ -289,7 +289,7 @@ export default function ProductDetailPage() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
-        className="pt-16 md:pt-20 pb-28 md:pb-16"
+        className="pt-16 md:pt-20 pb-36 md:pb-16"
       >
         {/* Desktop breadcrumb */}
         <div className="hidden md:block max-w-5xl mx-auto px-8 pt-6 pb-4">
@@ -316,7 +316,7 @@ export default function ProductDetailPage() {
       </motion.main>
 
       {/* Mobile sticky bottom CTA */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-amber-100 shadow-lg">
+      <div className="md:hidden fixed bottom-[60px] left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-amber-100 shadow-lg">
         <div className="flex items-center gap-3 px-4 py-3">
           <div className="flex-1">
             {product.originalPrice && (
