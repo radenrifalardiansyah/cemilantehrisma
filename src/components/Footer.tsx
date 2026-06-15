@@ -67,15 +67,15 @@ export default function Footer() {
                 <p className="font-display text-base font-bold gradient-text leading-none">Teh Risma</p>
               </div>
             </div>
-            <div className="relative mb-5 max-w-xs min-h-[60px]">
+            <div className="relative mb-5 max-w-xs h-[78px] overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={descIndex}
-                  initial={{ opacity: 0, y: 6 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
+                  exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.5 }}
-                  className="text-amber-50/90 text-sm leading-relaxed absolute"
+                  className="text-amber-50/90 text-sm leading-relaxed absolute inset-0"
                 >
                   {footerDescs[locale]?.[descIndex] ?? footerDescs.id[descIndex]}
                 </motion.p>
@@ -222,15 +222,17 @@ export default function Footer() {
         <div className="mt-12 pt-6 border-t border-amber-600/60 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex flex-col items-center sm:items-start gap-0.5">
             <p className="text-amber-50/85 text-sm">{t.footer.copyright}</p>
-            <a
-              href="https://eleven-digital.id"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-amber-300/80 hover:text-amber-200 text-xs transition-colors"
-            >
-              PT. Eleven Digital Indonesia
-            </a>
-            <p className="text-amber-200/80 text-xs">PT. RMedia Production</p>
+            <p className="text-amber-200/70 text-xs whitespace-nowrap">
+              <a
+                href="https://eleven-digital.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-300/80 hover:text-amber-200 transition-colors"
+              >
+                PT. Eleven Digital Indonesia
+              </a>
+              {' · didukung oleh PT. RMedia Production'}
+            </p>
           </div>
           <div className="flex items-center gap-1.5 text-amber-50/75 text-sm">
             <span>{t.footer.madeWith}</span>
@@ -243,22 +245,17 @@ export default function Footer() {
 
     <div className="block md:hidden bg-amber-800 border-t border-amber-700/50 px-4 py-3 text-center">
       <p className="text-amber-50/70 text-xs mb-1">{t.footer.copyright}</p>
-      <div className="flex items-center justify-center flex-wrap gap-x-2 gap-y-0.5">
-        <span className="text-amber-50/50 text-[10px]">{t.footer.madeWith} ♥ {t.footer.madeFrom}</span>
-      </div>
-      <div className="flex items-center justify-center flex-wrap gap-x-1.5 gap-y-0.5 mt-1">
-        <span className="text-amber-200/50 text-[10px]">Dev:</span>
+      <p className="text-[10px] mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
         <a
           href="https://eleven-digital.id"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-amber-300/70 text-[10px] hover:text-amber-200 transition-colors underline underline-offset-2"
+          className="text-amber-300/70 hover:text-amber-200 transition-colors underline underline-offset-2"
         >
           PT. Eleven Digital Indonesia
         </a>
-        <span className="text-amber-200/40 text-[10px]">·</span>
-        <span className="text-amber-200/50 text-[10px]">PT. RMedia Production</span>
-      </div>
+        <span className="text-amber-200/50">{' · didukung oleh PT. RMedia Production'}</span>
+      </p>
     </div>
     </>
   );
