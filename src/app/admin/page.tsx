@@ -224,7 +224,7 @@ export default function AdminPage() {
             <span className="text-amber-400/60 text-xs ml-0.5">· Cemilan Teh Risma</span>
           </div>
           <div className="flex items-center gap-2">
-            <a href="/"
+            <a href="/" target="_blank" rel="noopener noreferrer"
               className="p-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 hover:bg-amber-100 transition-colors">
               <Home size={15} />
             </a>
