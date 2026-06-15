@@ -11,12 +11,12 @@ import { useState, useEffect } from 'react';
 
 const footerDescs = {
   id: [
-    'Keripik Kimpul renyah khas Bogor. Gurih, bikin nagih, tanpa pengawet.',
-    'Mie Kremes crispy khas Bogor. Gurih, renyah, bikin ketagihan. Tanpa pengawet.',
+    'Keripik Kimpul renyah khas Bogor. Gurih, nagih, tanpa pengawet.',
+    'Mie Kremes crispy khas Bogor. Gurih, renyah, tanpa pengawet.',
   ],
   en: [
-    'Crunchy Kimpul chips from Bogor. Savory, addictive, no preservatives.',
-    'Crispy Mie Kremes from Bogor. Savory, crunchy, irresistibly good.',
+    'Crunchy Kimpul chips from Bogor. Savory & addictive.',
+    'Crispy Mie Kremes from Bogor. Savory & crunchy.',
   ],
 };
 
@@ -67,7 +67,7 @@ export default function Footer() {
                 <p className="font-display text-base font-bold gradient-text leading-none">Teh Risma</p>
               </div>
             </div>
-            <div className="mb-5 max-w-xs h-14 relative overflow-hidden">
+            <div className="mb-5 max-w-xs h-12 relative overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={descIndex}

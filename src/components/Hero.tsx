@@ -1,9 +1,9 @@
 'use client';
 
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -100,9 +100,6 @@ function Particle({ index }: { index: number }) {
 
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 180]);
   const { t, locale } = useLanguage();
 
   const [current, setCurrent] = useState(0);
@@ -167,7 +164,6 @@ export default function Hero() {
 
   return (
     <section
-      ref={containerRef}
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         background:
@@ -199,10 +195,7 @@ export default function Hero() {
         style={{ backgroundImage: 'radial-gradient(circle, #D97706 1px, transparent 1px)', backgroundSize: '28px 28px' }}
       />
 
-      <motion.div
-        style={{ y }}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full"
-      >
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
           {/* ── LEFT ─────────────────────────────────────────────── */}
@@ -501,7 +494,7 @@ export default function Hero() {
             </motion.div>
           ))}
         </motion.div>
-      </motion.div>
+      </div>
 
       {/* Scroll indicator */}
       <motion.div
