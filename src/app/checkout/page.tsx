@@ -432,7 +432,7 @@ export default function CheckoutPage() {
         </AnimatePresence>
       </div>
 
-      <Footer />
+      <div className="hidden sm:block"><Footer /></div>
       <BottomNav />
     </main>
   );
