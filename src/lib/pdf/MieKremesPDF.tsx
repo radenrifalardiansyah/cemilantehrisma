@@ -9,17 +9,17 @@ interface Props {
 }
 
 const C = {
-  primary:      '#C2410C',
-  primaryDark:  '#9A3412',
-  accent:       '#D97706',
-  accentLight:  '#FEF3C7',
-  accentMid:    '#FDE68A',
-  lightBg:      '#FFFBF2',
+  primary:      '#F97316',
+  primaryDark:  '#EA580C',
+  accent:       '#FBBF24',
+  accentLight:  '#FFF7ED',
+  accentMid:    '#FED7AA',
+  lightBg:      '#FFFCF5',
   white:        '#FFFFFF',
-  dark:         '#1C0A00',
-  body:         '#3D1A00',
-  muted:        '#78350F',
-  border:       '#FCD34D',
+  dark:         '#1A0A00',
+  body:         '#431407',
+  muted:        '#9A3412',
+  border:       '#FDBA74',
   green:        '#15803D',
   greenLight:   '#DCFCE7',
   violet:       '#7C3AED',
@@ -82,8 +82,9 @@ const s = StyleSheet.create({
 
   // Product card
   productCard:      { borderWidth: 1, borderColor: C.border, borderRadius: 8, marginBottom: 16, overflow: 'hidden' },
-  productHeader:    { backgroundColor: C.primary, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 12 },
-  productImg:       { width: 60, height: 75, borderRadius: 6, objectFit: 'cover' },
+  productHeader:    { backgroundColor: C.primary, padding: 14, flexDirection: 'row', alignItems: 'flex-start', gap: 14 },
+  productImgWrap:   { width: 72, height: 108, borderRadius: 6, backgroundColor: C.white, overflow: 'hidden', flexShrink: 0 },
+  productImg:       { width: 72, height: 108, objectFit: 'contain' },
   productHeaderText:{ flex: 1 },
   productName:      { fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.white },
   productDesc:      { fontSize: 9, color: 'rgba(255,255,255,0.75)', marginTop: 4, lineHeight: 1.5 },
@@ -97,7 +98,7 @@ const s = StyleSheet.create({
   // Mechanism cards
   mechRow:          { flexDirection: 'row', gap: 14, marginBottom: 16 },
   mechCard:         { flex: 1, borderWidth: 1, borderRadius: 8, overflow: 'hidden' },
-  mechHeaderOrange: { backgroundColor: '#EA580C', padding: 12 },
+  mechHeaderOrange: { backgroundColor: C.primary, padding: 12 },
   mechHeaderViolet: { backgroundColor: '#7C3AED', padding: 12 },
   mechHeaderTitle:  { color: C.white, fontSize: 12, fontFamily: 'Helvetica-Bold' },
   mechHeaderSub:    { color: 'rgba(255,255,255,0.7)', fontSize: 8, marginTop: 2 },
@@ -357,7 +358,9 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
           ].map(p => (
             <View key={p.name} style={s.productCard}>
               <View style={s.productHeader}>
-                <Image src={p.img} style={s.productImg} />
+                <View style={s.productImgWrap}>
+                  <Image src={p.img} style={s.productImg} />
+                </View>
                 <View style={s.productHeaderText}>
                   <Text style={s.productName}>{p.name}</Text>
                   <Text style={s.productDesc}>{p.desc}</Text>

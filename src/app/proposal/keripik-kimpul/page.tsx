@@ -6,7 +6,7 @@ import imgBBQ    from '@/assets/images/Keripik Kimpul 100g BBQ.png';
 import imgBBQPdas from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
 import imgJgn    from '@/assets/images/Keripik Kimpul 100g Jagung.png';
 import HalalBadge from '@/components/HalalBadge';
-import KimpulStack3D from '@/components/KimpulStack3D';
+import KimpulCardStack from '@/components/KimpulCardStack';
 
 export const metadata: Metadata = {
   title: 'Proposal Keripik Kimpul — Cemilan Teh Risma',
@@ -83,8 +83,8 @@ export default function KeripikKimpulProposalPage() {
               </div>
             </div>
 
-            {/* 3D interactive product stack */}
-            <KimpulStack3D imgOri={imgOri} imgBBQ={imgBBQ} imgBBQPdas={imgBBQPdas} imgJgn={imgJgn} />
+            {/* Interactive card stack */}
+            <KimpulCardStack imgOri={imgOri} imgBBQ={imgBBQ} imgBBQPdas={imgBBQPdas} imgJgn={imgJgn} />
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0">
