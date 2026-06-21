@@ -209,14 +209,14 @@ export default function MieKremesProposalPage() {
 
             {/* Original */}
             <div className="bg-white rounded-2xl border border-orange-100 overflow-hidden shadow-sm">
-              <div className="h-3 bg-gradient-to-r from-orange-700 via-amber-500 to-yellow-400" />
+              <div className="relative h-40 overflow-hidden">
+                <Image src={imgMieOri} alt="Mie Kremes Original" fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <span className="absolute bottom-3 right-3 bg-orange-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">Best Seller</span>
+              </div>
               <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <span className="text-3xl">🍝</span>
-                    <h3 className="pf text-xl font-bold text-[#1C0A00] mt-1">Mie Kremes Original</h3>
-                  </div>
-                  <span className="bg-orange-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">Best Seller</span>
+                <div className="mb-4">
+                  <h3 className="pf text-xl font-bold text-[#1C0A00]">Mie Kremes Original</h3>
                 </div>
                 <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-4">
                   Mie kering crispy dengan bumbu gurih alami dari kencur, bawang putih, dan daun jeruk. Rasa yang sederhana tapi nagih di setiap gigitan.
@@ -244,14 +244,14 @@ export default function MieKremesProposalPage() {
 
             {/* Pedas */}
             <div className="bg-white rounded-2xl border border-red-100 overflow-hidden shadow-sm">
-              <div className="h-3 bg-gradient-to-r from-red-700 via-rose-500 to-orange-400" />
+              <div className="relative h-40 overflow-hidden">
+                <Image src={imgMiePdas} alt="Mie Kremes Pedas" fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <span className="absolute bottom-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">Popular</span>
+              </div>
               <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <span className="text-3xl">🌶️</span>
-                    <h3 className="pf text-xl font-bold text-[#1C0A00] mt-1">Mie Kremes Pedas</h3>
-                  </div>
-                  <span className="bg-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">Popular</span>
+                <div className="mb-4">
+                  <h3 className="pf text-xl font-bold text-[#1C0A00]">Mie Kremes Pedas</h3>
                 </div>
                 <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-4">
                   Mie kering crispy dengan bubuk cabai asli dan bumbu pedas khas. Untuk pencinta pedas yang suka tekstur renyah — pedas yang nendang!

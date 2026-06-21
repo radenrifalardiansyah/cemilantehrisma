@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import logo      from '@/assets/images/logo-tehrisma.jpeg';
-import imgMieOri  from '@/assets/images/Mie Kremes 150g Original.png';
-import imgMiePdas from '@/assets/images/Mie Kremes 150g Pedas.png';
-import imgKkOri   from '@/assets/images/Keripik Kimpul 100g Original.png';
-import imgKkBBQ   from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
-import imgKkJgn   from '@/assets/images/Keripik Kimpul 100g Jagung.png';
+import logo          from '@/assets/images/logo-tehrisma.jpeg';
+import bannerMie      from '@/assets/images/Banner Mie Kremes 1.png';
+import bannerKeripik  from '@/assets/images/Banner 1 Keripik Kimpul.png';
 
 export const metadata: Metadata = {
   title: 'Proposal Kerjasama — Cemilan Teh Risma',
@@ -29,23 +26,10 @@ export default function ProposalPage() {
           0%, 100% { transform: scale(1); opacity: 0.35; }
           50%       { transform: scale(1.15); opacity: 0.55; }
         }
-        @keyframes prodFloat1 {
-          0%, 100% { transform: perspective(700px) rotateY(-9deg) rotateX(4deg) translateY(0px);   filter: drop-shadow(0 18px 28px rgba(0,0,0,0.18)); }
-          50%       { transform: perspective(700px) rotateY(9deg)  rotateX(-4deg) translateY(-14px); filter: drop-shadow(0 30px 44px rgba(0,0,0,0.10)); }
-        }
-        @keyframes prodFloat2 {
-          0%, 100% { transform: perspective(700px) rotateY(8deg)  rotateX(-3deg) translateY(0px)  scale(0.85); filter: drop-shadow(0 14px 22px rgba(0,0,0,0.15)); }
-          50%       { transform: perspective(700px) rotateY(-8deg) rotateX(3deg)  translateY(-10px) scale(0.85); filter: drop-shadow(0 24px 36px rgba(0,0,0,0.09)); }
-        }
-        @keyframes prodFloat3 {
-          0%, 100% { transform: perspective(700px) rotateY(-7deg) rotateX(3deg) translateY(0px)  scale(0.72); filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12)); }
-          50%       { transform: perspective(700px) rotateY(7deg)  rotateX(-3deg) translateY(-8px)  scale(0.72); filter: drop-shadow(0 18px 28px rgba(0,0,0,0.07)); }
-        }
-        .logo-float  { animation: logoFloat  5s ease-in-out infinite; }
-        .orb-pulse   { animation: orbPulse   4s ease-in-out infinite; }
-        .pf1 { animation: prodFloat1 6s ease-in-out infinite; }
-        .pf2 { animation: prodFloat2 6s ease-in-out infinite 1.2s; }
-        .pf3 { animation: prodFloat3 6s ease-in-out infinite 2.0s; }
+        .logo-float { animation: logoFloat 5s ease-in-out infinite; }
+        .orb-pulse  { animation: orbPulse  4s ease-in-out infinite; }
+        .banner-zoom { transition: transform 0.5s ease; }
+        .group:hover .banner-zoom { transform: scale(1.04); }
       `}</style>
 
       {/* ── HERO ── */}
@@ -106,23 +90,20 @@ export default function ProposalPage() {
 
           {/* Mie Kremes */}
           <a href="/proposal/mie-kremes" className="group relative overflow-hidden rounded-2xl border-2 border-orange-200 hover:border-orange-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
-            <div className="h-3 bg-gradient-to-r from-orange-700 via-amber-500 to-yellow-400" />
-            {/* Produk 3D */}
-            <div className="relative h-44 bg-gradient-to-br from-orange-50 to-amber-50 overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-orange-300 blur-2xl" />
-              </div>
-              <div className="absolute left-6 top-4 pf1">
-                <Image src={imgMieOri} alt="Mie Kremes Original" width={110} height={138} className="rounded-xl object-cover" />
-              </div>
-              <div className="absolute right-6 bottom-2 pf2">
-                <Image src={imgMiePdas} alt="Mie Kremes Pedas" width={100} height={125} className="rounded-xl object-cover" />
-              </div>
+            <div className="relative h-48 overflow-hidden rounded-t-xl">
+              <Image
+                src={bannerMie}
+                alt="Banner Mie Kremes"
+                fill
+                className="object-cover banner-zoom"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+                Best Seller
+              </span>
             </div>
             <div className="p-6">
-              <div className="inline-flex items-center gap-1.5 bg-orange-100 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">
-                Best Seller
-              </div>
               <h2 className="proposal-font text-2xl font-bold text-[#1C0A00] mb-2">Mie Kremes</h2>
               <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-5">
                 Mie crispy khas Bogor dengan bumbu rempah alami. Tersedia rasa Original dan Pedas dalam kemasan 150g.
@@ -141,29 +122,20 @@ export default function ProposalPage() {
 
           {/* Keripik Kimpul */}
           <a href="/proposal/keripik-kimpul" className="group relative overflow-hidden rounded-2xl border-2 border-amber-200 hover:border-amber-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
-            <div className="h-3 bg-gradient-to-r from-amber-700 via-yellow-500 to-amber-400" />
-            {/* Produk 3D */}
-            <div className="relative h-44 bg-gradient-to-br from-amber-50 to-yellow-50 overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-amber-300 blur-2xl" />
-              </div>
-              {/* Jagung — paling belakang */}
-              <div className="absolute right-2 bottom-1 pf3">
-                <Image src={imgKkJgn} alt="Keripik Jagung" width={82} height={102} className="rounded-xl object-cover" />
-              </div>
-              {/* BBQ — tengah */}
-              <div className="absolute right-14 top-5 pf2">
-                <Image src={imgKkBBQ} alt="Keripik BBQ Pedas" width={96} height={120} className="rounded-xl object-cover" />
-              </div>
-              {/* Original — paling depan */}
-              <div className="absolute left-5 top-3 pf1">
-                <Image src={imgKkOri} alt="Keripik Original" width={110} height={138} className="rounded-xl object-cover" />
-              </div>
+            <div className="relative h-48 overflow-hidden rounded-t-xl">
+              <Image
+                src={bannerKeripik}
+                alt="Banner Keripik Kimpul"
+                fill
+                className="object-cover banner-zoom"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+                3 Varian Rasa
+              </span>
             </div>
             <div className="p-6">
-              <div className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">
-                3 Varian Rasa
-              </div>
               <h2 className="proposal-font text-2xl font-bold text-[#1C0A00] mb-2">Keripik Kimpul</h2>
               <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-5">
                 Keripik talas balitung renyah khas Bogor. Tersedia 3 rasa dalam 2 ukuran kemasan: 100g dan 250g.

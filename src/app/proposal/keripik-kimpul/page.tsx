@@ -187,14 +187,14 @@ export default function KeripikKimpulProposalPage() {
 
             {/* Original */}
             <div className="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm">
-              <div className="h-3 bg-gradient-to-r from-amber-700 via-yellow-500 to-amber-400" />
+              <div className="relative h-36 overflow-hidden">
+                <Image src={imgOri} alt="Keripik Kimpul Original" fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <span className="absolute bottom-2 right-2 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Best Seller</span>
+              </div>
               <div className="p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <span className="text-2xl">🥔</span>
-                    <h3 className="pf text-lg font-bold text-[#1C0A00] mt-1">Original</h3>
-                  </div>
-                  <span className="bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Best Seller</span>
+                <div className="mb-3">
+                  <h3 className="pf text-lg font-bold text-[#1C0A00]">Original</h3>
                 </div>
                 <p className="text-xs text-[#3D1A00]/60 leading-relaxed mb-4">
                   Rasa gurih alami talas kimpul pilihan. Cocok untuk semua usia dan momen makan camilan.
@@ -226,14 +226,14 @@ export default function KeripikKimpulProposalPage() {
 
             {/* BBQ Pedas */}
             <div className="bg-white rounded-2xl border border-red-100 overflow-hidden shadow-sm">
-              <div className="h-3 bg-gradient-to-r from-red-700 via-orange-500 to-red-400" />
+              <div className="relative h-36 overflow-hidden">
+                <Image src={imgBBQ} alt="Keripik Kimpul BBQ Pedas" fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <span className="absolute bottom-2 right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Popular</span>
+              </div>
               <div className="p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <span className="text-2xl">🌶️</span>
-                    <h3 className="pf text-lg font-bold text-[#1C0A00] mt-1">BBQ Pedas</h3>
-                  </div>
-                  <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Popular</span>
+                <div className="mb-3">
+                  <h3 className="pf text-lg font-bold text-[#1C0A00]">BBQ Pedas</h3>
                 </div>
                 <p className="text-xs text-[#3D1A00]/60 leading-relaxed mb-4">
                   Perpaduan smoky BBQ dengan sensasi pedas yang nagih. Favorit para pecinta pedas!
@@ -265,14 +265,14 @@ export default function KeripikKimpulProposalPage() {
 
             {/* Jagung */}
             <div className="bg-white rounded-2xl border border-yellow-100 overflow-hidden shadow-sm">
-              <div className="h-3 bg-gradient-to-r from-yellow-600 via-yellow-400 to-amber-300" />
+              <div className="relative h-36 overflow-hidden">
+                <Image src={imgJgn} alt="Keripik Kimpul Jagung Manis" fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <span className="absolute bottom-2 right-2 bg-yellow-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">New</span>
+              </div>
               <div className="p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <span className="text-2xl">🌽</span>
-                    <h3 className="pf text-lg font-bold text-[#1C0A00] mt-1">Jagung Manis</h3>
-                  </div>
-                  <span className="bg-yellow-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">New</span>
+                <div className="mb-3">
+                  <h3 className="pf text-lg font-bold text-[#1C0A00]">Jagung Manis</h3>
                 </div>
                 <p className="text-xs text-[#3D1A00]/60 leading-relaxed mb-4">
                   Rasa jagung manis yang lembut dan menyenangkan. Favorit anak-anak, cocok untuk bekal sekolah.
