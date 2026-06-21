@@ -78,10 +78,10 @@ const s = StyleSheet.create({
   stepDesc:     { fontSize: 9.5, color: C.body, lineHeight: 1.5 },
 
   // Pricing table
-  priceTable:   { borderWidth: 1, borderColor: C.border, borderRadius: 8, overflow: 'hidden', marginBottom: 12 },
-  priceHeader:  { backgroundColor: C.primary, flexDirection: 'row', padding: 10 },
-  priceHeaderCell: { flex: 1, color: C.white, fontSize: 9, fontFamily: 'Helvetica-Bold', textAlign: 'center' },
-  priceRow:     { flexDirection: 'row', padding: 9 },
+  priceTable:   { borderWidth: 1, borderColor: C.border, borderRadius: 8, overflow: 'hidden', marginBottom: 8 },
+  priceHeader:  { backgroundColor: C.primary, flexDirection: 'row', padding: 7 },
+  priceHeaderCell: { flex: 1, color: C.white, fontSize: 8.5, fontFamily: 'Helvetica-Bold', textAlign: 'center' },
+  priceRow:     { flexDirection: 'row', padding: 7 },
   priceCell:    { flex: 1, fontSize: 9, color: C.body, textAlign: 'center' },
   priceCellBold:{ flex: 1, fontSize: 9, fontFamily: 'Helvetica-Bold', color: C.primary, textAlign: 'center' },
 
@@ -334,7 +334,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           </View>
 
           {/* Pricing table */}
-          <Text style={{ fontSize: 10.5, fontFamily: 'Helvetica-Bold', color: C.dark, marginBottom: 8 }}>Tabel Harga Lengkap</Text>
+          <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: C.dark, marginBottom: 6 }}>Tabel Harga Lengkap</Text>
           <View style={s.priceTable}>
             <View style={s.priceHeader}>
               {['Varian Rasa', 'Kemasan 100g', 'Kemasan 250g (Jumbo)', 'Bahan Utama'].map(h => (
@@ -356,8 +356,8 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             ))}
           </View>
 
-          <View style={s.infoBox} wrap={false}>
-            <Text style={s.infoBoxTitle}>Informasi Umum Produk</Text>
+          <View style={[s.infoBox, { padding: 10, marginBottom: 0 }]} wrap={false}>
+            <Text style={[s.infoBoxTitle, { marginBottom: 6 }]}>Informasi Umum Produk</Text>
             {[
               ['Masa Simpan',   '3 bulan sejak tanggal produksi (kemasan kedap udara)'],
               ['Komposisi',     'Talas Kimpul Pilihan, Minyak Goreng, Garam, Bumbu Perasa (sesuai varian)'],
@@ -365,7 +365,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
               ['Diproduksi',    'Cemilan Teh Risma · Bogor, Jawa Barat · NIB: 0403260068412'],
               ['Tersedia juga', 'Paket Hemat Mix 3 Rasa (Rp 40.000) & Mix 5 Pcs (Rp 65.000)'],
             ].map(([k, v]) => (
-              <View key={k} style={s.infoRow}>
+              <View key={k} style={[s.infoRow, { marginBottom: 3 }]}>
                 <Text style={s.infoKey}>{k}</Text>
                 <Text style={s.infoVal}>{v}</Text>
               </View>
