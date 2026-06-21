@@ -1,4 +1,8 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import logo from '@/assets/images/logo-tehrisma.jpeg';
+import imgMieOri from '@/assets/images/Mie Kremes 150g Original.png';
+import imgMiePdas from '@/assets/images/Mie Kremes 150g Pedas.png';
 
 export const metadata: Metadata = {
   title: 'Proposal Mie Kremes — Cemilan Teh Risma',
@@ -42,6 +46,39 @@ export default function MieKremesProposalPage() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap');
         @media print { .no-print { display: none !important; } body { background: white !important; } }
         .pf { font-family: 'Playfair Display', Georgia, serif; }
+
+        @keyframes float3d {
+          0%, 100% {
+            transform: perspective(900px) rotateY(-10deg) rotateX(5deg) translateY(0px);
+            filter: drop-shadow(0 25px 35px rgba(194,65,12,0.30));
+          }
+          50% {
+            transform: perspective(900px) rotateY(10deg) rotateX(-5deg) translateY(-20px);
+            filter: drop-shadow(0 42px 55px rgba(194,65,12,0.15));
+          }
+        }
+        @keyframes float3dSec {
+          0%, 100% {
+            transform: perspective(900px) rotateY(8deg) rotateX(-4deg) translateY(0px) scale(0.88);
+            filter: drop-shadow(0 20px 28px rgba(190,18,60,0.25));
+          }
+          50% {
+            transform: perspective(900px) rotateY(-8deg) rotateX(4deg) translateY(-14px) scale(0.88);
+            filter: drop-shadow(0 35px 48px rgba(190,18,60,0.12));
+          }
+        }
+        @keyframes logoFloat {
+          0%, 100% { transform: translateY(0px) rotate(-1deg); filter: drop-shadow(0 12px 20px rgba(180,83,9,0.2)); }
+          50%       { transform: translateY(-10px) rotate(1deg); filter: drop-shadow(0 22px 32px rgba(180,83,9,0.1)); }
+        }
+        @keyframes orbPulse {
+          0%, 100% { transform: scale(1); opacity: 0.3; }
+          50%       { transform: scale(1.2); opacity: 0.5; }
+        }
+        .img-3d-main { animation: float3d 6s ease-in-out infinite; }
+        .img-3d-sec  { animation: float3dSec 6s ease-in-out infinite 1.2s; }
+        .logo-float  { animation: logoFloat 5s ease-in-out infinite; }
+        .orb-pulse   { animation: orbPulse 4s ease-in-out infinite; }
       `}</style>
 
       {/* ── HERO ── */}
@@ -63,38 +100,70 @@ export default function MieKremesProposalPage() {
             </a>
           </div>
 
-          {/* Badge */}
-          <div className={`inline-flex items-center gap-2 ${C.badge} border rounded-full px-4 py-1.5 text-sm font-medium mb-6`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${C.badgeDot} animate-pulse`} />
-            Proposal Kerjasama Resmi · 2025
-          </div>
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            {/* Text + stats */}
+            <div className="flex-1">
+              {/* Badge */}
+              <div className={`inline-flex items-center gap-2 ${C.badge} border rounded-full px-4 py-1.5 text-sm font-medium mb-6`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${C.badgeDot} animate-pulse`} />
+                Proposal Kerjasama Resmi · 2026
+              </div>
 
-          <div className="flex items-start gap-5">
-            <div className="text-6xl md:text-7xl">🍝</div>
-            <div>
-              <h1 className={`pf text-4xl md:text-5xl font-bold leading-tight mb-2 text-[#1C0A00]`}>
+              {/* Logo kecil + judul */}
+              <div className="flex items-center gap-3 mb-4">
+                <div className="logo-float flex-shrink-0">
+                  <Image src={logo} alt="Logo Teh Risma" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
+                </div>
+                <p className="text-xs text-orange-700 font-semibold tracking-wide">Cemilan Teh Risma</p>
+              </div>
+
+              <h1 className="pf text-4xl md:text-5xl font-bold leading-tight mb-2 text-[#1C0A00]">
                 Proposal Titip Jual<br />
                 <span className={C.heading}>Mie Kremes</span>
               </h1>
-              <p className="text-[#3D1A00]/60 text-sm md:text-base max-w-lg">
+              <p className="text-[#3D1A00]/60 text-sm md:text-base max-w-md">
                 Camilan mie crispy renyah khas Bogor — bumbu rempah alami, bersertifikat Halal, tanpa pengawet.
               </p>
-            </div>
-          </div>
 
-          {/* Stats */}
-          <div className="flex flex-wrap gap-4 mt-8">
-            {[
-              { v: '2', l: 'Varian Rasa' },
-              { v: '150g', l: 'Per Kemasan' },
-              { v: 'Rp 10rb', l: 'Harga Jual' },
-              { v: 'Halal', l: 'Bersertifikat' },
-            ].map(s => (
-              <div key={s.l} className={`text-center bg-white/70 border ${C.statBorder} rounded-xl px-5 py-3 shadow-sm`}>
-                <div className={`pf text-2xl font-bold ${C.stat}`}>{s.v}</div>
-                <div className="text-xs text-[#3D1A00]/60 mt-0.5">{s.l}</div>
+              {/* Stats */}
+              <div className="flex flex-wrap gap-3 mt-7">
+                {[
+                  { v: '2', l: 'Varian Rasa' },
+                  { v: '150g', l: 'Per Kemasan' },
+                  { v: 'Rp 10rb', l: 'Harga Jual' },
+                  { v: 'Halal', l: 'Bersertifikat' },
+                ].map(s => (
+                  <div key={s.l} className={`text-center bg-white/70 border ${C.statBorder} rounded-xl px-4 py-2.5 shadow-sm`}>
+                    <div className={`pf text-xl font-bold ${C.stat}`}>{s.v}</div>
+                    <div className="text-xs text-[#3D1A00]/60 mt-0.5">{s.l}</div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* 3D Product images */}
+            <div className="flex-shrink-0 relative w-52 h-64 md:w-60 md:h-72">
+              {/* Produk Pedas (belakang) */}
+              <div className="absolute right-0 bottom-0 img-3d-sec">
+                <Image
+                  src={imgMiePdas}
+                  alt="Mie Kremes Pedas"
+                  width={140}
+                  height={175}
+                  className="rounded-2xl object-cover"
+                />
+              </div>
+              {/* Produk Original (depan) */}
+              <div className="absolute left-0 top-0 img-3d-main">
+                <Image
+                  src={imgMieOri}
+                  alt="Mie Kremes Original"
+                  width={155}
+                  height={194}
+                  className="rounded-2xl object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0">
@@ -339,7 +408,7 @@ export default function MieKremesProposalPage() {
             <div className="grid sm:grid-cols-3 gap-3 text-sm">
               {[
                 { icon: '📱', l: 'WhatsApp', v: '+62 812-1213-2014' },
-                { icon: '🌐', l: 'Website', v: 'warungtehrisma-one.vercel.app' },
+                { icon: '🌐', l: 'Website', v: 'cemilantehrisma.vercel.app' },
                 { icon: '📍', l: 'Lokasi', v: 'Bogor, Jawa Barat' },
               ].map(c => (
                 <div key={c.l} className="bg-white rounded-xl border border-orange-100 p-3">
