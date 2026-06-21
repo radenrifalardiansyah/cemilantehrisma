@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import logo from '@/assets/images/logo-tehrisma.jpeg';
+import logo      from '@/assets/images/logo-tehrisma.jpeg';
+import imgMieOri  from '@/assets/images/Mie Kremes 150g Original.png';
+import imgMiePdas from '@/assets/images/Mie Kremes 150g Pedas.png';
+import imgKkOri   from '@/assets/images/Keripik Kimpul 100g Original.png';
+import imgKkBBQ   from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
+import imgKkJgn   from '@/assets/images/Keripik Kimpul 100g Jagung.png';
 
 export const metadata: Metadata = {
   title: 'Proposal Kerjasama — Cemilan Teh Risma',
@@ -24,14 +29,23 @@ export default function ProposalPage() {
           0%, 100% { transform: scale(1); opacity: 0.35; }
           50%       { transform: scale(1.15); opacity: 0.55; }
         }
-        @keyframes cardFloat {
-          0%, 100% { transform: perspective(900px) rotateY(-6deg) rotateX(3deg) translateY(0px); box-shadow: 12px 18px 40px rgba(0,0,0,0.12); }
-          50%       { transform: perspective(900px) rotateY(6deg) rotateX(-3deg) translateY(-12px); box-shadow: 18px 30px 55px rgba(0,0,0,0.08); }
+        @keyframes prodFloat1 {
+          0%, 100% { transform: perspective(700px) rotateY(-9deg) rotateX(4deg) translateY(0px);   filter: drop-shadow(0 18px 28px rgba(0,0,0,0.18)); }
+          50%       { transform: perspective(700px) rotateY(9deg)  rotateX(-4deg) translateY(-14px); filter: drop-shadow(0 30px 44px rgba(0,0,0,0.10)); }
         }
-        .logo-float { animation: logoFloat 5s ease-in-out infinite; }
-        .card-float-1 { animation: cardFloat 6s ease-in-out infinite; }
-        .card-float-2 { animation: cardFloat 6s ease-in-out infinite 1.5s; }
-        .orb-pulse { animation: orbPulse 4s ease-in-out infinite; }
+        @keyframes prodFloat2 {
+          0%, 100% { transform: perspective(700px) rotateY(8deg)  rotateX(-3deg) translateY(0px)  scale(0.85); filter: drop-shadow(0 14px 22px rgba(0,0,0,0.15)); }
+          50%       { transform: perspective(700px) rotateY(-8deg) rotateX(3deg)  translateY(-10px) scale(0.85); filter: drop-shadow(0 24px 36px rgba(0,0,0,0.09)); }
+        }
+        @keyframes prodFloat3 {
+          0%, 100% { transform: perspective(700px) rotateY(-7deg) rotateX(3deg) translateY(0px)  scale(0.72); filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12)); }
+          50%       { transform: perspective(700px) rotateY(7deg)  rotateX(-3deg) translateY(-8px)  scale(0.72); filter: drop-shadow(0 18px 28px rgba(0,0,0,0.07)); }
+        }
+        .logo-float  { animation: logoFloat  5s ease-in-out infinite; }
+        .orb-pulse   { animation: orbPulse   4s ease-in-out infinite; }
+        .pf1 { animation: prodFloat1 6s ease-in-out infinite; }
+        .pf2 { animation: prodFloat2 6s ease-in-out infinite 1.2s; }
+        .pf3 { animation: prodFloat3 6s ease-in-out infinite 2.0s; }
       `}</style>
 
       {/* ── HERO ── */}
@@ -93,8 +107,19 @@ export default function ProposalPage() {
           {/* Mie Kremes */}
           <a href="/proposal/mie-kremes" className="group relative overflow-hidden rounded-2xl border-2 border-orange-200 hover:border-orange-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
             <div className="h-3 bg-gradient-to-r from-orange-700 via-amber-500 to-yellow-400" />
-            <div className="p-7">
-              <div className="text-5xl mb-4">🍝</div>
+            {/* Produk 3D */}
+            <div className="relative h-44 bg-gradient-to-br from-orange-50 to-amber-50 overflow-hidden">
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-orange-300 blur-2xl" />
+              </div>
+              <div className="absolute left-6 top-4 pf1">
+                <Image src={imgMieOri} alt="Mie Kremes Original" width={110} height={138} className="rounded-xl object-cover" />
+              </div>
+              <div className="absolute right-6 bottom-2 pf2">
+                <Image src={imgMiePdas} alt="Mie Kremes Pedas" width={100} height={125} className="rounded-xl object-cover" />
+              </div>
+            </div>
+            <div className="p-6">
               <div className="inline-flex items-center gap-1.5 bg-orange-100 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">
                 Best Seller
               </div>
@@ -117,8 +142,25 @@ export default function ProposalPage() {
           {/* Keripik Kimpul */}
           <a href="/proposal/keripik-kimpul" className="group relative overflow-hidden rounded-2xl border-2 border-amber-200 hover:border-amber-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
             <div className="h-3 bg-gradient-to-r from-amber-700 via-yellow-500 to-amber-400" />
-            <div className="p-7">
-              <div className="text-5xl mb-4">🥔</div>
+            {/* Produk 3D */}
+            <div className="relative h-44 bg-gradient-to-br from-amber-50 to-yellow-50 overflow-hidden">
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-amber-300 blur-2xl" />
+              </div>
+              {/* Jagung — paling belakang */}
+              <div className="absolute right-2 bottom-1 pf3">
+                <Image src={imgKkJgn} alt="Keripik Jagung" width={82} height={102} className="rounded-xl object-cover" />
+              </div>
+              {/* BBQ — tengah */}
+              <div className="absolute right-14 top-5 pf2">
+                <Image src={imgKkBBQ} alt="Keripik BBQ Pedas" width={96} height={120} className="rounded-xl object-cover" />
+              </div>
+              {/* Original — paling depan */}
+              <div className="absolute left-5 top-3 pf1">
+                <Image src={imgKkOri} alt="Keripik Original" width={110} height={138} className="rounded-xl object-cover" />
+              </div>
+            </div>
+            <div className="p-6">
               <div className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">
                 3 Varian Rasa
               </div>
@@ -141,7 +183,9 @@ export default function ProposalPage() {
 
         {/* Brand info */}
         <div className="bg-white rounded-2xl border border-amber-100 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-3xl flex-shrink-0">🏠</div>
+          <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-amber-100">
+            <Image src={logo} alt="Logo Teh Risma" width={56} height={56} className="object-cover w-full h-full" />
+          </div>
           <div className="flex-1">
             <p className="text-xs font-bold tracking-widest text-amber-600 uppercase mb-1">Tentang Kami</p>
             <p className="font-semibold text-[#1C0A00] mb-1">Cemilan Teh Risma — Bogor, Jawa Barat</p>
