@@ -6,6 +6,7 @@ import imgBBQ    from '@/assets/images/Keripik Kimpul 100g BBQ.png';
 import imgBBQPdas from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
 import imgJgn    from '@/assets/images/Keripik Kimpul 100g Jagung.png';
 import HalalBadge from '@/components/HalalBadge';
+import KimpulStack3D from '@/components/KimpulStack3D';
 
 export const metadata: Metadata = {
   title: 'Proposal Keripik Kimpul — Cemilan Teh Risma',
@@ -21,37 +22,6 @@ export default function KeripikKimpulProposalPage() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap');
         @media print { .no-print { display: none !important; } body { background: white !important; } }
         .pf { font-family: 'Playfair Display', Georgia, serif; }
-
-        @keyframes float3dA {
-          0%, 100% {
-            transform: perspective(900px) rotateY(-10deg) rotateX(5deg) translateY(0px);
-            filter: drop-shadow(0 22px 32px rgba(180,83,9,0.30));
-          }
-          50% {
-            transform: perspective(900px) rotateY(10deg) rotateX(-5deg) translateY(-18px);
-            filter: drop-shadow(0 38px 50px rgba(180,83,9,0.14));
-          }
-        }
-        @keyframes float3dB {
-          0%, 100% {
-            transform: perspective(900px) rotateY(9deg) rotateX(-4deg) translateY(0px) scale(0.87);
-            filter: drop-shadow(0 18px 26px rgba(202,138,4,0.28));
-          }
-          50% {
-            transform: perspective(900px) rotateY(-9deg) rotateX(4deg) translateY(-12px) scale(0.87);
-            filter: drop-shadow(0 32px 44px rgba(202,138,4,0.12));
-          }
-        }
-        @keyframes float3dC {
-          0%, 100% {
-            transform: perspective(900px) rotateY(-7deg) rotateX(3deg) translateY(0px) scale(0.76);
-            filter: drop-shadow(0 15px 22px rgba(185,28,28,0.22));
-          }
-          50% {
-            transform: perspective(900px) rotateY(7deg) rotateX(-3deg) translateY(-10px) scale(0.76);
-            filter: drop-shadow(0 26px 38px rgba(185,28,28,0.10));
-          }
-        }
         @keyframes logoFloat {
           0%, 100% { transform: translateY(0px) rotate(-1deg); filter: drop-shadow(0 12px 20px rgba(180,83,9,0.2)); }
           50%       { transform: translateY(-10px) rotate(1deg); filter: drop-shadow(0 22px 32px rgba(180,83,9,0.1)); }
@@ -60,20 +30,6 @@ export default function KeripikKimpulProposalPage() {
           0%, 100% { transform: scale(1); opacity: 0.3; }
           50%       { transform: scale(1.2); opacity: 0.5; }
         }
-        @keyframes float3dD {
-          0%, 100% {
-            transform: perspective(900px) rotateY(6deg) rotateX(-2deg) translateY(0px) scale(0.65);
-            filter: drop-shadow(0 12px 18px rgba(185,28,28,0.18));
-          }
-          50% {
-            transform: perspective(900px) rotateY(-6deg) rotateX(2deg) translateY(-8px) scale(0.65);
-            filter: drop-shadow(0 20px 30px rgba(185,28,28,0.08));
-          }
-        }
-        .img-3d-a  { animation: float3dA 6s ease-in-out infinite; }
-        .img-3d-b  { animation: float3dB 6s ease-in-out infinite 1.0s; }
-        .img-3d-c  { animation: float3dC 6s ease-in-out infinite 2.0s; }
-        .img-3d-d  { animation: float3dD 6s ease-in-out infinite 3.0s; }
         .logo-float { animation: logoFloat 5s ease-in-out infinite; }
         .orb-pulse  { animation: orbPulse 4s ease-in-out infinite; }
       `}</style>
@@ -127,25 +83,8 @@ export default function KeripikKimpulProposalPage() {
               </div>
             </div>
 
-            {/* 3D product stack — 4 varian */}
-            <div className="flex-shrink-0 relative w-60 h-72 md:w-68 md:h-80">
-              {/* BBQ Pedas (paling belakang) */}
-              <div className="absolute right-0 bottom-2 img-3d-d">
-                <Image src={imgBBQPdas} alt="Keripik Kimpul BBQ Pedas" width={105} height={132} className="rounded-2xl object-cover" />
-              </div>
-              {/* Jagung (belakang-kanan) */}
-              <div className="absolute right-4 bottom-8 img-3d-c">
-                <Image src={imgJgn} alt="Keripik Kimpul Jagung" width={120} height={150} className="rounded-2xl object-cover" />
-              </div>
-              {/* BBQ (tengah) */}
-              <div className="absolute right-8 top-8 img-3d-b">
-                <Image src={imgBBQ} alt="Keripik Kimpul BBQ" width={138} height={173} className="rounded-2xl object-cover" />
-              </div>
-              {/* Original (paling depan-kiri) */}
-              <div className="absolute left-0 top-0 img-3d-a">
-                <Image src={imgOri} alt="Keripik Kimpul Original" width={155} height={194} className="rounded-2xl object-cover" />
-              </div>
-            </div>
+            {/* 3D interactive product stack */}
+            <KimpulStack3D imgOri={imgOri} imgBBQ={imgBBQ} imgBBQPdas={imgBBQPdas} imgJgn={imgJgn} />
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0">

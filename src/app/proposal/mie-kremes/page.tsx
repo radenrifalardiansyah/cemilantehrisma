@@ -4,6 +4,7 @@ import logo from '@/assets/images/logo-tehrisma.jpeg';
 import imgMieOri from '@/assets/images/Mie Kremes 150g Original.png';
 import imgMiePdas from '@/assets/images/Mie Kremes 150g Pedas.png';
 import HalalBadge from '@/components/HalalBadge';
+import MieStack3D from '@/components/MieStack3D';
 
 export const metadata: Metadata = {
   title: 'Proposal Mie Kremes — Cemilan Teh Risma',
@@ -48,26 +49,6 @@ export default function MieKremesProposalPage() {
         @media print { .no-print { display: none !important; } body { background: white !important; } }
         .pf { font-family: 'Playfair Display', Georgia, serif; }
 
-        @keyframes float3d {
-          0%, 100% {
-            transform: perspective(900px) rotateY(-10deg) rotateX(5deg) translateY(0px);
-            filter: drop-shadow(0 25px 35px rgba(194,65,12,0.30));
-          }
-          50% {
-            transform: perspective(900px) rotateY(10deg) rotateX(-5deg) translateY(-20px);
-            filter: drop-shadow(0 42px 55px rgba(194,65,12,0.15));
-          }
-        }
-        @keyframes float3dSec {
-          0%, 100% {
-            transform: perspective(900px) rotateY(8deg) rotateX(-4deg) translateY(0px) scale(0.88);
-            filter: drop-shadow(0 20px 28px rgba(190,18,60,0.25));
-          }
-          50% {
-            transform: perspective(900px) rotateY(-8deg) rotateX(4deg) translateY(-14px) scale(0.88);
-            filter: drop-shadow(0 35px 48px rgba(190,18,60,0.12));
-          }
-        }
         @keyframes logoFloat {
           0%, 100% { transform: translateY(0px) rotate(-1deg); filter: drop-shadow(0 12px 20px rgba(180,83,9,0.2)); }
           50%       { transform: translateY(-10px) rotate(1deg); filter: drop-shadow(0 22px 32px rgba(180,83,9,0.1)); }
@@ -76,8 +57,6 @@ export default function MieKremesProposalPage() {
           0%, 100% { transform: scale(1); opacity: 0.3; }
           50%       { transform: scale(1.2); opacity: 0.5; }
         }
-        .img-3d-main { animation: float3d 6s ease-in-out infinite; }
-        .img-3d-sec  { animation: float3dSec 6s ease-in-out infinite 1.2s; }
         .logo-float  { animation: logoFloat 5s ease-in-out infinite; }
         .orb-pulse   { animation: orbPulse 4s ease-in-out infinite; }
       `}</style>
@@ -131,29 +110,8 @@ export default function MieKremesProposalPage() {
               </div>
             </div>
 
-            {/* 3D Product images */}
-            <div className="flex-shrink-0 relative w-52 h-64 md:w-60 md:h-72">
-              {/* Produk Pedas (belakang) */}
-              <div className="absolute right-0 bottom-0 img-3d-sec">
-                <Image
-                  src={imgMiePdas}
-                  alt="Mie Kremes Pedas"
-                  width={140}
-                  height={175}
-                  className="rounded-2xl object-cover"
-                />
-              </div>
-              {/* Produk Original (depan) */}
-              <div className="absolute left-0 top-0 img-3d-main">
-                <Image
-                  src={imgMieOri}
-                  alt="Mie Kremes Original"
-                  width={155}
-                  height={194}
-                  className="rounded-2xl object-cover"
-                />
-              </div>
-            </div>
+            {/* 3D interactive product stack */}
+            <MieStack3D imgOri={imgMieOri} imgPdas={imgMiePdas} />
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0">
