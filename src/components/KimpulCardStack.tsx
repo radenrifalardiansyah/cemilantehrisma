@@ -24,13 +24,22 @@ export default function KimpulCardStack({ imgOri, imgBBQ, imgBBQPdas, imgJgn }: 
   const imgs = [imgOri, imgBBQ, imgBBQPdas, imgJgn];
   const [active, setActive] = useState(0);
   const [flying, setFlying] = useState(false);
+  // tracks which image index just landed so we suppress its transition for one frame
+  const [justLanded, setJustLanded] = useState<number | null>(null);
 
   const advance = useCallback(() => {
     if (flying) return;
     setFlying(true);
     setTimeout(() => {
-      setActive(a => (a + 1) % 4);
+      setActive(a => {
+        const next = (a + 1) % 4;
+        // the flying card (index = current active) will land at pos 3 in next frame
+        setJustLanded(a);
+        return next;
+      });
       setFlying(false);
+      // clear the no-transition flag after two frames so normal transitions resume
+      requestAnimationFrame(() => requestAnimationFrame(() => setJustLanded(null)));
     }, 380);
   }, [flying]);
 
@@ -42,10 +51,14 @@ export default function KimpulCardStack({ imgOri, imgBBQ, imgBBQPdas, imgJgn }: 
   return (
     <>
       <style>{`
+        /* flyOut: consistent 4-function transform list across all keyframes so the
+           browser can interpolate smoothly (no var() concatenation which breaks
+           function-count matching and causes jumps). Top card always has pos=0
+           → STACK[0] tx=0 ty=0 scale=1 rotate=0, so these are the correct start values. */
         @keyframes flyOut {
-          0%   { transform: var(--base-transform); opacity: 1; }
-          40%  { transform: var(--base-transform) translateX(-20px) translateY(-30px) rotate(-8deg); opacity: 0.8; }
-          100% { transform: translateX(180%) translateY(-60px) rotate(30deg); opacity: 0; }
+          0%   { transform: translateX(0px)   translateY(0px)   scale(1) rotate(0deg);   opacity: 1;   }
+          40%  { transform: translateX(-20px) translateY(-30px) scale(1) rotate(-8deg);  opacity: 0.8; }
+          100% { transform: translateX(180%)  translateY(-60px) scale(1) rotate(30deg);  opacity: 0;   }
         }
         .kk-fly { animation: flyOut 0.38s cubic-bezier(0.4,0,1,1) forwards; }
 
@@ -70,6 +83,7 @@ export default function KimpulCardStack({ imgOri, imgBBQ, imgBBQPdas, imgJgn }: 
             const p   = STACK[pos];
             const isTop    = pos === 0;
             const isFlying = isTop && flying;
+            const isLanding = i === justLanded;
 
             return (
               <div
@@ -83,14 +97,14 @@ export default function KimpulCardStack({ imgOri, imgBBQ, imgBBQPdas, imgJgn }: 
                   borderRadius: 16,
                   overflow: 'hidden',
                   zIndex: p.z,
-                  boxShadow: isTop ? p.shadow : p.shadow,
-                  /* CSS var for fly-out to reference base position */
-                  ['--base-transform' as string]: `translateX(${p.tx}px) translateY(${p.ty}px) scale(${p.scale}) rotate(${p.rotate}deg)`,
+                  boxShadow: p.shadow,
                   transform: isFlying
-                    ? undefined /* handled by keyframe */
+                    ? undefined
                     : `translateX(${p.tx}px) translateY(${p.ty}px) scale(${p.scale}) rotate(${p.rotate}deg)`,
                   opacity: isFlying ? undefined : p.opacity,
-                  transition: isFlying ? 'none' : 'transform 0.45s cubic-bezier(0.23,1,0.32,1), opacity 0.45s ease',
+                  // suppress transition for one frame after the fly animation ends so the
+                  // card snaps directly to its new stack position instead of sliding in
+                  transition: isFlying || isLanding ? 'none' : 'transform 0.45s cubic-bezier(0.23,1,0.32,1), opacity 0.45s ease',
                   transformOrigin: 'bottom center',
                   willChange: 'transform, opacity',
                 }}
@@ -116,7 +130,7 @@ export default function KimpulCardStack({ imgOri, imgBBQ, imgBBQPdas, imgJgn }: 
                       className="text-white text-[9px] font-semibold px-2 py-0.5 rounded-full"
                       style={{ backgroundColor: COLORS[i] }}
                     >
-                      {pos + 1} / 4
+                      {i + 1} / 4
                     </span>
                   </div>
                 )}

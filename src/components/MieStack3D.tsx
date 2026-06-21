@@ -10,8 +10,12 @@ interface Props {
 
 export default function MieStack3D({ imgOri, imgPdas }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [rot, setRot] = useState({ x: 0, y: 0 });
   const [active, setActive] = useState(false);
+  // only true once the return-to-center transition has finished — prevents
+  // the CSS animation from snapping in before the element reaches (0,0)
+  const [idleReady, setIdleReady] = useState(true);
 
   const onMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const r = ref.current?.getBoundingClientRect();
@@ -22,19 +26,31 @@ export default function MieStack3D({ imgOri, imgPdas }: Props) {
     });
   }, []);
 
+  const onEnter = useCallback(() => {
+    if (idleTimer.current) clearTimeout(idleTimer.current);
+    setIdleReady(false);
+    setActive(true);
+  }, []);
+
   const onLeave = useCallback(() => {
     setRot({ x: 0, y: 0 });
     setActive(false);
+    // wait for the 0.7 s return-to-center transition before starting idle animation
+    idleTimer.current = setTimeout(() => setIdleReady(true), 700);
   }, []);
+
+  const isIdle = idleReady && !active;
 
   const wrapStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
     position: 'relative',
     transformStyle: 'preserve-3d',
-    transform: active
-      ? `perspective(1100px) rotateX(${rot.x}deg) rotateY(${rot.y}deg)`
-      : undefined,
+    // keep inline transform while transitioning back to center; remove it only
+    // once we hand off to the CSS idle animation (after the timer fires)
+    transform: isIdle
+      ? undefined
+      : `perspective(1100px) rotateX(${rot.x}deg) rotateY(${rot.y}deg)`,
     transition: active
       ? 'transform 0.08s linear'
       : 'transform 0.7s cubic-bezier(0.23,1,0.32,1)',
@@ -45,15 +61,13 @@ export default function MieStack3D({ imgOri, imgPdas }: Props) {
   return (
     <>
       <style>{`
+        /* idle animation starts and ends at (0deg, 0deg) so the handoff from the
+           return-to-center transition is seamless — no visual jump */
         @keyframes mieIdle {
-          0%,100% {
-            transform: perspective(1000px) rotateY(-9deg) rotateX(5deg) translateY(0px);
-            filter: drop-shadow(0 24px 36px rgba(194,65,12,0.30));
-          }
-          50% {
-            transform: perspective(1000px) rotateY(9deg) rotateX(-5deg) translateY(-18px);
-            filter: drop-shadow(0 40px 54px rgba(194,65,12,0.12));
-          }
+          0%   { transform: perspective(1000px) rotateY(0deg)  rotateX(0deg)  translateY(0px);   filter: drop-shadow(0 24px 36px rgba(194,65,12,0.22)); }
+          25%  { transform: perspective(1000px) rotateY(-9deg) rotateX(5deg)  translateY(0px);   filter: drop-shadow(0 28px 40px rgba(194,65,12,0.30)); }
+          75%  { transform: perspective(1000px) rotateY(9deg)  rotateX(-5deg) translateY(-18px); filter: drop-shadow(0 40px 54px rgba(194,65,12,0.12)); }
+          100% { transform: perspective(1000px) rotateY(0deg)  rotateX(0deg)  translateY(0px);   filter: drop-shadow(0 24px 36px rgba(194,65,12,0.22)); }
         }
         .mie-idle { animation: mieIdle 5.5s ease-in-out infinite; }
         .mie-card { transition: filter 0.25s ease, transform 0.25s ease; }
@@ -70,7 +84,7 @@ export default function MieStack3D({ imgOri, imgPdas }: Props) {
         className="flex-shrink-0 relative w-52 h-64 md:w-60 md:h-72 cursor-crosshair select-none"
         style={{ perspective: '1100px' }}
         onMouseMove={onMove}
-        onMouseEnter={() => setActive(true)}
+        onMouseEnter={onEnter}
         onMouseLeave={onLeave}
       >
         {/* Ambient glow */}
@@ -82,7 +96,7 @@ export default function MieStack3D({ imgOri, imgPdas }: Props) {
           }}
         />
 
-        <div className={active ? '' : 'mie-idle'} style={wrapStyle}>
+        <div className={isIdle ? 'mie-idle' : ''} style={wrapStyle}>
 
           {/* ── Pedas — back ── */}
           <div
