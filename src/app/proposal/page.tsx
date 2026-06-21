@@ -181,11 +181,19 @@ export default function ProposalPage() {
             <p className="font-semibold text-[#1C0A00] mb-1">Cemilan Teh Risma — Bogor, Jawa Barat</p>
             <p className="text-sm text-[#3D1A00]/60">NIB: 0403260068412 · Bersertifikat HALAL Indonesia · Tanpa Pengawet</p>
           </div>
-          <a href="https://wa.me/6281212132014" className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors flex-shrink-0">
+          <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer" className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors flex-shrink-0">
             💬 WhatsApp
           </a>
         </div>
       </div>
+
+      {/* ── FOOTER ── */}
+      <footer className="border-t border-amber-100 bg-white mt-4">
+        <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
+          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">Cemilan Teh Risma</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <strong className="text-[#3D1A00]/45">PT. Eleven Digital Indonesia</strong> · didukung oleh <strong className="text-[#3D1A00]/45">PT. RMedia Production</strong></p>
+        </div>
+      </footer>
     </div>
   );
 }

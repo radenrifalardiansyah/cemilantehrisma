@@ -416,30 +416,42 @@ export default function MieKremesProposalPage() {
               Tertarik menitipkan Mie Kremes di toko Anda? Hubungi kami untuk mendiskusikan detail kerjasama, margin keuntungan, dan jadwal pengiriman perdana.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8 no-print">
-              <a href="https://wa.me/6281212132014" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 💬 Hubungi via WhatsApp
               </a>
-              <a href="/" className="inline-flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href="https://cemilantehrisma.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 🌐 Lihat Katalog Online
               </a>
             </div>
             <div className="grid sm:grid-cols-3 gap-3 text-sm">
-              {[
-                { icon: '📱', l: 'WhatsApp', v: '+62 812-1213-2014' },
-                { icon: '🌐', l: 'Website', v: 'cemilantehrisma.vercel.app' },
-                { icon: '📍', l: 'Lokasi', v: 'Bogor, Jawa Barat' },
-              ].map(c => (
-                <div key={c.l} className="bg-white rounded-xl border border-orange-100 p-3">
-                  <div className="text-xl mb-1">{c.icon}</div>
-                  <div className="text-xs text-orange-700 font-semibold">{c.l}</div>
-                  <div className="text-[#1C0A00] font-medium text-xs mt-0.5">{c.v}</div>
-                </div>
-              ))}
+              <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-orange-100 p-3 hover:border-orange-300 transition-colors">
+                <div className="text-xl mb-1">📱</div>
+                <div className="text-xs text-orange-700 font-semibold">WhatsApp</div>
+                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">+62 812-1213-2014</div>
+              </a>
+              <a href="https://cemilantehrisma.vercel.app" target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-orange-100 p-3 hover:border-orange-300 transition-colors">
+                <div className="text-xl mb-1">🌐</div>
+                <div className="text-xs text-orange-700 font-semibold">Website</div>
+                <div className="text-orange-600 font-medium text-xs mt-0.5 underline underline-offset-2">cemilantehrisma.vercel.app</div>
+              </a>
+              <div className="bg-white rounded-xl border border-orange-100 p-3">
+                <div className="text-xl mb-1">📍</div>
+                <div className="text-xs text-orange-700 font-semibold">Lokasi</div>
+                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">Bogor, Jawa Barat</div>
+              </div>
             </div>
           </div>
           <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>Cemilan Teh Risma</strong> — Bogor · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
         </section>
       </div>
+
+      {/* ── FOOTER ── */}
+      <footer className="border-t border-orange-100 bg-white mt-4">
+        <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
+          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">Cemilan Teh Risma</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <strong className="text-[#3D1A00]/45">PT. Eleven Digital Indonesia</strong> · didukung oleh <strong className="text-[#3D1A00]/45">PT. RMedia Production</strong></p>
+        </div>
+      </footer>
     </div>
   );
 }
