@@ -298,6 +298,85 @@ export default function MieKremesProposalPage() {
           </div>
         </section>
 
+        {/* ── PAKET RESELLER ── */}
+        <section className="mb-12">
+          <ST icon="💼" label="Paket Reseller" title="Harga &amp; Paket Reseller" accent="text-orange-600" iconBg="bg-orange-100 border-orange-200" line="from-orange-200" />
+          <p className="text-sm text-[#3D1A00]/50 mt-4 mb-5">
+            Harga jual ke konsumen: <strong className="text-orange-700">Rp 10.000/pcs</strong>. Semakin banyak order, semakin besar keuntungan Anda.
+          </p>
+          <div className="grid md:grid-cols-3 gap-5">
+
+            {/* Krenyes Pemula */}
+            <div className="bg-white rounded-2xl border-2 border-amber-200 overflow-hidden shadow-sm">
+              <div className="bg-gradient-to-br from-amber-500 to-yellow-400 px-6 py-5 text-white text-center">
+                <div className="text-4xl mb-2">🌱</div>
+                <p className="pf text-lg font-bold">Paket Krenyes Pemula</p>
+                <p className="text-white/80 text-sm">10 pcs Mie Kremes</p>
+              </div>
+              <div className="p-5 space-y-3">
+                <div className="text-center">
+                  <p className="text-xs text-[#3D1A00]/50 mb-0.5">Modal Awal</p>
+                  <p className="pf text-2xl font-bold gradient-text">Rp 90.000</p>
+                  <p className="text-xs text-[#3D1A00]/40">= Rp 9.000/pcs</p>
+                </div>
+                <div className="h-px bg-amber-50" />
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Harga Jual</span><span className="font-semibold text-[#1C0A00]">Rp 10.000/pcs</span></div>
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Potensi Omset</span><span className="font-semibold text-[#1C0A00]">Rp 100.000</span></div>
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Potensi Untung</span><span className="font-bold text-green-600">Rp 10.000</span></div>
+              </div>
+            </div>
+
+            {/* Kremes Nagih */}
+            <div className="relative bg-white rounded-2xl border-2 border-orange-400 overflow-hidden shadow-md">
+              <div className="absolute top-0 left-0 right-0 text-center py-1.5 text-xs font-bold text-white" style={{background:'linear-gradient(90deg,#f97316,#D97706)'}}>
+                Best Seller
+              </div>
+              <div className="bg-gradient-to-br from-orange-500 to-amber-400 px-6 pt-9 pb-5 text-white text-center">
+                <div className="text-4xl mb-2">🔥</div>
+                <p className="pf text-lg font-bold">Paket Kremes Nagih</p>
+                <p className="text-white/80 text-sm">20 pcs Mie Kremes</p>
+              </div>
+              <div className="p-5 space-y-3">
+                <div className="text-center">
+                  <p className="text-xs text-[#3D1A00]/50 mb-0.5">Modal Awal</p>
+                  <p className="pf text-2xl font-bold gradient-text">Rp 170.000</p>
+                  <p className="text-xs text-[#3D1A00]/40">= Rp 8.500/pcs</p>
+                </div>
+                <div className="h-px bg-orange-50" />
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Harga Jual</span><span className="font-semibold text-[#1C0A00]">Rp 10.000/pcs</span></div>
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Potensi Omset</span><span className="font-semibold text-[#1C0A00]">Rp 200.000</span></div>
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Potensi Untung</span><span className="font-bold text-green-600">Rp 30.000</span></div>
+              </div>
+            </div>
+
+            {/* Kriuk Maksimal */}
+            <div className="bg-white rounded-2xl border-2 border-rose-100 overflow-hidden shadow-sm">
+              <div className="bg-gradient-to-br from-rose-500 to-orange-400 px-6 py-5 text-white text-center">
+                <div className="text-4xl mb-2">💎</div>
+                <p className="pf text-lg font-bold">Paket Kriuk Maksimal</p>
+                <p className="text-white/80 text-sm">30 pcs Mie Kremes</p>
+              </div>
+              <div className="p-5 space-y-3">
+                <div className="text-center">
+                  <p className="text-xs text-[#3D1A00]/50 mb-0.5">Modal Awal</p>
+                  <p className="pf text-2xl font-bold gradient-text">Rp 240.000</p>
+                  <p className="text-xs text-[#3D1A00]/40">= Rp 8.000/pcs</p>
+                </div>
+                <div className="h-px bg-rose-50" />
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Harga Jual</span><span className="font-semibold text-[#1C0A00]">Rp 10.000/pcs</span></div>
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Potensi Omset</span><span className="font-semibold text-[#1C0A00]">Rp 300.000</span></div>
+                <div className="flex justify-between text-sm"><span className="text-[#3D1A00]/60">Potensi Untung</span><span className="font-bold text-green-600">Rp 60.000</span></div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 bg-orange-50 border border-orange-200 rounded-2xl px-5 py-4">
+            <p className="text-xs text-[#3D1A00]/50 text-center sm:text-left">* Bebas mix rasa Original &amp; Pedas. Harga belum termasuk ongkos kirim.</p>
+            <a href="/reseller" target="_blank" rel="noopener noreferrer" className="no-print inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-colors whitespace-nowrap">
+              Daftar Reseller →
+            </a>
+          </div>
+        </section>
+
         {/* ── KEUNGGULAN ── */}
         <section className="mb-12">
           <ST icon="⭐" label="Keunggulan" title="Mengapa Mie Kremes?" accent="text-orange-600" iconBg="bg-orange-100 border-orange-200" line="from-orange-200" />
