@@ -191,7 +191,7 @@ export default function ProposalPage() {
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
           <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">Cemilan Teh Risma</strong>. Semua hak dilindungi.</p>
-          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <strong className="text-[#3D1A00]/45">PT. Eleven Digital Indonesia</strong> · didukung oleh <strong className="text-[#3D1A00]/45">PT. RMedia Production</strong></p>
+          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href="https://eleven-digital.id/" target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">PT. Eleven Digital Indonesia</a> · didukung oleh <strong className="text-[#3D1A00]/45">PT. RMedia Production</strong></p>
         </div>
       </footer>
     </div>

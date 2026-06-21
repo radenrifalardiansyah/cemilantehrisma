@@ -146,24 +146,6 @@ export default function KeripikKimpulProposalPage() {
         </div>
       </section>
 
-      {/* ── CREDENTIAL STRIP ── */}
-      <div className="max-w-4xl mx-auto px-6 pt-10 pb-2">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { icon: '☪️', value: 'HALAL', label: 'Bersertifikat Resmi' },
-            { icon: '🌿', value: '0%', label: 'Bahan Pengawet' },
-            { icon: '📅', value: '3 Bulan', label: 'Masa Simpan' },
-            { icon: '📋', value: 'NIB Resmi', label: '0403260068412' },
-          ].map(c => (
-            <div key={c.label} className="bg-white rounded-2xl p-4 text-center border border-amber-100 shadow-sm hover:shadow-md hover:shadow-amber-100 transition-all duration-300">
-              <div className="text-2xl mb-1.5">{c.icon}</div>
-              <div className="pf text-lg font-bold gradient-text">{c.value}</div>
-              <div className="text-amber-700/55 text-xs mt-0.5">{c.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="max-w-4xl mx-auto px-6 pb-20">
 
         {/* ── SURAT PENGANTAR ── */}
@@ -493,7 +475,7 @@ export default function KeripikKimpulProposalPage() {
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
           <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">Cemilan Teh Risma</strong>. Semua hak dilindungi.</p>
-          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <strong className="text-[#3D1A00]/45">PT. Eleven Digital Indonesia</strong> · didukung oleh <strong className="text-[#3D1A00]/45">PT. RMedia Production</strong></p>
+          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href="https://eleven-digital.id/" target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">PT. Eleven Digital Indonesia</a> · didukung oleh <strong className="text-[#3D1A00]/45">PT. RMedia Production</strong></p>
         </div>
       </footer>
     </div>
