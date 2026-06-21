@@ -580,6 +580,9 @@ export default function MieKremesProposalPage() {
               <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 💬 Hubungi via WhatsApp
               </a>
+              <a href="/api/proposal/mie-kremes/pdf" download="Proposal Mie Kremes - Cemilan Teh Risma.pdf" className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+                📄 Download Proposal PDF
+              </a>
               <a href="/" className="inline-flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 🛒 Toko Saya
               </a>

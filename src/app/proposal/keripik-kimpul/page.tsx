@@ -630,6 +630,9 @@ export default function KeripikKimpulProposalPage() {
               <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 💬 Hubungi via WhatsApp
               </a>
+              <a href="/api/proposal/keripik-kimpul/pdf" download="Proposal Keripik Kimpul - Cemilan Teh Risma.pdf" className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+                📄 Download Proposal PDF
+              </a>
               <a href="/" className="inline-flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 🛒 Toko Saya
               </a>
