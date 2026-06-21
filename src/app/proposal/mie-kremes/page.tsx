@@ -3,6 +3,7 @@ import Image from 'next/image';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import imgMieOri from '@/assets/images/Mie Kremes 150g Original.png';
 import imgMiePdas from '@/assets/images/Mie Kremes 150g Pedas.png';
+import HalalBadge from '@/components/HalalBadge';
 
 export const metadata: Metadata = {
   title: 'Proposal Mie Kremes — Cemilan Teh Risma',
@@ -131,7 +132,6 @@ export default function MieKremesProposalPage() {
                   { v: '2', l: 'Varian Rasa' },
                   { v: '150g', l: 'Per Kemasan' },
                   { v: 'Rp 10rb', l: 'Harga Jual' },
-                  { v: 'Halal', l: 'Bersertifikat' },
                 ].map(s => (
                   <div key={s.l} className={`text-center bg-white/70 border ${C.statBorder} rounded-xl px-4 py-2.5 shadow-sm`}>
                     <div className={`pf text-xl font-bold ${C.stat}`}>{s.v}</div>
@@ -230,11 +230,11 @@ export default function MieKremesProposalPage() {
                   </div>
                   <div className="flex justify-between pb-2 border-b border-orange-50">
                     <span className="text-[#3D1A00]/60">Harga Jual ke Konsumen</span>
-                    <span className="font-semibold text-[#1C0A00]">Rp 10.000 / pcs (tetap)</span>
+                    <span className="font-semibold text-[#1C0A00]">Bebas (saran Rp 10.000+)</span>
                   </div>
                   <div className="flex justify-between pb-2 border-b border-orange-50">
-                    <span className="text-[#3D1A00]/60">Margin Toko</span>
-                    <span className="font-bold text-green-600">Rp 1.000 / pcs</span>
+                    <span className="text-[#3D1A00]/60">Estimasi Margin Toko</span>
+                    <span className="font-bold text-green-600">min. Rp 1.000 / pcs</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#3D1A00]/60">Sistem Pembayaran</span>
@@ -538,11 +538,13 @@ export default function MieKremesProposalPage() {
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             {[
               { icon: '🔰', t: 'NIB Resmi', sub: '0403260068412', d: 'Terdaftar resmi di OSS — Kementerian Investasi RI.' },
-              { icon: '☪️', t: 'Halal Certified', sub: 'Sertifikat Halal Indonesia', d: 'Aman dikonsumsi seluruh kalangan, termasuk anak-anak.' },
+              { icon: 'halal', t: 'Halal Certified', sub: 'Sertifikat Halal Indonesia', d: 'Aman dikonsumsi seluruh kalangan, termasuk anak-anak.' },
               { icon: '🏭', t: 'Produksi Higienis', sub: 'Standar Keamanan Pangan', d: 'Diproduksi di fasilitas bersih dengan standar higienitas tinggi.' },
             ].map(item => (
               <div key={item.t} className="bg-white rounded-xl border border-orange-100 p-6 text-center">
-                <div className="text-4xl mb-3">{item.icon}</div>
+                <div className="flex justify-center mb-3">
+                  {item.icon === 'halal' ? <HalalBadge size={48} /> : <span className="text-4xl">{item.icon}</span>}
+                </div>
                 <h4 className="font-semibold text-[#1C0A00] mb-1">{item.t}</h4>
                 <p className="text-xs text-orange-700 font-semibold mb-2">{item.sub}</p>
                 <p className="text-xs text-[#3D1A00]/60 leading-relaxed">{item.d}</p>

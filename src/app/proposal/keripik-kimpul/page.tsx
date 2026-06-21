@@ -4,6 +4,7 @@ import logo from '@/assets/images/logo-tehrisma.jpeg';
 import imgOri from '@/assets/images/Keripik Kimpul 100g Original.png';
 import imgBBQ from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
 import imgJgn from '@/assets/images/Keripik Kimpul 100g Jagung.png';
+import HalalBadge from '@/components/HalalBadge';
 
 export const metadata: Metadata = {
   title: 'Proposal Keripik Kimpul — Cemilan Teh Risma',
@@ -420,11 +421,13 @@ export default function KeripikKimpulProposalPage() {
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             {[
               { icon: '🔰', t: 'NIB Resmi', sub: '0403260068412', d: 'Terdaftar resmi di OSS — Kementerian Investasi RI.' },
-              { icon: '☪️', t: 'Halal Certified', sub: 'Sertifikat Halal Indonesia', d: 'Aman dikonsumsi seluruh kalangan, termasuk anak-anak.' },
+              { icon: 'halal', t: 'Halal Certified', sub: 'Sertifikat Halal Indonesia', d: 'Aman dikonsumsi seluruh kalangan, termasuk anak-anak.' },
               { icon: '🏭', t: 'Produksi Higienis', sub: 'Standar Keamanan Pangan', d: 'Diproduksi di fasilitas bersih dengan standar higienitas tinggi.' },
             ].map(item => (
               <div key={item.t} className="bg-white rounded-xl border border-amber-100 p-6 text-center">
-                <div className="text-4xl mb-3">{item.icon}</div>
+                <div className="flex justify-center mb-3">
+                  {item.icon === 'halal' ? <HalalBadge size={48} /> : <span className="text-4xl">{item.icon}</span>}
+                </div>
                 <h4 className="font-semibold text-[#1C0A00] mb-1">{item.t}</h4>
                 <p className="text-xs text-amber-700 font-semibold mb-2">{item.sub}</p>
                 <p className="text-xs text-[#3D1A00]/60 leading-relaxed">{item.d}</p>
