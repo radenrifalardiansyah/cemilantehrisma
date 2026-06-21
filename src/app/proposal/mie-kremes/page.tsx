@@ -176,27 +176,94 @@ export default function MieKremesProposalPage() {
         {/* ── SURAT PENGANTAR ── */}
         <section className="py-12">
           <div className="bg-white rounded-2xl border border-orange-100 shadow-sm p-8">
-            <div className="flex items-start gap-4 mb-6">
+
+            {/* Header surat */}
+            <div className="flex items-start gap-4 mb-8">
               <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-xl flex-shrink-0">📋</div>
               <div>
-                <p className="text-xs font-bold tracking-widest text-orange-600 uppercase mb-1">Surat Pengantar</p>
+                <p className="text-xs font-bold tracking-widest text-orange-600 uppercase mb-1">Surat Penawaran Kerjasama</p>
                 <h2 className="pf text-2xl font-bold text-[#1C0A00]">Kepada Yth.<br />Pimpinan / Pengelola Toko</h2>
+                <p className="text-xs text-[#3D1A00]/40 mt-1">di Tempat</p>
               </div>
             </div>
-            <div className="text-[#3D1A00]/80 leading-relaxed space-y-4 text-[15px]">
+
+            <div className="text-[#3D1A00]/80 leading-relaxed space-y-5 text-[15px]">
               <p>Assalamu&apos;alaikum Wr. Wb.</p>
+
               <p>
-                Saya dari <strong className="text-orange-700">Cemilan Teh Risma</strong>, usaha camilan rumahan khas Bogor. Bersama surat ini, kami mengajukan penawaran kerjasama <strong>titip jual (konsinyasi)</strong> produk <strong>Mie Kremes</strong> kami di tempat yang Anda kelola.
+                Dengan hormat, perkenalkan kami dari <strong className="text-orange-700">Cemilan Teh Risma</strong> — usaha camilan rumahan yang berbasis di <strong>Bogor, Jawa Barat</strong>, terdaftar resmi dengan <strong>NIB: 0403260068412</strong> dan produk bersertifikat <strong>Halal Indonesia</strong>. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk unggulan kami, <strong className="text-orange-700">Mie Kremes</strong>, untuk dapat dipasarkan di tempat yang Bapak/Ibu kelola.
               </p>
+
               <p>
-                Mie Kremes adalah camilan mie crispy dengan bumbu rempah alami — hadir dalam dua rasa: <strong>Original</strong> (gurih alami) dan <strong>Pedas</strong> (cabai asli). Produk ini memiliki daya tarik tinggi sebagai camilan harian maupun oleh-oleh khas Bogor, dengan harga yang sangat terjangkau dan kemasan higienis.
+                <strong>Mie Kremes</strong> adalah camilan mie crispy khas Bogor yang dibuat dari bahan-bahan pilihan dengan bumbu rempah alami — tanpa pengawet, tanpa MSG berlebih, dan aman untuk semua kalangan. Produk kami hadir dalam dua pilihan rasa: <strong>Original</strong> (gurih alami dari kencur, bawang putih &amp; daun jeruk) dan <strong>Pedas</strong> (cabai asli yang nendang), masing-masing dalam kemasan higienis 150g. Dengan harga yang sangat terjangkau, Mie Kremes cocok sebagai camilan harian, bekal, maupun oleh-oleh khas Bogor yang bernilai jual tinggi.
               </p>
-              <p>Kami berharap kerjasama ini membawa manfaat bagi kedua belah pihak dan memuaskan pelanggan Anda.</p>
+
+              {/* Ringkasan produk */}
+              <div className="bg-orange-50 border border-orange-100 rounded-xl p-5 my-6">
+                <p className="text-xs font-bold tracking-widest text-orange-600 uppercase mb-3">Ringkasan Produk</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+                  {[
+                    { label: 'Produk', value: 'Mie Kremes' },
+                    { label: 'Varian', value: 'Original & Pedas' },
+                    { label: 'Kemasan', value: '150g / pcs' },
+                    { label: 'Harga Jual', value: 'Rp 10.000/pcs' },
+                  ].map(i => (
+                    <div key={i.label}>
+                      <p className="text-[#3D1A00]/50 text-xs">{i.label}</p>
+                      <p className="font-semibold text-[#1C0A00]">{i.value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <p>
+                Kami menawarkan <strong>dua skema kerjasama</strong> yang dapat disesuaikan dengan kebutuhan dan kemampuan toko Bapak/Ibu:
+              </p>
+
+              {/* Dua mekanisme dalam surat */}
+              <div className="space-y-4 pl-1">
+                <div className="flex gap-3">
+                  <div className="w-7 h-7 rounded-full bg-orange-100 border border-orange-300 text-orange-700 font-bold text-sm flex items-center justify-center flex-shrink-0 mt-0.5">1</div>
+                  <div>
+                    <p className="font-semibold text-[#1C0A00] mb-1">Titip Jual (Konsinyasi)</p>
+                    <p className="text-sm text-[#3D1A00]/70 leading-relaxed">
+                      Produk kami titipkan di toko Bapak/Ibu <strong>tanpa biaya awal</strong>. Harga pengambilan ditetapkan <strong className="text-orange-700">Rp 9.000/pcs</strong>, dan Bapak/Ibu bebas menentukan harga jual ke konsumen (kami sarankan minimal Rp 10.000). Pembayaran dilakukan berdasarkan jumlah produk yang <em>terjual</em> saja, dengan periode mingguan atau bulanan sesuai kesepakatan. Produk yang tidak terjual atau mendekati kedaluarsa akan kami ganti — <strong>risiko stok sepenuhnya kami tanggung</strong>.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <div className="w-7 h-7 rounded-full bg-orange-100 border border-orange-300 text-orange-700 font-bold text-sm flex items-center justify-center flex-shrink-0 mt-0.5">2</div>
+                  <div>
+                    <p className="font-semibold text-[#1C0A00] mb-1">Beli Putus (Reseller)</p>
+                    <p className="text-sm text-[#3D1A00]/70 leading-relaxed">
+                      Bapak/Ibu membeli produk secara langsung (<strong>cash</strong>) dengan pilihan paket mulai dari <strong>10 pcs (Rp 90.000)</strong> hingga <strong>30 pcs (Rp 240.000)</strong>. Semakin banyak yang dibeli, semakin murah harga per satuannya. Bapak/Ibu bebas menentukan harga jual sendiri dan mendapatkan potensi untung hingga <strong className="text-green-600">Rp 60.000 per paket</strong>. Detail paket lengkap tersedia di halaman ini.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <p>
+                Kami meyakini bahwa <strong>Mie Kremes</strong> memiliki potensi pasar yang besar — khususnya sebagai camilan harian yang terjangkau dengan cita rasa khas yang sulit ditolak. Produk ini juga sangat cocok sebagai <strong>oleh-oleh khas Bogor</strong> yang autentik dengan identitas lokal yang kuat.
+              </p>
+
+              <p>
+                Besar harapan kami untuk dapat berdiskusi lebih lanjut mengenai kerjasama ini. Kami terbuka untuk bernegosiasi terkait jumlah produk, jadwal pengiriman, dan detail teknis lainnya demi kenyamanan dan keuntungan kedua belah pihak. Untuk informasi lebih lanjut, Bapak/Ibu dapat menghubungi kami melalui WhatsApp di nomor <strong className="text-orange-700">0812-1213-2014</strong>.
+              </p>
+
+              <p>Atas perhatian dan kepercayaan Bapak/Ibu, kami ucapkan terima kasih yang sebesar-besarnya.</p>
               <p>Wassalamu&apos;alaikum Wr. Wb.</p>
-              <div className="mt-6 pt-6 border-t border-orange-100">
-                <p className="font-semibold text-[#1C0A00]">Hormat kami,</p>
-                <p className="pf text-xl font-bold text-orange-700 mt-1">Cemilan Teh Risma</p>
-                <p className="text-sm text-[#3D1A00]/60">Bogor, Jawa Barat</p>
+
+              <div className="mt-6 pt-6 border-t border-orange-100 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                  <p className="text-sm text-[#3D1A00]/60 mb-1">Bogor, 2026</p>
+                  <p className="font-semibold text-[#1C0A00]">Hormat kami,</p>
+                  <p className="pf text-xl font-bold text-orange-700 mt-1">Cemilan Teh Risma</p>
+                  <p className="text-sm text-[#3D1A00]/60">Bogor, Jawa Barat</p>
+                </div>
+                <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer"
+                  className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors self-start sm:self-auto">
+                  💬 Hubungi Kami
+                </a>
               </div>
             </div>
           </div>
