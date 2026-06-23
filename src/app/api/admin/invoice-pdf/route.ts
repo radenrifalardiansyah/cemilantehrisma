@@ -1,25 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs';
 import React from 'react';
 import { renderToBuffer } from '@react-pdf/renderer';
 import InvoicePDF, { type InvoiceData } from '@/lib/pdf/InvoicePDF';
 
-const ASSETS = path.join(process.cwd(), 'src', 'assets', 'images');
-
-function toDataUri(filename: string): string {
-  const ext  = path.extname(filename).toLowerCase().replace('.', '');
-  const mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png';
-  const buf  = fs.readFileSync(path.join(ASSETS, filename));
-  return `data:${mime};base64,${buf.toString('base64')}`;
+async function fetchAsDataUri(url: string, mime: string): Promise<string> {
+  const res = await fetch(url);
+  const buf = await res.arrayBuffer();
+  return `data:${mime};base64,${Buffer.from(buf).toString('base64')}`;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json() as InvoiceData;
 
-    const logo      = toDataUri('logo-tehrisma.jpeg');
-    const halalLogo = toDataUri('logo-halal-indonesia.png');
+    const origin = req.nextUrl.origin;
+    const [logo, halalLogo] = await Promise.all([
+      fetchAsDataUri(`${origin}/logo-tehrisma.jpeg`,       'image/jpeg'),
+      fetchAsDataUri(`${origin}/logo-halal-indonesia.png`, 'image/png'),
+    ]);
 
     const data: InvoiceData = { ...body, logo, halalLogo };
 
