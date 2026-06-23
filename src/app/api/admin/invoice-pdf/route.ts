@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import React from 'react';
-import { renderToBuffer } from '@react-pdf/renderer';
-import InvoicePDF, { type InvoiceData } from '@/lib/pdf/InvoicePDF';
-import { LOGO_DATA_URI, HALAL_DATA_URI } from '@/lib/invoice-assets';
-import { getBucket } from '@/lib/firebase';
+import { type InvoiceData } from '@/lib/pdf/InvoicePDF';
+import { getDb } from '@/lib/firebase';
 
 export const runtime = 'nodejs';
 
@@ -11,30 +8,20 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json() as InvoiceData;
 
-    const data: InvoiceData = { ...body, logo: LOGO_DATA_URI, halalLogo: HALAL_DATA_URI };
+    // Simpan data invoice ke Firestore (tanpa logo — di-inject saat serve)
+    const { logo: _l, halalLogo: _h, ...invoiceData } = body;
+    await getDb().collection('invoices').doc(body.invoiceNo).set({
+      ...invoiceData,
+      createdAt: new Date().toISOString(),
+    });
 
-    const buffer = await renderToBuffer(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      React.createElement(InvoicePDF, { data }) as any
-    );
+    const origin     = req.nextUrl.origin;
+    const invoiceUrl = `${origin}/api/invoice/${body.invoiceNo}`;
 
-    const safeName  = body.customerName.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-');
-    const filename  = `Invoice-${body.invoiceNo}-${safeName}.pdf`;
-    const storagePath = `invoices/${filename}`;
-
-    // Upload ke Firebase Storage dan buat URL publik
-    const bucket = getBucket();
-    const file   = bucket.file(storagePath);
-    await file.save(Buffer.from(buffer), { contentType: 'application/pdf' });
-    await file.makePublic();
-
-    const invoiceUrl = `https://storage.googleapis.com/${bucket.name}/${storagePath}`;
-
-    return NextResponse.json({ url: invoiceUrl, filename });
+    return NextResponse.json({ url: invoiceUrl });
   } catch (err) {
-    const msg   = err instanceof Error ? err.message : String(err);
-    const stack = err instanceof Error ? (err.stack ?? '') : '';
+    const msg = err instanceof Error ? err.message : String(err);
     console.error('[PDF] invoice error:', err);
-    return NextResponse.json({ error: 'Gagal generate PDF', detail: msg, stack }, { status: 500 });
+    return NextResponse.json({ error: 'Gagal generate PDF', detail: msg }, { status: 500 });
   }
 }
