@@ -3,6 +3,7 @@ import React from 'react';
 import { renderToBuffer } from '@react-pdf/renderer';
 import InvoicePDF, { type InvoiceData } from '@/lib/pdf/InvoicePDF';
 import { LOGO_DATA_URI, HALAL_DATA_URI } from '@/lib/invoice-assets';
+import { getBucket } from '@/lib/firebase';
 
 export const runtime = 'nodejs';
 
@@ -17,17 +18,19 @@ export async function POST(req: NextRequest) {
       React.createElement(InvoicePDF, { data }) as any
     );
 
-    const safeName = body.customerName.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-');
-    const filename = `Invoice-${body.invoiceNo}-${safeName}.pdf`;
+    const safeName  = body.customerName.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-');
+    const filename  = `Invoice-${body.invoiceNo}-${safeName}.pdf`;
+    const storagePath = `invoices/${filename}`;
 
-    return new NextResponse(new Uint8Array(buffer), {
-      status: 200,
-      headers: {
-        'Content-Type':        'application/pdf',
-        'Content-Disposition': `attachment; filename="${filename}"`,
-        'Cache-Control':       'no-store',
-      },
-    });
+    // Upload ke Firebase Storage dan buat URL publik
+    const bucket = getBucket();
+    const file   = bucket.file(storagePath);
+    await file.save(Buffer.from(buffer), { contentType: 'application/pdf' });
+    await file.makePublic();
+
+    const invoiceUrl = `https://storage.googleapis.com/${bucket.name}/${storagePath}`;
+
+    return NextResponse.json({ url: invoiceUrl, filename });
   } catch (err) {
     console.error('[PDF] invoice error:', err);
     return NextResponse.json({ error: 'Gagal generate PDF' }, { status: 500 });

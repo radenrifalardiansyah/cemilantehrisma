@@ -79,9 +79,9 @@ function normalizePhone(raw: string) {
   return d.startsWith('62') ? d : d.startsWith('0') ? '62' + d.slice(1) : '62' + d;
 }
 
-function formatWAMessage(custName: string, invoiceNo: string, total: number) {
+function formatWAMessage(custName: string, invoiceNo: string, total: number, pdfUrl: string) {
   const tel = WHATSAPP_NUMBER.replace(/^62/, '0').replace(/(\d{4})(\d{4})(\d+)/, '$1-$2-$3');
-  return `Halo *${custName}*! 👋\n\nBerikut invoice pesanan Anda dari *Cemilan Teh Risma* 🧾\n\nNo. Invoice : *${invoiceNo}*\nTotal Bayar : *${formatCurrency(total)}*\n\nDetail lengkap ada di file PDF invoice yang terlampir ya.\n\nTerima kasih sudah pesan! 🙏\n_Cemilan Teh Risma · 📞 ${tel}_`.trim();
+  return `Halo *${custName}*! 👋\n\nBerikut invoice pesanan Anda dari *Cemilan Teh Risma* 🧾\n\nNo. Invoice : *${invoiceNo}*\nTotal Bayar : *${formatCurrency(total)}*\n\n📄 *Lihat Invoice PDF:*\n${pdfUrl}\n\nTerima kasih sudah pesan! 🙏\n_Cemilan Teh Risma · 📞 ${tel}_`.trim();
 }
 
 // ─── POS Product Card ────────────────────────────────────────────────────────
@@ -218,14 +218,14 @@ export default function AdminPage() {
     setSending(false); setSendErr(''); setInvoiceNo('');
   };
 
-  // Generate PDF + share via Web Share API (with WA fallback)
+  // Generate PDF → upload ke Firebase Storage → kirim link via WA
   const sendInvoice = async () => {
     if (!canSend) return;
     setSending(true); setSendErr('');
     try {
-      const now   = new Date();
-      const pad   = (n: number) => n.toString().padStart(2, '0');
-      const invNo = `INV-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+      const now     = new Date();
+      const pad     = (n: number) => n.toString().padStart(2, '0');
+      const invNo   = `INV-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
       const dateStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
       const items = cartItems.map(i => {
@@ -233,7 +233,6 @@ export default function AdminPage() {
         return { name: p.name, weight: p.weight, qty: i.qty, price: p.price, subtotal: p.price * i.qty };
       });
 
-      // Generate PDF from server
       const res = await fetch('/api/admin/invoice-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -246,40 +245,15 @@ export default function AdminPage() {
       });
       if (!res.ok) throw new Error('Gagal generate PDF');
 
-      const blob     = await res.blob();
-      const filename = `Invoice-${invNo}-${custName.replace(/\s+/g, '-')}.pdf`;
-      const file     = new File([blob], filename, { type: 'application/pdf' });
-      const waText   = formatWAMessage(custName, invNo, cartTotal);
-      const phone    = normalizePhone(custPhone);
+      const { url: pdfUrl } = await res.json() as { url: string };
+      const phone  = normalizePhone(custPhone);
+      const waText = formatWAMessage(custName, invNo, cartTotal, pdfUrl);
 
-      // Try Web Share API (shares PDF file + text natively — user picks WA from share sheet)
-      const shareData = { files: [file], text: waText };
-      const canNativeShare =
-        typeof navigator !== 'undefined' &&
-        typeof navigator.share === 'function' &&
-        typeof navigator.canShare === 'function' &&
-        navigator.canShare(shareData);
-
-      if (canNativeShare) {
-        await navigator.share(shareData);
-      } else {
-        // Fallback: download PDF + open WA text link
-        const url = URL.createObjectURL(blob);
-        const a   = document.createElement('a');
-        a.href = url; a.download = filename;
-        document.body.appendChild(a); a.click();
-        document.body.removeChild(a); URL.revokeObjectURL(url);
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
-      }
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
 
       setInvoiceNo(invNo);
       setPosView('done');
-    } catch (err) {
-      // navigator.share() throws AbortError if user cancels — don't treat as error
-      if (err instanceof Error && err.name === 'AbortError') {
-        setSending(false);
-        return;
-      }
+    } catch {
       setSendErr('Gagal mengirim invoice. Coba lagi.');
     } finally {
       setSending(false);
@@ -612,7 +586,7 @@ export default function AdminPage() {
         {invoiceNo && <p className="text-xs text-amber-600 mt-1 font-medium">{invoiceNo}</p>}
       </div>
       <div className="bg-amber-50 rounded-2xl border border-amber-100 px-5 py-4 text-xs text-amber-700 text-center w-full leading-relaxed">
-        Jika share sheet sudah muncul, pilih WhatsApp dan pilih kontak <strong>{custName}</strong> untuk mengirim PDF
+        WhatsApp sudah terbuka dengan link invoice PDF. Tinggal tap <strong>Kirim</strong> untuk mengirim ke <strong>{custName}</strong>.
       </div>
       <button onClick={resetPOS}
         className="mt-2 px-8 py-3.5 rounded-2xl text-sm font-bold text-white shadow-lg active:scale-95 transition-transform"
