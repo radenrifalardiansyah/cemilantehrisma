@@ -180,7 +180,7 @@ const s = StyleSheet.create({
   footerText:  { color: 'rgba(255,255,255,0.7)', fontSize: 8 },
   footerBold:  { color: C.white, fontSize: 8.5, fontFamily: 'Helvetica-Bold', marginBottom: 2 },
   footerRight: { alignItems: 'flex-end' },
-  footerThank: { color: 'rgba(255,255,255,0.85)', fontSize: 9, fontFamily: 'Helvetica-Bold', fontStyle: 'italic' },
+  footerThank: { color: 'rgba(255,255,255,0.85)', fontSize: 9, fontFamily: 'Helvetica-BoldOblique' },
   footerSub:   { color: 'rgba(255,255,255,0.55)', fontSize: 7.5, marginTop: 2 },
 });
 

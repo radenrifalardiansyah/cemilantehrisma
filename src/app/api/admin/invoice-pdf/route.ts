@@ -29,9 +29,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    const stack = err instanceof Error ? err.stack : '';
     console.error('[PDF] invoice error:', err);
-    return NextResponse.json({ error: 'Gagal generate PDF', detail: msg, stack }, { status: 500 });
+    return NextResponse.json({ error: 'Gagal generate PDF' }, { status: 500 });
   }
 }
