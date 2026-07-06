@@ -14,12 +14,17 @@ import { products, categoryData } from '@/lib/products';
 import { Category } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+// Category banners are managed in the admin dashboard (Firestore) and matched here
+// by category name, since the admin's category slugs differ from the static ids below.
+const normalizeName = (s: string) => s.trim().toLowerCase();
+
 function ProductsPage() {
   const searchParams = useSearchParams();
   const [activeCategory, setActiveCategory] = useState<Category>('semua');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc'>('default');
   const [showSort, setShowSort] = useState(false);
+  const [categoryBanners, setCategoryBanners] = useState<Record<string, string>>({});
   const { t } = useLanguage();
 
   const allTab = { id: 'semua' as Category, name: t.products.allCategory, emoji: '🛒', count: products.length };
@@ -34,6 +39,21 @@ function ProductsPage() {
     const cat = searchParams.get('category') as Category | null;
     if (cat) setActiveCategory(cat);
   }, [searchParams]);
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then(r => r.ok ? r.json() : null)
+      .then((d: { categories: { name: string; bannerUrl: string }[] } | null) => {
+        if (!d) return;
+        const map: Record<string, string> = {};
+        d.categories.forEach(c => { if (c.bannerUrl) map[normalizeName(c.name)] = c.bannerUrl; });
+        setCategoryBanners(map);
+      })
+      .catch(() => {});
+  }, []);
+
+  const activeCategoryMeta = categoryData.find(c => c.id === activeCategory);
+  const activeBannerUrl = activeCategoryMeta ? categoryBanners[normalizeName(activeCategoryMeta.name)] : undefined;
 
   const filtered = useMemo(() => {
     let list = [...products];
@@ -77,14 +97,32 @@ function ProductsPage() {
           </p>
         </motion.div>
 
-        {/* Banner Slider */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08 }}
-        >
-          <ProductBanner />
-        </motion.div>
+        {/* Banner — swaps to the active category's banner when the admin has set one */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeBannerUrl ?? 'default'}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: activeBannerUrl ? 0 : 0.08, duration: 0.3 }}
+          >
+            {activeBannerUrl ? (
+              <div
+                className="relative w-full overflow-hidden rounded-2xl shadow-md mb-8"
+                style={{ aspectRatio: '2 / 1' }}
+              >
+                {/* Remote banner from the admin dashboard — plain img avoids next/image remote-domain config */}
+                <img
+                  src={activeBannerUrl}
+                  alt={activeCategoryMeta?.name ?? ''}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+            ) : (
+              <ProductBanner />
+            )}
+          </motion.div>
+        </AnimatePresence>
 
         {/* Search + Sort */}
         <motion.div
