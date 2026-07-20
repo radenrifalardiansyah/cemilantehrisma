@@ -19,7 +19,7 @@ const jsonLd = {
     addressCountry: 'ID',
   },
   servesCuisine: 'Snack',
-  priceRange: 'Rp 10.000 – Rp 65.000',
+  priceRange: 'Rp 12.000 – Rp 65.000',
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Cemilan Teh Risma',

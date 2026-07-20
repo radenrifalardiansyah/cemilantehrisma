@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Users kept for the hidden reseller nav item
 import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHorizontal, X } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -19,7 +20,7 @@ export default function BottomNav() {
   const mainItems = [
     { href: '/',         label: t.nav.home,     icon: Home },
     { href: '/products', label: t.nav.menu,     icon: LayoutGrid },
-    { href: '/reseller', label: t.nav.reseller, icon: Users },
+    // { href: '/reseller', label: t.nav.reseller, icon: Users }, // hidden for now
   ];
 
   const moreItems = [

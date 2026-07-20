@@ -27,7 +27,7 @@ export default function Navbar() {
     { href: '/', label: t.nav.home },
     { href: '/products', label: t.nav.menu },
     { href: '/panduan', label: t.nav.guide },
-    { href: '/reseller', label: t.nav.reseller },
+    // { href: '/reseller', label: t.nav.reseller }, // hidden for now
     { href: '/checkout', label: t.nav.checkout },
   ];
 

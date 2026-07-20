@@ -5,10 +5,12 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Flame } from 'lucide-react';
 import { getFeaturedProducts } from '@/lib/products';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLiveStock, withLiveStock } from '@/lib/useLiveStock';
 import ProductCard from './ProductCard';
 
 export default function FeaturedSection() {
-  const featured = getFeaturedProducts();
+  const liveStock = useLiveStock();
+  const featured = getFeaturedProducts().map(p => withLiveStock(p, liveStock));
   const { t } = useLanguage();
 
   return (

@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { products } from '@/lib/products';
+import { useLiveStock, withLiveStock } from '@/lib/useLiveStock';
 import { getProductLocale } from '@/lib/product-translations';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/lib/store';
@@ -33,8 +34,10 @@ export default function ProductDetailPage() {
   const router = useRouter();
   const { t, locale } = useLanguage();
   const { addItem, openCart } = useCartStore();
+  const liveStock = useLiveStock();
 
-  const product = products.find(p => p.id === params.id);
+  const rawProduct = products.find(p => p.id === params.id);
+  const product = rawProduct ? withLiveStock(rawProduct, liveStock) : undefined;
   const [imgIndex, setImgIndex] = useState(0);
   const [imgDir, setImgDir] = useState(1);
   const dragX = useMotionValue(0);
