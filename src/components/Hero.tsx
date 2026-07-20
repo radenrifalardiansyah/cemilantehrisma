@@ -21,7 +21,7 @@ const slides = [
     image: imgMieOri150,
     name: 'Mie Kremes Original',
     weight: '150g',
-    price: 'Rp 12.000',
+    price: 'Rp 13.000',
     badge: 'Best Seller',
     badgeColor: '#C2410C',
     glow: 'rgba(194,65,12,0.28)',
@@ -33,7 +33,7 @@ const slides = [
     image: imgMiePdas150,
     name: 'Mie Kremes Pedas',
     weight: '150g',
-    price: 'Rp 12.000',
+    price: 'Rp 13.000',
     badge: 'Popular',
     badgeColor: '#BE123C',
     glow: 'rgba(190,18,60,0.25)',
@@ -127,7 +127,7 @@ export default function Hero() {
         { emoji: '🍝', label: t.hero.mie.flavors[0], bg: 'bg-orange-100', text: 'text-orange-800' },
         { emoji: '🌶️', label: t.hero.mie.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'    },
       ],
-      desc: t.hero.mie.desc, price: 'Rp 12.000',
+      desc: t.hero.mie.desc, price: 'Rp 13.000',
     },
   };
 
@@ -454,7 +454,7 @@ export default function Hero() {
                 className="absolute -left-6 top-8 bg-white rounded-2xl p-3 border border-amber-200 shadow-lg z-10"
               >
                 <p className="text-[10px] text-amber-600/60">{t.hero.priceFrom}</p>
-                <p className="font-display text-sm font-bold text-amber-800">Rp 12.000</p>
+                <p className="font-display text-sm font-bold text-amber-800">Rp 13.000</p>
               </motion.div>
 
               {/* Floating rating card */}
