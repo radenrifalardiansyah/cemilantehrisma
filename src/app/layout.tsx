@@ -62,6 +62,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
+  verification: {
+    google: 'XpJPL5HFJcMPdsWjv7vkn6AOzO06qdM3PeFWO1GckYM',
+  },
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
