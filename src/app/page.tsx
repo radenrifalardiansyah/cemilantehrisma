@@ -6,6 +6,36 @@ import FeaturedSection from '@/components/FeaturedSection';
 import CategoriesSection from '@/components/CategoriesSection';
 import BottomNav from '@/components/BottomNav';
 import { SITE_URL, BUSINESS } from '@/lib/seo';
+import { products } from '@/lib/products';
+
+const availabilityMap: Record<string, string> = {
+  ready: 'https://schema.org/InStock',
+  habis: 'https://schema.org/OutOfStock',
+  open_po: 'https://schema.org/PreOrder',
+};
+
+const featuredProductIds = ['mk-ori-150', 'mk-pdas-150', 'kk-ori-100', 'kk-bbq-100'];
+
+const featuredOffers = featuredProductIds
+  .map(id => products.find(p => p.id === id))
+  .filter((p): p is typeof products[number] => Boolean(p))
+  .map(product => ({
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Product',
+      name: product.name,
+      description: product.description,
+      image: product.images?.[0] ? `${SITE_URL}${product.images[0].src}` : undefined,
+      offers: {
+        '@type': 'Offer',
+        url: `${SITE_URL}/products/${product.id}`,
+        priceCurrency: 'IDR',
+        price: product.price,
+        availability: availabilityMap[product.stock] ?? 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
+      },
+    },
+  }));
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -26,40 +56,7 @@ const jsonLd = {
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Cemilan Teh Risma',
-    itemListElement: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Product',
-          name: 'Keripik Kimpul Original',
-          description: 'Keripik kimpul / talas balitung super renyah rasa original gurih alami dari Bogor.',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Product',
-          name: 'Keripik Kimpul BBQ Pedas',
-          description: 'Keripik kimpul rasa BBQ smoky dengan sensasi pedas yang nagih.',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Product',
-          name: 'Mie Kremes Original',
-          description: 'Mie kremes renyah dengan bumbu original gurih, crispy dan tanpa pengawet.',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Product',
-          name: 'Mie Kremes Pedas',
-          description: 'Mie kremes dengan bubuk cabai asli dan bumbu pedas khas, renyah dan nagih.',
-        },
-      },
-    ],
+    itemListElement: featuredOffers,
   },
 };
 
