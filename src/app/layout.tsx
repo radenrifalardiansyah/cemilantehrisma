@@ -8,6 +8,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 import { Analytics } from '@vercel/analytics/next';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import VisitorTracker from '@/components/VisitorTracker';
+import { SITE_URL } from '@/lib/seo';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -23,7 +24,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://warungtehrisma-one.vercel.app'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Cemilan Teh Risma — Keripik Kimpul & Mie Kremes Bogor',
     template: '%s | Cemilan Teh Risma',
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'id_ID',
     siteName: 'Cemilan Teh Risma',
-    url: 'https://warungtehrisma-one.vercel.app',
+    url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
@@ -59,7 +60,7 @@ export const metadata: Metadata = {
     description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet.',
   },
   alternates: {
-    canonical: 'https://warungtehrisma-one.vercel.app',
+    canonical: SITE_URL,
   },
   manifest: '/manifest.webmanifest',
   appleWebApp: {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Semua Produk',
@@ -11,10 +12,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Semua Produk | Cemilan Teh Risma',
     description: 'Keripik Kimpul & Mie Kremes Bogor. Halal, renyah, tanpa pengawet. Pesan via WhatsApp!',
-    url: 'https://warungtehrisma-one.vercel.app/products',
+    url: `${SITE_URL}/products`,
   },
   alternates: {
-    canonical: 'https://warungtehrisma-one.vercel.app/products',
+    canonical: `${SITE_URL}/products`,
   },
 };
 

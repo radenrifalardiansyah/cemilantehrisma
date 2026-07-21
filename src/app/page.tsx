@@ -5,19 +5,22 @@ import Footer from '@/components/Footer';
 import FeaturedSection from '@/components/FeaturedSection';
 import CategoriesSection from '@/components/CategoriesSection';
 import BottomNav from '@/components/BottomNav';
+import { SITE_URL, BUSINESS } from '@/lib/seo';
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Store',
-  name: 'Warung Teh Risma',
+  name: BUSINESS.name,
+  alternateName: BUSINESS.legalName,
   description: 'Toko cemilan khas Bogor: Keripik Kimpul Talas Balitung renyah dan Mie Kremes crispy. Halal, tanpa pengawet.',
-  url: 'https://warungtehrisma-one.vercel.app',
+  url: SITE_URL,
+  telephone: BUSINESS.telephone,
+  image: `${SITE_URL}/icon-512.png`,
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Bogor',
-    addressRegion: 'Jawa Barat',
-    addressCountry: 'ID',
+    ...BUSINESS.address,
   },
+  sameAs: BUSINESS.sameAs,
   servesCuisine: 'Snack',
   priceRange: 'Rp 13.000 – Rp 65.000',
   hasOfferCatalog: {
