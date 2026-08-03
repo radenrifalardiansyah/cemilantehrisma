@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Flame } from 'lucide-react';
-import { getFeaturedProducts } from '@/lib/products';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useLiveStock, withLiveStock } from '@/lib/useLiveStock';
+import { useLiveProducts } from '@/lib/useLiveProducts';
 import ProductCard from './ProductCard';
 
 export default function FeaturedSection() {
-  const liveStock = useLiveStock();
-  const featured = getFeaturedProducts().map(p => withLiveStock(p, liveStock));
+  const products = useLiveProducts();
+  const featured = products.filter(p => p.badge === 'Best Seller' || p.badge === 'Popular').slice(0, 6);
   const { t } = useLanguage();
 
   return (
