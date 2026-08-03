@@ -8,7 +8,7 @@ export interface Product {
   price: number;
   originalPrice?: number;
   emoji: string;
-  images?: StaticImageData[];
+  images?: (StaticImageData | string)[];
   category: 'keripik' | 'mie' | 'snack' | 'paket';
   badge?: 'Popular' | 'New' | 'Best Seller';
   stock: 'ready' | 'habis' | 'open_po';

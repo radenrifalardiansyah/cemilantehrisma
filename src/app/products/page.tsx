@@ -10,10 +10,10 @@ import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import ProductBanner from '@/components/ProductBanner';
 import BottomNav from '@/components/BottomNav';
-import { products, categoryData } from '@/lib/products';
+import { categoryData } from '@/lib/products';
 import { Category } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useLiveStock, withLiveStock } from '@/lib/useLiveStock';
+import { useLiveProducts } from '@/lib/useLiveProducts';
 
 // Category banners are managed in the admin dashboard (Firestore) and matched here
 // by category name, since the admin's category slugs differ from the static ids below.
@@ -27,7 +27,7 @@ function ProductsPage() {
   const [showSort, setShowSort] = useState(false);
   const [categoryBanners, setCategoryBanners] = useState<Record<string, string>>({});
   const { t } = useLanguage();
-  const liveStock = useLiveStock();
+  const products = useLiveProducts();
 
   const allTab = { id: 'semua' as Category, name: t.products.allCategory, emoji: '🛒', count: products.length };
   const catNames = t.footer.categories;
@@ -35,6 +35,7 @@ function ProductsPage() {
     ...c,
     id: c.id as Category,
     name: catNames[c.id as keyof typeof catNames] ?? c.name,
+    count: products.filter(p => p.category === c.id).length,
   }))];
 
   useEffect(() => {
@@ -58,16 +59,16 @@ function ProductsPage() {
   const activeBannerUrl = activeCategoryMeta ? categoryBanners[normalizeName(activeCategoryMeta.name)] : undefined;
 
   const filtered = useMemo(() => {
-    let list = products.map(p => withLiveStock(p, liveStock));
+    let list = products;
     if (activeCategory !== 'semua') list = list.filter(p => p.category === activeCategory);
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       list = list.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
     }
-    if (sortBy === 'price-asc') list.sort((a, b) => a.price - b.price);
-    if (sortBy === 'price-desc') list.sort((a, b) => b.price - a.price);
+    if (sortBy === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
+    if (sortBy === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
     return list;
-  }, [activeCategory, searchQuery, sortBy, liveStock]);
+  }, [products, activeCategory, searchQuery, sortBy]);
 
   const sortLabels: Record<string, string> = {
     default: t.products.sort.default,

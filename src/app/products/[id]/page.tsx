@@ -2,7 +2,13 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { products } from '@/lib/products';
 import { SITE_URL } from '@/lib/seo';
+import { imageSrc } from '@/lib/liveProducts';
+import { getMergedProduct } from '@/lib/server/getProduct';
 import ProductDetailClient from './ProductDetailClient';
+
+// Refreshes prerendered metadata/JSON-LD against Firestore periodically, so admin
+// edits (name/price/stock/images/...) show up without a full redeploy.
+export const revalidate = 300;
 
 const availabilityMap: Record<string, string> = {
   ready: 'https://schema.org/InStock',
@@ -18,11 +24,11 @@ export async function generateMetadata(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<Metadata> {
   const { id } = await params;
-  const product = products.find(p => p.id === id);
+  const product = await getMergedProduct(id, products);
   if (!product) return {};
 
   const title = `${product.name} (${product.weight})`;
-  const imagePath = product.images?.[0]?.src;
+  const imagePath = product.images?.[0] ? imageSrc(product.images[0]) : undefined;
 
   return {
     title,
@@ -49,10 +55,10 @@ export default async function ProductDetailPage(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const product = products.find(p => p.id === id);
+  const product = await getMergedProduct(id, products);
   if (!product) notFound();
 
-  const imagePath = product.images?.[0]?.src;
+  const imagePath = product.images?.[0] ? imageSrc(product.images[0]) : undefined;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
