@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useLiveProducts } from '@/lib/useLiveProducts';
+import { useLiveCategories, categoryNameById } from '@/lib/useLiveCategories';
 import { getProductLocale } from '@/lib/product-translations';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/lib/store';
@@ -34,6 +35,7 @@ export default function ProductDetailClient() {
   const { t, locale } = useLanguage();
   const { addItem, openCart } = useCartStore();
   const products = useLiveProducts();
+  const categories = useLiveCategories();
 
   const product = products.find(p => p.id === params.id);
   const [imgIndex, setImgIndex] = useState(0);
@@ -197,13 +199,15 @@ export default function ProductDetailClient() {
           <Weight size={10} /> {product.weight}
         </span>
         <span className="text-xs text-amber-500 capitalize bg-amber-50 border border-amber-100 px-2.5 py-0.5 rounded-full">
-          {product.category}
+          {categoryNameById(categories, product.category)}
         </span>
         <span
           className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold"
           style={{ background: stock.bg, border: `1px solid ${stock.border}`, color: stock.color }}
         >
-          <stock.Icon size={10} /> {stock.label}
+          <stock.Icon size={10} />
+          {stock.label}
+          {product.stock === 'ready' && typeof product.stockQty === 'number' && ` · ${product.stockQty} pcs`}
         </span>
       </div>
 

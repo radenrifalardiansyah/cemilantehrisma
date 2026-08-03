@@ -1,5 +1,5 @@
 import { getDb } from '@/lib/firebase';
-import { mergeLiveProducts, mergeProduct, rawFromDoc } from '@/lib/liveProducts';
+import { isPublished, mergeLiveProducts, mergeProduct, rawFromDoc } from '@/lib/liveProducts';
 import { Product } from '@/types';
 
 // Server-only lookup for a single product, used by /products/[id] (metadata + JSON-LD)
@@ -7,13 +7,16 @@ import { Product } from '@/types';
 // (admin-managed price/stock/name/images/...) onto the static catalog entry, so SEO
 // metadata and structured data stay in sync with the admin panel instead of only
 // reflecting whatever was baked in at the last deploy. Falls back to the static entry
-// (or undefined) if Firestore has no matching doc.
+// (or undefined) if Firestore has no matching doc. A product explicitly unpublished
+// from the admin panel is hidden entirely, even if a static catalog entry exists.
 export async function getMergedProduct(id: string, staticList: Product[]): Promise<Product | undefined> {
   const base = staticList.find(p => p.id === id);
   try {
     const doc = await getDb().collection('products').doc(id).get();
     if (!doc.exists) return base;
-    return mergeProduct(base, rawFromDoc(doc.id, doc.data() ?? {}));
+    const raw = rawFromDoc(doc.id, doc.data() ?? {});
+    if (!isPublished(raw)) return undefined;
+    return mergeProduct(base, raw);
   } catch (err) {
     console.error('[getMergedProduct]', err);
     return base;

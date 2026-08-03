@@ -14,10 +14,12 @@ export interface FireProductRaw {
   category: string;
   badge?: string;
   stock: string;
+  stockQty?: number;
   gradient: string;
   bgColor: string;
   weight: string;
   order?: number;
+  published?: boolean;
 }
 
 const VALID_STOCK = new Set(['ready', 'habis', 'open_po']);
@@ -38,12 +40,18 @@ export function rawFromDoc(id: string, data: Record<string, unknown>): FireProdu
     category: (data.category as string) ?? '',
     badge: (data.badge as string) || undefined,
     stock: (data.stock as string) ?? 'habis',
+    stockQty: typeof data.stockQty === 'number' ? data.stockQty : undefined,
     gradient: (data.gradient as string) ?? 'from-amber-700 to-yellow-500',
     bgColor: (data.bgColor as string) ?? '#B45309',
     weight: (data.weight as string) ?? '',
     order: typeof data.order === 'number' ? data.order : undefined,
+    published: data.published as boolean | undefined,
   };
 }
+
+// A product with no explicit `published` field (legacy docs written before this flag
+// existed) is treated as published, so nothing already live gets hidden retroactively.
+export const isPublished = (f: Pick<FireProductRaw, 'published'>): boolean => f.published !== false;
 
 export function fireToProduct(f: FireProductRaw): Product {
   return {
@@ -55,9 +63,10 @@ export function fireToProduct(f: FireProductRaw): Product {
     originalPrice: f.originalPrice,
     emoji: f.emoji,
     images: f.imageUrls,
-    category: f.category as Product['category'],
+    category: f.category,
     badge: VALID_BADGE.has(f.badge ?? '') ? (f.badge as Product['badge']) : undefined,
     stock: VALID_STOCK.has(f.stock) ? (f.stock as Product['stock']) : 'habis',
+    stockQty: f.stockQty,
     gradient: f.gradient,
     bgColor: f.bgColor,
     weight: f.weight,
@@ -79,15 +88,21 @@ export function mergeProduct(base: Product | undefined, f: FireProductRaw | unde
 // live Firestore catalog managed from the admin dashboard. Products that only exist in
 // Firestore (added via the admin panel after the initial seed) are included as-is.
 export function mergeLiveProducts(staticList: Product[], fireList: FireProductRaw[]): Product[] {
-  const fireById = new Map(fireList.map(f => [f.id, f]));
+  const publishedFire = fireList.filter(isPublished);
+  const fireById = new Map(publishedFire.map(f => [f.id, f]));
+  // A static product whose Firestore doc was explicitly unpublished is hidden
+  // entirely, rather than falling back to the static entry.
+  const unpublishedIds = new Set(fireList.filter(f => !isPublished(f)).map(f => f.id));
 
   // Curated catalog order is preserved for legacy/seeded products; anything the
   // admin adds afterwards (not part of the static catalog) is appended at the end,
   // ordered by the admin's manual `order` field when set.
-  const known = staticList.map(base => mergeProduct(base, fireById.get(base.id)) as Product);
+  const known = staticList
+    .filter(base => !unpublishedIds.has(base.id))
+    .map(base => mergeProduct(base, fireById.get(base.id)) as Product);
 
   const knownIds = new Set(staticList.map(p => p.id));
-  const extra = fireList
+  const extra = publishedFire
     .filter(f => !knownIds.has(f.id))
     .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999))
     .map(fireToProduct);

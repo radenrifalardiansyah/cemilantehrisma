@@ -54,6 +54,22 @@ export default function CheckoutPage() {
     setLoading(true);
     try {
       openWhatsApp(items, customer, totalPrice);
+
+      // Rekam pesanan ke admin (best-effort — kegagalan di sini tidak menghalangi WA yang sudah terkirim)
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: customer.name, customerPhone: customer.phone,
+          deliveryMethod: customer.deliveryMethod, address: customer.address, note: customer.note,
+          items: items.map(i => ({
+            name: i.product.name, weight: i.product.weight, qty: i.quantity,
+            price: i.product.price, subtotal: i.product.price * i.quantity,
+          })),
+          subtotal: totalPrice, total: totalPrice,
+        }),
+      }).catch(() => {});
+
       toast.success(t.checkout.toast.sent);
       setTimeout(() => {
         clearCart(); setStep('cart'); setCustomer(defaultCustomer); setLoading(false);

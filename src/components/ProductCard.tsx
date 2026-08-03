@@ -139,6 +139,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
           >
             <stock.Icon size={10} />
             {stock.label}
+            {product.stock === 'ready' && typeof product.stockQty === 'number' && ` · ${product.stockQty} pcs`}
           </span>
         </div>
         {images.length > 0 ? (

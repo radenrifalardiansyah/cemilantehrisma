@@ -14,10 +14,7 @@ import { categoryData } from '@/lib/products';
 import { Category } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLiveProducts } from '@/lib/useLiveProducts';
-
-// Category banners are managed in the admin dashboard (Firestore) and matched here
-// by category name, since the admin's category slugs differ from the static ids below.
-const normalizeName = (s: string) => s.trim().toLowerCase();
+import { useLiveCategories } from '@/lib/useLiveCategories';
 
 function ProductsPage() {
   const searchParams = useSearchParams();
@@ -25,38 +22,35 @@ function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc'>('default');
   const [showSort, setShowSort] = useState(false);
-  const [categoryBanners, setCategoryBanners] = useState<Record<string, string>>({});
   const { t } = useLanguage();
   const products = useLiveProducts();
+  const liveCategories = useLiveCategories();
 
   const allTab = { id: 'semua' as Category, name: t.products.allCategory, emoji: '🛒', count: products.length };
   const catNames = t.footer.categories;
-  const tabs = [allTab, ...categoryData.map(c => ({
+  const staticIds = new Set<string>(categoryData.map(c => c.id));
+  const staticTabs = categoryData.map(c => ({
     ...c,
     id: c.id as Category,
     name: catNames[c.id as keyof typeof catNames] ?? c.name,
     count: products.filter(p => p.category === c.id).length,
-  }))];
+  }));
+  // Any category the admin created beyond the 4 seeded above (e.g. via CategoriesTab)
+  // still needs a browsable tab, otherwise its products are only reachable via "Semua".
+  const extraTabs = liveCategories
+    .filter(c => !staticIds.has(c.id) && products.some(p => p.category === c.id))
+    .map(c => ({ id: c.id as Category, name: c.name, emoji: '🏷️', count: products.filter(p => p.category === c.id).length }));
+  const tabs = [allTab, ...staticTabs, ...extraTabs];
 
   useEffect(() => {
     const cat = searchParams.get('category') as Category | null;
     if (cat) setActiveCategory(cat);
   }, [searchParams]);
 
-  useEffect(() => {
-    fetch('/api/categories')
-      .then(r => r.ok ? r.json() : null)
-      .then((d: { categories: { name: string; bannerUrl: string }[] } | null) => {
-        if (!d) return;
-        const map: Record<string, string> = {};
-        d.categories.forEach(c => { if (c.bannerUrl) map[normalizeName(c.name)] = c.bannerUrl; });
-        setCategoryBanners(map);
-      })
-      .catch(() => {});
-  }, []);
-
-  const activeCategoryMeta = categoryData.find(c => c.id === activeCategory);
-  const activeBannerUrl = activeCategoryMeta ? categoryBanners[normalizeName(activeCategoryMeta.name)] : undefined;
+  // Category banners are managed in the admin dashboard and joined here by doc id
+  // (the same id stored in each product's `category` field), not by display name.
+  const activeCategoryMeta = [...staticTabs, ...extraTabs].find(c => c.id === activeCategory);
+  const activeBannerUrl = liveCategories.find(c => c.id === activeCategory)?.bannerUrl || undefined;
 
   const filtered = useMemo(() => {
     let list = products;
