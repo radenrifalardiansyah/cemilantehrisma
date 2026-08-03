@@ -8,7 +8,7 @@ import BottomNav from '@/components/BottomNav';
 import { SITE_URL, BUSINESS } from '@/lib/seo';
 import { products } from '@/lib/products';
 import { imageSrc } from '@/lib/liveProducts';
-import { getMergedProduct } from '@/lib/server/getProduct';
+import { getAllMergedProducts, getMergedProduct } from '@/lib/server/getProduct';
 
 // Refreshes the featured-product JSON-LD against Firestore periodically, so admin
 // edits (name/price/stock/images/...) show up without a full redeploy.
@@ -26,6 +26,12 @@ export default async function HomePage() {
   const featuredProducts = (
     await Promise.all(featuredProductIds.map(id => getMergedProduct(id, products)))
   ).filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+  const allProducts = await getAllMergedProducts(products);
+  const prices = allProducts.map(p => p.price).filter(p => p > 0);
+  const priceRange = prices.length
+    ? `Rp ${Math.min(...prices).toLocaleString('id-ID')} – Rp ${Math.max(...prices).toLocaleString('id-ID')}`
+    : undefined;
 
   const featuredOffers = featuredProducts.map(product => ({
     '@type': 'Offer',
@@ -60,7 +66,7 @@ export default async function HomePage() {
     },
     sameAs: BUSINESS.sameAs,
     servesCuisine: 'Snack',
-    priceRange: 'Rp 13.000 – Rp 65.000',
+    priceRange,
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Cemilan Teh Risma',

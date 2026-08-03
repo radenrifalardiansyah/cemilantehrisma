@@ -1,5 +1,5 @@
 import { getDb } from '@/lib/firebase';
-import { mergeProduct, rawFromDoc } from '@/lib/liveProducts';
+import { mergeLiveProducts, mergeProduct, rawFromDoc } from '@/lib/liveProducts';
 import { Product } from '@/types';
 
 // Server-only lookup for a single product, used by /products/[id] (metadata + JSON-LD)
@@ -17,5 +17,18 @@ export async function getMergedProduct(id: string, staticList: Product[]): Promi
   } catch (err) {
     console.error('[getMergedProduct]', err);
     return base;
+  }
+}
+
+// Server-only lookup for the full catalog (static + live Firestore overlay), used
+// where a page needs every product rather than one — e.g. the homepage's price range.
+export async function getAllMergedProducts(staticList: Product[]): Promise<Product[]> {
+  try {
+    const snap = await getDb().collection('products').get();
+    const fireList = snap.docs.map(d => rawFromDoc(d.id, d.data()));
+    return mergeLiveProducts(staticList, fireList);
+  } catch (err) {
+    console.error('[getAllMergedProducts]', err);
+    return staticList;
   }
 }
