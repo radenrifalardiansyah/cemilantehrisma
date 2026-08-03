@@ -8,6 +8,7 @@ import { ArrowRight, Star, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
+import { useLiveProducts } from '@/lib/useLiveProducts';
 
 import imgOriOri100  from '@/assets/images/Keripik Kimpul 100g Original.png';
 import imgOriBBQ100  from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
@@ -15,68 +16,17 @@ import imgOriJgn100  from '@/assets/images/Keripik Kimpul 100g Jagung.png';
 import imgMieOri150  from '@/assets/images/Mie Kremes 150g Original.png';
 import imgMiePdas150 from '@/assets/images/Mie Kremes 150g Pedas.png';
 
-const slides = [
-  {
-    productId: 'mk-ori-150',
-    image: imgMieOri150,
-    name: 'Mie Kremes Original',
-    weight: '150g',
-    price: 'Rp 13.000',
-    badge: 'Best Seller',
-    badgeColor: '#C2410C',
-    glow: 'rgba(194,65,12,0.28)',
-    bg: 'from-orange-100 to-amber-50',
-    group: 'mie',
-  },
-  {
-    productId: 'mk-pdas-150',
-    image: imgMiePdas150,
-    name: 'Mie Kremes Pedas',
-    weight: '150g',
-    price: 'Rp 13.000',
-    badge: 'Popular',
-    badgeColor: '#BE123C',
-    glow: 'rgba(190,18,60,0.25)',
-    bg: 'from-rose-100 to-pink-50',
-    group: 'mie',
-  },
-  {
-    productId: 'kk-ori-100',
-    image: imgOriOri100,
-    name: 'Keripik Kimpul Original',
-    weight: '100g',
-    price: 'Rp 15.000',
-    badge: 'Best Seller',
-    badgeColor: '#D97706',
-    glow: 'rgba(217,119,6,0.35)',
-    bg: 'from-amber-100 to-amber-50',
-    group: 'keripik',
-  },
-  {
-    productId: 'kk-bbq-100',
-    image: imgOriBBQ100,
-    name: 'Keripik Kimpul BBQ Pedas',
-    weight: '100g',
-    price: 'Rp 15.000',
-    badge: 'Popular',
-    badgeColor: '#B91C1C',
-    glow: 'rgba(185,28,28,0.25)',
-    bg: 'from-red-100 to-orange-50',
-    group: 'keripik',
-  },
-  {
-    productId: 'kk-jgn-100',
-    image: imgOriJgn100,
-    name: 'Keripik Kimpul Jagung',
-    weight: '100g',
-    price: 'Rp 15.000',
-    badge: 'New',
-    badgeColor: '#CA8A04',
-    glow: 'rgba(202,138,4,0.3)',
-    bg: 'from-yellow-100 to-amber-50',
-    group: 'keripik',
-  },
+// Presentational-only styling per slide (not admin-editable). Name/price/weight/badge
+// are pulled live from the product catalog below so the hero always matches the admin.
+const slideMeta = [
+  { productId: 'mk-ori-150', image: imgMieOri150, badgeColor: '#C2410C', glow: 'rgba(194,65,12,0.28)', bg: 'from-orange-100 to-amber-50', group: 'mie' as const },
+  { productId: 'mk-pdas-150', image: imgMiePdas150, badgeColor: '#BE123C', glow: 'rgba(190,18,60,0.25)', bg: 'from-rose-100 to-pink-50', group: 'mie' as const },
+  { productId: 'kk-ori-100', image: imgOriOri100, badgeColor: '#D97706', glow: 'rgba(217,119,6,0.35)', bg: 'from-amber-100 to-amber-50', group: 'keripik' as const },
+  { productId: 'kk-bbq-100', image: imgOriBBQ100, badgeColor: '#B91C1C', glow: 'rgba(185,28,28,0.25)', bg: 'from-red-100 to-orange-50', group: 'keripik' as const },
+  { productId: 'kk-jgn-100', image: imgOriJgn100, badgeColor: '#CA8A04', glow: 'rgba(202,138,4,0.3)', bg: 'from-yellow-100 to-amber-50', group: 'keripik' as const },
 ];
+
+const formatPrice = (price: number) => `Rp ${price.toLocaleString('id-ID')}`;
 
 const particles = ['🥔', '🌶️', '🌽', '✨', '⭐', '🌿', '💫'];
 
@@ -101,13 +51,40 @@ function Particle({ index }: { index: number }) {
 
 export default function Hero() {
   const { t, locale } = useLanguage();
+  const liveProducts = useLiveProducts();
 
   const [current, setCurrent] = useState(0);
   const [dir, setDir] = useState(1);
   const [paused, setPaused] = useState(false);
 
-  const slide = slides[current];
+  const slides = slideMeta
+    .map(meta => {
+      const product = liveProducts.find(p => p.id === meta.productId);
+      if (!product) return null;
+      return {
+        ...meta,
+        image: product.images?.[0] ?? meta.image,
+        name: product.name,
+        weight: product.weight,
+        price: formatPrice(product.price),
+        badge: product.badge ?? 'New',
+      };
+    })
+    .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
+  const slide = slides[current] ?? slides[0];
   const slideDisplayName = getProductLocale(slide.productId, locale, { name: slide.name, description: '', details: [] }).name;
+
+  const cheapestPriceIn = (group: 'mie' | 'keripik') => {
+    const prices = slides.filter(s => s.group === group).map(s =>
+      liveProducts.find(p => p.id === s.productId)?.price ?? 0
+    );
+    return prices.length ? formatPrice(Math.min(...prices)) : '';
+  };
+  const cheapestPriceOverall = () => {
+    const prices = liveProducts.map(p => p.price).filter(p => p > 0);
+    return prices.length ? formatPrice(Math.min(...prices)) : '';
+  };
 
   const groupContent = {
     keripik: {
@@ -118,7 +95,7 @@ export default function Hero() {
         { emoji: '🌶️', label: t.hero.keripik.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'   },
         { emoji: '🌽', label: t.hero.keripik.flavors[2], bg: 'bg-yellow-100', text: 'text-yellow-700' },
       ],
-      desc: t.hero.keripik.desc, price: 'Rp 15.000',
+      desc: t.hero.keripik.desc, price: cheapestPriceIn('keripik'),
     },
     mie: {
       title1: t.hero.mie.title1, title2: t.hero.mie.title2,
@@ -127,7 +104,7 @@ export default function Hero() {
         { emoji: '🍝', label: t.hero.mie.flavors[0], bg: 'bg-orange-100', text: 'text-orange-800' },
         { emoji: '🌶️', label: t.hero.mie.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'    },
       ],
-      desc: t.hero.mie.desc, price: 'Rp 13.000',
+      desc: t.hero.mie.desc, price: cheapestPriceIn('mie'),
     },
   };
 
@@ -454,7 +431,7 @@ export default function Hero() {
                 className="absolute -left-6 top-8 bg-white rounded-2xl p-3 border border-amber-200 shadow-lg z-10"
               >
                 <p className="text-[10px] text-amber-600/60">{t.hero.priceFrom}</p>
-                <p className="font-display text-sm font-bold text-amber-800">Rp 13.000</p>
+                <p className="font-display text-sm font-bold text-amber-800">{cheapestPriceOverall()}</p>
               </motion.div>
 
               {/* Floating rating card */}
