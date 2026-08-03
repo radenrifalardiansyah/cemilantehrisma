@@ -15,6 +15,7 @@ import { Category } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLiveProducts } from '@/lib/useLiveProducts';
 import { useLiveCategories } from '@/lib/useLiveCategories';
+import { trackClick } from '@/lib/trackClick';
 
 function ProductsPage() {
   const searchParams = useSearchParams();
@@ -201,7 +202,7 @@ function ProductsPage() {
               key={tab.id}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => setActiveCategory(tab.id)}
+              onClick={() => { trackClick('category', tab.id); setActiveCategory(tab.id); }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
                 activeCategory === tab.id
                   ? 'text-white shadow-md'

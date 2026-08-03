@@ -8,6 +8,7 @@ import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHor
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useState } from 'react';
+import { trackClick } from '@/lib/trackClick';
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -44,7 +45,7 @@ export default function BottomNav() {
               const isActive = pathname === item.href;
               const Icon = item.icon;
               return (
-                <Link key={item.href} href={item.href} className="flex-1">
+                <Link key={item.href} href={item.href} className="flex-1" onClick={() => trackClick('menu', item.href)}>
                   <motion.div
                     whileTap={{ scale: 0.88 }}
                     className="relative flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
@@ -69,7 +70,7 @@ export default function BottomNav() {
             {/* Cart */}
             <motion.button
               whileTap={{ scale: 0.88 }}
-              onClick={toggleCart}
+              onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
               className="relative flex-1 flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
             >
               <div className="relative">
@@ -147,7 +148,7 @@ export default function BottomNav() {
                       <Link
                         key={item.href}
                         href={item.href}
-                        onClick={closeAll}
+                        onClick={() => { trackClick('menu', item.href); closeAll(); }}
                         className={`flex flex-col items-center gap-2 py-4 rounded-2xl border transition-all ${
                           isActive ? 'bg-amber-50 border-amber-300' : 'bg-amber-50/50 border-amber-100 hover:border-amber-200'
                         }`}

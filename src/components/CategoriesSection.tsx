@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { categoryData } from '@/lib/products';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { trackClick } from '@/lib/trackClick';
 
 export default function CategoriesSection() {
   const { t } = useLanguage();
@@ -46,7 +47,7 @@ export default function CategoriesSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.45, delay: i * 0.09 }}
           >
-            <Link href={`/products?category=${cat.id}`}>
+            <Link href={`/products?category=${cat.id}`} onClick={() => trackClick('category', cat.id)}>
               <motion.div
                 whileHover={{ y: -5, scale: 1.01 }}
                 whileTap={{ scale: 0.97 }}

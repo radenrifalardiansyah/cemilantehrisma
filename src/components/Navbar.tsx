@@ -10,6 +10,7 @@ import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Locale } from '@/lib/i18n';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
+import { trackClick } from '@/lib/trackClick';
 
 const LOCALES: { code: Locale; label: string }[] = [
   { code: 'id', label: 'ID' },
@@ -71,6 +72,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => trackClick('menu', link.href)}
                 className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200 ${
                   pathname === link.href
                     ? 'text-amber-700'
@@ -115,7 +117,7 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                onClick={toggleCart}
+                onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl btn-primary text-sm font-bold shadow-md"
               >
                 <ShoppingCart size={17} />
@@ -141,7 +143,7 @@ export default function Navbar() {
             <div className="relative md:hidden">
               <motion.button
                 whileTap={{ scale: 0.88 }}
-                onClick={toggleCart}
+                onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
                 className="p-2.5 rounded-xl bg-white border border-amber-200 shadow-sm"
               >
                 <ShoppingCart size={18} className="text-amber-700" />

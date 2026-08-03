@@ -10,6 +10,7 @@ import { Product } from '@/types';
 import { formatCurrency } from '@/lib/whatsapp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
+import { trackClick } from '@/lib/trackClick';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -67,6 +68,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
     e.stopPropagation();
     if (!isAvailable) return;
     addItem(product);
+    trackClick('addcart', product.id);
     toast.success(`${lp.name} (${product.weight}) ${t.product.added}!`, { icon: product.emoji });
     openCart();
   };
@@ -92,7 +94,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
   };
 
   return (
-    <Link href={`/products/${product.id}`} className="block">
+    <Link href={`/products/${product.id}`} className="block" onClick={() => trackClick('product', product.id)}>
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
