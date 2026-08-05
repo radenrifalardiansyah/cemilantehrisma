@@ -20,6 +20,8 @@ export interface InvoiceData {
   total:        number;
   logo:         string;
   halalLogo:    string;
+  source?:        'kasir' | 'portal';
+  paymentStatus?: 'lunas' | 'belum_lunas';
 }
 
 // ── Colour palette ────────────────────────────────────────────────────────────
@@ -60,7 +62,7 @@ const s = StyleSheet.create({
   headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   logoWrap: {
     width: 60, height: 60, borderRadius: 30,
-    borderWidth: 3, borderColor: 'rgba(255,255,255,0.5)',
+    borderWidth: 3, borderColor: C.white,
     overflow: 'hidden', backgroundColor: C.white,
   },
   logo: { width: 60, height: 60, objectFit: 'cover' },
@@ -187,6 +189,10 @@ const s = StyleSheet.create({
 export default function InvoicePDF({ data }: { data: InvoiceData }) {
   const itemCount    = data.items.reduce((s, i) => s + i.qty, 0);
   const hasDiscount  = data.discount && data.discount.amount > 0;
+  const isKasir      = data.source === 'kasir';
+  const statusText   = isKasir
+    ? 'Dibayar'
+    : data.paymentStatus === 'belum_lunas' ? 'BELUM LUNAS' : 'MENUNGGU PEMBAYARAN';
 
   return (
     <Document
@@ -218,7 +224,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
           {[
             { l: 'NO. INVOICE', v: data.invoiceNo },
             { l: 'TANGGAL',    v: data.date },
-            { l: 'STATUS',     v: 'MENUNGGU PEMBAYARAN' },
+            { l: 'STATUS',     v: statusText },
           ].map(m => (
             <View key={m.l} style={s.metaItem}>
               <Text style={s.metaLabel}>{m.l}</Text>
@@ -295,10 +301,12 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
                   </Text>
                 </View>
               )}
-              <View style={s.totalRowGray}>
-                <Text style={s.totalGrayKey}>Ongkos Kirim</Text>
-                <Text style={s.totalGrayVal}>Sesuai kesepakatan</Text>
-              </View>
+              {!isKasir && (
+                <View style={s.totalRowGray}>
+                  <Text style={s.totalGrayKey}>Ongkos Kirim</Text>
+                  <Text style={s.totalGrayVal}>Sesuai kesepakatan</Text>
+                </View>
+              )}
               <View style={s.totalRowMain}>
                 <Text style={s.totalMainKey}>TOTAL</Text>
                 <Text style={s.totalMainVal}>{rp(data.total)}</Text>
@@ -308,18 +316,22 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
 
           {/* ── Payment info + Halal ────────────────────────────────────── */}
           <View style={s.paymentBox}>
-            <Text style={s.paymentTitle}>Informasi Pembayaran</Text>
-            {[
-              ['Transfer ke',   'Bank / e-wallet sesuai kesepakatan dengan Teh Risma'],
-              ['Konfirmasi',    'Via WhatsApp: 0812-1213-2014 setelah transfer'],
-              ['Pengiriman',    'Dikirim setelah pembayaran dikonfirmasi'],
-              ['Pertanyaan',    'WhatsApp: 0812-1213-2014 (Senin–Sabtu, 08.00–20.00)'],
-            ].map(([k, v]) => (
-              <View key={k} style={s.paymentRow}>
-                <Text style={s.paymentKey}>{k}</Text>
-                <Text style={s.paymentVal}>{v}</Text>
-              </View>
-            ))}
+            {!isKasir && (
+              <>
+                <Text style={s.paymentTitle}>Informasi Pembayaran</Text>
+                {[
+                  ['Transfer ke',   'Bank / e-wallet sesuai kesepakatan dengan Teh Risma'],
+                  ['Konfirmasi',    'Via WhatsApp: 0812-1213-2014 setelah transfer'],
+                  ['Pengiriman',    'Dikirim setelah pembayaran dikonfirmasi'],
+                  ['Pertanyaan',    'WhatsApp: 0812-1213-2014 (Senin–Sabtu, 08.00–20.00)'],
+                ].map(([k, v]) => (
+                  <View key={k} style={s.paymentRow}>
+                    <Text style={s.paymentKey}>{k}</Text>
+                    <Text style={s.paymentVal}>{v}</Text>
+                  </View>
+                ))}
+              </>
+            )}
 
             <View style={s.halalRow}>
               <Image src={data.halalLogo} style={s.halalImg} />

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb, FieldValue } from '@/lib/firebase';
 
-interface CheckoutItem { name: string; weight: string; qty: number; price: number; subtotal: number; }
+interface CheckoutItem { productId?: string; name: string; weight: string; qty: number; price: number; subtotal: number; }
 interface CheckoutBody {
   customerName: string; customerPhone: string;
   deliveryMethod?: 'pickup' | 'delivery'; address?: string; note?: string;
@@ -26,6 +26,9 @@ export async function POST(req: NextRequest) {
     }
 
     const cleanItems = items.slice(0, MAX_ITEMS).map(it => ({
+      // productId dipakai admin untuk memotong stok gudang saat pesanan ditandai selesai —
+      // fallback ke pencarian by-name kalau kosong (mis. item dari sesi lama sebelum field ini ada).
+      productId: (it.productId ?? '').toString().trim(),
       name: (it.name ?? '').toString().slice(0, 200),
       weight: (it.weight ?? '').toString().slice(0, 50),
       qty: Math.max(1, Math.floor(Number(it.qty)) || 1),

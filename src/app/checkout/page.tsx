@@ -63,7 +63,7 @@ export default function CheckoutPage() {
           customerName: customer.name, customerPhone: customer.phone,
           deliveryMethod: customer.deliveryMethod, address: customer.address, note: customer.note,
           items: items.map(i => ({
-            name: i.product.name, weight: i.product.weight, qty: i.quantity,
+            productId: i.product.id, name: i.product.name, weight: i.product.weight, qty: i.quantity,
             price: i.product.price, subtotal: i.product.price * i.quantity,
           })),
           subtotal: totalPrice, total: totalPrice,
