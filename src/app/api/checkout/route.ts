@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb, FieldValue } from '@/lib/firebase';
+import { notify } from '@/lib/notifications';
 
 interface CheckoutItem { productId?: string; name: string; weight: string; qty: number; price: number; subtotal: number; }
 interface CheckoutBody {
@@ -55,6 +56,19 @@ export async function POST(req: NextRequest) {
       source: 'portal',
       createdAt: FieldValue.serverTimestamp(),
     });
+
+    try {
+      await notify({
+        type: 'order_new',
+        title: 'Pesanan online baru',
+        message: `Pesanan ${invoiceNo} senilai Rp${total.toLocaleString('id-ID')} — oleh ${customerName} (Online).`,
+        link: 'orders',
+        entityCollection: 'orders', entityId: ref.id,
+        actorUsername: customerName,
+      });
+    } catch (err) {
+      console.error('[api/checkout] Failed to write notification', err);
+    }
 
     return NextResponse.json({ id: ref.id, invoiceNo });
   } catch (err) {
