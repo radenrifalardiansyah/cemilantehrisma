@@ -12,6 +12,7 @@ export interface InvoiceItem {
 export interface InvoiceData {
   invoiceNo:    string;
   date:         string;
+  printedAt?:   string;
   customerName: string;
   customerPhone:string;
   items:        InvoiceItem[];
@@ -98,9 +99,6 @@ const s = StyleSheet.create({
   cardLabel: { fontSize: 7.5, fontFamily: 'Helvetica-Bold', color: C.accent, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 },
   cardName:  { fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.dark, marginBottom: 3 },
   cardSub:   { fontSize: 9.5, color: C.body },
-  summaryRow:{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
-  summaryKey:{ fontSize: 9.5, color: C.muted },
-  summaryVal:{ fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: C.dark },
 
   // ── Table ─────────────────────────────────────────────────────────────────
   tableHead: {
@@ -225,6 +223,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
             { l: 'NO. INVOICE', v: data.invoiceNo },
             { l: 'TANGGAL',    v: data.date },
             { l: 'STATUS',     v: statusText },
+            ...(data.printedAt ? [{ l: 'DICETAK', v: data.printedAt }] : []),
           ].map(m => (
             <View key={m.l} style={s.metaItem}>
               <Text style={s.metaLabel}>{m.l}</Text>
@@ -236,29 +235,12 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
         {/* ── Body ─────────────────────────────────────────────────────────── */}
         <View style={s.body}>
 
-          {/* Bill-to + Summary */}
+          {/* Bill-to */}
           <View style={s.topCards}>
             <View style={s.card}>
               <Text style={s.cardLabel}>Tagihan Kepada</Text>
               <Text style={s.cardName}>{data.customerName}</Text>
               <Text style={s.cardSub}>WhatsApp: {data.customerPhone}</Text>
-            </View>
-            <View style={s.card}>
-              <Text style={s.cardLabel}>Ringkasan</Text>
-              {[
-                ['Jumlah Produk', `${data.items.length} item`],
-                ['Total Qty',     `${itemCount} pcs`],
-                ...(hasDiscount ? [
-                  ['Subtotal',  rp(data.subtotal)],
-                  ['Diskon',    `- ${rp(data.discount!.amount)} (${data.discount!.label})`],
-                ] : []),
-                ['Total Tagihan', rp(data.total)],
-              ].map(([k, v]) => (
-                <View key={k} style={s.summaryRow}>
-                  <Text style={s.summaryKey}>{k}</Text>
-                  <Text style={[s.summaryVal, k === 'Diskon' ? { color: C.green } : {}]}>{v}</Text>
-                </View>
-              ))}
             </View>
           </View>
 
@@ -287,6 +269,10 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
           {/* ── Total ────────────────────────────────────────────────────── */}
           <View style={s.totalSection}>
             <View style={s.totalBox}>
+              <View style={s.totalRowGray}>
+                <Text style={s.totalGrayKey}>Jumlah Produk</Text>
+                <Text style={s.totalGrayVal}>{data.items.length} item</Text>
+              </View>
               <View style={s.totalRowGray}>
                 <Text style={s.totalGrayKey}>Subtotal ({itemCount} pcs)</Text>
                 <Text style={s.totalGrayVal}>{rp(data.subtotal)}</Text>
