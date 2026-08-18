@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
   }
 
-  const doc = await getDb().collection('customers').doc(phone).get();
+  const doc = await getDb().collection('storefront_customers').doc(phone).get();
   const data = doc.data() as { name?: string; passwordHash?: string } | undefined;
   if (!doc.exists || !data?.passwordHash || !verifyPassword(password, data.passwordHash)) {
     return NextResponse.json({ error: 'invalid_credentials' }, { status: 401 });

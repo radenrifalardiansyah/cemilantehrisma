@@ -60,7 +60,7 @@ export async function getSessionCustomer(req: NextRequest): Promise<CustomerSess
   const id = verifySessionCookieValue(req.cookies.get(SESSION_COOKIE_NAME)?.value);
   if (!id) return null;
 
-  const doc = await getDb().collection('customers').doc(id).get();
+  const doc = await getDb().collection('storefront_customers').doc(id).get();
   if (!doc.exists) return null;
   const data = doc.data() as { name?: string; phone?: string };
   return { id, name: data.name ?? '', phone: data.phone ?? id };

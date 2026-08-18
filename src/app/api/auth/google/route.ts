@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   const name = (decoded.name ?? email.split('@')[0] ?? 'Pengguna').toString();
 
   const db = getDb();
-  const existing = await db.collection('customers').where('googleUid', '==', uid).limit(1).get();
+  const existing = await db.collection('storefront_customers').where('googleUid', '==', uid).limit(1).get();
 
   if (!existing.empty) {
     const doc = existing.docs[0];

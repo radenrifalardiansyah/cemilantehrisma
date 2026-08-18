@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   }
 
   const db = getDb();
-  const ref = db.collection('customers').doc(phone);
+  const ref = db.collection('storefront_customers').doc(phone);
   const existing = await ref.get();
   if (existing.exists) {
     return NextResponse.json({ error: 'phone_taken' }, { status: 409 });

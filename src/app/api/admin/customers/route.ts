@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const snap = await getDb().collection('customers').orderBy('createdAt', 'desc').get();
+    const snap = await getDb().collection('storefront_customers').orderBy('createdAt', 'desc').get();
     const customers = snap.docs.map(d => {
       const data = d.data() as { name?: string; phone?: string; createdAt?: { toDate?: () => Date } };
       return {
