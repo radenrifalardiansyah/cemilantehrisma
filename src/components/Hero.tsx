@@ -9,6 +9,7 @@ import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
 import { useLiveProducts } from '@/lib/useLiveProducts';
+import { useReviewStats } from '@/lib/useReviewStats';
 
 import imgOriOri100  from '@/assets/images/Keripik Kimpul 100g Original.png';
 import imgOriBBQ100  from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
@@ -52,6 +53,7 @@ function Particle({ index }: { index: number }) {
 export default function Hero() {
   const { t, locale } = useLanguage();
   const liveProducts = useLiveProducts();
+  const { soldCount, reviewCount, rating } = useReviewStats();
 
   const [current, setCurrent] = useState(0);
   const [dir, setDir] = useState(1);
@@ -109,8 +111,8 @@ export default function Hero() {
   };
 
   const stats = [
-    { value: '23+', label: t.hero.stats.sold, icon: '📦' },
-    { value: '4.9★', label: t.hero.stats.rating, icon: '⭐' },
+    { value: `${soldCount}+`, label: t.hero.stats.sold, icon: '📦' },
+    ...(reviewCount > 0 ? [{ value: `${rating?.toFixed(1)}★`, label: t.hero.stats.rating, icon: '⭐' }] : []),
     { value: '5', label: t.hero.stats.variants, icon: '🛒' },
     { value: 'Bogor', label: t.hero.stats.location, icon: '📍' },
   ];
@@ -284,20 +286,27 @@ export default function Hero() {
               </Link>
             </motion.div>
 
-            {/* Rating */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex items-center justify-center lg:justify-start gap-2"
-            >
-              <div className="flex">
-                {[1,2,3,4,5].map(i => <Star key={i} size={14} className="text-amber-400 fill-amber-400" />)}
-              </div>
-              <span className="text-amber-700/60 text-sm font-medium">
-                {t.hero.ratingText}
-              </span>
-            </motion.div>
+            {/* Rating — hanya tampil kalau sudah ada ulasan asli dari customer */}
+            {reviewCount > 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="flex items-center justify-center lg:justify-start gap-2"
+              >
+                <div className="flex">
+                  {[1,2,3,4,5].map(i => (
+                    <Star
+                      key={i} size={14}
+                      className={i <= Math.round(rating ?? 0) ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'}
+                    />
+                  ))}
+                </div>
+                <span className="text-amber-700/60 text-sm font-medium">
+                  {rating?.toFixed(1)}/5 · {reviewCount} {t.hero.reviewsLabel}
+                </span>
+              </motion.div>
+            )}
           </div>
 
           {/* ── RIGHT — Product Slider ────────────────────────────── */}
@@ -434,17 +443,23 @@ export default function Hero() {
                 <p className="font-display text-sm font-bold text-amber-800">{cheapestPriceOverall()}</p>
               </motion.div>
 
-              {/* Floating rating card */}
-              <motion.div
-                animate={{ y: [0, -6, 0], rotate: [1, -1, 1] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1.2 }}
-                className="absolute -right-6 bottom-20 bg-white rounded-2xl p-3 border border-amber-200 shadow-lg z-10"
-              >
-                <div className="flex gap-0.5 mb-0.5">
-                  {[1,2,3,4,5].map(s => <Star key={s} size={8} className="text-amber-400 fill-amber-400" />)}
-                </div>
-                <p className="text-[10px] text-amber-800/70 font-semibold">{t.hero.sold}</p>
-              </motion.div>
+              {/* Floating rating card — hanya tampil kalau sudah ada ulasan asli */}
+              {reviewCount > 0 && (
+                <motion.div
+                  animate={{ y: [0, -6, 0], rotate: [1, -1, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 1.2 }}
+                  className="absolute -right-6 bottom-20 bg-white rounded-2xl p-3 border border-amber-200 shadow-lg z-10"
+                >
+                  <div className="flex gap-0.5 mb-0.5">
+                    {[1,2,3,4,5].map(s => (
+                      <Star key={s} size={8} className={s <= Math.round(rating ?? 0) ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'} />
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-amber-800/70 font-semibold">
+                    {soldCount}+ {t.hero.soldSuffix}
+                  </p>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         </div>

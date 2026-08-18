@@ -3,12 +3,83 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Package, Truck, Clock } from 'lucide-react';
+import { ArrowLeft, Package, Truck, Clock, Star } from 'lucide-react';
+import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BottomNav from '@/components/BottomNav';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatCurrency } from '@/lib/whatsapp';
+
+interface MyReview { rating: number; comment: string; approved: boolean }
+
+function ReviewCard() {
+  const [data, setData] = useState<{ eligible: boolean; review: MyReview | null } | null>(null);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/reviews/mine')
+      .then(r => r.ok ? r.json() : null)
+      .then((d: { eligible: boolean; review: MyReview | null } | null) => {
+        setData(d);
+        if (d?.review) { setRating(d.review.rating); setComment(d.review.comment); }
+      })
+      .catch(() => setData(null));
+  }, []);
+
+  if (!data?.eligible) return null;
+
+  const submit = async () => {
+    if (rating < 1) { toast.error('Pilih rating bintang dulu.'); return; }
+    setSaving(true);
+    try {
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rating, comment }),
+      });
+      if (!res.ok) { toast.error('Gagal mengirim ulasan.'); return; }
+      toast.success('Terima kasih atas ulasannya!');
+      setData(d => d ? { ...d, review: { rating, comment, approved: false } } : d);
+    } catch {
+      toast.error('Gagal mengirim ulasan.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-2xl border border-amber-100 p-5 mb-6 shadow-sm">
+      <h2 className="font-display font-bold text-amber-950 text-base mb-1">Beri Ulasan</h2>
+      <p className="text-amber-700/50 text-xs mb-4">
+        {data.review
+          ? (data.review.approved ? 'Ulasan Anda sudah tayang. Bisa diperbarui kapan saja.' : 'Ulasan Anda sedang menunggu persetujuan admin.')
+          : 'Bagaimana pengalaman belanja Anda?'}
+      </p>
+      <div className="flex gap-1 mb-3">
+        {[1, 2, 3, 4, 5].map(i => (
+          <button key={i} type="button" onClick={() => setRating(i)}>
+            <Star size={24} className={i <= rating ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'} />
+          </button>
+        ))}
+      </div>
+      <textarea
+        value={comment} onChange={e => setComment(e.target.value)}
+        placeholder="Ceritakan pengalaman Anda (opsional)"
+        rows={3}
+        className="w-full px-4 py-3 rounded-xl input-field text-sm resize-none mb-3"
+      />
+      <button
+        onClick={submit} disabled={saving}
+        className="btn-primary px-5 py-2.5 text-sm font-bold disabled:opacity-50"
+      >
+        {saving ? 'Mengirim...' : data.review ? 'Perbarui Ulasan' : 'Kirim Ulasan'}
+      </button>
+    </div>
+  );
+}
 
 interface OrderItem { name: string; qty: number; weight: string; price: number }
 interface Order {
@@ -66,6 +137,8 @@ export default function OrdersPage() {
           <span className="gradient-text">Saya</span>
         </h1>
         <p className="text-amber-800/55 text-sm mb-8">Riwayat & status pesanan akun Anda.</p>
+
+        <ReviewCard />
 
         {orders === null ? (
           <p className="text-amber-700/50 text-sm">Memuat pesanan...</p>

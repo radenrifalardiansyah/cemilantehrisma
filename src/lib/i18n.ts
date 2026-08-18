@@ -9,8 +9,8 @@ export const translations = {
     hero: {
       brand: 'Cemilan Teh Risma · Kota Bogor',
       orderNow: 'Pesan Sekarang', seeAll: 'Lihat Semua Produk',
-      ratingText: '4.9/5 · 9 penilaian · 23+ terjual di Shopee',
-      priceFrom: 'Harga mulai', sold: '23+ Terjual',
+      reviewsLabel: 'penilaian', soldSuffix: 'terjual',
+      priceFrom: 'Harga mulai',
       savingsAvailable: '+ Paket Hemat tersedia', scroll: 'Scroll',
       keripik: {
         title1: 'Keripik', title2: 'Kimpul',
@@ -183,8 +183,8 @@ export const translations = {
     hero: {
       brand: 'Cemilan Teh Risma · Bogor City',
       orderNow: 'Order Now', seeAll: 'See All Products',
-      ratingText: '4.9/5 · 9 reviews · 23+ sold on Shopee',
-      priceFrom: 'Price from', sold: '23+ Sold',
+      reviewsLabel: 'reviews', soldSuffix: 'sold',
+      priceFrom: 'Price from',
       savingsAvailable: '+ Bundle deals available', scroll: 'Scroll',
       keripik: {
         title1: 'Crispy', title2: 'Kimpul',
