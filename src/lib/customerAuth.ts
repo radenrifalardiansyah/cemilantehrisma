@@ -65,3 +65,37 @@ export async function getSessionCustomer(req: NextRequest): Promise<CustomerSess
   const data = doc.data() as { name?: string; phone?: string };
   return { id, name: data.name ?? '', phone: data.phone ?? id };
 }
+
+// A Google sign-in for a brand-new account has no phone yet (checkout needs one —
+// see /lengkapi-profil), so it can't get a real session cookie right away. This
+// short-lived signed cookie holds just enough (Google uid/email/name) to finish
+// account creation once the phone is submitted, without re-verifying the Google
+// ID token or asking the user to sign in with Google twice.
+export const PENDING_GOOGLE_COOKIE_NAME = 'google_pending';
+const PENDING_GOOGLE_MAX_AGE_MS = 10 * 60 * 1000; // 10 menit
+
+export interface PendingGoogleSignup { uid: string; email: string; name: string; exp: number }
+
+export function createPendingGoogleCookieValue(data: { uid: string; email: string; name: string }): string {
+  const payload: PendingGoogleSignup = { ...data, exp: Date.now() + PENDING_GOOGLE_MAX_AGE_MS };
+  const encoded = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  return `${encoded}.${sign(encoded)}`;
+}
+
+export function verifyPendingGoogleCookieValue(cookieValue: string | undefined): PendingGoogleSignup | null {
+  if (!cookieValue) return null;
+  const dot = cookieValue.lastIndexOf('.');
+  if (dot < 0) return null;
+  const encoded = cookieValue.slice(0, dot);
+  const sig = Buffer.from(cookieValue.slice(dot + 1));
+  const expected = Buffer.from(sign(encoded));
+  if (sig.length !== expected.length || !timingSafeEqual(sig, expected)) return null;
+
+  try {
+    const payload = JSON.parse(Buffer.from(encoded, 'base64url').toString('utf8')) as PendingGoogleSignup;
+    if (typeof payload.exp !== 'number' || Date.now() > payload.exp) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}

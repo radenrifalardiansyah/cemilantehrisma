@@ -7,6 +7,7 @@ import { User, Phone, Lock, UserPlus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import GoogleSignInButton from '@/components/GoogleSignInButton';
 import { useAuth } from '@/contexts/AuthContext';
 
 function RegisterForm() {
@@ -119,6 +120,14 @@ function RegisterForm() {
             <UserPlus size={15} /> {loading ? 'Memproses...' : 'Daftar'}
           </button>
         </form>
+
+        <div className="flex items-center gap-3 my-5">
+          <div className="flex-1 h-px bg-amber-200/60" />
+          <span className="text-amber-700/40 text-xs font-medium">atau</span>
+          <div className="flex-1 h-px bg-amber-200/60" />
+        </div>
+
+        <GoogleSignInButton nextUrl={nextUrl} />
 
         <p className="text-center text-amber-800/60 text-sm mt-5">
           Sudah punya akun?{' '}
