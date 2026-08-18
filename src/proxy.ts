@@ -7,7 +7,7 @@ const CORS_HEADERS = {
   'Access-Control-Max-Age':       '86400',
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   // Handle preflight OPTIONS — browser sends this before POST from cross-domain
   if (req.method === 'OPTIONS') {
     return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
