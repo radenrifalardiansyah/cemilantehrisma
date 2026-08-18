@@ -5,9 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, LogIn, LogOut } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Locale } from '@/lib/i18n';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { trackClick } from '@/lib/trackClick';
@@ -23,6 +24,7 @@ export default function Navbar() {
   const { toggleCart, getTotalItems } = useCartStore();
   const totalItems = getTotalItems();
   const { t, locale, setLocale } = useLanguage();
+  const { customer: account, logout } = useAuth();
 
   const navLinks = [
     { href: '/', label: t.nav.home },
@@ -93,6 +95,24 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
+
+            {/* Account */}
+            {account ? (
+              <button
+                onClick={logout}
+                title="Keluar"
+                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-200 bg-white text-amber-700/80 text-xs font-semibold hover:border-amber-300 transition-colors"
+              >
+                <LogOut size={13} /> {account.name.split(' ')[0]}
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-200 bg-white text-amber-700/80 text-xs font-semibold hover:border-amber-300 transition-colors"
+              >
+                <LogIn size={13} /> Masuk
+              </Link>
+            )}
 
             {/* Language toggle */}
             <div className="flex items-center rounded-xl border border-amber-200 bg-white overflow-hidden shadow-sm">

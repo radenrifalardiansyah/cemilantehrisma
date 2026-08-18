@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,6 +17,7 @@ import { useCartStore } from '@/lib/store';
 import { formatCurrency, openWhatsApp } from '@/lib/whatsapp';
 import { CustomerInfo } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { getProductLocale } from '@/lib/product-translations';
 import toast from 'react-hot-toast';
 
@@ -27,10 +28,20 @@ const defaultCustomer: CustomerInfo = {
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, getTotalItems, getTotalPrice, clearCart, updateQuantity, removeItem } = useCartStore();
+  const { customer: account, loading: authLoading } = useAuth();
   const [customer, setCustomer] = useState<CustomerInfo>(defaultCustomer);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<'cart' | 'info' | 'confirm'>('cart');
   const { t, locale } = useLanguage();
+
+  // Checkout wajib login — nomor HP akun jadi identitas pesanan, tidak bisa diubah manual.
+  useEffect(() => {
+    if (!authLoading && !account) router.replace('/login?next=%2Fcheckout');
+  }, [authLoading, account, router]);
+
+  useEffect(() => {
+    if (account) setCustomer(prev => ({ ...prev, name: prev.name || account.name, phone: account.phone }));
+  }, [account]);
 
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
@@ -50,17 +61,16 @@ export default function CheckoutPage() {
     return true;
   };
 
-  const handleWhatsApp = () => {
+  const handleSubmit = async () => {
     setLoading(true);
-    try {
-      openWhatsApp(items, customer, totalPrice);
 
-      // Rekam pesanan ke admin (best-effort — kegagalan di sini tidak menghalangi WA yang sudah terkirim)
-      fetch('/api/checkout', {
+    let res: Response;
+    try {
+      res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customerName: customer.name, customerPhone: customer.phone,
+          customerName: customer.name,
           deliveryMethod: customer.deliveryMethod, address: customer.address, note: customer.note,
           items: items.map(i => ({
             productId: i.product.id, name: i.product.name, weight: i.product.weight, qty: i.quantity,
@@ -68,13 +78,53 @@ export default function CheckoutPage() {
           })),
           subtotal: totalPrice, total: totalPrice,
         }),
-      }).catch(() => {});
+      });
+    } catch {
+      toast.error(t.checkout.toast.failed);
+      setLoading(false);
+      return;
+    }
 
+    if (res.status === 401) {
+      toast.error('Sesi login berakhir, silakan masuk kembali.');
+      setLoading(false);
+      router.replace('/login?next=%2Fcheckout');
+      return;
+    }
+
+    if (res.status === 409) {
+      const data = await res.json().catch(() => null) as
+        { items?: { name: string; reason: 'habis' | 'insufficient' | 'unknown'; available?: number }[] } | null;
+      const issues = data?.items ?? [];
+      if (issues.length > 0) {
+        issues.forEach(it => toast.error(
+          it.reason === 'habis' ? `${it.name}: sedang habis stok.`
+            : it.reason === 'insufficient' ? `${it.name}: stok tersisa ${it.available}.`
+            : `${it.name}: produk tidak tersedia.`
+        ));
+      } else {
+        toast.error('Sebagian item tidak tersedia, cek kembali keranjang.');
+      }
+      setLoading(false);
+      return;
+    }
+
+    if (!res.ok) {
+      toast.error(t.checkout.toast.failed);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      openWhatsApp(items, customer, totalPrice);
       toast.success(t.checkout.toast.sent);
       setTimeout(() => {
         clearCart(); setStep('cart'); setCustomer(defaultCustomer); setLoading(false);
       }, 1500);
-    } catch { toast.error(t.checkout.toast.failed); setLoading(false); }
+    } catch {
+      toast.error(t.checkout.toast.failed);
+      setLoading(false);
+    }
   };
 
   const stepInfo = [
@@ -82,6 +132,14 @@ export default function CheckoutPage() {
     { id: 'info', label: t.checkout.steps.info, icon: User },
     { id: 'confirm', label: t.checkout.steps.confirm, icon: Check },
   ];
+
+  if (authLoading || !account) {
+    return (
+      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
+        <p className="text-amber-700/60 text-sm">Memuat...</p>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
@@ -278,17 +336,17 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* Phone */}
+                {/* Phone — locked to the logged-in account, it's the order's identity */}
                 <div>
                   <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.phone}</label>
                   <div className="relative">
                     <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
                     <input
-                      type="tel" value={customer.phone} onChange={e => updateField('phone', e.target.value)}
-                      placeholder={t.checkout.phonePlaceholder}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm"
+                      type="tel" value={customer.phone} readOnly disabled
+                      className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm bg-amber-50/60 text-amber-800/70 cursor-not-allowed"
                     />
                   </div>
+                  <p className="text-amber-700/40 text-[11px] mt-1">Nomor akun Anda, tidak bisa diubah di sini.</p>
                 </div>
 
                 {/* Delivery method */}
@@ -451,7 +509,7 @@ export default function CheckoutPage() {
                 </button>
                 <motion.button
                   whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.97 }}
-                  onClick={handleWhatsApp}
+                  onClick={handleSubmit}
                   disabled={loading}
                   className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-sm text-white shadow-lg transition-all disabled:opacity-60"
                   style={{ background: loading ? 'rgba(22,163,74,0.5)' : 'linear-gradient(135deg, #16A34A, #15803D)', boxShadow: loading ? 'none' : '0 6px 20px rgba(22,163,74,0.3)' }}
