@@ -42,7 +42,7 @@ export const translations = {
     product: {
       available: 'Tersedia', outOfStock: 'Stok Habis', openPO: 'Purchase Order (PO)', added: 'ditambahkan',
       addToCart: 'Tambah ke Keranjang', back: 'Kembali', notFound: 'Produk tidak ditemukan',
-      imageOf: 'Foto', detailProduct: 'Detail Produk',
+      imageOf: 'Foto', detailProduct: 'Detail Produk', sold: 'terjual',
     },
     checkout: {
       backToMenu: 'Kembali ke Menu', title1: 'Checkout', title2: 'Pesanan',
@@ -216,7 +216,7 @@ export const translations = {
     product: {
       available: 'In Stock', outOfStock: 'Out of Stock', openPO: 'Purchase Order (PO)', added: 'added',
       addToCart: 'Add to Cart', back: 'Back', notFound: 'Product not found',
-      imageOf: 'Photo', detailProduct: 'Product Detail',
+      imageOf: 'Photo', detailProduct: 'Product Detail', sold: 'sold',
     },
     checkout: {
       backToMenu: 'Back to Menu', title1: 'Checkout', title2: 'Order',

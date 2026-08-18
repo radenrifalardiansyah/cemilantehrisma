@@ -5,10 +5,14 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { categoryData } from '@/lib/products';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLiveProducts } from '@/lib/useLiveProducts';
+import { useLiveCategories } from '@/lib/useLiveCategories';
 import { trackClick } from '@/lib/trackClick';
 
 export default function CategoriesSection() {
   const { t } = useLanguage();
+  const products = useLiveProducts();
+  const liveCategories = useLiveCategories();
 
   const catNames = t.footer.categories;
   const catDescs: Record<string, string> = {
@@ -17,6 +21,27 @@ export default function CategoriesSection() {
     snack: t.categories.descSnack,
     paket: t.categories.descPaket,
   };
+
+  const staticIds = new Set<string>(categoryData.map(c => c.id));
+  const staticCards = categoryData.map(c => ({
+    ...c,
+    name: catNames[c.id as keyof typeof catNames] ?? c.name,
+    description: catDescs[c.id] ?? c.description,
+    count: products.filter(p => p.category === c.id).length,
+  }));
+  // Any category the admin created beyond the 4 seeded above still needs a card
+  // here, otherwise it's only reachable via the full products page.
+  const extraCards = liveCategories
+    .filter(c => !staticIds.has(c.id) && products.some(p => p.category === c.id))
+    .map(c => ({
+      id: c.id,
+      name: c.name,
+      emoji: '🏷️',
+      description: t.categories.subtitle,
+      gradient: 'from-amber-700 to-orange-500',
+      count: products.filter(p => p.category === c.id).length,
+    }));
+  const cards = [...staticCards, ...extraCards];
 
   return (
     <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -39,7 +64,7 @@ export default function CategoriesSection() {
       </motion.div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        {categoryData.map((cat, i) => (
+        {cards.map((cat, i) => (
           <motion.div
             key={cat.id}
             initial={{ opacity: 0, y: 30 }}
@@ -65,10 +90,10 @@ export default function CategoriesSection() {
 
                 <div>
                   <h3 className="font-display font-bold text-amber-950 text-base sm:text-lg leading-tight">
-                    {catNames[cat.id as keyof typeof catNames] ?? cat.name}
+                    {cat.name}
                   </h3>
                   <p className="text-amber-700/55 text-xs sm:text-sm mt-0.5">
-                    {catDescs[cat.id] ?? cat.description}
+                    {cat.description}
                   </p>
                   <div className="flex items-center justify-between mt-2">
                     <span className="text-amber-600/55 text-xs">{cat.count} {t.categories.menuCount}</span>

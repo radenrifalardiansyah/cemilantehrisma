@@ -11,6 +11,7 @@ import { formatCurrency } from '@/lib/whatsapp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
 import { trackClick } from '@/lib/trackClick';
+import { useProductSoldCounts } from '@/lib/useProductSoldCounts';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -36,6 +37,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const { addItem, openCart } = useCartStore();
   const { t, locale } = useLanguage();
   const lp = getProductLocale(product.id, locale, product);
+  const soldCount = useProductSoldCounts()[product.id] ?? 0;
 
   const stockConfig = {
     ready:   { label: t.product.available,  Icon: CheckCircle, color: '#16A34A', bg: 'rgba(22,163,74,0.1)',  border: 'rgba(22,163,74,0.25)'  },
@@ -254,6 +256,11 @@ export default function ProductCard({ product, index = 0 }: Props) {
             <p className="font-display text-lg font-bold gradient-text leading-none">
               {formatCurrency(product.price)}
             </p>
+            {soldCount > 0 && (
+              <p className="text-amber-800/40 text-[11px] leading-none mt-1">
+                {soldCount} {t.product.sold}
+              </p>
+            )}
           </div>
           <motion.button
             whileHover={isAvailable ? { scale: 1.08 } : {}}

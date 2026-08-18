@@ -103,7 +103,7 @@ function LoginForm() {
           </Link>
         </p>
       </div>
-      <Footer />
+      <Footer fullOnMobile />
     </main>
   );
 }

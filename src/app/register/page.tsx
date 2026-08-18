@@ -139,7 +139,7 @@ function RegisterForm() {
           </Link>
         </p>
       </div>
-      <Footer />
+      <Footer fullOnMobile />
     </main>
   );
 }

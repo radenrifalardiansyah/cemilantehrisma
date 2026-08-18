@@ -20,7 +20,7 @@ const footerDescs = {
   ],
 };
 
-export default function Footer() {
+export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolean }) {
   const { t, locale } = useLanguage();
   const [descIndex, setDescIndex] = useState(0);
 
@@ -46,10 +46,10 @@ export default function Footer() {
   ];
   return (
     <>
-    <footer className="relative bg-amber-800 overflow-hidden hidden md:block">
+    <footer className={`relative bg-amber-800 overflow-hidden ${fullOnMobile ? 'block' : 'hidden md:block'}`}>
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <motion.div
@@ -244,21 +244,23 @@ export default function Footer() {
       </div>
     </footer>
 
-    <div className="block md:hidden bg-amber-800 border-t border-amber-700/50 px-4 py-3 text-center">
-      <p className="text-amber-50/70 text-xs mb-1">{t.footer.copyright}</p>
-      <p className="text-[10px] mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
-        <span className="text-amber-200/50">{locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}</span>
-        <a
-          href="https://eleven-digital.id"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-amber-300/70 hover:text-amber-200 transition-colors underline underline-offset-2"
-        >
-          PT. Eleven Digital Indonesia
-        </a>
-        <span className="text-amber-200/50">{locale === 'en' ? ' · supported by PT. RMedia Production' : ' · didukung oleh PT. RMedia Production'}</span>
-      </p>
-    </div>
+    {!fullOnMobile && (
+      <div className="block md:hidden bg-amber-800 border-t border-amber-700/50 px-4 py-3 text-center">
+        <p className="text-amber-50/70 text-xs mb-1">{t.footer.copyright}</p>
+        <p className="text-[10px] mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="text-amber-200/50">{locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}</span>
+          <a
+            href="https://eleven-digital.id"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-amber-300/70 hover:text-amber-200 transition-colors underline underline-offset-2"
+          >
+            PT. Eleven Digital Indonesia
+          </a>
+          <span className="text-amber-200/50">{locale === 'en' ? ' · supported by PT. RMedia Production' : ' · didukung oleh PT. RMedia Production'}</span>
+        </p>
+      </div>
+    )}
     </>
   );
 }

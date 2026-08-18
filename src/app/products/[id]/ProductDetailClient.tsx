@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useLiveProducts } from '@/lib/useLiveProducts';
 import { useLiveCategories, categoryNameById } from '@/lib/useLiveCategories';
+import { useProductSoldCounts } from '@/lib/useProductSoldCounts';
 import { getProductLocale } from '@/lib/product-translations';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/lib/store';
@@ -36,6 +37,7 @@ export default function ProductDetailClient() {
   const { addItem, openCart } = useCartStore();
   const products = useLiveProducts();
   const categories = useLiveCategories();
+  const soldCounts = useProductSoldCounts();
 
   const product = products.find(p => p.id === params.id);
   const [imgIndex, setImgIndex] = useState(0);
@@ -60,6 +62,7 @@ export default function ProductDetailClient() {
   }
 
   const lp = getProductLocale(product.id, locale, product);
+  const soldCount = soldCounts[product.id] ?? 0;
   const images = product.images ?? [];
   const hasMultiple = images.length > 1;
 
@@ -209,6 +212,11 @@ export default function ProductDetailClient() {
           {stock.label}
           {product.stock === 'ready' && typeof product.stockQty === 'number' && ` · ${product.stockQty} pcs`}
         </span>
+        {soldCount > 0 && (
+          <span className="text-xs text-amber-500 bg-amber-50 border border-amber-100 px-2.5 py-0.5 rounded-full">
+            {soldCount} {t.product.sold}
+          </span>
+        )}
       </div>
 
       {/* Name */}

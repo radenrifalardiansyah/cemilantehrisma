@@ -97,31 +97,13 @@ export default function Navbar() {
           {/* Right side */}
           <div className="flex items-center gap-2">
 
-            {/* Account */}
-            {account ? (
-              <button
-                onClick={logout}
-                title="Keluar"
-                className="hidden md:flex items-center gap-1.5 h-10 px-4 rounded-full border border-amber-200 bg-white text-amber-700 text-sm font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
-              >
-                <LogOut size={15} /> {account.name.split(' ')[0]}
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="hidden md:flex items-center gap-1.5 h-10 px-4 rounded-full border border-amber-200 bg-white text-amber-700 text-sm font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
-              >
-                <LogIn size={15} /> Masuk
-              </Link>
-            )}
-
             {/* Language toggle */}
-            <div className="flex items-center h-9 sm:h-10 rounded-full border border-amber-200 bg-white overflow-hidden shadow-sm">
+            <div className="flex items-center h-9 rounded-full border border-amber-200 bg-white overflow-hidden shadow-sm">
               {LOCALES.map(l => (
                 <button
                   key={l.code}
                   onClick={() => setLocale(l.code)}
-                  className={`h-full px-3 sm:px-4 text-xs sm:text-sm font-bold transition-all ${
+                  className={`h-full px-3 text-xs font-bold transition-all ${
                     locale === l.code
                       ? 'text-white'
                       : 'text-amber-700/60 hover:text-amber-800'
@@ -139,9 +121,9 @@ export default function Navbar() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
-                className="flex items-center gap-2 h-10 px-5 !rounded-full btn-primary text-sm font-bold shadow-md"
+                className="flex items-center gap-1.5 h-9 px-4 !rounded-full btn-primary text-xs font-bold shadow-md"
               >
-                <ShoppingCart size={17} />
+                <ShoppingCart size={15} />
                 <span>{t.nav.cart}</span>
               </motion.button>
               <AnimatePresence>
@@ -159,6 +141,24 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+
+            {/* Account */}
+            {account ? (
+              <button
+                onClick={logout}
+                title="Keluar"
+                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-amber-200 bg-white text-amber-700 text-xs font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
+              >
+                <LogOut size={13} /> {account.name.split(' ')[0]}
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-amber-200 bg-white text-amber-700 text-xs font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
+              >
+                <LogIn size={13} /> Masuk
+              </Link>
+            )}
 
             {/* Mobile: small cart icon */}
             <div className="relative md:hidden">
