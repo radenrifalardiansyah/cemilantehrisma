@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Users kept for the hidden reseller nav item
-import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHorizontal, X, LogIn, LogOut } from 'lucide-react';
+import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHorizontal, X, LogIn, LogOut, Package } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -169,6 +169,18 @@ export default function BottomNav() {
                     <Award size={22} className="text-amber-700/60" />
                     <span className="text-xs font-semibold text-amber-700/60">{t.nav.credit}</span>
                   </button>
+
+                  {/* Pesanan Saya — hanya kalau sudah login */}
+                  {account && (
+                    <Link
+                      href="/pesanan"
+                      onClick={closeAll}
+                      className="flex flex-col items-center gap-2 py-4 rounded-2xl border bg-amber-50/50 border-amber-100 hover:border-amber-200 transition-all"
+                    >
+                      <Package size={22} className="text-amber-700/60" />
+                      <span className="text-xs font-semibold text-amber-700/60">Pesanan</span>
+                    </Link>
+                  )}
 
                   {/* Account */}
                   {account ? (

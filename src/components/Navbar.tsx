@@ -32,6 +32,7 @@ export default function Navbar() {
     { href: '/panduan', label: t.nav.guide },
     // { href: '/reseller', label: t.nav.reseller }, // hidden for now
     { href: '/checkout', label: t.nav.checkout },
+    ...(account ? [{ href: '/pesanan', label: 'Pesanan Saya' }] : []),
   ];
 
   useEffect(() => {
