@@ -20,5 +20,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/admin/:path*', '/api/invoice/:path*'],
+  matcher: ['/api/admin/:path*', '/api/invoice/:path*', '/api/revalidate/:path*'],
 };

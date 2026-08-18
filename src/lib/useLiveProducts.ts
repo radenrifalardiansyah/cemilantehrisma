@@ -7,9 +7,10 @@ import { FireProductRaw, mergeLiveProducts } from '@/lib/liveProducts';
 
 // Module-level cache shared by every component using this hook, so mounting
 // several of them on the same page (e.g. Hero + FeaturedSection) fires a single
-// /api/products request instead of one each. TTL mirrors the API route's own
-// 5-minute server-side cache — no point re-fetching more often than that.
-const CACHE_TTL_MS = 5 * 60 * 1000;
+// /api/products request instead of one each. Short TTL — the API route's own
+// cache is invalidated on demand via /api/revalidate, so this only needs to
+// coalesce same-page-load mounts, not survive a whole browsing session.
+const CACHE_TTL_MS = 30 * 1000;
 let cache: { data: Product[]; ts: number } | null = null;
 let inFlight: Promise<Product[]> | null = null;
 
