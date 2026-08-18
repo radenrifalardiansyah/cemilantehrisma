@@ -102,26 +102,26 @@ export default function Navbar() {
               <button
                 onClick={logout}
                 title="Keluar"
-                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-200 bg-white text-amber-700/80 text-xs font-semibold hover:border-amber-300 transition-colors"
+                className="hidden md:flex items-center gap-1.5 h-10 px-4 rounded-full border border-amber-200 bg-white text-amber-700 text-sm font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
               >
-                <LogOut size={13} /> {account.name.split(' ')[0]}
+                <LogOut size={15} /> {account.name.split(' ')[0]}
               </button>
             ) : (
               <Link
                 href="/login"
-                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-200 bg-white text-amber-700/80 text-xs font-semibold hover:border-amber-300 transition-colors"
+                className="hidden md:flex items-center gap-1.5 h-10 px-4 rounded-full border border-amber-200 bg-white text-amber-700 text-sm font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
               >
-                <LogIn size={13} /> Masuk
+                <LogIn size={15} /> Masuk
               </Link>
             )}
 
             {/* Language toggle */}
-            <div className="flex items-center rounded-xl border border-amber-200 bg-white overflow-hidden shadow-sm">
+            <div className="flex items-center h-9 sm:h-10 rounded-full border border-amber-200 bg-white overflow-hidden shadow-sm">
               {LOCALES.map(l => (
                 <button
                   key={l.code}
                   onClick={() => setLocale(l.code)}
-                  className={`px-2.5 py-1.5 text-xs font-bold transition-all ${
+                  className={`h-full px-3 sm:px-4 text-xs sm:text-sm font-bold transition-all ${
                     locale === l.code
                       ? 'text-white'
                       : 'text-amber-700/60 hover:text-amber-800'
@@ -139,7 +139,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl btn-primary text-sm font-bold shadow-md"
+                className="flex items-center gap-2 h-10 px-5 !rounded-full btn-primary text-sm font-bold shadow-md"
               >
                 <ShoppingCart size={17} />
                 <span>{t.nav.cart}</span>
@@ -165,7 +165,7 @@ export default function Navbar() {
               <motion.button
                 whileTap={{ scale: 0.88 }}
                 onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
-                className="p-2.5 rounded-xl bg-white border border-amber-200 shadow-sm"
+                className="p-2.5 rounded-full bg-white border border-amber-200 shadow-sm"
               >
                 <ShoppingCart size={18} className="text-amber-700" />
               </motion.button>
