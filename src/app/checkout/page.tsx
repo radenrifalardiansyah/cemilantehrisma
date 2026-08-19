@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
-  ShoppingBag, MessageCircle, ArrowLeft, User, Phone, MapPin,
+  ShoppingBag, Wallet, ArrowLeft, User, Phone, MapPin,
   FileText, Package, Truck, Check, ChevronRight, Trash2, Plus, Minus
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -14,7 +14,7 @@ import Cart from '@/components/Cart';
 import Footer from '@/components/Footer';
 import BottomNav from '@/components/BottomNav';
 import { useCartStore } from '@/lib/store';
-import { formatCurrency, openWhatsApp } from '@/lib/whatsapp';
+import { formatCurrency } from '@/lib/whatsapp';
 import { CustomerInfo } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -115,16 +115,16 @@ export default function CheckoutPage() {
       return;
     }
 
-    try {
-      openWhatsApp(items, customer, totalPrice);
-      toast.success(t.checkout.toast.sent);
-      setTimeout(() => {
-        clearCart(); setStep('cart'); setCustomer(defaultCustomer); setLoading(false);
-      }, 1500);
-    } catch {
+    const data = await res.json().catch(() => null) as { id?: string } | null;
+    if (!data?.id) {
       toast.error(t.checkout.toast.failed);
       setLoading(false);
+      return;
     }
+
+    toast.success(t.checkout.toast.sent);
+    clearCart();
+    router.push(`/pesanan/${data.id}/bayar`);
   };
 
   const stepInfo = [
@@ -495,9 +495,9 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              {/* WA notice */}
+              {/* Payment notice */}
               <div className="rounded-2xl p-4 flex items-start gap-3" style={{ background: 'rgba(22,163,74,0.07)', border: '1.5px solid rgba(22,163,74,0.2)' }}>
-                <MessageCircle size={17} className="text-green-600 flex-shrink-0 mt-0.5" />
+                <Wallet size={17} className="text-green-600 flex-shrink-0 mt-0.5" />
                 <p className="text-green-800/80 text-sm leading-relaxed">
                   {t.checkout.waNotice}
                 </p>
@@ -514,7 +514,7 @@ export default function CheckoutPage() {
                   className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-sm text-white shadow-lg transition-all disabled:opacity-60"
                   style={{ background: loading ? 'rgba(22,163,74,0.5)' : 'linear-gradient(135deg, #16A34A, #15803D)', boxShadow: loading ? 'none' : '0 6px 20px rgba(22,163,74,0.3)' }}
                 >
-                  <MessageCircle size={16} />
+                  <Check size={16} />
                   {loading ? t.checkout.sending : t.checkout.sendWA}
                 </motion.button>
               </div>

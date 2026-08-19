@@ -84,6 +84,7 @@ export async function POST(req: NextRequest) {
       total,
       status: 'baru',
       source: 'portal',
+      paymentStatus: 'belum_lunas',
       createdAt: FieldValue.serverTimestamp(),
     });
 

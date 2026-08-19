@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BottomNav from '@/components/BottomNav';
+import Cart from '@/components/Cart';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatCurrency } from '@/lib/whatsapp';
 
@@ -85,6 +86,7 @@ interface OrderItem { name: string; qty: number; weight: string; price: number }
 interface Order {
   id: string; invoiceNo: string; date: string; status: string; total: number;
   deliveryMethod: 'pickup' | 'delivery'; address: string; items: OrderItem[];
+  paymentStatus: 'lunas' | 'belum_lunas'; hasProof: boolean;
 }
 
 const STATUS_LABEL: Record<string, string> = {
@@ -179,6 +181,22 @@ export default function OrdersPage() {
                   </span>
                   <span className="font-display font-bold text-amber-950">{formatCurrency(order.total)}</span>
                 </div>
+                {order.paymentStatus === 'belum_lunas' && order.status !== 'dibatalkan' && order.status !== 'selesai' && (
+                  <div className="px-5 py-3 border-t border-amber-50 flex items-center justify-between gap-3">
+                    {order.hasProof ? (
+                      <span className="text-amber-700/60 text-xs flex items-center gap-1.5">
+                        <Clock size={12} /> Menunggu verifikasi admin
+                      </span>
+                    ) : (
+                      <span className="text-red-600/70 text-xs font-semibold">Belum dibayar</span>
+                    )}
+                    <Link href={`/pesanan/${order.id}/bayar`}>
+                      <button className="btn-primary px-4 py-2 text-xs font-bold">
+                        {order.hasProof ? 'Lihat Pembayaran' : 'Bayar Sekarang'}
+                      </button>
+                    </Link>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -186,6 +204,7 @@ export default function OrdersPage() {
       </div>
       <div className="hidden sm:block"><Footer /></div>
       <BottomNav />
+      <Cart />
     </main>
   );
 }

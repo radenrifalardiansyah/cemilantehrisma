@@ -4,7 +4,7 @@ export const translations = {
   id: {
     nav: {
       home: 'Beranda', menu: 'Menu', reseller: 'Reseller',
-      checkout: 'Checkout', cart: 'Keranjang', kontak: 'Kontak', guide: 'Panduan', credit: 'Credit', all: 'Semua',
+      cart: 'Keranjang', kontak: 'Kontak', guide: 'Panduan', credit: 'Credit', all: 'Semua', account: 'Akun',
     },
     hero: {
       brand: 'Cemilan Teh Risma · Kota Bogor',
@@ -46,7 +46,7 @@ export const translations = {
     },
     checkout: {
       backToMenu: 'Kembali ke Menu', title1: 'Checkout', title2: 'Pesanan',
-      subtitle: 'Konfirmasi pesanan dan kirim ke WhatsApp',
+      subtitle: 'Konfirmasi pesanan dan lanjut ke pembayaran',
       steps: { cart: 'Keranjang', info: 'Data Diri', confirm: 'Konfirmasi' },
       orderSummary: 'Ringkasan Pesanan', emptyCart: 'Keranjang masih kosong',
       subtotal: 'Subtotal', total: 'Total', continueToInfo: 'Lanjut Isi Data Diri',
@@ -81,7 +81,7 @@ export const translations = {
       hours: 'Setiap Hari, 08.00 – 21.00', mapsLink: 'Lihat di Google Maps →',
       copyright: '© 2026 Cemilan Teh Risma. Semua hak dilindungi.',
       madeWith: 'Dibuat dengan', madeFrom: 'dari Bogor 🍟',
-      links: { home: 'Beranda', products: 'Produk', checkout: 'Checkout', guide: 'Panduan' },
+      links: { home: 'Beranda', products: 'Produk', guide: 'Panduan' },
       categories: { keripik: 'Keripik Kimpul', mie: 'Mie Kremes', snack: 'Snack Lainnya', paket: 'Paket Hemat' },
     },
     products: {
@@ -178,7 +178,7 @@ export const translations = {
   en: {
     nav: {
       home: 'Home', menu: 'Menu', reseller: 'Reseller',
-      checkout: 'Checkout', cart: 'Cart', kontak: 'Contact', guide: 'Guide', credit: 'Credit', all: 'More',
+      cart: 'Cart', kontak: 'Contact', guide: 'Guide', credit: 'Credit', all: 'More', account: 'Account',
     },
     hero: {
       brand: 'Cemilan Teh Risma · Bogor City',
@@ -254,7 +254,7 @@ export const translations = {
       hours: 'Every Day, 08.00 – 21.00', mapsLink: 'View on Google Maps →',
       copyright: '© 2026 Cemilan Teh Risma. All rights reserved.',
       madeWith: 'Made with', madeFrom: 'from Bogor 🍟',
-      links: { home: 'Home', products: 'Products', checkout: 'Checkout', guide: 'Guide' },
+      links: { home: 'Home', products: 'Products', guide: 'Guide' },
       categories: { keripik: 'Keripik Kimpul', mie: 'Mie Kremes', snack: 'Other Snacks', paket: 'Bundle Pack' },
     },
     products: {

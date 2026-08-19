@@ -7,6 +7,7 @@ interface OrderDoc {
   deliveryMethod?: 'pickup' | 'delivery'; address?: string;
   items?: { name?: string; qty?: number; weight?: string; price?: number }[];
   createdAt?: { toMillis?: () => number };
+  paymentStatus?: 'lunas' | 'belum_lunas'; transferProofUrl?: string;
 }
 
 export async function GET(req: NextRequest) {
@@ -33,6 +34,8 @@ export async function GET(req: NextRequest) {
           items: (data.items ?? []).map(it => ({
             name: it.name ?? '', qty: it.qty ?? 1, weight: it.weight ?? '', price: it.price ?? 0,
           })),
+          paymentStatus: data.paymentStatus ?? 'belum_lunas',
+          hasProof: !!data.transferProofUrl,
         },
         createdAtMs: data.createdAt?.toMillis?.() ?? 0,
       };

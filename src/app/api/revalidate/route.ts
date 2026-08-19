@@ -4,7 +4,7 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 // Called by the (separate) admin app right after it writes to Firestore, so the
 // storefront's 5-min product/category cache doesn't have to expire on its own —
 // admin edits show up on the next request instead of up to 5 min later.
-const VALID_TAGS = ['products', 'categories', 'stats'] as const;
+const VALID_TAGS = ['products', 'categories', 'stats', 'payment-info'] as const;
 type ValidTag = typeof VALID_TAGS[number];
 
 function isAuthed(req: NextRequest) {

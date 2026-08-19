@@ -5,7 +5,7 @@ import { getMessaging } from 'firebase-admin/messaging';
 // cemilantehrisma-admin/src/lib/notifications.ts) — dibaca realtime oleh bell notifikasi admin.
 // Endpoint checkout ini publik/tanpa auth, jadi actor-nya nama pelanggan, bukan AuthUser admin.
 export async function notify(opts: {
-  type: 'order_new';
+  type: 'order_new' | 'payment_proof';
   title: string;
   message: string;
   link?: string;
