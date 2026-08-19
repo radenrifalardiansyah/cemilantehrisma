@@ -11,7 +11,7 @@ import ProductCard from '@/components/ProductCard';
 import ProductBanner from '@/components/ProductBanner';
 import BottomNav from '@/components/BottomNav';
 import { categoryData } from '@/lib/products';
-import { Category } from '@/types';
+import { Category, Product } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLiveProducts } from '@/lib/useLiveProducts';
 import { useLiveCategories } from '@/lib/useLiveCategories';
@@ -100,8 +100,11 @@ function ProductsPage() {
       const q = searchQuery.toLowerCase();
       list = list.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
     }
-    if (sortBy === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
-    if (sortBy === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
+    // Produk habis stok ditaruh di bawah, produk ready/open PO tetap di atas
+    const availabilityRank = (p: Product) => (p.stock === 'habis' ? 1 : 0);
+    list = [...list].sort((a, b) => availabilityRank(a) - availabilityRank(b));
+    if (sortBy === 'price-asc') list = [...list].sort((a, b) => availabilityRank(a) - availabilityRank(b) || a.price - b.price);
+    if (sortBy === 'price-desc') list = [...list].sort((a, b) => availabilityRank(a) - availabilityRank(b) || b.price - a.price);
     return list;
   }, [products, activeCategory, searchQuery, sortBy]);
 
