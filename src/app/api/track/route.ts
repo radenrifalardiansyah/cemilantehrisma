@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const PAGE_LABELS: Record<string, string> = {
-  '/':          'Beranda 🏠',
-  '/products':  'Menu Produk 🛒',
-  '/reseller':  'Reseller 🤝',
-  '/panduan':   'Panduan 📖',
-  '/kontak':    'Kontak 📞',
-  '/checkout':  'Checkout 💳',
+  '/':          'Beranda',
+  '/products':  'Menu Produk',
+  '/reseller':  'Reseller',
+  '/panduan':   'Panduan',
+  '/kontak':    'Kontak',
+  '/checkout':  'Checkout',
 };
 
 function getPageLabel(path: string): string {
   if (PAGE_LABELS[path]) return PAGE_LABELS[path];
-  if (path.startsWith('/products/')) return `Detail Produk 📦`;
+  if (path.startsWith('/products/')) return `Detail Produk`;
   return path;
 }
 
@@ -34,15 +34,15 @@ export async function POST(req: NextRequest) {
       minute:  '2-digit',
     });
 
-    const refLine = ref && ref !== '(langsung)' ? `\n🔗 Dari: ${ref}` : '';
+    const refLine = ref && ref !== '(langsung)' ? `\nDari: ${ref}` : '';
 
     const text =
-      `🔔 *Pengunjung Baru — Cemilan Teh Risma*\n\n` +
+      `*Pengunjung Baru — Cemilan Teh Risma*\n\n` +
       `${device}\n` +
-      `🌐 Browser: ${browser}\n` +
-      `📄 Halaman: ${getPageLabel(page)}` +
+      `Browser: ${browser}\n` +
+      `Halaman: ${getPageLabel(page)}` +
       refLine +
-      `\n⏰ ${now} WIB`;
+      `\n${now} WIB`;
 
     const url = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodeURIComponent(text)}&apikey=${apiKey}`;
 

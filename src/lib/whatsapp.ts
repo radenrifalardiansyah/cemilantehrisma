@@ -33,7 +33,7 @@ Paket     : ${paketLine}
 Platform  : ${platformLine}
 Pengalaman: ${pengalamanLine}
 
-Saya ingin *secure slot* reseller Mie Kremes Teh Risma. Mohon info lebih lanjut ya Teh, terima kasih! 🙏`.trim();
+Saya ingin *secure slot* reseller Mie Kremes Teh Risma. Mohon info lebih lanjut ya Teh, terima kasih!`.trim();
 };
 
 export const openResellerWhatsApp = (data: ResellerInfo): void => {

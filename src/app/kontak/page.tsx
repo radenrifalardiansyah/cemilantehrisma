@@ -164,7 +164,7 @@ export default function KontakPage() {
 
         {/* WA order shortcut */}
         <motion.a
-          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Halo Teh Risma, saya mau pesan cemilan 😊')}`}
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Halo Teh Risma, saya mau pesan cemilan')}`}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 12 }}
