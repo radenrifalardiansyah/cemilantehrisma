@@ -5,13 +5,16 @@ import { getDb } from '@/lib/firebase';
 interface OrderDoc { status?: string; items?: { productId?: string; qty?: number }[] }
 
 // Angka "terjual" per produk yang ditampilkan di kartu & halaman detail produk —
-// dihitung dari pesanan berstatus selesai, sama seperti /api/stats/public tapi
-// dikelompokkan per productId. Cache 1 jam, tag "stats" (sudah di-revalidate admin
-// app lewat POST /api/revalidate setiap kali pesanan ditandai selesai).
+// dihitung dari pesanan selesai (website & kasir online, sama seperti
+// /api/stats/public) tapi dikelompokkan per productId. Konsinyasi tidak
+// termasuk karena consignmentRecaps tidak punya breakdown per produk, jadi
+// angka per-produk di sini bisa lebih kecil dari total agregat di beranda.
+// Cache 1 jam, tag "stats" (sudah di-revalidate admin app lewat
+// POST /api/revalidate setiap kali pesanan ditandai selesai).
 const getCachedProductStats = unstable_cache(
   async () => {
     const db = getDb();
-    const ordersSnap = await db.collection('orders').where('status', '==', 'selesai').get();
+    const ordersSnap = await db.collection('orders').where('status', 'in', ['selesai', 'done']).get();
 
     const soldByProduct: Record<string, number> = {};
     for (const doc of ordersSnap.docs) {

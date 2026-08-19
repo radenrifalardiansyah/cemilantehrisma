@@ -111,7 +111,7 @@ export default function Hero() {
   };
 
   const stats = [
-    { value: `${soldCount}+`, label: t.hero.stats.sold, icon: '📦' },
+    { value: `${soldCount}`, label: t.hero.stats.sold, icon: '📦' },
     ...(reviewCount > 0 ? [{ value: `${rating?.toFixed(1)}★`, label: t.hero.stats.rating, icon: '⭐' }] : []),
     { value: `${liveProducts.length}`, label: t.hero.stats.variants, icon: '🛒' },
     { value: 'Bogor', label: t.hero.stats.location, icon: '📍' },
@@ -456,7 +456,7 @@ export default function Hero() {
                     ))}
                   </div>
                   <p className="text-[10px] text-amber-800/70 font-semibold">
-                    {soldCount}+ {t.hero.soldSuffix}
+                    {soldCount} {t.hero.soldSuffix}
                   </p>
                 </motion.div>
               )}
