@@ -11,9 +11,10 @@ export interface CustomerSession {
   phone: string;
 }
 
-// Nomor HP dipakai sebagai id akun & identitas login (aplikasi ini tidak pernah
-// mengumpulkan email) — dinormalisasi ke format 62xxxx supaya "0812..." dan
-// "+62812..." dianggap akun yang sama.
+// Nomor HP dipakai sebagai id akun & identitas login (akun HP+password tidak
+// pernah mengumpulkan email; akun Google menyimpan email dari Google sebagai
+// info tambahan saja, bukan identitas login) — dinormalisasi ke format 62xxxx
+// supaya "0812..." dan "+62812..." dianggap akun yang sama.
 export function normalizePhone(raw: string): string {
   const digits = raw.replace(/\D/g, '');
   if (digits.startsWith('0')) return `62${digits.slice(1)}`;

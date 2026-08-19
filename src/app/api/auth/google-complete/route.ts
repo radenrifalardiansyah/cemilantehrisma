@@ -28,10 +28,11 @@ export async function POST(req: NextRequest) {
   if (existing.exists) {
     // Nomor ini sudah pernah daftar (mis. lewat HP+password) — tautkan akun Google
     // ke situ saja daripada bikin akun duplikat.
-    await ref.set({ googleUid: pending.uid }, { merge: true });
+    await ref.set({ googleUid: pending.uid, ...(pending.email ? { email: pending.email } : {}) }, { merge: true });
   } else {
     await ref.set({
       name: pending.name, phone, googleUid: pending.uid, authProvider: 'google',
+      ...(pending.email ? { email: pending.email } : {}),
       createdAt: FieldValue.serverTimestamp(),
     });
   }
