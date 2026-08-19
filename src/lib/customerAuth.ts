@@ -9,6 +9,7 @@ export interface CustomerSession {
   id: string;
   name: string;
   phone: string;
+  createdAt: number | null;
 }
 
 // Nomor HP dipakai sebagai id akun & identitas login (akun HP+password tidak
@@ -63,8 +64,13 @@ export async function getSessionCustomer(req: NextRequest): Promise<CustomerSess
 
   const doc = await getDb().collection('storefront_customers').doc(id).get();
   if (!doc.exists) return null;
-  const data = doc.data() as { name?: string; phone?: string };
-  return { id, name: data.name ?? '', phone: data.phone ?? id };
+  const data = doc.data() as { name?: string; phone?: string; createdAt?: { toMillis?: () => number } };
+  return {
+    id,
+    name: data.name ?? '',
+    phone: data.phone ?? id,
+    createdAt: data.createdAt?.toMillis?.() ?? null,
+  };
 }
 
 // A Google sign-in for a brand-new account has no phone yet (checkout needs one —

@@ -11,8 +11,14 @@ const getCachedCategories = unstable_cache(
     const db   = getDb();
     const snap = await db.collection('categories').get();
     return snap.docs.map(d => {
-      const data = d.data() as { name?: string; bannerUrl?: string };
-      return { id: d.id, name: data.name ?? '', bannerUrl: data.bannerUrl ?? '' };
+      const data = d.data() as { name?: string; bannerUrl?: string; emoji?: string; description?: string };
+      return {
+        id: d.id,
+        name: data.name ?? '',
+        bannerUrl: data.bannerUrl ?? '',
+        emoji: data.emoji ?? '',
+        description: data.description ?? '',
+      };
     });
   },
   ['public-categories'],

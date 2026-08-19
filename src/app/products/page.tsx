@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect, useMemo } from 'react';
+import { Suspense, useState, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
@@ -27,21 +27,61 @@ function ProductsPage() {
   const products = useLiveProducts();
   const liveCategories = useLiveCategories();
 
+  // Mouse drag-to-scroll for the category tabs row, so desktop users (no touchpad
+  // swipe / no visible scrollbar) can still slide it with a click-drag, same as touch.
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const drag = useRef({ down: false, moved: false, startX: 0, scrollLeft: 0 });
+
+  const onTabsPointerDown = (e: React.PointerEvent) => {
+    const el = tabsRef.current;
+    if (!el) return;
+    drag.current = { down: true, moved: false, startX: e.clientX, scrollLeft: el.scrollLeft };
+  };
+  const onTabsPointerMove = (e: React.PointerEvent) => {
+    const el = tabsRef.current;
+    if (!el || !drag.current.down) return;
+    const dx = e.clientX - drag.current.startX;
+    if (Math.abs(dx) > 5) drag.current.moved = true;
+    el.scrollLeft = drag.current.scrollLeft - dx;
+  };
+  const onTabsPointerUp = () => { drag.current.down = false; };
+  // Swallow the click that follows a drag so it doesn't also select whichever tab
+  // the pointer happened to release over.
+  const onTabsClickCapture = (e: React.MouseEvent) => {
+    if (drag.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      drag.current.moved = false;
+    }
+  };
+
   const allTab = { id: 'semua' as Category, name: t.products.allCategory, emoji: '🛒', count: products.length };
   const catNames = t.footer.categories;
-  const staticIds = new Set<string>(categoryData.map(c => c.id));
-  const staticTabs = categoryData.map(c => ({
-    ...c,
-    id: c.id as Category,
-    name: catNames[c.id as keyof typeof catNames] ?? c.name,
-    count: products.filter(p => p.category === c.id).length,
-  }));
-  // Any category the admin created beyond the 4 seeded above (e.g. via CategoriesTab)
-  // still needs a browsable tab, otherwise its products are only reachable via "Semua".
-  const extraTabs = liveCategories
-    .filter(c => !staticIds.has(c.id) && products.some(p => p.category === c.id))
-    .map(c => ({ id: c.id as Category, name: c.name, emoji: '🏷️', count: products.filter(p => p.category === c.id).length }));
-  const tabs = [allTab, ...staticTabs, ...extraTabs];
+  // Older category docs (migrated before the admin form had an emoji field) fall back
+  // to a name match against the 4 seeded ids (e.g. 'mie' -> 'mie-kremes' kept the name).
+  const emojiByName = Object.fromEntries(categoryData.map(c => [c.name.toLowerCase(), c.emoji])) as Record<string, string>;
+  const liveIds = new Set<string>(liveCategories.map(c => c.id));
+  // The admin's live category collection is the master data — it decides which
+  // categories exist, what they're named, and (via the admin's emoji picker) their icon.
+  const masterTabs = liveCategories
+    .filter(c => products.some(p => p.category === c.id))
+    .map(c => ({
+      id: c.id as Category,
+      name: catNames[c.id as keyof typeof catNames] ?? c.name,
+      emoji: c.emoji || emojiByName[c.name.toLowerCase()] || '🏷️',
+      count: products.filter(p => p.category === c.id).length,
+    }));
+  // Legacy safety net: a seeded id with real products that never got a matching
+  // Firestore doc (pre-dating admin-managed categories) still needs a browsable tab.
+  const legacyTabs = categoryData
+    .filter(c => !liveIds.has(c.id) && products.some(p => p.category === c.id))
+    .map(c => ({
+      ...c,
+      id: c.id as Category,
+      name: catNames[c.id as keyof typeof catNames] ?? c.name,
+      count: products.filter(p => p.category === c.id).length,
+    }));
+  const tabs = [allTab, ...masterTabs, ...legacyTabs];
 
   useEffect(() => {
     const cat = searchParams.get('category') as Category | null;
@@ -50,7 +90,7 @@ function ProductsPage() {
 
   // Category banners are managed in the admin dashboard and joined here by doc id
   // (the same id stored in each product's `category` field), not by display name.
-  const activeCategoryMeta = [...staticTabs, ...extraTabs].find(c => c.id === activeCategory);
+  const activeCategoryMeta = [...masterTabs, ...legacyTabs].find(c => c.id === activeCategory);
   const activeBannerUrl = liveCategories.find(c => c.id === activeCategory)?.bannerUrl || undefined;
 
   const filtered = useMemo(() => {
@@ -191,11 +231,16 @@ function ProductsPage() {
 
         {/* Category tabs */}
         <motion.div
+          ref={tabsRef}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="flex gap-2 overflow-x-auto pb-2 mb-8"
-          style={{ scrollbarWidth: 'none' }}
+          className="flex gap-2 overflow-x-auto pb-2 mb-8 no-scrollbar cursor-grab active:cursor-grabbing select-none"
+          onPointerDown={onTabsPointerDown}
+          onPointerMove={onTabsPointerMove}
+          onPointerUp={onTabsPointerUp}
+          onPointerLeave={onTabsPointerUp}
+          onClickCapture={onTabsClickCapture}
         >
           {tabs.map(tab => (
             <motion.button

@@ -113,7 +113,7 @@ export default function Hero() {
   const stats = [
     { value: `${soldCount}+`, label: t.hero.stats.sold, icon: '📦' },
     ...(reviewCount > 0 ? [{ value: `${rating?.toFixed(1)}★`, label: t.hero.stats.rating, icon: '⭐' }] : []),
-    { value: '5', label: t.hero.stats.variants, icon: '🛒' },
+    { value: `${liveProducts.length}`, label: t.hero.stats.variants, icon: '🛒' },
     { value: 'Bogor', label: t.hero.stats.location, icon: '📍' },
   ];
 
@@ -469,7 +469,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
-          className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4"
+          className={`mt-16 grid grid-cols-2 gap-4 ${stats.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}
         >
           {stats.map((s, i) => (
             <motion.div

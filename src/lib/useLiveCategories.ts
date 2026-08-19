@@ -6,6 +6,8 @@ export interface LiveCategory {
   id: string;
   name: string;
   bannerUrl: string;
+  emoji: string;
+  description: string;
 }
 
 // Live category catalog managed from the admin dashboard, keyed by doc id (slug).

@@ -7,6 +7,7 @@ import { User, Phone, Lock, UserPlus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import BottomNav from '@/components/BottomNav';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -139,7 +140,8 @@ function RegisterForm() {
           </Link>
         </p>
       </div>
-      <Footer fullOnMobile />
+      <div className="hidden sm:block"><Footer /></div>
+      <BottomNav />
     </main>
   );
 }

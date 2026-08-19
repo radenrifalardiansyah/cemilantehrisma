@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Users kept for the hidden reseller nav item
-import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHorizontal, X, LogIn, LogOut, Package } from 'lucide-react';
+import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHorizontal, X, LogIn, LogOut, User } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,12 +14,14 @@ import { trackClick } from '@/lib/trackClick';
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const router = useRouter();
   const { toggleCart, getTotalItems } = useCartStore();
   const totalItems = getTotalItems();
   const { t, locale } = useLanguage();
   const { customer: account, logout } = useAuth();
   const [showAll, setShowAll] = useState(false);
   const [showCredit, setShowCredit] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const mainItems = [
     { href: '/',         label: t.nav.home,     icon: Home },
@@ -33,6 +36,21 @@ export default function BottomNav() {
 
   const closeAll = () => setShowAll(false);
 
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    closeAll();
+    await logout();
+    toast.success('Berhasil keluar.');
+    router.replace('/');
+    setLoggingOut(false);
+  };
+
+  const isPathActive = (href: string) =>
+    pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
+  const isAnyMainActive = mainItems.some(item => isPathActive(item.href));
+  const akunHref = account ? '/akun' : '/login';
+  const isAkunActive = isPathActive('/akun') || isPathActive('/login');
+
   return (
     <>
       <nav
@@ -44,7 +62,7 @@ export default function BottomNav() {
 
             {/* Main links */}
             {mainItems.map(item => {
-              const isActive = pathname === item.href;
+              const isActive = isPathActive(item.href);
               const Icon = item.icon;
               return (
                 <Link key={item.href} href={item.href} className="flex-1" onClick={() => trackClick('menu', item.href)}>
@@ -97,15 +115,52 @@ export default function BottomNav() {
               </span>
             </motion.button>
 
-            {/* Semua / More */}
-            <motion.button
-              whileTap={{ scale: 0.88 }}
-              onClick={() => setShowAll(true)}
-              className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
-            >
-              <MoreHorizontal size={22} className="text-amber-800/50" strokeWidth={2} />
-              <span className="text-[10px] font-semibold tracking-tight text-amber-800/50">{t.nav.all}</span>
-            </motion.button>
+            {/* Semua / More — highlighted whenever the current page isn't Home/Menu/Akun,
+                since every other route (panduan, kontak, ...) lives inside this sheet */}
+            {(() => {
+              const isSemuaActive = !isAnyMainActive && !isAkunActive;
+              return (
+                <motion.button
+                  whileTap={{ scale: 0.88 }}
+                  onClick={() => setShowAll(true)}
+                  className="relative flex-1 flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
+                >
+                  {isSemuaActive && (
+                    <motion.div
+                      layoutId="bottom-nav-pill"
+                      className="absolute inset-x-3 top-1.5 h-0.5 rounded-full"
+                      style={{ background: 'linear-gradient(90deg, #F59E0B, #FCD34D)' }}
+                      transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
+                    />
+                  )}
+                  <MoreHorizontal size={22} className={isSemuaActive ? 'text-amber-600' : 'text-amber-800/50'} strokeWidth={isSemuaActive ? 2.3 : 2} />
+                  <span className={`text-[10px] font-semibold tracking-tight ${isSemuaActive ? 'text-amber-600' : 'text-amber-800/50'}`}>
+                    {t.nav.all}
+                  </span>
+                </motion.button>
+              );
+            })()}
+
+            {/* Akun — Shopee-style dedicated account tab; goes straight to /login when logged out */}
+            <Link href={akunHref} className="flex-1" onClick={() => trackClick('menu', akunHref)}>
+              <motion.div
+                whileTap={{ scale: 0.88 }}
+                className="relative flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
+              >
+                {isAkunActive && (
+                  <motion.div
+                    layoutId="bottom-nav-pill"
+                    className="absolute inset-x-3 top-1.5 h-0.5 rounded-full"
+                    style={{ background: 'linear-gradient(90deg, #F59E0B, #FCD34D)' }}
+                    transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
+                  />
+                )}
+                <User size={22} className={isAkunActive ? 'text-amber-600' : 'text-amber-800/50'} strokeWidth={isAkunActive ? 2.3 : 2} />
+                <span className={`text-[10px] font-semibold tracking-tight ${isAkunActive ? 'text-amber-600' : 'text-amber-800/50'}`}>
+                  {t.nav.account}
+                </span>
+              </motion.div>
+            </Link>
 
           </div>
         </div>
@@ -169,39 +224,30 @@ export default function BottomNav() {
                     <Award size={22} className="text-amber-700/60" />
                     <span className="text-xs font-semibold text-amber-700/60">{t.nav.credit}</span>
                   </button>
-
-                  {/* Pesanan Saya — hanya kalau sudah login */}
-                  {account && (
-                    <Link
-                      href="/pesanan"
-                      onClick={closeAll}
-                      className="flex flex-col items-center gap-2 py-4 rounded-2xl border bg-amber-50/50 border-amber-100 hover:border-amber-200 transition-all"
-                    >
-                      <Package size={22} className="text-amber-700/60" />
-                      <span className="text-xs font-semibold text-amber-700/60">Pesanan</span>
-                    </Link>
-                  )}
-
-                  {/* Account */}
-                  {account ? (
-                    <button
-                      onClick={() => { logout(); closeAll(); }}
-                      className="flex flex-col items-center gap-2 py-4 rounded-2xl border bg-amber-50/50 border-amber-100 hover:border-amber-200 transition-all"
-                    >
-                      <LogOut size={22} className="text-amber-700/60" />
-                      <span className="text-xs font-semibold text-amber-700/60">Keluar</span>
-                    </button>
-                  ) : (
-                    <Link
-                      href="/login"
-                      onClick={closeAll}
-                      className="flex flex-col items-center gap-2 py-4 rounded-2xl border bg-amber-50/50 border-amber-100 hover:border-amber-200 transition-all"
-                    >
-                      <LogIn size={22} className="text-amber-700/60" />
-                      <span className="text-xs font-semibold text-amber-700/60">Masuk</span>
-                    </Link>
-                  )}
                 </div>
+
+                {!account && (
+                  <Link
+                    href="/login"
+                    onClick={closeAll}
+                    className="flex items-center justify-center gap-2 py-3.5 rounded-2xl border-2 border-amber-400 shadow-md transition-all"
+                    style={{ background: 'linear-gradient(135deg, #D97706, #F59E0B)' }}
+                  >
+                    <LogIn size={20} className="text-white" />
+                    <span className="text-sm font-bold text-white">Masuk</span>
+                  </Link>
+                )}
+
+                {account && (
+                  <button
+                    onClick={handleLogout}
+                    disabled={loggingOut}
+                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl border-2 border-red-200 bg-red-50 transition-all disabled:opacity-60"
+                  >
+                    <LogOut size={20} className="text-red-500" />
+                    <span className="text-sm font-bold text-red-600">{loggingOut ? 'Keluar...' : 'Keluar'}</span>
+                  </button>
+                )}
               </div>
             </motion.div>
           </>

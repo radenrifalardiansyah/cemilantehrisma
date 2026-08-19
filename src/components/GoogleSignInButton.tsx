@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { signInWithGoogle } from '@/lib/googleSignIn';
+import { signInWithGoogle, completeGoogleRedirectSignIn, type GoogleSignInResult } from '@/lib/googleSignIn';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function GoogleSignInButton({ nextUrl }: { nextUrl: string }) {
@@ -11,22 +11,41 @@ export default function GoogleSignInButton({ nextUrl }: { nextUrl: string }) {
   const { refresh } = useAuth();
   const [loading, setLoading] = useState(false);
 
+  const handleResult = useCallback(
+    async (result: GoogleSignInResult) => {
+      if (result.status === 'ok') {
+        await refresh();
+        toast.success('Berhasil masuk!');
+        router.replace(nextUrl);
+        return;
+      }
+      if (result.status === 'needsPhone') {
+        router.replace(`/lengkapi-profil?next=${encodeURIComponent(nextUrl)}&name=${encodeURIComponent(result.name)}`);
+        return;
+      }
+      if (result.status === 'redirecting') return;
+      toast.error('Gagal masuk dengan Google.');
+      setLoading(false);
+    },
+    [nextUrl, refresh, router]
+  );
+
+  // Resumes the flow after signInWithGoogle()'s signInWithRedirect() fallback
+  // (see src/lib/googleSignIn.ts) brings the browser back to this page.
+  useEffect(() => {
+    let cancelled = false;
+    completeGoogleRedirectSignIn().then((result) => {
+      if (result && !cancelled) handleResult(result);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [handleResult]);
+
   const handleClick = async () => {
     setLoading(true);
     const result = await signInWithGoogle();
-
-    if (result.status === 'ok') {
-      await refresh();
-      toast.success('Berhasil masuk!');
-      router.replace(nextUrl);
-      return;
-    }
-    if (result.status === 'needsPhone') {
-      router.replace(`/lengkapi-profil?next=${encodeURIComponent(nextUrl)}&name=${encodeURIComponent(result.name)}`);
-      return;
-    }
-    toast.error('Gagal masuk dengan Google.');
-    setLoading(false);
+    handleResult(result);
   };
 
   return (

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, LogIn, LogOut } from 'lucide-react';
+import { ShoppingCart, LogIn, User } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -24,14 +24,13 @@ export default function Navbar() {
   const { toggleCart, getTotalItems } = useCartStore();
   const totalItems = getTotalItems();
   const { t, locale, setLocale } = useLanguage();
-  const { customer: account, logout } = useAuth();
+  const { customer: account } = useAuth();
 
   const navLinks = [
     { href: '/', label: t.nav.home },
     { href: '/products', label: t.nav.menu },
     { href: '/panduan', label: t.nav.guide },
     // { href: '/reseller', label: t.nav.reseller }, // hidden for now
-    { href: '/checkout', label: t.nav.checkout },
     ...(account ? [{ href: '/pesanan', label: 'Pesanan Saya' }] : []),
   ];
 
@@ -144,13 +143,12 @@ export default function Navbar() {
 
             {/* Account */}
             {account ? (
-              <button
-                onClick={logout}
-                title="Keluar"
+              <Link
+                href="/akun"
                 className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-amber-200 bg-white text-amber-700 text-xs font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
               >
-                <LogOut size={13} /> {account.name.split(' ')[0]}
-              </button>
+                <User size={13} /> {account.name.split(' ')[0]}
+              </Link>
             ) : (
               <Link
                 href="/login"

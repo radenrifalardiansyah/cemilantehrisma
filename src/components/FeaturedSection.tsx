@@ -54,44 +54,6 @@ export default function FeaturedSection() {
           <ProductCard key={product.id} product={product} index={i} />
         ))}
       </div>
-
-      {/* CTA Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.15 }}
-        className="mt-12 sm:mt-16 relative overflow-hidden rounded-2xl p-6 sm:p-8"
-        style={{
-          background: 'linear-gradient(135deg, #FFF3E0 0%, #FFF8ED 50%, #FFF3E0 100%)',
-          border: '1.5px solid rgba(217,119,6,0.2)',
-        }}
-      >
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 flex items-center justify-end pr-6 opacity-10 pointer-events-none">
-          <span className="text-9xl sm:text-[10rem]">🥔</span>
-        </div>
-        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
-          <div>
-            <h3 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-amber-950 mb-2">
-              {t.featured.ctaTitle.split('WhatsApp')[0]}
-              <span className="gradient-text">WhatsApp</span>
-              {t.featured.ctaTitle.split('WhatsApp')[1] ?? ''}
-            </h3>
-            <p className="text-amber-800/60 text-sm sm:text-base max-w-sm">
-              {t.featured.ctaDesc}
-            </p>
-          </div>
-          <Link href="/products" className="flex-shrink-0">
-            <motion.button
-              whileHover={{ scale: 1.04, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className="btn-primary px-6 py-3 text-sm font-bold shadow-lg flex items-center gap-2 whitespace-nowrap"
-            >
-              {t.featured.ctaBtn} <ArrowRight size={14} />
-            </motion.button>
-          </Link>
-        </div>
-      </motion.div>
     </section>
   );
 }

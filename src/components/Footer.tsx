@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Phone, Clock, Instagram, MessageCircle } from 'lucide-react';
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLiveProducts } from '@/lib/useLiveProducts';
+import { useLiveCategories } from '@/lib/useLiveCategories';
+import { categoryData } from '@/lib/products';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useState, useEffect } from 'react';
 
@@ -22,6 +25,8 @@ const footerDescs = {
 
 export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolean }) {
   const { t, locale } = useLanguage();
+  const products = useLiveProducts();
+  const liveCategories = useLiveCategories();
   const [descIndex, setDescIndex] = useState(0);
 
   useEffect(() => {
@@ -35,15 +40,29 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
     { href: '/', label: t.footer.links.home },
     { href: '/products', label: t.footer.links.products },
     { href: '/panduan', label: t.footer.links.guide },
-    { href: '/checkout', label: t.footer.links.checkout },
   ];
 
-  const categories = [
-    { emoji: '🥔', label: t.footer.categories.keripik, href: '/products?category=keripik' },
-    { emoji: '🍝', label: t.footer.categories.mie, href: '/products?category=mie' },
-    { emoji: '🍿', label: t.footer.categories.snack, href: '/products?category=snack' },
-    { emoji: '🎁', label: t.footer.categories.paket, href: '/products?category=paket' },
-  ];
+  // Mirrors CategoriesSection: the admin's live category collection is the master
+  // data, with the 4 seeded categories only used as an emoji/name fallback and as
+  // a safety net for legacy category ids that never got a Firestore doc.
+  const emojiByName = Object.fromEntries(categoryData.map(c => [c.name.toLowerCase(), c.emoji]));
+  const liveIds = new Set(liveCategories.map(c => c.id));
+  const catNames = t.footer.categories;
+  const liveCards = liveCategories
+    .filter(c => products.some(p => p.category === c.id))
+    .map(c => ({
+      emoji: c.emoji || emojiByName[c.name.toLowerCase()] || '🏷️',
+      label: catNames[c.id as keyof typeof catNames] ?? c.name,
+      href: `/products?category=${c.id}`,
+    }));
+  const legacyCards = categoryData
+    .filter(c => !liveIds.has(c.id) && products.some(p => p.category === c.id))
+    .map(c => ({
+      emoji: c.emoji,
+      label: catNames[c.id as keyof typeof catNames] ?? c.name,
+      href: `/products?category=${c.id}`,
+    }));
+  const categories = [...liveCards, ...legacyCards];
   return (
     <>
     <footer className={`relative bg-amber-800 overflow-hidden ${fullOnMobile ? 'block' : 'hidden md:block'}`}>
