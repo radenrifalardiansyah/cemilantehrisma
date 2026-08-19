@@ -1,6 +1,5 @@
 import { getApps, initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
-import { getAuth } from 'firebase-admin/auth';
 
 export { FieldValue };
 
@@ -20,7 +19,12 @@ export function getDb() {
 
 // Used to verify the Firebase ID token a client gets from signInWithPopup(googleProvider)
 // — see src/app/api/auth/google/route.ts. Same underlying app/credential as getDb().
-export function getAuthAdmin() {
+// Dynamic import (not a top-level one) so routes that only need getDb() — i.e. almost
+// every API route — don't bundle firebase-admin/auth's jwks-rsa/jose dependency chain,
+// which fails to load under Vercel's Turbopack build (ERR_REQUIRE_ESM) and was taking
+// down every route that merely imported this file.
+export async function getAuthAdmin() {
   ensureApp();
+  const { getAuth } = await import('firebase-admin/auth');
   return getAuth();
 }

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
   let decoded;
   try {
-    decoded = await getAuthAdmin().verifyIdToken(idToken);
+    decoded = await (await getAuthAdmin()).verifyIdToken(idToken);
   } catch (err) {
     console.error('[api/auth/google] invalid token', err);
     return NextResponse.json({ error: 'invalid_token' }, { status: 401 });
