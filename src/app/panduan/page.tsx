@@ -6,7 +6,7 @@ import Link from 'next/link';
 import {
   Search, ShoppingCart, ClipboardList, UserCheck,
   Truck, CheckCircle2, MessageCircle, Users,
-  FileText, Clock, Gift, BookOpen, Tag, LogIn,
+  FileText, BookOpen, Tag, LogIn,
   CheckCircle, XCircle, Clock3, Flame, Star, Sparkles,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -14,7 +14,6 @@ import Cart from '@/components/Cart';
 import Footer from '@/components/Footer';
 import BottomNav from '@/components/BottomNav';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { WHATSAPP_NUMBER } from '@/lib/whatsapp';
 
 const orderSteps = {
   id: [
@@ -36,25 +35,6 @@ const orderSteps = {
     { icon: Truck,         title: 'Choose Delivery',        desc: 'Choose Pickup (collect directly in Bogor) or Delivery — for Delivery, fill in your full shipping address.' },
     { icon: CheckCircle2,  title: 'Review Order Summary',   desc: 'Double-check your products, quantities, and shipping info before proceeding.' },
     { icon: MessageCircle, title: 'Send via WhatsApp',      desc: 'Click "Confirm via WhatsApp". Stock is verified automatically, then your order is sent to us and processed right away!' },
-  ],
-};
-
-const resellerSteps = {
-  id: [
-    { icon: BookOpen,      title: 'Buka Halaman Reseller', desc: 'Kunjungi halaman Reseller lewat tombol di panduan ini atau footer situs — menu Reseller tidak lagi tampil di navigasi utama.' },
-    { icon: Tag,           title: 'Pilih Paket',           desc: 'Pilih salah satu paket reseller: Krenyes Pemula, Kremes Nagih (Terpopuler), atau Kriuk Maksimal, sesuai kebutuhanmu.' },
-    { icon: FileText,      title: 'Isi Formulir',          desc: 'Lengkapi data diri: nama, nomor WhatsApp, kota, dan alamat lengkap. Platform jualan (Shopee, Instagram, dll) dan pengalaman bersifat opsional.' },
-    { icon: MessageCircle, title: 'Kirim via WhatsApp',    desc: 'Setelah formulir diisi, klik tombol "Daftar Reseller". Data kamu otomatis terkirim ke WhatsApp tim kami.' },
-    { icon: Clock,         title: 'Tunggu Konfirmasi',     desc: 'Tim kami akan membalas dan memverifikasi data dalam 1×24 jam. Pastikan WhatsApp kamu aktif.' },
-    { icon: Gift,          title: 'Mulai Berjualan',       desc: 'Setelah disetujui, kamu langsung dapat harga spesial reseller, materi foto produk, dan teks promosi siap pakai!' },
-  ],
-  en: [
-    { icon: BookOpen,      title: 'Open Reseller Page',    desc: 'Visit the Reseller page via the button on this guide or our site footer — the Reseller menu is no longer shown in the main navigation.' },
-    { icon: Tag,           title: 'Choose a Package',      desc: 'Pick the reseller package that fits you: Krenyes Pemula, Kremes Nagih (Most Popular), or Kriuk Maksimal.' },
-    { icon: FileText,      title: 'Fill in the Form',      desc: 'Complete your details: name, WhatsApp number, city, and full address. Selling platforms (Shopee, Instagram, etc.) and experience are optional.' },
-    { icon: MessageCircle, title: 'Send via WhatsApp',     desc: 'Once the form is filled, click "Register as Reseller". Your data is automatically sent to our WhatsApp team.' },
-    { icon: Clock,         title: 'Wait for Confirmation', desc: 'Our team will reply and verify your data within 24 hours. Make sure your WhatsApp is active.' },
-    { icon: Gift,          title: 'Start Selling',         desc: 'Once approved, you instantly get special reseller pricing, product photos, and ready-to-use captions!' },
   ],
 };
 
@@ -88,16 +68,14 @@ const registerSteps = {
 
 export default function PanduanPage() {
   const { locale } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'order' | 'reseller' | 'account' | 'status'>('order');
+  const [activeTab, setActiveTab] = useState<'order' | 'account' | 'status'>('order');
 
   const oSteps = orderSteps[locale] ?? orderSteps.id;
-  const rSteps = resellerSteps[locale] ?? resellerSteps.id;
   const liSteps = loginSteps[locale] ?? loginSteps.id;
   const reSteps = registerSteps[locale] ?? registerSteps.id;
 
   const tabs = [
     { key: 'order',    label: locale === 'en' ? 'How to Order'      : 'Cara Memesan',    emoji: '🛒' },
-    { key: 'reseller', label: locale === 'en' ? 'Join Reseller'     : 'Daftar Reseller',  emoji: '🤝' },
     { key: 'account',  label: locale === 'en' ? 'Login & Register'  : 'Masuk & Daftar',   emoji: '🔐' },
     { key: 'status',   label: locale === 'en' ? 'Product Status'    : 'Status Produk',    emoji: '🏷️' },
   ] as const;
@@ -125,16 +103,14 @@ export default function PanduanPage() {
           >
             <span className="text-amber-950">{locale === 'en' ? 'How to ' : 'Cara '}</span>
             <span className="gradient-text">{locale === 'en' ? 'Order' : 'Pesan'}</span>
-            <span className="text-amber-950"> & </span>
-            <span className="text-amber-800">{locale === 'en' ? 'Join Reseller' : 'Daftar Reseller'}</span>
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
             className="text-amber-800/60 text-sm sm:text-base max-w-xl mx-auto"
           >
             {locale === 'en'
-              ? 'Step-by-step guide on how to order and how to join as a reseller.'
-              : 'Panduan langkah demi langkah cara memesan produk dan cara bergabung sebagai reseller.'}
+              ? 'Step-by-step guide on how to order.'
+              : 'Panduan langkah demi langkah cara memesan produk.'}
           </motion.p>
         </div>
       </section>
@@ -214,61 +190,6 @@ export default function PanduanPage() {
                   <ShoppingCart size={16} />
                   {locale === 'en' ? 'Shop Now' : 'Belanja Sekarang'}
                 </Link>
-              </motion.div>
-            </motion.div>
-          ) : activeTab === 'reseller' ? (
-            <motion.div
-              key="reseller"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.28 }}
-            >
-              {/* Benefit chips */}
-              <div className="flex flex-wrap gap-2 mb-8">
-                {(locale === 'en'
-                  ? ['Special reseller price', 'Ready product photos', 'WhatsApp support', 'No minimum order']
-                  : ['Harga reseller khusus', 'Foto produk siap pakai', 'Dukungan via WhatsApp', 'Tanpa minimal pemesanan']
-                ).map(b => (
-                  <span key={b} className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-amber-200 rounded-full text-xs font-semibold text-amber-700 shadow-sm">
-                    <CheckCircle2 size={11} className="text-green-500" /> {b}
-                  </span>
-                ))}
-              </div>
-
-              <StepList steps={rSteps} color="#7C3AED" />
-
-              {/* CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                className="mt-10 bg-gradient-to-br from-violet-700 to-purple-600 rounded-2xl p-6 text-center shadow-lg"
-              >
-                <p className="text-white font-display font-bold text-lg mb-1">
-                  {locale === 'en' ? 'Ready to join?' : 'Siap bergabung?'}
-                </p>
-                <p className="text-violet-200 text-sm mb-4">
-                  {locale === 'en' ? 'Register now and start earning.' : 'Daftar sekarang dan mulai berjualan bersama kami.'}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link
-                    href="/reseller"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-violet-700 font-bold rounded-xl text-sm shadow hover:bg-violet-50 transition-colors"
-                  >
-                    <Users size={16} />
-                    {locale === 'en' ? 'Register as Reseller' : 'Daftar Reseller'}
-                  </Link>
-                  <a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(locale === 'en' ? 'Hi, I want to join as a reseller for Cemilan Teh Risma.' : 'Halo, saya ingin mendaftar sebagai reseller Cemilan Teh Risma.')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 text-white font-bold rounded-xl text-sm shadow hover:bg-green-400 transition-colors"
-                  >
-                    <MessageCircle size={16} />
-                    {locale === 'en' ? 'Chat via WhatsApp' : 'Chat via WhatsApp'}
-                  </a>
-                </div>
               </motion.div>
             </motion.div>
           ) : activeTab === 'account' ? (
