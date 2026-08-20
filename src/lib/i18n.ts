@@ -24,6 +24,12 @@ export const translations = {
         desc: 'Mie kremes super crispy dengan bumbu rempah alami khas Bogor. Tanpa pengawet, cocok untuk cemilan kapan saja, mulai',
         flavors: ['Original', 'Pedas'],
       },
+      basreng: {
+        title1: 'Keripik', title2: 'Basreng',
+        sub1: 'Renyah Gurihnya,', sub2: 'Nampol Pedasnya!',
+        desc: 'Keripik basreng khas Bogor, renyah dan gurih dengan taburan bumbu pedas nampol. Tanpa pengawet, mulai',
+        flavors: ['Original', 'Pedas'],
+      },
       stats: { sold: 'Terjual', rating: 'Rating', variants: 'Varian Produk', location: 'Lokasi' },
     },
     featured: {
@@ -196,6 +202,12 @@ export const translations = {
         title1: 'Mie', title2: 'Kremes',
         sub1: 'Truly Savory,', sub2: 'Perfectly Spicy!',
         desc: 'Super crispy mie kremes with natural Bogor spices. No preservatives, perfect for snacking anytime, from',
+        flavors: ['Original', 'Spicy'],
+      },
+      basreng: {
+        title1: 'Keripik', title2: 'Basreng',
+        sub1: 'Crunchy & Savory,', sub2: 'Perfectly Spicy!',
+        desc: 'Bogor-style basreng chips, crunchy and savory with a bold spicy seasoning. No preservatives, from',
         flavors: ['Original', 'Spicy'],
       },
       stats: { sold: 'Sold', rating: 'Rating', variants: 'Product Variants', location: 'Location' },

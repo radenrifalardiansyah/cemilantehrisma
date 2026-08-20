@@ -25,6 +25,10 @@ const slideMeta = [
   { productId: 'kk-ori-100', image: imgOriOri100, badgeColor: '#D97706', glow: 'rgba(217,119,6,0.35)', bg: 'from-amber-100 to-amber-50', group: 'keripik' as const },
   { productId: 'kk-bbq-100', image: imgOriBBQ100, badgeColor: '#B91C1C', glow: 'rgba(185,28,28,0.25)', bg: 'from-red-100 to-orange-50', group: 'keripik' as const },
   { productId: 'kk-jgn-100', image: imgOriJgn100, badgeColor: '#CA8A04', glow: 'rgba(202,138,4,0.3)', bg: 'from-yellow-100 to-amber-50', group: 'keripik' as const },
+  // Basreng is Firestore-only (admin-added, no bundled static entry), so the fallback
+  // image points at its live Cloudinary photo instead of a local static import.
+  { productId: 'Fj3ix8FZucBIdiwMIiLh', image: 'https://res.cloudinary.com/cemilanttehrisma/image/upload/v1787195035/uploads/ddm0pomh7zj4smplx51q.jpg', badgeColor: '#0369A1', glow: 'rgba(3,105,161,0.25)', bg: 'from-sky-100 to-cyan-50', group: 'basreng' as const },
+  { productId: 'NrLK4gFF0gQr81Yt3KjF', image: 'https://res.cloudinary.com/cemilanttehrisma/image/upload/v1787193959/uploads/syst2uyvzznjxqroywal.jpg', badgeColor: '#0F766E', glow: 'rgba(15,118,110,0.25)', bg: 'from-teal-100 to-emerald-50', group: 'basreng' as const },
 ];
 
 const formatPrice = (price: number) => `Rp ${price.toLocaleString('id-ID')}`;
@@ -77,7 +81,7 @@ export default function Hero() {
   const slide = slides[current] ?? slides[0];
   const slideDisplayName = getProductLocale(slide.productId, locale, { name: slide.name, description: '', details: [] }).name;
 
-  const cheapestPriceIn = (group: 'mie' | 'keripik') => {
+  const cheapestPriceIn = (group: 'mie' | 'keripik' | 'basreng') => {
     const prices = slides.filter(s => s.group === group).map(s =>
       liveProducts.find(p => p.id === s.productId)?.price ?? 0
     );
@@ -108,6 +112,15 @@ export default function Hero() {
       ],
       desc: t.hero.mie.desc, price: cheapestPriceIn('mie'),
     },
+    basreng: {
+      title1: t.hero.basreng.title1, title2: t.hero.basreng.title2,
+      sub1: t.hero.basreng.sub1, sub2: t.hero.basreng.sub2,
+      flavors: [
+        { emoji: '🥩', label: t.hero.basreng.flavors[0], bg: 'bg-sky-100', text: 'text-sky-800' },
+        { emoji: '🌶️', label: t.hero.basreng.flavors[1], bg: 'bg-red-100', text: 'text-red-700' },
+      ],
+      desc: t.hero.basreng.desc, price: cheapestPriceIn('basreng'),
+    },
   };
 
   const stats = [
@@ -122,7 +135,7 @@ export default function Hero() {
   const next = useCallback(() => {
     setDir(1);
     setCurrent(i => (i + 1) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   const prev = () => {
     setDir(-1);
