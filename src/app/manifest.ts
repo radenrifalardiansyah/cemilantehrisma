@@ -1,15 +1,16 @@
 import type { MetadataRoute } from 'next';
-import { BRAND_NAME, TAGLINE, THEME_COLOR, THEME_BACKGROUND_COLOR } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const branding = await getCachedBranding();
   return {
-    name: BRAND_NAME,
-    short_name: BRAND_NAME,
-    description: TAGLINE,
+    name: branding.brandName,
+    short_name: branding.brandName,
+    description: branding.tagline,
     start_url: '/',
     display: 'standalone',
-    background_color: THEME_BACKGROUND_COLOR,
-    theme_color: THEME_COLOR,
+    background_color: branding.themeBackgroundColor,
+    theme_color: branding.themeColor,
     orientation: 'portrait',
     icons: [
       {

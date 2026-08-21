@@ -4,6 +4,7 @@ import { renderToBuffer } from '@react-pdf/renderer';
 import InvoicePDF, { type InvoiceData } from '@/lib/pdf/InvoicePDF';
 import { LOGO_DATA_URI, HALAL_DATA_URI } from '@/lib/invoice-assets';
 import { getInvoice } from '@/lib/services/invoiceService';
+import { getCachedBranding } from '@/lib/server/branding';
 
 export const runtime = 'nodejs';
 
@@ -13,7 +14,10 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const saved  = await getInvoice(id);
+    const [saved, branding] = await Promise.all([
+      getInvoice(id),
+      getCachedBranding(),
+    ]);
 
     if (!saved) {
       return new NextResponse('Invoice tidak ditemukan.', { status: 404 });
@@ -24,7 +28,7 @@ export async function GET(
 
     const buffer = await renderToBuffer(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      React.createElement(InvoicePDF, { data }) as any,
+      React.createElement(InvoicePDF, { data, brandName: branding.brandName }) as any,
     );
 
     const safeName = saved.customerName.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-');

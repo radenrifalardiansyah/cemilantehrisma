@@ -7,7 +7,7 @@ import { X, Share, ChevronLeft, ChevronRight, BookOpen, Square, AlertCircle, Cop
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Translation } from '@/lib/i18n';
-import { BRAND_NAME } from '@/lib/branding';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 
 type BannerMode = 'safari' | 'other-browser';
 
@@ -16,6 +16,7 @@ export default function IOSInstallBanner() {
   const [mode, setMode] = useState<BannerMode>('safari');
   const [copied, setCopied] = useState(false);
   const { t } = useLanguage();
+  const branding = useLiveBranding();
 
   useEffect(() => {
     const ua = navigator.userAgent;
@@ -64,14 +65,14 @@ export default function IOSInstallBanner() {
           <div className="p-4">
             <div className="flex items-start gap-3">
               <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-amber-200">
-                <Image src={logo} alt={BRAND_NAME} fill className="object-cover" />
+                <Image src={logo} alt={branding.brandName} fill className="object-cover" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-display font-bold text-amber-950 text-sm leading-tight">
                   {t.pwa.title}
                 </p>
                 <p className="text-amber-700/65 text-xs mt-0.5 leading-snug">
-                  {t.pwa.desc}
+                  {t.pwa.desc(branding.brandName)}
                 </p>
               </div>
               <button

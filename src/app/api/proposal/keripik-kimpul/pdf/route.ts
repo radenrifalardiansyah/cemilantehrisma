@@ -4,7 +4,7 @@ import fs from 'fs';
 import React from 'react';
 import { renderToBuffer } from '@react-pdf/renderer';
 import KeripikKimpulPDF from '@/lib/pdf/KeripikKimpulPDF';
-import { BRAND_NAME } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 
 const ASSETS = path.join(process.cwd(), 'src', 'assets', 'images');
 
@@ -17,6 +17,7 @@ function toDataUri(filename: string): string {
 
 export async function GET() {
   try {
+    const branding = await getCachedBranding();
     const logo      = toDataUri('logo-tehrisma.jpeg');
     const imgOri    = toDataUri('Keripik Kimpul 100g Original.png');
     const imgBBQ    = toDataUri('Keripik Kimpul 100g BBQ.png');
@@ -27,14 +28,14 @@ export async function GET() {
 
     const buffer = await renderToBuffer(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      React.createElement(KeripikKimpulPDF, { logo, imgOri, imgBBQ, imgBBQPdas, imgJgn, imgOri250, halalLogo }) as any
+      React.createElement(KeripikKimpulPDF, { logo, imgOri, imgBBQ, imgBBQPdas, imgJgn, imgOri250, halalLogo, brandName: branding.brandName }) as any
     );
 
     return new NextResponse(new Uint8Array(buffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="Proposal Keripik Kimpul - ${BRAND_NAME}.pdf"`,
+        'Content-Disposition': `attachment; filename="Proposal Keripik Kimpul - ${branding.brandName}.pdf"`,
         'Cache-Control': 'no-store',
       },
     });

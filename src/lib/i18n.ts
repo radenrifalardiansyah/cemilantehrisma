@@ -1,5 +1,3 @@
-import { BRAND_NAME } from '@/lib/branding';
-
 export type Locale = 'id' | 'en';
 
 export const translations = {
@@ -9,7 +7,7 @@ export const translations = {
       cart: 'Keranjang', kontak: 'Kontak', guide: 'Panduan', credit: 'Credit', all: 'Semua', account: 'Akun',
     },
     hero: {
-      brand: `${BRAND_NAME} · Kota Bogor`,
+      brand: (brand: string) => `${brand} · Kota Bogor`,
       orderNow: 'Pesan Sekarang', seeAll: 'Lihat Semua Produk',
       reviewsLabel: 'penilaian', soldSuffix: 'terjual',
       priceFrom: 'Harga mulai',
@@ -87,7 +85,7 @@ export const translations = {
       desc: 'Keripik Kimpul / Talas Balitung super renyah dari Bogor. Gurih, bikin nagih! Tanpa pengawet, bahan pilihan, harga bersahabat.',
       navigation: 'Navigasi', flavors: 'Varian Rasa', contact: 'Kontak',
       hours: 'Setiap Hari, 08.00 – 21.00', mapsLink: 'Lihat di Google Maps →',
-      copyright: `© 2026 ${BRAND_NAME}. Semua hak dilindungi.`,
+      copyright: (brand: string) => `© 2026 ${brand}. Semua hak dilindungi.`,
       madeWith: 'Dibuat dengan', madeFrom: 'dari Bogor 🍟',
       links: { home: 'Beranda', products: 'Produk', guide: 'Panduan' },
       categories: { keripik: 'Keripik Kimpul', mie: 'Mie Kremes', snack: 'Snack Lainnya', paket: 'Paket Hemat' },
@@ -102,7 +100,7 @@ export const translations = {
     },
     pwa: {
       title: 'Pasang di iPhone kamu!',
-      desc: `Akses ${BRAND_NAME} seperti aplikasi, lebih cepat & mudah.`,
+      desc: (brand: string) => `Akses ${brand} seperti aplikasi, lebih cepat & mudah.`,
       safariStepsTitle: 'Cara pasang (3 langkah):',
       toolbarLabel: '↑ Tap tombol ini di Safari kamu',
       step1: 'Tap tombol', step1Share: 'Bagikan', step1Suf: 'di tengah bawah layar Safari',
@@ -114,7 +112,7 @@ export const translations = {
     },
     pwaAndroid: {
       title: 'Pasang di Android kamu!',
-      desc: `Akses ${BRAND_NAME} seperti aplikasi — lebih cepat & mudah.`,
+      desc: (brand: string) => `Akses ${brand} seperti aplikasi — lebih cepat & mudah.`,
       install: 'Pasang Sekarang',
       later: 'Nanti Dulu',
     },
@@ -189,7 +187,7 @@ export const translations = {
       cart: 'Cart', kontak: 'Contact', guide: 'Guide', credit: 'Credit', all: 'More', account: 'Account',
     },
     hero: {
-      brand: `${BRAND_NAME} · Bogor City`,
+      brand: (brand: string) => `${brand} · Bogor City`,
       orderNow: 'Order Now', seeAll: 'See All Products',
       reviewsLabel: 'reviews', soldSuffix: 'sold',
       priceFrom: 'Price from',
@@ -266,7 +264,7 @@ export const translations = {
       desc: 'Super crunchy Kimpul / Taro chips from Bogor. Savory, addictively delicious! No preservatives, selected ingredients, affordable price.',
       navigation: 'Navigation', flavors: 'Flavors', contact: 'Contact',
       hours: 'Every Day, 08.00 – 21.00', mapsLink: 'View on Google Maps →',
-      copyright: `© 2026 ${BRAND_NAME}. All rights reserved.`,
+      copyright: (brand: string) => `© 2026 ${brand}. All rights reserved.`,
       madeWith: 'Made with', madeFrom: 'from Bogor 🍟',
       links: { home: 'Home', products: 'Products', guide: 'Guide' },
       categories: { keripik: 'Keripik Kimpul', mie: 'Mie Kremes', snack: 'Other Snacks', paket: 'Bundle Pack' },
@@ -281,7 +279,7 @@ export const translations = {
     },
     pwa: {
       title: 'Install on your iPhone!',
-      desc: `Access ${BRAND_NAME} like an app, faster & easier.`,
+      desc: (brand: string) => `Access ${brand} like an app, faster & easier.`,
       safariStepsTitle: 'How to install (3 steps):',
       toolbarLabel: '↑ Tap this button in your Safari',
       step1: 'Tap the', step1Share: 'Share', step1Suf: 'button at the bottom center of Safari',
@@ -293,7 +291,7 @@ export const translations = {
     },
     pwaAndroid: {
       title: 'Install on your Android!',
-      desc: `Access ${BRAND_NAME} like an app — faster & easier.`,
+      desc: (brand: string) => `Access ${brand} like an app — faster & easier.`,
       install: 'Install Now',
       later: 'Maybe Later',
     },
@@ -363,5 +361,6 @@ export const translations = {
   },
 } as const;
 
-type DeepString<T> = { [K in keyof T]: T[K] extends string ? string : DeepString<T[K]> };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type DeepString<T> = { [K in keyof T]: T[K] extends string ? string : T[K] extends (...args: any[]) => any ? T[K] : DeepString<T[K]> };
 export type Translation = DeepString<typeof translations.id>;

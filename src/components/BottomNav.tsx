@@ -11,7 +11,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
 import { trackClick } from '@/lib/trackClick';
-import { BRAND_NAME, DEVELOPER } from '@/lib/branding';
+import { DEVELOPER } from '@/lib/branding';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -20,6 +21,7 @@ export default function BottomNav() {
   const totalItems = getTotalItems();
   const { t, locale } = useLanguage();
   const { customer: account, logout } = useAuth();
+  const branding = useLiveBranding();
   const [showAll, setShowAll] = useState(false);
   const [showCredit, setShowCredit] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -307,7 +309,7 @@ export default function BottomNav() {
                     </p>
                     <p className="text-amber-800 font-bold text-sm">{DEVELOPER.supportedBy}</p>
                   </div>
-                  <p className="text-center text-amber-400/70 text-[10px] pt-1">© 2026 {BRAND_NAME}</p>
+                  <p className="text-center text-amber-400/70 text-[10px] pt-1">© 2026 {branding.brandName}</p>
                 </div>
               </div>
             </motion.div>

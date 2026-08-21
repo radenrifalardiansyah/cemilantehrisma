@@ -13,6 +13,7 @@ import Footer from '@/components/Footer';
 import BottomNav from '@/components/BottomNav';
 import { openResellerWhatsApp, ResellerInfo, formatCurrency } from '@/lib/whatsapp';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 
 const pakets = [
   {
@@ -52,6 +53,7 @@ const defaultForm: ResellerInfo = {
 
 export default function ResellerPage() {
   const { t } = useLanguage();
+  const branding = useLiveBranding();
   const platformOptions = [...PLATFORM_FIXED, t.reseller.platformOffline];
   const [form, setForm] = useState<ResellerInfo>(defaultForm);
   const [errors, setErrors] = useState<Partial<Record<keyof ResellerInfo, string>>>({});
@@ -94,7 +96,7 @@ export default function ResellerPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    openResellerWhatsApp(form);
+    openResellerWhatsApp(form, branding.whatsappNumber);
   };
 
   const inputClass = (field: keyof ResellerInfo) =>

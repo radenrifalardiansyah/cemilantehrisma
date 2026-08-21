@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { products } from '@/lib/products';
-import { SITE_URL, BRAND_NAME } from '@/lib/branding';
+import { SITE_URL } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 import { imageSrc } from '@/lib/liveProducts';
 import { getMergedProduct } from '@/lib/server/getProduct';
 import ProductDetailClient from './ProductDetailClient';
@@ -24,7 +25,10 @@ export async function generateMetadata(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<Metadata> {
   const { id } = await params;
-  const product = await getMergedProduct(id, products);
+  const [product, branding] = await Promise.all([
+    getMergedProduct(id, products),
+    getCachedBranding(),
+  ]);
   if (!product) return {};
 
   const title = `${product.name} (${product.weight})`;
@@ -35,14 +39,14 @@ export async function generateMetadata(
     description: product.description,
     keywords: [product.name, `beli ${product.name.toLowerCase()}`, `${product.name.toLowerCase()} bogor`, product.category],
     openGraph: {
-      title: `${title} | ${BRAND_NAME}`,
+      title: `${title} | ${branding.brandName}`,
       description: product.description,
       url: `${SITE_URL}/products/${product.id}`,
       images: imagePath ? [{ url: imagePath }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} | ${BRAND_NAME}`,
+      title: `${title} | ${branding.brandName}`,
       description: product.description,
     },
     alternates: {
@@ -55,7 +59,10 @@ export default async function ProductDetailPage(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const product = await getMergedProduct(id, products);
+  const [product, branding] = await Promise.all([
+    getMergedProduct(id, products),
+    getCachedBranding(),
+  ]);
   if (!product) notFound();
 
   const imagePath = product.images?.[0] ? imageSrc(product.images[0]) : undefined;
@@ -66,7 +73,7 @@ export default async function ProductDetailPage(
     description: product.description,
     category: product.category,
     image: imagePath ? `${SITE_URL}${imagePath}` : undefined,
-    brand: { '@type': 'Brand', name: BRAND_NAME },
+    brand: { '@type': 'Brand', name: branding.brandName },
     offers: {
       '@type': 'Offer',
       url: `${SITE_URL}/products/${product.id}`,

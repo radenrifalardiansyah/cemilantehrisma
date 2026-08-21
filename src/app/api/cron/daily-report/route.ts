@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAnalyticsStats, PAGE_LABELS } from '@/lib/services/analyticsService';
-import { BRAND_NAME, WHATSAPP_NUMBER } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 
 export async function GET(req: NextRequest) {
   const auth   = req.headers.get('authorization') ?? '';
@@ -12,8 +12,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'no_firebase' }, { status: 500 });
   }
 
+  const branding = await getCachedBranding();
   const apiKey = process.env.CALLMEBOT_API_KEY;
-  const phone  = process.env.NOTIFY_PHONE ?? WHATSAPP_NUMBER;
+  const phone  = process.env.NOTIFY_PHONE ?? branding.whatsappNumber;
   if (!apiKey) return NextResponse.json({ error: 'no_callmebot_key' }, { status: 500 });
 
   const { visitors, pageViews, mobile, desktop, pageAgg } = await getAnalyticsStats(7);
@@ -30,7 +31,7 @@ export async function GET(req: NextRequest) {
   });
 
   const msg =
-    `*Rekap ${BRAND_NAME}*\n` +
+    `*Rekap ${branding.brandName}*\n` +
     `_${date}_\n\n` +
     `*Pengunjung:* ${visitors}\n` +
     `*Halaman Dibuka:* ${pageViews}\n` +

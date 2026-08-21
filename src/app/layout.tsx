@@ -9,7 +9,8 @@ import { Analytics } from '@vercel/analytics/next';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import VisitorTracker from '@/components/VisitorTracker';
-import { SITE_URL, BRAND_NAME, LEGAL_NAME, THEME_COLOR } from '@/lib/branding';
+import { SITE_URL } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -24,78 +25,85 @@ const inter = Inter({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: `${BRAND_NAME} — Keripik Kimpul & Mie Kremes Bogor`,
-    template: `%s | ${BRAND_NAME}`,
-  },
-  description:
-    'Toko cemilan khas Bogor: Keripik Kimpul Talas Balitung renyah (3 rasa) & Mie Kremes crispy. Halal, tanpa pengawet. Pesan langsung via WhatsApp, pengiriman ke seluruh Indonesia.',
-  keywords: [
-    'keripik kimpul', 'keripik talas', 'keripik bogor', 'cemilan teh risma',
-    'keripik kimpul original', 'keripik kimpul bbq pedas', 'keripik kimpul jagung',
-    'mie kremes', 'mie kremes bogor', 'mie kremes crispy', 'cemilan halal',
-    'oleh oleh bogor', 'snack bogor', 'cemilan renyah', 'jual keripik kimpul',
-    'beli keripik kimpul', 'cemilan tanpa pengawet', 'warung teh risma',
-  ],
-  authors: [{ name: LEGAL_NAME }],
-  creator: LEGAL_NAME,
-  publisher: LEGAL_NAME,
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
-  openGraph: {
-    title: `${BRAND_NAME} — Keripik Kimpul & Mie Kremes Bogor`,
-    description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet. Pesan via WhatsApp!',
-    type: 'website',
-    locale: 'id_ID',
-    siteName: BRAND_NAME,
-    url: SITE_URL,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: `${BRAND_NAME} — Keripik Kimpul & Mie Kremes Bogor`,
-    description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet.',
-  },
-  alternates: {
-    canonical: SITE_URL,
-  },
-  verification: {
-    google: 'XpJPL5HFJcMPdsWjv7vkn6AOzO06qdM3PeFWO1GckYM',
-  },
-  manifest: '/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    title: BRAND_NAME,
-    statusBarStyle: 'default',
-  },
-  icons: {
-    apple: '/apple-touch-icon.png',
-    icon: [
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+export async function generateMetadata(): Promise<Metadata> {
+  const branding = await getCachedBranding();
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: `${branding.brandName} — Keripik Kimpul & Mie Kremes Bogor`,
+      template: `%s | ${branding.brandName}`,
+    },
+    description:
+      'Toko cemilan khas Bogor: Keripik Kimpul Talas Balitung renyah (3 rasa) & Mie Kremes crispy. Halal, tanpa pengawet. Pesan langsung via WhatsApp, pengiriman ke seluruh Indonesia.',
+    keywords: [
+      'keripik kimpul', 'keripik talas', 'keripik bogor', 'cemilan teh risma',
+      'keripik kimpul original', 'keripik kimpul bbq pedas', 'keripik kimpul jagung',
+      'mie kremes', 'mie kremes bogor', 'mie kremes crispy', 'cemilan halal',
+      'oleh oleh bogor', 'snack bogor', 'cemilan renyah', 'jual keripik kimpul',
+      'beli keripik kimpul', 'cemilan tanpa pengawet', 'warung teh risma',
     ],
-  },
-};
+    authors: [{ name: branding.legalName }],
+    creator: branding.legalName,
+    publisher: branding.legalName,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
+    },
+    openGraph: {
+      title: `${branding.brandName} — Keripik Kimpul & Mie Kremes Bogor`,
+      description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet. Pesan via WhatsApp!',
+      type: 'website',
+      locale: 'id_ID',
+      siteName: branding.brandName,
+      url: SITE_URL,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${branding.brandName} — Keripik Kimpul & Mie Kremes Bogor`,
+      description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet.',
+    },
+    alternates: {
+      canonical: SITE_URL,
+    },
+    verification: {
+      google: 'XpJPL5HFJcMPdsWjv7vkn6AOzO06qdM3PeFWO1GckYM',
+    },
+    manifest: '/manifest.webmanifest',
+    appleWebApp: {
+      capable: true,
+      title: branding.brandName,
+      statusBarStyle: 'default',
+    },
+    icons: {
+      apple: '/apple-touch-icon.png',
+      icon: [
+        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      ],
+    },
+  };
+}
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  themeColor: THEME_COLOR,
-  viewportFit: 'cover',
-};
+export async function generateViewport(): Promise<Viewport> {
+  const branding = await getCachedBranding();
+  return {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    themeColor: branding.themeColor,
+    viewportFit: 'cover',
+  };
+}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const branding = await getCachedBranding();
   return (
     <html lang="id" className={`${playfair.variable} ${inter.variable}`}>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content={BRAND_NAME} />
+        <meta name="apple-mobile-web-app-title" content={branding.brandName} />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>

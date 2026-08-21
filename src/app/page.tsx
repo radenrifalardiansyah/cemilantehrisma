@@ -5,7 +5,8 @@ import Footer from '@/components/Footer';
 import FeaturedSection from '@/components/FeaturedSection';
 import CategoriesSection from '@/components/CategoriesSection';
 import BottomNav from '@/components/BottomNav';
-import { SITE_URL, BUSINESS, BRAND_NAME } from '@/lib/branding';
+import { SITE_URL } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 import { products } from '@/lib/products';
 import { imageSrc } from '@/lib/liveProducts';
 import { getAllMergedProducts, getMergedProduct } from '@/lib/server/getProduct';
@@ -23,6 +24,7 @@ const availabilityMap: Record<string, string> = {
 const featuredProductIds = ['mk-ori-150', 'mk-pdas-150', 'kk-ori-100', 'kk-bbq-100'];
 
 export default async function HomePage() {
+  const branding = await getCachedBranding();
   const featuredProducts = (
     await Promise.all(featuredProductIds.map(id => getMergedProduct(id, products)))
   ).filter((p): p is NonNullable<typeof p> => Boolean(p));
@@ -54,22 +56,24 @@ export default async function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Store',
-    name: BUSINESS.name,
-    alternateName: BUSINESS.legalName,
+    name: branding.brandName,
+    alternateName: branding.legalName,
     description: 'Toko cemilan khas Bogor: Keripik Kimpul Talas Balitung renyah dan Mie Kremes crispy. Halal, tanpa pengawet.',
     url: SITE_URL,
-    telephone: BUSINESS.telephone,
+    telephone: `+${branding.whatsappNumber}`,
     image: `${SITE_URL}/icon-512.png`,
     address: {
       '@type': 'PostalAddress',
-      ...BUSINESS.address,
+      streetAddress: branding.address,
+      addressLocality: branding.city,
+      addressCountry: 'ID',
     },
-    sameAs: BUSINESS.sameAs,
+    sameAs: [branding.instagramUrl, branding.shopeeUrl, branding.whatsappUrl],
     servesCuisine: 'Snack',
     priceRange,
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: BRAND_NAME,
+      name: branding.brandName,
       itemListElement: featuredOffers,
     },
   };

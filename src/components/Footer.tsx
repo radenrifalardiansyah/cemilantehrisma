@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Phone, Clock, Instagram, MessageCircle } from 'lucide-react';
-import { BRAND_NAME, ADDRESS_LINES, SOCIAL, DEVELOPER } from '@/lib/branding';
+import { DEVELOPER } from '@/lib/branding';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLiveProducts } from '@/lib/useLiveProducts';
 import { useLiveCategories } from '@/lib/useLiveCategories';
@@ -25,6 +26,7 @@ const footerDescs = {
 
 export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolean }) {
   const { t, locale } = useLanguage();
+  const branding = useLiveBranding();
   const products = useLiveProducts();
   const liveCategories = useLiveCategories();
   const [descIndex, setDescIndex] = useState(0);
@@ -79,7 +81,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-amber-700/60 shadow-lg flex-shrink-0">
-                <Image src={logo} alt={BRAND_NAME} fill className="object-cover" />
+                <Image src={logo} alt={branding.brandName} fill className="object-cover" />
               </div>
               <div>
                 <p className="font-display text-xl font-bold text-amber-200 leading-none">Cemilan</p>
@@ -102,7 +104,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
             </div>
             <div className="flex gap-3">
               <a
-                href={SOCIAL.whatsappUrl}
+                href={branding.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-green-500 flex items-center justify-center text-white border border-green-400 hover:bg-green-400 transition-all"
@@ -111,16 +113,16 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 <MessageCircle size={16} />
               </a>
               <a
-                href={SOCIAL.instagramUrl}
+                href={branding.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-white border border-pink-400 hover:opacity-90 transition-all" style={{ background: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}
-                aria-label={`Instagram @${SOCIAL.instagramHandle}`}
+                aria-label={`Instagram @${branding.instagramHandle}`}
               >
                 <Instagram size={16} />
               </a>
               <a
-                href={SOCIAL.shopeeUrl}
+                href={branding.shopeeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center border border-orange-400 hover:bg-orange-400 transition-all"
@@ -194,11 +196,11 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 <MapPin size={14} className="text-amber-100 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-amber-50/90 text-sm leading-snug">
-                    {ADDRESS_LINES[0]}<br />
-                    {ADDRESS_LINES[1]}
+                    {branding.address}<br />
+                    {branding.city}
                   </p>
                   <a
-                    href={SOCIAL.mapsUrl}
+                    href={branding.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 mt-1.5 text-xs font-semibold text-amber-300 hover:text-white transition-colors"
@@ -211,7 +213,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
               <li className="flex items-center gap-2.5">
                 <Phone size={14} className="text-amber-100 flex-shrink-0" />
                 <a
-                  href={SOCIAL.whatsappUrl}
+                  href={branding.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-amber-50/90 hover:text-white text-sm transition-colors"
@@ -222,12 +224,12 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
               <li className="flex items-center gap-2.5">
                 <Instagram size={14} className="text-amber-100 flex-shrink-0" />
                 <a
-                  href={SOCIAL.instagramUrl}
+                  href={branding.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-amber-50/90 hover:text-white text-sm transition-colors"
                 >
-                  @{SOCIAL.instagramHandle}
+                  @{branding.instagramHandle}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
@@ -240,7 +242,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
 
         <div className="mt-12 pt-6 border-t border-amber-600/60 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex flex-col items-center sm:items-start gap-0.5">
-            <p className="text-amber-50/85 text-sm">{t.footer.copyright}</p>
+            <p className="text-amber-50/85 text-sm">{t.footer.copyright(branding.brandName)}</p>
             <p className="text-amber-200/70 text-xs whitespace-nowrap">
               {locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}
               <a
@@ -265,7 +267,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
 
     {!fullOnMobile && (
       <div className="block md:hidden bg-amber-800 border-t border-amber-700/50 px-4 py-3 text-center">
-        <p className="text-amber-50/70 text-xs mb-1">{t.footer.copyright}</p>
+        <p className="text-amber-50/70 text-xs mb-1">{t.footer.copyright(branding.brandName)}</p>
         <p className="text-[10px] mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
           <span className="text-amber-200/50">{locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}</span>
           <a

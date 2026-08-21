@@ -1,12 +1,13 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import { BRAND_NAME, THEME_COLOR } from '@/lib/branding';
+import { THEME_COLOR } from '@/lib/branding';
 
 interface Props {
   logo: string;
   imgOri: string;
   imgPdas: string;
   halalLogo: string;
+  brandName: string;
 }
 
 const C = {
@@ -172,12 +173,12 @@ const s = StyleSheet.create({
 
 // ── Shared components ─────────────────────────────────────────────────────────
 
-function Letterhead({ logo }: { logo: string }) {
+function Letterhead({ logo, brandName }: { logo: string; brandName: string }) {
   return (
     <View style={s.letterhead}>
       <Image src={logo} style={s.letterLogo} />
       <View style={s.letterBrand}>
-        <Text style={s.letterBrandName}>{BRAND_NAME}</Text>
+        <Text style={s.letterBrandName}>{brandName}</Text>
         <Text style={s.letterBrandSub}>Bogor, Jawa Barat · NIB: 0403260068412</Text>
         <Text style={s.letterBrandSub}>WA: 0812-1213-2014</Text>
       </View>
@@ -194,10 +195,10 @@ function SectionBar({ title, sub }: { title: string; sub?: string }) {
   );
 }
 
-function PageFooter({ page, total }: { page: number; total: number }) {
+function PageFooter({ page, total, brandName }: { page: number; total: number; brandName: string }) {
   return (
     <View style={s.pageFooter} fixed>
-      <Text style={s.pageFooterText}>{`${BRAND_NAME} · Proposal Mie Kremes 2026`}</Text>
+      <Text style={s.pageFooterText}>{`${brandName} · Proposal Mie Kremes 2026`}</Text>
       <Text style={s.pageFooterText}>Halaman {page} / {total}</Text>
     </View>
   );
@@ -205,11 +206,11 @@ function PageFooter({ page, total }: { page: number; total: number }) {
 
 // ── Main document ─────────────────────────────────────────────────────────────
 
-export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props) {
+export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandName }: Props) {
   return (
     <Document
-      title={`Proposal Kerjasama Mie Kremes - ${BRAND_NAME}`}
-      author={BRAND_NAME}
+      title={`Proposal Kerjasama Mie Kremes - ${brandName}`}
+      author={brandName}
       subject="Proposal Kerjasama Titip Jual / Reseller Mie Kremes"
       keywords="proposal, mie kremes, kerjasama, titip jual, reseller, cemilan teh risma"
     >
@@ -224,7 +225,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
             <Text style={s.coverBadgeText}>Proposal Kerjasama Resmi · 2026</Text>
           </View>
           <Text style={s.coverTitle}>MIE KREMES</Text>
-          <Text style={s.coverSub}>{BRAND_NAME}</Text>
+          <Text style={s.coverSub}>{brandName}</Text>
           <Text style={s.coverTagline}>Camilan mie crispy renyah khas Bogor — bumbu rempah alami, tanpa pengawet</Text>
           <View style={s.coverStats}>
             {[
@@ -248,7 +249,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
 
       {/* ══ PAGE 2 – SURAT PENGANTAR ════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
 
         <View style={[s.body, { paddingTop: 28 }]}>
           {/* Recipient */}
@@ -260,7 +261,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
           <Text style={s.bodyText}>Assalamualaikum Wr. Wb.</Text>
           <Text style={s.bodyText}>
             Dengan hormat, saya dari{' '}
-            <Text style={s.bold}>{BRAND_NAME}</Text>
+            <Text style={s.bold}>{brandName}</Text>
             {' '}— usaha camilan rumahan khas Bogor yang telah bersertifikat{' '}
             <Text style={s.bold}>Halal Indonesia</Text>
             {' '}dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk{' '}
@@ -272,7 +273,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
           <View style={s.infoBox}>
             <Text style={s.infoBoxTitle}>Ringkasan Produk</Text>
             {[
-              ['Produk',        `Mie Kremes ${BRAND_NAME}`],
+              ['Produk',        `Mie Kremes ${brandName}`],
               ['Varian Rasa',   'Original (Gurih) & Pedas'],
               ['Berat Kemasan', '150g per pcs'],
               ['Harga Eceran',  'Rp 10.000 per pcs'],
@@ -323,7 +324,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 20 }}>
             <View>
               <Text style={[s.bodyText, { marginBottom: 2 }]}>Hormat kami,</Text>
-              <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>{BRAND_NAME}</Text>
+              <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>{brandName}</Text>
               <Text style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>Bogor, Jawa Barat</Text>
             </View>
             <View style={{ borderWidth: 1, borderColor: C.border, borderRadius: 8, padding: 12, backgroundColor: C.white }}>
@@ -333,12 +334,12 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
             </View>
           </View>
         </View>
-        <PageFooter page={2} total={6} />
+        <PageFooter page={2} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 3 – PROFIL PRODUK ══════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="Profil & Detail Produk" sub="Mie Kremes tersedia dalam 2 varian rasa · Berat 150g per kemasan" />
 
         <View style={s.body}>
@@ -390,18 +391,18 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
                 </View>
                 <View style={s.infoRow}>
                   <Text style={[s.infoKey, { fontSize: 9 }]}>Diproduksi oleh</Text>
-                  <Text style={[s.infoVal, { fontSize: 9 }]}>{`${BRAND_NAME} · Bogor, Jawa Barat · NIB: 0403260068412`}</Text>
+                  <Text style={[s.infoVal, { fontSize: 9 }]}>{`${brandName} · Bogor, Jawa Barat · NIB: 0403260068412`}</Text>
                 </View>
               </View>
             </View>
           ))}
         </View>
-        <PageFooter page={3} total={6} />
+        <PageFooter page={3} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 4 – MEKANISME KERJASAMA ════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="2 Pilihan Mekanisme Kerjasama" sub="Pilih yang paling sesuai kondisi toko Anda" />
 
         <View style={s.body}>
@@ -521,12 +522,12 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
             </Text>
           </View>
         </View>
-        <PageFooter page={4} total={6} />
+        <PageFooter page={4} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 5 – PAKET RESELLER ═════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="Paket Reseller (Beli Putus)" sub="Harga per pcs lebih hemat sesuai volume pembelian" />
 
         <View style={s.body}>
@@ -616,12 +617,12 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
             * Omset dan untung bersifat estimasi berdasarkan harga eceran Rp 10.000/pcs. Actual bisa lebih tinggi jika toko menetapkan harga jual lebih dari harga acuan.
           </Text>
         </View>
-        <PageFooter page={5} total={6} />
+        <PageFooter page={5} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 6 – KEUNGGULAN, TARGET PASAR, LEGALITAS & KONTAK ══════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="Keunggulan Produk, Legalitas & Kontak" />
 
         <View style={s.body}>
@@ -658,7 +659,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
               <Image src={halalLogo} style={s.legalHalalImg} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: C.dark }}>Bersertifikat Halal Indonesia</Text>
-                <Text style={{ fontSize: 9, color: C.body, marginTop: 2 }}>{`Produk Mie Kremes ${BRAND_NAME} telah mendapatkan sertifikasi Halal resmi dari Badan Penyelenggara Jaminan Produk Halal (BPJPH) Indonesia.`}</Text>
+                <Text style={{ fontSize: 9, color: C.body, marginTop: 2 }}>{`Produk Mie Kremes ${brandName} telah mendapatkan sertifikasi Halal resmi dari Badan Penyelenggara Jaminan Produk Halal (BPJPH) Indonesia.`}</Text>
               </View>
             </View>
             <View style={{ borderTopWidth: 1, borderTopColor: C.border, paddingTop: 10 }}>
@@ -693,11 +694,11 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo }: Props
 
           <View style={[s.infoBox, { marginTop: 4 }]} wrap={false}>
             <Text style={[s.bodyText, { marginBottom: 0, fontSize: 9, fontStyle: 'italic' }]}>
-              Dokumen ini diterbitkan oleh {BRAND_NAME} — Bogor · 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Untuk diskusi lebih lanjut, hubungi kami via WhatsApp di nomor 0812-1213-2014.
+              Dokumen ini diterbitkan oleh {brandName} — Bogor · 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Untuk diskusi lebih lanjut, hubungi kami via WhatsApp di nomor 0812-1213-2014.
             </Text>
           </View>
         </View>
-        <PageFooter page={6} total={6} />
+        <PageFooter page={6} total={6} brandName={brandName} />
       </Page>
 
     </Document>

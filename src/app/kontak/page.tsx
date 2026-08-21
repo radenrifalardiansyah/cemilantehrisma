@@ -9,17 +9,17 @@ import {
 import Navbar from '@/components/Navbar';
 import Cart from '@/components/Cart';
 import BottomNav from '@/components/BottomNav';
-import { WHATSAPP_NUMBER } from '@/lib/whatsapp';
-import { BRAND_NAME, LEGAL_NAME, ADDRESS_LINES, SOCIAL } from '@/lib/branding';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 import { useLanguage } from '@/contexts/LanguageContext';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
+import { LiveBranding } from '@/lib/branding';
 
-const contacts = [
+const getContacts = (branding: LiveBranding) => [
   {
     icon: Phone,
     label: 'WhatsApp',
     value: '0812-1213-2014',
-    href: `https://wa.me/${WHATSAPP_NUMBER}`,
+    href: `https://wa.me/${branding.whatsappNumber}`,
     color: '#16A34A',
     bg: 'rgba(22,163,74,0.08)',
     border: 'rgba(22,163,74,0.2)',
@@ -27,8 +27,8 @@ const contacts = [
   {
     icon: Instagram,
     label: 'Instagram',
-    value: `@${SOCIAL.instagramHandle}`,
-    href: SOCIAL.instagramUrl,
+    value: `@${branding.instagramHandle}`,
+    href: branding.instagramUrl,
     color: '#E1306C',
     bg: 'rgba(225,48,108,0.08)',
     border: 'rgba(225,48,108,0.2)',
@@ -37,7 +37,7 @@ const contacts = [
     icon: ShoppingBag,
     label: 'Shopee',
     value: 'tehrisma.id',
-    href: SOCIAL.shopeeUrl,
+    href: branding.shopeeUrl,
     color: '#EE4D2D',
     bg: 'rgba(238,77,45,0.08)',
     border: 'rgba(238,77,45,0.2)',
@@ -46,6 +46,8 @@ const contacts = [
 
 export default function KontakPage() {
   const { t } = useLanguage();
+  const branding = useLiveBranding();
+  const contacts = getContacts(branding);
   return (
     <main className="min-h-screen pb-28" style={{ background: '#FFFBF5' }}>
       <Navbar />
@@ -60,9 +62,9 @@ export default function KontakPage() {
           className="flex flex-col items-center text-center mb-8"
         >
           <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-amber-200 shadow-lg mb-4">
-            <Image src={logo} alt={BRAND_NAME} fill className="object-cover" />
+            <Image src={logo} alt={branding.brandName} fill className="object-cover" />
           </div>
-          <h1 className="font-display text-2xl font-bold text-amber-950 mb-1">{BRAND_NAME}</h1>
+          <h1 className="font-display text-2xl font-bold text-amber-950 mb-1">{branding.brandName}</h1>
           <p className="text-amber-700/60 text-sm">{t.kontak.subtitle}</p>
         </motion.div>
 
@@ -74,20 +76,20 @@ export default function KontakPage() {
           className="rounded-2xl overflow-hidden border border-amber-100 shadow-sm mb-4"
         >
           <iframe
-            src={`https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS_LINES.join(' '))}&output=embed&z=16`}
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(`${branding.address} ${branding.city}`)}&output=embed&z=16`}
             width="100%"
             height="220"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title={`Lokasi ${LEGAL_NAME}`}
+            title={`Lokasi ${branding.legalName}`}
           />
         </motion.div>
 
         {/* Address card */}
         <motion.a
-          href={SOCIAL.mapsUrl}
+          href={branding.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 12 }}
@@ -103,8 +105,8 @@ export default function KontakPage() {
           <div className="flex-1">
             <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-0.5">{t.kontak.addressLabel}</p>
             <p className="text-amber-950 text-sm font-medium leading-snug">
-              {ADDRESS_LINES[0]}<br />
-              {ADDRESS_LINES[1]}
+              {branding.address}<br />
+              {branding.city}
             </p>
             <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-amber-600">
               {t.kontak.openMaps} <ExternalLink size={11} />
@@ -165,7 +167,7 @@ export default function KontakPage() {
 
         {/* WA order shortcut */}
         <motion.a
-          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Halo Teh Risma, saya mau pesan cemilan')}`}
+          href={`https://wa.me/${branding.whatsappNumber}?text=${encodeURIComponent('Halo Teh Risma, saya mau pesan cemilan')}`}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 12 }}

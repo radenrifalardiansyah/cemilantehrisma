@@ -10,6 +10,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
 import { useLiveProducts } from '@/lib/useLiveProducts';
 import { useReviewStats } from '@/lib/useReviewStats';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 
 import imgOriOri100  from '@/assets/images/Keripik Kimpul 100g Original.png';
 import imgOriBBQ100  from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
@@ -56,6 +57,7 @@ function Particle({ index }: { index: number }) {
 
 export default function Hero() {
   const { t, locale } = useLanguage();
+  const branding = useLiveBranding();
   const liveProducts = useLiveProducts();
   const { soldCount, reviewCount, rating } = useReviewStats();
 
@@ -202,7 +204,7 @@ export default function Hero() {
               <div className="relative w-7 h-7 rounded-full overflow-hidden border border-amber-300/60 flex-shrink-0">
                 <Image src={logo} alt="Teh Risma" fill className="object-cover" />
               </div>
-              {t.hero.brand}
+              {t.hero.brand(branding.brandName)}
             </motion.div>
 
             {/* Headline — berubah sesuai group produk */}

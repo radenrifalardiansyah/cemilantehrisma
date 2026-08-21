@@ -9,9 +9,9 @@ import bannerMieKremes1 from '@/assets/images/Banner Mie Kremes 1.png';
 import bannerMieKremes2 from '@/assets/images/Banner Mie Kremes 2.png';
 import bannerKeripik1 from '@/assets/images/Banner 1 Keripik Kimpul.png';
 import bannerKeripik2 from '@/assets/images/Banner 2 Keripik Kimpul.png';
-import { BRAND_NAME } from '@/lib/branding';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 
-const banners = [
+const getBanners = (brandName: string) => [
   {
     id: 1,
     image: bannerMieKremes1,
@@ -25,7 +25,7 @@ const banners = [
   {
     id: 3,
     image: bannerKeripik1,
-    alt: `Keripik Kimpul ${BRAND_NAME} — Gurih Bikin Nagih`,
+    alt: `Keripik Kimpul ${brandName} — Gurih Bikin Nagih`,
   },
   {
     id: 4,
@@ -37,6 +37,8 @@ const banners = [
 const AUTOPLAY_INTERVAL = 5000;
 
 export default function ProductBanner() {
+  const branding = useLiveBranding();
+  const banners = getBanners(branding.brandName);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [direction, setDirection] = useState(1);
@@ -54,7 +56,7 @@ export default function ProductBanner() {
   const next = useCallback(() => {
     const idx = (current + 1) % banners.length;
     goTo(idx, 1);
-  }, [current, goTo]);
+  }, [current, goTo, banners.length]);
 
   useEffect(() => {
     if (paused) return;

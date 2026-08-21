@@ -5,13 +5,17 @@ import imgMieOri from '@/assets/images/Mie Kremes 150g Original.png';
 import imgMiePdas from '@/assets/images/Mie Kremes 150g Pedas.png';
 import HalalBadge from '@/components/HalalBadge';
 import MieStack3D from '@/components/MieStack3D';
-import { BRAND_NAME, SOCIAL, DEVELOPER } from '@/lib/branding';
+import { DEVELOPER } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 
-export const metadata: Metadata = {
-  title: `Proposal Mie Kremes — ${BRAND_NAME}`,
-  description: `Proposal kerjasama titip jual Mie Kremes ${BRAND_NAME}.`,
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const branding = await getCachedBranding();
+  return {
+    title: `Proposal Mie Kremes — ${branding.brandName}`,
+    description: `Proposal kerjasama titip jual Mie Kremes ${branding.brandName}.`,
+    robots: { index: false, follow: false },
+  };
+}
 
 // ── Warna tema: sesuai stiker produk Mie Kremes Original (amber/golden)
 const C = {
@@ -42,7 +46,8 @@ const C = {
   productBar: 'from-amber-700 via-amber-500 to-yellow-400',
 };
 
-export default function MieKremesProposalPage() {
+export default async function MieKremesProposalPage() {
+  const branding = await getCachedBranding();
   return (
     <div className="min-h-screen bg-[#FFFBF2] font-[Inter,sans-serif] text-[#1C0A00]">
       <style>{`
@@ -85,7 +90,7 @@ export default function MieKremesProposalPage() {
                 <div className="logo-float flex-shrink-0">
                   <Image src={logo} alt="Logo Teh Risma" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
                 </div>
-                <p className="text-xs text-amber-700 font-semibold tracking-wide">{BRAND_NAME}</p>
+                <p className="text-xs text-amber-700 font-semibold tracking-wide">{branding.brandName}</p>
               </div>
 
               <h1 className="pf text-4xl md:text-5xl font-bold leading-tight mb-2 text-[#1C0A00]">
@@ -140,7 +145,7 @@ export default function MieKremesProposalPage() {
               <p>Assalamu&apos;alaikum Wr. Wb.</p>
 
               <p>
-                Dengan hormat, perkenalkan kami dari <strong className="text-amber-700">{BRAND_NAME}</strong> — usaha camilan rumahan yang berbasis di <strong>Bogor, Jawa Barat</strong>, terdaftar resmi dengan <strong>NIB: 0403260068412</strong> dan produk bersertifikat <strong>Halal Indonesia</strong>. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk unggulan kami, <strong className="text-amber-700">Mie Kremes</strong>, untuk dapat dipasarkan di tempat yang Bapak/Ibu kelola.
+                Dengan hormat, perkenalkan kami dari <strong className="text-amber-700">{branding.brandName}</strong> — usaha camilan rumahan yang berbasis di <strong>Bogor, Jawa Barat</strong>, terdaftar resmi dengan <strong>NIB: 0403260068412</strong> dan produk bersertifikat <strong>Halal Indonesia</strong>. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk unggulan kami, <strong className="text-amber-700">Mie Kremes</strong>, untuk dapat dipasarkan di tempat yang Bapak/Ibu kelola.
               </p>
 
               <p>
@@ -206,10 +211,10 @@ export default function MieKremesProposalPage() {
                 <div>
                   <p className="text-sm text-[#3D1A00]/60 mb-1">Bogor, 2026</p>
                   <p className="font-semibold text-[#1C0A00]">Hormat kami,</p>
-                  <p className="pf text-xl font-bold text-amber-700 mt-1">{BRAND_NAME}</p>
+                  <p className="pf text-xl font-bold text-amber-700 mt-1">{branding.brandName}</p>
                   <p className="text-sm text-[#3D1A00]/60">Bogor, Jawa Barat</p>
                 </div>
-                <a href={SOCIAL.whatsappUrl} target="_blank" rel="noopener noreferrer"
+                <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer"
                   className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors self-start sm:self-auto">
                   💬 Hubungi Kami
                 </a>
@@ -578,10 +583,10 @@ export default function MieKremesProposalPage() {
               Tertarik menitipkan Mie Kremes di toko Anda? Hubungi kami untuk mendiskusikan detail kerjasama, margin keuntungan, dan jadwal pengiriman perdana.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8 no-print">
-              <a href={SOCIAL.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 💬 Hubungi via WhatsApp
               </a>
-              <a href="/api/proposal/mie-kremes/pdf" download={`Proposal Mie Kremes - ${BRAND_NAME}.pdf`} className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href="/api/proposal/mie-kremes/pdf" download={`Proposal Mie Kremes - ${branding.brandName}.pdf`} className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 📄 Download Proposal PDF
               </a>
               <a href="/" className="inline-flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
@@ -589,7 +594,7 @@ export default function MieKremesProposalPage() {
               </a>
             </div>
             <div className="grid sm:grid-cols-3 gap-3 text-sm">
-              <a href={SOCIAL.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
+              <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
                 <div className="text-xl mb-1">📱</div>
                 <div className="text-xs text-amber-700 font-semibold">WhatsApp</div>
                 <div className="text-[#1C0A00] font-medium text-xs mt-0.5">+62 812-1213-2014</div>
@@ -606,14 +611,14 @@ export default function MieKremesProposalPage() {
               </div>
             </div>
           </div>
-          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>{BRAND_NAME}</strong> — Bogor · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
+          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>{branding.brandName}</strong> — Bogor · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
         </section>
       </div>
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
-          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{BRAND_NAME}</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
           <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#3D1A00]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>

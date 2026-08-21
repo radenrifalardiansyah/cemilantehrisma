@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import { BRAND_NAME, THEME_COLOR } from '@/lib/branding';
+import { THEME_COLOR } from '@/lib/branding';
 
 export interface InvoiceItem {
   name:     string;
@@ -185,7 +185,7 @@ const s = StyleSheet.create({
   footerSub:   { color: 'rgba(255,255,255,0.55)', fontSize: 7.5, marginTop: 2 },
 });
 
-export default function InvoicePDF({ data }: { data: InvoiceData }) {
+export default function InvoicePDF({ data, brandName }: { data: InvoiceData; brandName: string }) {
   const itemCount    = data.items.reduce((s, i) => s + i.qty, 0);
   const hasDiscount  = data.discount && data.discount.amount > 0;
   const isKasir      = data.source === 'kasir';
@@ -196,7 +196,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
   return (
     <Document
       title={`Invoice ${data.invoiceNo} — ${data.customerName}`}
-      author={BRAND_NAME}
+      author={brandName}
     >
       <Page size="A4" style={s.page}>
 
@@ -207,7 +207,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
               <Image src={data.logo} style={s.logo} />
             </View>
             <View>
-              <Text style={s.brandName}>{BRAND_NAME}</Text>
+              <Text style={s.brandName}>{brandName}</Text>
               <Text style={s.brandSub}>Bogor, Jawa Barat · Indonesia</Text>
               <Text style={s.brandSub2}>NIB: 0403260068412 · WA: 0812-1213-2014</Text>
             </View>
@@ -334,7 +334,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
         {/* ── Footer ─────────────────────────────────────────────────────── */}
         <View style={s.footer} fixed>
           <View style={s.footerLeft}>
-            <Text style={s.footerBold}>{BRAND_NAME}</Text>
+            <Text style={s.footerBold}>{brandName}</Text>
             <Text style={s.footerText}>Bogor, Jawa Barat · WA: 0812-1213-2014 · NIB: 0403260068412</Text>
           </View>
           <View style={s.footerRight}>

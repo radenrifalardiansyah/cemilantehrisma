@@ -40,3 +40,39 @@ export const DEVELOPER = {
   url: 'https://eleven-digital.id',
   supportedBy: 'PT. RMedia Production',
 };
+
+export interface LiveBranding {
+  brandName: string;
+  legalName: string;
+  tagline: string;
+  whatsappNumber: string;
+  whatsappUrl: string;
+  address: string;
+  city: string;
+  instagramUrl: string;
+  instagramHandle: string;
+  shopeeUrl: string;
+  mapsUrl: string;
+  themeColor: string;
+  themeBackgroundColor: string;
+}
+
+// Static fallback used when the admin hasn't set a field yet (or Firestore is
+// unreachable) — see src/lib/server/branding.ts (server) and useLiveBranding.ts (client).
+export function defaultLiveBranding(): LiveBranding {
+  return {
+    brandName: BRAND_NAME,
+    legalName: LEGAL_NAME,
+    tagline: TAGLINE,
+    whatsappNumber: WHATSAPP_NUMBER,
+    whatsappUrl: SOCIAL.whatsappUrl,
+    address: ADDRESS.streetAddress,
+    city: `${ADDRESS.addressLocality}, ${ADDRESS.addressRegion}`,
+    instagramUrl: SOCIAL.instagramUrl,
+    instagramHandle: SOCIAL.instagramHandle,
+    shopeeUrl: SOCIAL.shopeeUrl,
+    mapsUrl: SOCIAL.mapsUrl,
+    themeColor: THEME_COLOR,
+    themeBackgroundColor: THEME_BACKGROUND_COLOR,
+  };
+}

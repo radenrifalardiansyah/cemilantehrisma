@@ -4,15 +4,20 @@ import logo          from '@/assets/images/logo-tehrisma.jpeg';
 import bannerMie      from '@/assets/images/Banner Mie Kremes 1.png';
 import bannerKeripik  from '@/assets/images/Banner 1 Keripik Kimpul.png';
 import HalalBadge     from '@/components/HalalBadge';
-import { BRAND_NAME, SOCIAL, DEVELOPER } from '@/lib/branding';
+import { DEVELOPER } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 
-export const metadata: Metadata = {
-  title: `Proposal Kerjasama — ${BRAND_NAME}`,
-  description: `Proposal kerjasama penitipan produk ${BRAND_NAME}.`,
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const branding = await getCachedBranding();
+  return {
+    title: `Proposal Kerjasama — ${branding.brandName}`,
+    description: `Proposal kerjasama penitipan produk ${branding.brandName}.`,
+    robots: { index: false, follow: false },
+  };
+}
 
-export default function ProposalPage() {
+export default async function ProposalPage() {
+  const branding = await getCachedBranding();
   return (
     <div className="min-h-screen bg-[#FFFBF2] font-[Inter,sans-serif] text-[#1C0A00]">
       <style>{`
@@ -54,7 +59,7 @@ export default function ProposalPage() {
                 <span className="text-amber-600">untuk Proposal</span>
               </h1>
               <p className="text-[#3D1A00]/60 text-base md:text-lg max-w-lg">
-                {BRAND_NAME} menyediakan dua lini produk unggulan. Pilih salah satu di bawah untuk membuka proposal lengkapnya.
+                {branding.brandName} menyediakan dua lini produk unggulan. Pilih salah satu di bawah untuk membuka proposal lengkapnya.
               </p>
             </div>
 
@@ -63,14 +68,14 @@ export default function ProposalPage() {
               <div className="logo-float">
                 <Image
                   src={logo}
-                  alt={`Logo ${BRAND_NAME}`}
+                  alt={`Logo ${branding.brandName}`}
                   width={180}
                   height={180}
                   className="rounded-full object-cover border-4 border-white shadow-2xl"
                   priority
                 />
               </div>
-              <div className="proposal-font text-sm font-semibold text-amber-700 tracking-wide text-center">{BRAND_NAME}</div>
+              <div className="proposal-font text-sm font-semibold text-amber-700 tracking-wide text-center">{branding.brandName}</div>
             </div>
           </div>
         </div>
@@ -175,14 +180,14 @@ export default function ProposalPage() {
           </div>
           <div className="flex-1">
             <p className="text-xs font-bold tracking-widest text-amber-600 uppercase mb-1">Tentang Kami</p>
-            <p className="font-semibold text-[#1C0A00] mb-1">{BRAND_NAME} — Bogor, Jawa Barat</p>
+            <p className="font-semibold text-[#1C0A00] mb-1">{branding.brandName} — Bogor, Jawa Barat</p>
             <p className="text-sm text-[#3D1A00]/60">NIB: 0403260068412 · Bersertifikat HALAL Indonesia · Tanpa Pengawet</p>
           </div>
           <div className="no-print flex flex-col sm:flex-row gap-2 flex-shrink-0">
             <a href="/" className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
               🛒 Toko Saya
             </a>
-            <a href={SOCIAL.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+            <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
               💬 WhatsApp
             </a>
           </div>
@@ -192,7 +197,7 @@ export default function ProposalPage() {
       {/* ── FOOTER ── */}
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
-          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{BRAND_NAME}</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
           <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#3D1A00]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>

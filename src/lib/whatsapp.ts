@@ -1,7 +1,3 @@
-import { WHATSAPP_NUMBER } from '@/lib/branding';
-
-export { WHATSAPP_NUMBER };
-
 export const formatCurrency = (amount: number): string =>
   new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
 
@@ -37,8 +33,8 @@ Pengalaman: ${pengalamanLine}
 Saya ingin *secure slot* reseller Mie Kremes Teh Risma. Mohon info lebih lanjut ya Teh, terima kasih!`.trim();
 };
 
-export const openResellerWhatsApp = (data: ResellerInfo): void => {
+export const openResellerWhatsApp = (data: ResellerInfo, whatsappNumber: string): void => {
   const message = formatResellerMessage(data);
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank', 'noopener,noreferrer');
 };

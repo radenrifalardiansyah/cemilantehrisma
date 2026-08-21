@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import { BRAND_NAME, THEME_COLOR } from '@/lib/branding';
+import { THEME_COLOR } from '@/lib/branding';
 
 interface Props {
   logo: string;
@@ -10,6 +10,7 @@ interface Props {
   imgJgn: string;
   imgOri250: string;
   halalLogo: string;
+  brandName: string;
 }
 
 const C = {
@@ -146,12 +147,12 @@ const s = StyleSheet.create({
   pageFooterText: { fontSize: 8, color: C.gray },
 });
 
-function Letterhead({ logo }: { logo: string }) {
+function Letterhead({ logo, brandName }: { logo: string; brandName: string }) {
   return (
     <View style={s.letterhead}>
       <Image src={logo} style={s.letterLogo} />
       <View style={s.letterBrand}>
-        <Text style={s.letterBrandName}>{BRAND_NAME}</Text>
+        <Text style={s.letterBrandName}>{brandName}</Text>
         <Text style={s.letterBrandSub}>Bogor, Jawa Barat · NIB: 0403260068412</Text>
         <Text style={s.letterBrandSub}>WA: 0812-1213-2014</Text>
       </View>
@@ -168,20 +169,20 @@ function SectionBar({ title, sub }: { title: string; sub?: string }) {
   );
 }
 
-function PageFooter({ page, total }: { page: number; total: number }) {
+function PageFooter({ page, total, brandName }: { page: number; total: number; brandName: string }) {
   return (
     <View style={s.pageFooter} fixed>
-      <Text style={s.pageFooterText}>{`${BRAND_NAME} · Proposal Keripik Kimpul 2026`}</Text>
+      <Text style={s.pageFooterText}>{`${brandName} · Proposal Keripik Kimpul 2026`}</Text>
       <Text style={s.pageFooterText}>Halaman {page} / {total}</Text>
     </View>
   );
 }
 
-export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, imgJgn, imgOri250, halalLogo }: Props) {
+export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, imgJgn, imgOri250, halalLogo, brandName }: Props) {
   return (
     <Document
-      title={`Proposal Kerjasama Keripik Kimpul - ${BRAND_NAME}`}
-      author={BRAND_NAME}
+      title={`Proposal Kerjasama Keripik Kimpul - ${brandName}`}
+      author={brandName}
       subject="Proposal Kerjasama Titip Jual / Reseller Keripik Kimpul Talas Balitung"
       keywords="proposal, keripik kimpul, talas, kerjasama, titip jual, reseller, cemilan teh risma, bogor"
     >
@@ -196,7 +197,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             <Text style={s.coverBadgeText}>Proposal Kerjasama Resmi · 2026</Text>
           </View>
           <Text style={s.coverTitle}>KERIPIK KIMPUL</Text>
-          <Text style={s.coverSub}>{BRAND_NAME}</Text>
+          <Text style={s.coverSub}>{brandName}</Text>
           <Text style={s.coverTagline}>Keripik talas balitung super renyah khas Bogor — 4 rasa, 2 ukuran, tanpa pengawet</Text>
           <View style={s.coverStats}>
             {[
@@ -220,7 +221,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
       {/* ══ PAGE 2 – SURAT PENGANTAR ════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <View style={[s.body, { paddingTop: 28 }]}>
           <Text style={[s.bodyText, { marginBottom: 4 }]}>Bogor, 2026</Text>
           <Text style={[s.bodyText, { fontFamily: 'Helvetica-Bold', marginBottom: 16, fontSize: 12 }]}>
@@ -230,7 +231,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <Text style={s.bodyText}>Assalamualaikum Wr. Wb.</Text>
           <Text style={s.bodyText}>
             Dengan hormat, saya dari{' '}
-            <Text style={s.bold}>{BRAND_NAME}</Text>
+            <Text style={s.bold}>{brandName}</Text>
             {' '}— usaha camilan rumahan khas Bogor yang telah bersertifikat{' '}
             <Text style={s.bold}>Halal Indonesia</Text>
             {' '}dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk{' '}
@@ -288,7 +289,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 20 }}>
             <View>
               <Text style={[s.bodyText, { marginBottom: 2 }]}>Hormat kami,</Text>
-              <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>{BRAND_NAME}</Text>
+              <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>{brandName}</Text>
               <Text style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>Bogor, Jawa Barat</Text>
             </View>
             <View style={{ borderWidth: 1, borderColor: C.border, borderRadius: 8, padding: 12, backgroundColor: C.white }}>
@@ -298,12 +299,12 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             </View>
           </View>
         </View>
-        <PageFooter page={2} total={6} />
+        <PageFooter page={2} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 3 – PROFIL PRODUK ══════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="Profil & Detail Produk" sub="4 varian rasa · 2 ukuran kemasan (100g & 250g Jumbo)" />
 
         <View style={s.body}>
@@ -363,7 +364,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
               ['Masa Simpan',   '3 bulan sejak tanggal produksi (kemasan kedap udara)'],
               ['Komposisi',     'Talas Kimpul Pilihan, Minyak Goreng, Garam, Bumbu Perasa (sesuai varian)'],
               ['Halal',         'Bersertifikat Halal Indonesia dari BPJPH'],
-              ['Diproduksi',    `${BRAND_NAME} · Bogor, Jawa Barat · NIB: 0403260068412`],
+              ['Diproduksi',    `${brandName} · Bogor, Jawa Barat · NIB: 0403260068412`],
               ['Tersedia juga', 'Paket Hemat Mix 3 Rasa (Rp 40.000) & Mix 5 Pcs (Rp 65.000)'],
             ].map(([k, v]) => (
               <View key={k} style={[s.infoRow, { marginBottom: 3 }]}>
@@ -373,12 +374,12 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             ))}
           </View>
         </View>
-        <PageFooter page={3} total={6} />
+        <PageFooter page={3} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 4 – MEKANISME KERJASAMA ════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="2 Pilihan Mekanisme Kerjasama" sub="Pilih yang paling sesuai kondisi toko Anda" />
 
         <View style={s.body}>
@@ -507,12 +508,12 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             </Text>
           </View>
         </View>
-        <PageFooter page={4} total={6} />
+        <PageFooter page={4} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 5 – KEUNGGULAN & TARGET PASAR ═════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="Keunggulan Produk & Target Pasar" />
 
         <View style={s.body}>
@@ -555,12 +556,12 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             ))}
           </View>
         </View>
-        <PageFooter page={5} total={6} />
+        <PageFooter page={5} total={6} brandName={brandName} />
       </Page>
 
       {/* ══ PAGE 6 – LEGALITAS & KONTAK ════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} />
+        <Letterhead logo={logo} brandName={brandName} />
         <SectionBar title="Legalitas, Sertifikasi & Informasi Kontak" />
 
         <View style={s.body}>
@@ -570,7 +571,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
               <Image src={halalLogo} style={s.legalHalalImg} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: C.dark }}>Bersertifikat Halal Indonesia</Text>
-                <Text style={{ fontSize: 9, color: C.body, marginTop: 2 }}>{`Keripik Kimpul ${BRAND_NAME} telah mendapatkan sertifikasi Halal resmi dari Badan Penyelenggara Jaminan Produk Halal (BPJPH) Indonesia.`}</Text>
+                <Text style={{ fontSize: 9, color: C.body, marginTop: 2 }}>{`Keripik Kimpul ${brandName} telah mendapatkan sertifikasi Halal resmi dari Badan Penyelenggara Jaminan Produk Halal (BPJPH) Indonesia.`}</Text>
               </View>
             </View>
             <View style={{ borderTopWidth: 1, borderTopColor: C.border, paddingTop: 10 }}>
@@ -613,11 +614,11 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
           <View style={[s.infoBox, { borderLeftColor: C.gray, backgroundColor: '#F9FAFB', marginTop: 8 }]}>
             <Text style={[s.bodyText, { marginBottom: 0, fontSize: 9, color: C.gray, fontStyle: 'italic' }]}>
-              Dokumen ini diterbitkan oleh {BRAND_NAME} — Bogor, 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Penggandaan atau penyebaran tanpa izin tidak diperkenankan.
+              Dokumen ini diterbitkan oleh {brandName} — Bogor, 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Penggandaan atau penyebaran tanpa izin tidak diperkenankan.
             </Text>
           </View>
         </View>
-        <PageFooter page={6} total={6} />
+        <PageFooter page={6} total={6} brandName={brandName} />
       </Page>
 
     </Document>

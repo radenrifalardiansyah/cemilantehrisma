@@ -12,7 +12,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Locale } from '@/lib/i18n';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { trackClick } from '@/lib/trackClick';
-import { BRAND_NAME } from '@/lib/branding';
+import { useLiveBranding } from '@/lib/useLiveBranding';
 
 const LOCALES: { code: Locale; label: string }[] = [
   { code: 'id', label: 'ID' },
@@ -26,6 +26,7 @@ export default function Navbar() {
   const totalItems = getTotalItems();
   const { t, locale, setLocale } = useLanguage();
   const { customer: account } = useAuth();
+  const branding = useLiveBranding();
 
   const navLinks = [
     { href: '/', label: t.nav.home },
@@ -61,7 +62,7 @@ export default function Navbar() {
               transition={{ duration: 0.3 }}
               className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-amber-300/60 shadow-md flex-shrink-0"
             >
-              <Image src={logo} alt={BRAND_NAME} fill className="object-cover" />
+              <Image src={logo} alt={branding.brandName} fill className="object-cover" />
             </motion.div>
             <div className="leading-none">
               <p className="font-display text-base sm:text-lg font-bold text-amber-800 leading-none">Cemilan</p>

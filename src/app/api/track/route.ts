@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BRAND_NAME, WHATSAPP_NUMBER } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 
 const PAGE_LABELS: Record<string, string> = {
   '/':          'Beranda',
@@ -20,8 +20,9 @@ export async function POST(req: NextRequest) {
   try {
     const { device, page, browser, ref } = await req.json();
 
+    const branding = await getCachedBranding();
     const apiKey = process.env.CALLMEBOT_API_KEY;
-    const phone  = process.env.NOTIFY_PHONE ?? WHATSAPP_NUMBER;
+    const phone  = process.env.NOTIFY_PHONE ?? branding.whatsappNumber;
 
     if (!apiKey) return NextResponse.json({ ok: false, reason: 'no_key' });
 
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
     const refLine = ref && ref !== '(langsung)' ? `\nDari: ${ref}` : '';
 
     const text =
-      `*Pengunjung Baru — ${BRAND_NAME}*\n\n` +
+      `*Pengunjung Baru — ${branding.brandName}*\n\n` +
       `${device}\n` +
       `Browser: ${browser}\n` +
       `Halaman: ${getPageLabel(page)}` +
