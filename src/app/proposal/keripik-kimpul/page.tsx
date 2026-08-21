@@ -7,10 +7,12 @@ import imgBBQPdas from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
 import imgJgn    from '@/assets/images/Keripik Kimpul 100g Jagung.png';
 import HalalBadge from '@/components/HalalBadge';
 import KimpulCardStack from '@/components/KimpulCardStack';
+import { BRAND_NAME, SOCIAL, DEVELOPER } from '@/lib/branding';
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp';
 
 export const metadata: Metadata = {
-  title: 'Proposal Keripik Kimpul — Cemilan Teh Risma',
-  description: 'Proposal kerjasama titip jual Keripik Kimpul Cemilan Teh Risma.',
+  title: `Proposal Keripik Kimpul — ${BRAND_NAME}`,
+  description: `Proposal kerjasama titip jual Keripik Kimpul ${BRAND_NAME}.`,
   robots: { index: false, follow: false },
 };
 
@@ -56,7 +58,7 @@ export default function KeripikKimpulProposalPage() {
                 <div className="logo-float flex-shrink-0">
                   <Image src={logo} alt="Logo Teh Risma" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
                 </div>
-                <p className="text-xs text-amber-700 font-semibold tracking-wide">Cemilan Teh Risma</p>
+                <p className="text-xs text-amber-700 font-semibold tracking-wide">{BRAND_NAME}</p>
               </div>
 
               <h1 className="pf text-4xl md:text-5xl font-bold leading-tight mb-2 text-[#1C0A00]">
@@ -107,7 +109,7 @@ export default function KeripikKimpulProposalPage() {
             <div className="text-[#3D1A00]/80 leading-relaxed space-y-4 text-[15px]">
               <p>Assalamu&apos;alaikum Wr. Wb.</p>
               <p>
-                Dengan hormat, saya dari <strong className="text-amber-700">Cemilan Teh Risma</strong> — usaha camilan rumahan khas Bogor yang telah bersertifikat <strong>Halal Indonesia</strong> dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk <strong>Keripik Kimpul Talas Balitung</strong> di tempat yang Bapak/Ibu kelola.
+                Dengan hormat, saya dari <strong className="text-amber-700">{BRAND_NAME}</strong> — usaha camilan rumahan khas Bogor yang telah bersertifikat <strong>Halal Indonesia</strong> dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk <strong>Keripik Kimpul Talas Balitung</strong> di tempat yang Bapak/Ibu kelola.
               </p>
 
               {/* Product summary box */}
@@ -162,11 +164,11 @@ export default function KeripikKimpulProposalPage() {
               <div className="mt-6 pt-6 border-t border-amber-100 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
                   <p className="font-semibold text-[#1C0A00]">Hormat kami,</p>
-                  <p className="pf text-xl font-bold text-amber-700 mt-1">Cemilan Teh Risma</p>
+                  <p className="pf text-xl font-bold text-amber-700 mt-1">{BRAND_NAME}</p>
                   <p className="text-sm text-[#3D1A00]/60">Bogor, Jawa Barat</p>
                 </div>
                 <a
-                  href="https://wa.me/6281212132014?text=Halo%20Teh%20Risma%2C%20saya%20tertarik%20dengan%20proposal%20Keripik%20Kimpul.%20Bisa%20kita%20diskusi%20lebih%20lanjut%3F"
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Teh%20Risma%2C%20saya%20tertarik%20dengan%20proposal%20Keripik%20Kimpul.%20Bisa%20kita%20diskusi%20lebih%20lanjut%3F`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors self-start sm:self-auto"
@@ -553,7 +555,7 @@ export default function KeripikKimpulProposalPage() {
 
                 <div className="pt-2">
                   <a
-                    href="https://wa.me/6281212132014?text=Halo%20Teh%20Risma%2C%20saya%20tertarik%20beli%20putus%20Keripik%20Kimpul.%20Bisa%20minta%20info%20harga%20reseller%3F"
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Teh%20Risma%2C%20saya%20tertarik%20beli%20putus%20Keripik%20Kimpul.%20Bisa%20minta%20info%20harga%20reseller%3F`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm py-2.5 px-4 rounded-xl transition-colors"
@@ -627,10 +629,10 @@ export default function KeripikKimpulProposalPage() {
               Tertarik menitipkan Keripik Kimpul di toko Anda? Hubungi kami untuk mendiskusikan detail kerjasama, varian yang diinginkan, dan jadwal pengiriman perdana.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8 no-print">
-              <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href={SOCIAL.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 💬 Hubungi via WhatsApp
               </a>
-              <a href="/api/proposal/keripik-kimpul/pdf" download="Proposal Keripik Kimpul - Cemilan Teh Risma.pdf" className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href="/api/proposal/keripik-kimpul/pdf" download={`Proposal Keripik Kimpul - ${BRAND_NAME}.pdf`} className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 📄 Download Proposal PDF
               </a>
               <a href="/" className="inline-flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
@@ -638,7 +640,7 @@ export default function KeripikKimpulProposalPage() {
               </a>
             </div>
             <div className="grid sm:grid-cols-3 gap-3 text-sm">
-              <a href="https://wa.me/6281212132014" target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
+              <a href={SOCIAL.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
                 <div className="text-xl mb-1">📱</div>
                 <div className="text-xs text-amber-700 font-semibold">WhatsApp</div>
                 <div className="text-[#1C0A00] font-medium text-xs mt-0.5">+62 812-1213-2014</div>
@@ -655,15 +657,15 @@ export default function KeripikKimpulProposalPage() {
               </div>
             </div>
           </div>
-          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>Cemilan Teh Risma</strong> — Bogor · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
+          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>{BRAND_NAME}</strong> — Bogor · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
         </section>
       </div>
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
-          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">Cemilan Teh Risma</strong>. Semua hak dilindungi.</p>
-          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href="https://eleven-digital.id/" target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">PT. Eleven Digital Indonesia</a> · didukung oleh <strong className="text-[#3D1A00]/45">PT. RMedia Production</strong></p>
+          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{BRAND_NAME}</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#3D1A00]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>
     </div>

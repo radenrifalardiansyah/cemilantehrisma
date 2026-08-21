@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { products } from '@/lib/products';
-import { SITE_URL } from '@/lib/seo';
+import { SITE_URL } from '@/lib/branding';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

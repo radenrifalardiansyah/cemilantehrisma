@@ -11,6 +11,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
 import { trackClick } from '@/lib/trackClick';
+import { BRAND_NAME, DEVELOPER } from '@/lib/branding';
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -293,20 +294,20 @@ export default function BottomNav() {
                     <p className="text-[11px] text-amber-600 font-semibold mb-0.5 uppercase tracking-wide">
                       {locale === 'en' ? 'Developed by' : 'Dikembangkan oleh'}
                     </p>
-                    <a href="https://eleven-digital.id" target="_blank" rel="noopener noreferrer"
+                    <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer"
                       className="text-amber-800 font-bold text-sm underline underline-offset-2"
                     >
-                      PT. Eleven Digital Indonesia
+                      {DEVELOPER.name}
                     </a>
-                    <p className="text-amber-600/70 text-xs mt-0.5">eleven-digital.id</p>
+                    <p className="text-amber-600/70 text-xs mt-0.5">{DEVELOPER.url.replace('https://', '')}</p>
                   </div>
                   <div className="bg-amber-50 rounded-xl p-3.5 border border-amber-100">
                     <p className="text-[11px] text-amber-600 font-semibold mb-0.5 uppercase tracking-wide">
                       {locale === 'en' ? 'Supported by' : 'Didukung oleh'}
                     </p>
-                    <p className="text-amber-800 font-bold text-sm">PT. RMedia Production</p>
+                    <p className="text-amber-800 font-bold text-sm">{DEVELOPER.supportedBy}</p>
                   </div>
-                  <p className="text-center text-amber-400/70 text-[10px] pt-1">© 2026 Cemilan Teh Risma</p>
+                  <p className="text-center text-amber-400/70 text-[10px] pt-1">© 2026 {BRAND_NAME}</p>
                 </div>
               </div>
             </motion.div>

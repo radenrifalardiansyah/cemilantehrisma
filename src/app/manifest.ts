@@ -1,14 +1,15 @@
 import type { MetadataRoute } from 'next';
+import { BRAND_NAME, TAGLINE, THEME_COLOR, THEME_BACKGROUND_COLOR } from '@/lib/branding';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Cemilan Teh Risma',
-    short_name: 'Cemilan Teh Risma',
-    description: 'Keripik Kimpul & Mie Kremes khas Bogor. Halal, renyah, tanpa pengawet.',
+    name: BRAND_NAME,
+    short_name: BRAND_NAME,
+    description: TAGLINE,
     start_url: '/',
     display: 'standalone',
-    background_color: '#FFFBF5',
-    theme_color: '#D97706',
+    background_color: THEME_BACKGROUND_COLOR,
+    theme_color: THEME_COLOR,
     orientation: 'portrait',
     icons: [
       {

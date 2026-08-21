@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import FeaturedSection from '@/components/FeaturedSection';
 import CategoriesSection from '@/components/CategoriesSection';
 import BottomNav from '@/components/BottomNav';
-import { SITE_URL, BUSINESS } from '@/lib/seo';
+import { SITE_URL, BUSINESS, BRAND_NAME } from '@/lib/branding';
 import { products } from '@/lib/products';
 import { imageSrc } from '@/lib/liveProducts';
 import { getAllMergedProducts, getMergedProduct } from '@/lib/server/getProduct';
@@ -69,7 +69,7 @@ export default async function HomePage() {
     priceRange,
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Cemilan Teh Risma',
+      name: BRAND_NAME,
       itemListElement: featuredOffers,
     },
   };

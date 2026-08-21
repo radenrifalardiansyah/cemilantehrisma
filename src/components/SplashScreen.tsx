@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { BRAND_NAME } from '@/lib/branding';
 
 export default function SplashScreen() {
   // null = belum dicek (cover layar), true = tampilkan, false = sembunyikan
@@ -46,7 +47,7 @@ export default function SplashScreen() {
             className="relative w-28 h-28 rounded-full overflow-hidden shadow-2xl mb-6"
             style={{ border: '4px solid #F59E0B' }}
           >
-            <Image src={logo} alt="Cemilan Teh Risma" fill className="object-cover" priority />
+            <Image src={logo} alt={BRAND_NAME} fill className="object-cover" priority />
           </div>
 
           {/* Brand name */}

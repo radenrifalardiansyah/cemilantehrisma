@@ -4,6 +4,7 @@ import fs from 'fs';
 import React from 'react';
 import { renderToBuffer } from '@react-pdf/renderer';
 import KeripikKimpulPDF from '@/lib/pdf/KeripikKimpulPDF';
+import { BRAND_NAME } from '@/lib/branding';
 
 const ASSETS = path.join(process.cwd(), 'src', 'assets', 'images');
 
@@ -33,7 +34,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="Proposal Keripik Kimpul - Cemilan Teh Risma.pdf"',
+        'Content-Disposition': `attachment; filename="Proposal Keripik Kimpul - ${BRAND_NAME}.pdf"`,
         'Cache-Control': 'no-store',
       },
     });

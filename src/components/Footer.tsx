@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Phone, Clock, Instagram, MessageCircle } from 'lucide-react';
-import { WHATSAPP_NUMBER } from '@/lib/whatsapp';
+import { BRAND_NAME, ADDRESS_LINES, SOCIAL, DEVELOPER } from '@/lib/branding';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLiveProducts } from '@/lib/useLiveProducts';
 import { useLiveCategories } from '@/lib/useLiveCategories';
@@ -79,7 +79,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-amber-700/60 shadow-lg flex-shrink-0">
-                <Image src={logo} alt="Cemilan Teh Risma" fill className="object-cover" />
+                <Image src={logo} alt={BRAND_NAME} fill className="object-cover" />
               </div>
               <div>
                 <p className="font-display text-xl font-bold text-amber-200 leading-none">Cemilan</p>
@@ -102,7 +102,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
             </div>
             <div className="flex gap-3">
               <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                href={SOCIAL.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-green-500 flex items-center justify-center text-white border border-green-400 hover:bg-green-400 transition-all"
@@ -111,16 +111,16 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 <MessageCircle size={16} />
               </a>
               <a
-                href="https://www.instagram.com/keripiktehrisma"
+                href={SOCIAL.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-white border border-pink-400 hover:opacity-90 transition-all" style={{ background: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}
-                aria-label="Instagram @keripiktehrisma"
+                aria-label={`Instagram @${SOCIAL.instagramHandle}`}
               >
                 <Instagram size={16} />
               </a>
               <a
-                href="https://shopee.co.id/tehrisma.id"
+                href={SOCIAL.shopeeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center border border-orange-400 hover:bg-orange-400 transition-all"
@@ -194,11 +194,11 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 <MapPin size={14} className="text-amber-100 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-amber-50/90 text-sm leading-snug">
-                    Jl. Batara Kp. Bubulak No. 54 RT01/RW03<br />
-                    Kel. Ciluar, Kec. Bogor Utara 16156
+                    {ADDRESS_LINES[0]}<br />
+                    {ADDRESS_LINES[1]}
                   </p>
                   <a
-                    href="https://maps.app.goo.gl/h1AyYBaTH2tAqS588"
+                    href={SOCIAL.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 mt-1.5 text-xs font-semibold text-amber-300 hover:text-white transition-colors"
@@ -211,7 +211,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
               <li className="flex items-center gap-2.5">
                 <Phone size={14} className="text-amber-100 flex-shrink-0" />
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                  href={SOCIAL.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-amber-50/90 hover:text-white text-sm transition-colors"
@@ -222,12 +222,12 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
               <li className="flex items-center gap-2.5">
                 <Instagram size={14} className="text-amber-100 flex-shrink-0" />
                 <a
-                  href="https://www.instagram.com/keripiktehrisma"
+                  href={SOCIAL.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-amber-50/90 hover:text-white text-sm transition-colors"
                 >
-                  @keripiktehrisma
+                  @{SOCIAL.instagramHandle}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
@@ -244,14 +244,14 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
             <p className="text-amber-200/70 text-xs whitespace-nowrap">
               {locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}
               <a
-                href="https://eleven-digital.id"
+                href={DEVELOPER.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-amber-300/80 hover:text-amber-200 transition-colors"
               >
-                PT. Eleven Digital Indonesia
+                {DEVELOPER.name}
               </a>
-              {locale === 'en' ? ' · supported by PT. RMedia Production' : ' · didukung oleh PT. RMedia Production'}
+              {locale === 'en' ? ` · supported by ${DEVELOPER.supportedBy}` : ` · didukung oleh ${DEVELOPER.supportedBy}`}
             </p>
           </div>
           <div className="flex items-center gap-1.5 text-amber-50/75 text-sm">
@@ -269,14 +269,14 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
         <p className="text-[10px] mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
           <span className="text-amber-200/50">{locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}</span>
           <a
-            href="https://eleven-digital.id"
+            href={DEVELOPER.url}
             target="_blank"
             rel="noopener noreferrer"
             className="text-amber-300/70 hover:text-amber-200 transition-colors underline underline-offset-2"
           >
-            PT. Eleven Digital Indonesia
+            {DEVELOPER.name}
           </a>
-          <span className="text-amber-200/50">{locale === 'en' ? ' · supported by PT. RMedia Production' : ' · didukung oleh PT. RMedia Production'}</span>
+          <span className="text-amber-200/50">{locale === 'en' ? ` · supported by ${DEVELOPER.supportedBy}` : ` · didukung oleh ${DEVELOPER.supportedBy}`}</span>
         </p>
       </div>
     )}

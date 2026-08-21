@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAnalyticsStats, PAGE_LABELS } from '@/lib/services/analyticsService';
+import { BRAND_NAME, WHATSAPP_NUMBER } from '@/lib/branding';
 
 export async function GET(req: NextRequest) {
   const auth   = req.headers.get('authorization') ?? '';
@@ -12,7 +13,7 @@ export async function GET(req: NextRequest) {
   }
 
   const apiKey = process.env.CALLMEBOT_API_KEY;
-  const phone  = process.env.NOTIFY_PHONE ?? '6281212132014';
+  const phone  = process.env.NOTIFY_PHONE ?? WHATSAPP_NUMBER;
   if (!apiKey) return NextResponse.json({ error: 'no_callmebot_key' }, { status: 500 });
 
   const { visitors, pageViews, mobile, desktop, pageAgg } = await getAnalyticsStats(7);
@@ -29,7 +30,7 @@ export async function GET(req: NextRequest) {
   });
 
   const msg =
-    `*Rekap Cemilan Teh Risma*\n` +
+    `*Rekap ${BRAND_NAME}*\n` +
     `_${date}_\n\n` +
     `*Pengunjung:* ${visitors}\n` +
     `*Halaman Dibuka:* ${pageViews}\n` +

@@ -4,6 +4,7 @@ import fs from 'fs';
 import React from 'react';
 import { renderToBuffer } from '@react-pdf/renderer';
 import MieKremesPDF from '@/lib/pdf/MieKremesPDF';
+import { BRAND_NAME } from '@/lib/branding';
 
 const ASSETS = path.join(process.cwd(), 'src', 'assets', 'images');
 
@@ -30,7 +31,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="Proposal Mie Kremes - Cemilan Teh Risma.pdf"',
+        'Content-Disposition': `attachment; filename="Proposal Mie Kremes - ${BRAND_NAME}.pdf"`,
         'Cache-Control': 'no-store',
       },
     });

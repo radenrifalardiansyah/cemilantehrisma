@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { products } from '@/lib/products';
-import { SITE_URL } from '@/lib/seo';
+import { SITE_URL, BRAND_NAME } from '@/lib/branding';
 import { imageSrc } from '@/lib/liveProducts';
 import { getMergedProduct } from '@/lib/server/getProduct';
 import ProductDetailClient from './ProductDetailClient';
@@ -35,14 +35,14 @@ export async function generateMetadata(
     description: product.description,
     keywords: [product.name, `beli ${product.name.toLowerCase()}`, `${product.name.toLowerCase()} bogor`, product.category],
     openGraph: {
-      title: `${title} | Cemilan Teh Risma`,
+      title: `${title} | ${BRAND_NAME}`,
       description: product.description,
       url: `${SITE_URL}/products/${product.id}`,
       images: imagePath ? [{ url: imagePath }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} | Cemilan Teh Risma`,
+      title: `${title} | ${BRAND_NAME}`,
       description: product.description,
     },
     alternates: {
@@ -66,7 +66,7 @@ export default async function ProductDetailPage(
     description: product.description,
     category: product.category,
     image: imagePath ? `${SITE_URL}${imagePath}` : undefined,
-    brand: { '@type': 'Brand', name: 'Cemilan Teh Risma' },
+    brand: { '@type': 'Brand', name: BRAND_NAME },
     offers: {
       '@type': 'Offer',
       url: `${SITE_URL}/products/${product.id}`,

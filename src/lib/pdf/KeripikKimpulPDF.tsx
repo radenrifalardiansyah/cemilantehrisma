@@ -1,5 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
+import { BRAND_NAME, THEME_COLOR } from '@/lib/branding';
 
 interface Props {
   logo: string;
@@ -14,7 +15,7 @@ interface Props {
 const C = {
   primary:      '#B45309',
   primaryDark:  '#92400E',
-  accent:       '#D97706',
+  accent:       THEME_COLOR,
   accentLight:  '#FEF3C7',
   accentMid:    '#FDE68A',
   lightBg:      '#FFFBF2',
@@ -150,7 +151,7 @@ function Letterhead({ logo }: { logo: string }) {
     <View style={s.letterhead}>
       <Image src={logo} style={s.letterLogo} />
       <View style={s.letterBrand}>
-        <Text style={s.letterBrandName}>Cemilan Teh Risma</Text>
+        <Text style={s.letterBrandName}>{BRAND_NAME}</Text>
         <Text style={s.letterBrandSub}>Bogor, Jawa Barat · NIB: 0403260068412</Text>
         <Text style={s.letterBrandSub}>WA: 0812-1213-2014</Text>
       </View>
@@ -170,7 +171,7 @@ function SectionBar({ title, sub }: { title: string; sub?: string }) {
 function PageFooter({ page, total }: { page: number; total: number }) {
   return (
     <View style={s.pageFooter} fixed>
-      <Text style={s.pageFooterText}>Cemilan Teh Risma · Proposal Keripik Kimpul 2026</Text>
+      <Text style={s.pageFooterText}>{`${BRAND_NAME} · Proposal Keripik Kimpul 2026`}</Text>
       <Text style={s.pageFooterText}>Halaman {page} / {total}</Text>
     </View>
   );
@@ -179,8 +180,8 @@ function PageFooter({ page, total }: { page: number; total: number }) {
 export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, imgJgn, imgOri250, halalLogo }: Props) {
   return (
     <Document
-      title="Proposal Kerjasama Keripik Kimpul - Cemilan Teh Risma"
-      author="Cemilan Teh Risma"
+      title={`Proposal Kerjasama Keripik Kimpul - ${BRAND_NAME}`}
+      author={BRAND_NAME}
       subject="Proposal Kerjasama Titip Jual / Reseller Keripik Kimpul Talas Balitung"
       keywords="proposal, keripik kimpul, talas, kerjasama, titip jual, reseller, cemilan teh risma, bogor"
     >
@@ -195,7 +196,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             <Text style={s.coverBadgeText}>Proposal Kerjasama Resmi · 2026</Text>
           </View>
           <Text style={s.coverTitle}>KERIPIK KIMPUL</Text>
-          <Text style={s.coverSub}>Cemilan Teh Risma</Text>
+          <Text style={s.coverSub}>{BRAND_NAME}</Text>
           <Text style={s.coverTagline}>Keripik talas balitung super renyah khas Bogor — 4 rasa, 2 ukuran, tanpa pengawet</Text>
           <View style={s.coverStats}>
             {[
@@ -229,7 +230,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <Text style={s.bodyText}>Assalamualaikum Wr. Wb.</Text>
           <Text style={s.bodyText}>
             Dengan hormat, saya dari{' '}
-            <Text style={s.bold}>Cemilan Teh Risma</Text>
+            <Text style={s.bold}>{BRAND_NAME}</Text>
             {' '}— usaha camilan rumahan khas Bogor yang telah bersertifikat{' '}
             <Text style={s.bold}>Halal Indonesia</Text>
             {' '}dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk{' '}
@@ -287,7 +288,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 20 }}>
             <View>
               <Text style={[s.bodyText, { marginBottom: 2 }]}>Hormat kami,</Text>
-              <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>Cemilan Teh Risma</Text>
+              <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>{BRAND_NAME}</Text>
               <Text style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>Bogor, Jawa Barat</Text>
             </View>
             <View style={{ borderWidth: 1, borderColor: C.border, borderRadius: 8, padding: 12, backgroundColor: C.white }}>
@@ -362,7 +363,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
               ['Masa Simpan',   '3 bulan sejak tanggal produksi (kemasan kedap udara)'],
               ['Komposisi',     'Talas Kimpul Pilihan, Minyak Goreng, Garam, Bumbu Perasa (sesuai varian)'],
               ['Halal',         'Bersertifikat Halal Indonesia dari BPJPH'],
-              ['Diproduksi',    'Cemilan Teh Risma · Bogor, Jawa Barat · NIB: 0403260068412'],
+              ['Diproduksi',    `${BRAND_NAME} · Bogor, Jawa Barat · NIB: 0403260068412`],
               ['Tersedia juga', 'Paket Hemat Mix 3 Rasa (Rp 40.000) & Mix 5 Pcs (Rp 65.000)'],
             ].map(([k, v]) => (
               <View key={k} style={[s.infoRow, { marginBottom: 3 }]}>
@@ -569,7 +570,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
               <Image src={halalLogo} style={s.legalHalalImg} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: C.dark }}>Bersertifikat Halal Indonesia</Text>
-                <Text style={{ fontSize: 9, color: C.body, marginTop: 2 }}>Keripik Kimpul Cemilan Teh Risma telah mendapatkan sertifikasi Halal resmi dari Badan Penyelenggara Jaminan Produk Halal (BPJPH) Indonesia.</Text>
+                <Text style={{ fontSize: 9, color: C.body, marginTop: 2 }}>{`Keripik Kimpul ${BRAND_NAME} telah mendapatkan sertifikasi Halal resmi dari Badan Penyelenggara Jaminan Produk Halal (BPJPH) Indonesia.`}</Text>
               </View>
             </View>
             <View style={{ borderTopWidth: 1, borderTopColor: C.border, paddingTop: 10 }}>
@@ -612,7 +613,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
           <View style={[s.infoBox, { borderLeftColor: C.gray, backgroundColor: '#F9FAFB', marginTop: 8 }]}>
             <Text style={[s.bodyText, { marginBottom: 0, fontSize: 9, color: C.gray, fontStyle: 'italic' }]}>
-              Dokumen ini diterbitkan oleh Cemilan Teh Risma — Bogor, 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Penggandaan atau penyebaran tanpa izin tidak diperkenankan.
+              Dokumen ini diterbitkan oleh {BRAND_NAME} — Bogor, 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Penggandaan atau penyebaran tanpa izin tidak diperkenankan.
             </Text>
           </View>
         </View>

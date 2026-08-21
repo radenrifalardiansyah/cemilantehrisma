@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE_URL } from '@/lib/seo';
+import { SITE_URL, BRAND_NAME } from '@/lib/branding';
 
 export const metadata: Metadata = {
   title: 'Semua Produk',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     'oleh oleh khas bogor murah',
   ],
   openGraph: {
-    title: 'Semua Produk | Cemilan Teh Risma',
+    title: `Semua Produk | ${BRAND_NAME}`,
     description: 'Keripik Kimpul & Mie Kremes Bogor. Halal, renyah, tanpa pengawet. Pesan via WhatsApp!',
     url: `${SITE_URL}/products`,
   },

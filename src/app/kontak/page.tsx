@@ -10,6 +10,7 @@ import Navbar from '@/components/Navbar';
 import Cart from '@/components/Cart';
 import BottomNav from '@/components/BottomNav';
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp';
+import { BRAND_NAME, LEGAL_NAME, ADDRESS_LINES, SOCIAL } from '@/lib/branding';
 import { useLanguage } from '@/contexts/LanguageContext';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 
@@ -26,8 +27,8 @@ const contacts = [
   {
     icon: Instagram,
     label: 'Instagram',
-    value: '@keripiktehrisma',
-    href: 'https://www.instagram.com/keripiktehrisma',
+    value: `@${SOCIAL.instagramHandle}`,
+    href: SOCIAL.instagramUrl,
     color: '#E1306C',
     bg: 'rgba(225,48,108,0.08)',
     border: 'rgba(225,48,108,0.2)',
@@ -36,7 +37,7 @@ const contacts = [
     icon: ShoppingBag,
     label: 'Shopee',
     value: 'tehrisma.id',
-    href: 'https://shopee.co.id/tehrisma.id',
+    href: SOCIAL.shopeeUrl,
     color: '#EE4D2D',
     bg: 'rgba(238,77,45,0.08)',
     border: 'rgba(238,77,45,0.2)',
@@ -59,9 +60,9 @@ export default function KontakPage() {
           className="flex flex-col items-center text-center mb-8"
         >
           <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-amber-200 shadow-lg mb-4">
-            <Image src={logo} alt="Cemilan Teh Risma" fill className="object-cover" />
+            <Image src={logo} alt={BRAND_NAME} fill className="object-cover" />
           </div>
-          <h1 className="font-display text-2xl font-bold text-amber-950 mb-1">Cemilan Teh Risma</h1>
+          <h1 className="font-display text-2xl font-bold text-amber-950 mb-1">{BRAND_NAME}</h1>
           <p className="text-amber-700/60 text-sm">{t.kontak.subtitle}</p>
         </motion.div>
 
@@ -73,20 +74,20 @@ export default function KontakPage() {
           className="rounded-2xl overflow-hidden border border-amber-100 shadow-sm mb-4"
         >
           <iframe
-            src="https://maps.google.com/maps?q=Jl.+Batara+Kp.+Bubulak+No.+54+RT01+RW03+Kel.+Ciluar+Kec.+Bogor+Utara+16156&output=embed&z=16"
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS_LINES.join(' '))}&output=embed&z=16`}
             width="100%"
             height="220"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Lokasi Warung Teh Risma"
+            title={`Lokasi ${LEGAL_NAME}`}
           />
         </motion.div>
 
         {/* Address card */}
         <motion.a
-          href="https://maps.app.goo.gl/h1AyYBaTH2tAqS588"
+          href={SOCIAL.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 12 }}
@@ -102,8 +103,8 @@ export default function KontakPage() {
           <div className="flex-1">
             <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-0.5">{t.kontak.addressLabel}</p>
             <p className="text-amber-950 text-sm font-medium leading-snug">
-              Jl. Batara Kp. Bubulak No. 54 RT01/RW03<br />
-              Kel. Ciluar, Kec. Bogor Utara 16156
+              {ADDRESS_LINES[0]}<br />
+              {ADDRESS_LINES[1]}
             </p>
             <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-amber-600">
               {t.kontak.openMaps} <ExternalLink size={11} />

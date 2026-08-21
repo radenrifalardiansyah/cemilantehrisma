@@ -1,5 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
+import { BRAND_NAME, THEME_COLOR } from '@/lib/branding';
 
 export interface InvoiceItem {
   name:     string;
@@ -29,7 +30,7 @@ export interface InvoiceData {
 const C = {
   primary:     '#B45309',
   primaryDark: '#92400E',
-  accent:      '#D97706',
+  accent:      THEME_COLOR,
   accentLight: '#FEF3C7',
   accentMid:   '#FDE68A',
   lightBg:     '#FFFBF2',
@@ -195,7 +196,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
   return (
     <Document
       title={`Invoice ${data.invoiceNo} — ${data.customerName}`}
-      author="Cemilan Teh Risma"
+      author={BRAND_NAME}
     >
       <Page size="A4" style={s.page}>
 
@@ -206,7 +207,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
               <Image src={data.logo} style={s.logo} />
             </View>
             <View>
-              <Text style={s.brandName}>Cemilan Teh Risma</Text>
+              <Text style={s.brandName}>{BRAND_NAME}</Text>
               <Text style={s.brandSub}>Bogor, Jawa Barat · Indonesia</Text>
               <Text style={s.brandSub2}>NIB: 0403260068412 · WA: 0812-1213-2014</Text>
             </View>
@@ -333,7 +334,7 @@ export default function InvoicePDF({ data }: { data: InvoiceData }) {
         {/* ── Footer ─────────────────────────────────────────────────────── */}
         <View style={s.footer} fixed>
           <View style={s.footerLeft}>
-            <Text style={s.footerBold}>Cemilan Teh Risma</Text>
+            <Text style={s.footerBold}>{BRAND_NAME}</Text>
             <Text style={s.footerText}>Bogor, Jawa Barat · WA: 0812-1213-2014 · NIB: 0403260068412</Text>
           </View>
           <View style={s.footerRight}>

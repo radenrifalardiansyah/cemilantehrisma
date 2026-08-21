@@ -9,6 +9,7 @@ import bannerMieKremes1 from '@/assets/images/Banner Mie Kremes 1.png';
 import bannerMieKremes2 from '@/assets/images/Banner Mie Kremes 2.png';
 import bannerKeripik1 from '@/assets/images/Banner 1 Keripik Kimpul.png';
 import bannerKeripik2 from '@/assets/images/Banner 2 Keripik Kimpul.png';
+import { BRAND_NAME } from '@/lib/branding';
 
 const banners = [
   {
@@ -24,7 +25,7 @@ const banners = [
   {
     id: 3,
     image: bannerKeripik1,
-    alt: 'Keripik Kimpul Cemilan Teh Risma — Gurih Bikin Nagih',
+    alt: `Keripik Kimpul ${BRAND_NAME} — Gurih Bikin Nagih`,
   },
   {
     id: 4,

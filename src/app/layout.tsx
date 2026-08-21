@@ -9,7 +9,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import VisitorTracker from '@/components/VisitorTracker';
-import { SITE_URL } from '@/lib/seo';
+import { SITE_URL, BRAND_NAME, LEGAL_NAME, THEME_COLOR } from '@/lib/branding';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -27,8 +27,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Cemilan Teh Risma — Keripik Kimpul & Mie Kremes Bogor',
-    template: '%s | Cemilan Teh Risma',
+    default: `${BRAND_NAME} — Keripik Kimpul & Mie Kremes Bogor`,
+    template: `%s | ${BRAND_NAME}`,
   },
   description:
     'Toko cemilan khas Bogor: Keripik Kimpul Talas Balitung renyah (3 rasa) & Mie Kremes crispy. Halal, tanpa pengawet. Pesan langsung via WhatsApp, pengiriman ke seluruh Indonesia.',
@@ -39,25 +39,25 @@ export const metadata: Metadata = {
     'oleh oleh bogor', 'snack bogor', 'cemilan renyah', 'jual keripik kimpul',
     'beli keripik kimpul', 'cemilan tanpa pengawet', 'warung teh risma',
   ],
-  authors: [{ name: 'Warung Teh Risma' }],
-  creator: 'Warung Teh Risma',
-  publisher: 'Warung Teh Risma',
+  authors: [{ name: LEGAL_NAME }],
+  creator: LEGAL_NAME,
+  publisher: LEGAL_NAME,
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true },
   },
   openGraph: {
-    title: 'Cemilan Teh Risma — Keripik Kimpul & Mie Kremes Bogor',
+    title: `${BRAND_NAME} — Keripik Kimpul & Mie Kremes Bogor`,
     description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet. Pesan via WhatsApp!',
     type: 'website',
     locale: 'id_ID',
-    siteName: 'Cemilan Teh Risma',
+    siteName: BRAND_NAME,
     url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Cemilan Teh Risma — Keripik Kimpul & Mie Kremes Bogor',
+    title: `${BRAND_NAME} — Keripik Kimpul & Mie Kremes Bogor`,
     description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet.',
   },
   alternates: {
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
-    title: 'Cemilan Teh Risma',
+    title: BRAND_NAME,
     statusBarStyle: 'default',
   },
   icons: {
@@ -85,7 +85,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#D97706',
+  themeColor: THEME_COLOR,
   viewportFit: 'cover',
 };
 
@@ -95,7 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Cemilan Teh Risma" />
+        <meta name="apple-mobile-web-app-title" content={BRAND_NAME} />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
