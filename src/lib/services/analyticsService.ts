@@ -1,5 +1,14 @@
 import { getDb, FieldValue } from '@/lib/firebase';
 
+// Bucket harian analytics harus mengikuti hari kalender WIB (Asia/Jakarta) — toko buka & tutup
+// menurut jam WIB, bukan UTC. `new Date().toISOString().slice(0,10)` (dipakai sebelumnya di sini)
+// memakai hari kalender UTC, yang di server ber-zona-waktu UTC (umum di banyak platform hosting)
+// membuat pergantian hari jatuh pukul 07:00 WIB — kunjungan/klik antara 00:00–07:00 WIB setiap
+// hari tercatat di bucket hari SEBELUMNYA, bukan hari itu sendiri.
+function wibDateKey(d: Date = new Date()): string {
+  return d.toLocaleDateString('en-CA', { timeZone: 'Asia/Jakarta' });
+}
+
 export const PAGE_KEYS: Record<string, string> = {
   home:      '/',
   products:  '/products',
@@ -44,7 +53,7 @@ export async function trackPageView(
   device: string,
   sessionId?: string,
 ): Promise<void> {
-  const today   = new Date().toISOString().slice(0, 10);
+  const today   = wibDateKey();
   const devKey  = device === 'mobile' ? 'mobile' : 'desktop';
   const pageKey = pathToPageKey(path);
 
@@ -71,7 +80,7 @@ const CLICK_FIELD: Record<ClickType, string> = {
 export async function trackClick(type: ClickType, rawKey: string): Promise<void> {
   const key = type === 'menu' ? pathToPageKey(rawKey) : sanitizeKey(rawKey);
   if (!key) return;
-  const today = new Date().toISOString().slice(0, 10);
+  const today = wibDateKey();
   const field = CLICK_FIELD[type];
 
   await getDb().collection('analytics').doc(today).set({
@@ -83,7 +92,7 @@ export async function getAnalyticsStats(numDays: number): Promise<AnalyticsStats
   const days = Array.from({ length: numDays }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    return d.toISOString().slice(0, 10);
+    return wibDateKey(d);
   });
 
   const snapshots = await Promise.all(
