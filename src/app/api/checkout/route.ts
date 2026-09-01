@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Data pesanan tidak lengkap.' }, { status: 400 });
     }
 
-    // Cek stok live (langsung ke Firestore, bukan lewat cache /api/products) sebelum
+    // Cek stok live (langsung ke Postgres, bukan lewat cache /api/products) sebelum
     // pesanan disimpan — mencegah order untuk item yang admin sudah tandai habis.
     const stockIssues: { name: string; reason: 'habis' | 'insufficient' | 'unknown'; available?: number }[] = [];
     for (const it of items) {
