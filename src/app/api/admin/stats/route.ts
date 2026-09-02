@@ -17,9 +17,6 @@ function isAuthed(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   if (!isAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
-    return NextResponse.json({ error: 'no_firebase' }, { status: 500 });
-  }
 
   try {
     const {
@@ -62,7 +59,7 @@ export async function GET(req: NextRequest) {
       daily:   daily.slice(0, 7).reverse(),
     });
   } catch (err) {
-    console.error('[admin/stats] Firebase error:', err);
-    return NextResponse.json({ error: 'firebase_error', stats: null, paths: [], devices: [] });
+    console.error('[admin/stats]', err);
+    return NextResponse.json({ error: 'query_error', stats: null, paths: [], devices: [] });
   }
 }

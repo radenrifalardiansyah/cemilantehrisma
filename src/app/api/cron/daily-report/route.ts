@@ -8,9 +8,6 @@ export async function GET(req: NextRequest) {
   if (secret && auth !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
-    return NextResponse.json({ error: 'no_firebase' }, { status: 500 });
-  }
 
   const branding = await getCachedBranding();
   const apiKey = process.env.CALLMEBOT_API_KEY;

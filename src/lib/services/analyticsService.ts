@@ -1,4 +1,4 @@
-import { getDb, FieldValue } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 
 // Bucket harian analytics harus mengikuti hari kalender WIB (Asia/Jakarta) — toko buka & tutup
 // menurut jam WIB, bukan UTC. `new Date().toISOString().slice(0,10)` (dipakai sebelumnya di sini)
@@ -48,100 +48,97 @@ function sanitizeKey(key: string): string {
   return key.replace(/[.~*/[\]]/g, '_');
 }
 
+// Postgres `analytics_events` — satu baris per event (page view / klik), bukan counter
+// tergabung seperti dokumen Firestore lama. Tulisan jadi INSERT polos (tidak ada race
+// read-modify-write), agregasi dihitung saat baca lewat GROUP BY di `getAnalyticsStats`.
 export async function trackPageView(
   path: string,
   device: string,
   sessionId?: string,
 ): Promise<void> {
+  const sql     = getSql();
   const today   = wibDateKey();
   const devKey  = device === 'mobile' ? 'mobile' : 'desktop';
   const pageKey = pathToPageKey(path);
 
-  const update: Record<string, unknown> = {
-    views:                FieldValue.increment(1),
-    [devKey]:             FieldValue.increment(1),
-    [`pages.${pageKey}`]: FieldValue.increment(1),
-  };
-
-  if (sessionId) update['visitors'] = FieldValue.arrayUnion(sessionId);
-
-  await getDb().collection('analytics').doc(today).set(update, { merge: true });
+  await sql`
+    insert into analytics_events (day, kind, page_key, device, session_id)
+    values (${today}, 'pageview', ${pageKey}, ${devKey}, ${sessionId ?? null})
+  `;
 }
 
 export type ClickType = 'menu' | 'category' | 'product' | 'addcart';
 
-const CLICK_FIELD: Record<ClickType, string> = {
-  menu:     'clickMenu',
-  category: 'clickCategory',
-  product:  'clickProduct',
-  addcart:  'clickAddCart',
-};
-
 export async function trackClick(type: ClickType, rawKey: string): Promise<void> {
   const key = type === 'menu' ? pathToPageKey(rawKey) : sanitizeKey(rawKey);
   if (!key) return;
+  const sql   = getSql();
   const today = wibDateKey();
-  const field = CLICK_FIELD[type];
 
-  await getDb().collection('analytics').doc(today).set({
-    [`${field}.${key}`]: FieldValue.increment(1),
-  }, { merge: true });
+  await sql`insert into analytics_events (day, kind, click_type, click_key) values (${today}, 'click', ${type}, ${key})`;
 }
 
 export async function getAnalyticsStats(numDays: number): Promise<AnalyticsStats> {
+  const sql = getSql();
   const days = Array.from({ length: numDays }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - i);
     return wibDateKey(d);
   });
 
-  const snapshots = await Promise.all(
-    days.map(day => getDb().collection('analytics').doc(day).get()),
-  );
+  const [dailyRows, deviceRows, pageRows, clickRows, [totalVisitors]] = await Promise.all([
+    sql<{ day: string; views: number; visitors: number }[]>`
+      select day, count(*)::int as views, count(distinct session_id)::int as visitors
+      from analytics_events where kind = 'pageview' and day = any(${days}) group by day
+    `,
+    sql<{ device: string; n: number }[]>`
+      select device, count(*)::int as n from analytics_events
+      where kind = 'pageview' and day = any(${days}) group by device
+    `,
+    sql<{ page_key: string; n: number }[]>`
+      select page_key, count(*)::int as n from analytics_events
+      where kind = 'pageview' and day = any(${days}) group by page_key
+    `,
+    sql<{ click_type: string; click_key: string; n: number }[]>`
+      select click_type, click_key, count(*)::int as n from analytics_events
+      where kind = 'click' and day = any(${days}) group by click_type, click_key
+    `,
+    sql<{ visitors: number }[]>`
+      select count(distinct session_id)::int as visitors from analytics_events
+      where kind = 'pageview' and day = any(${days}) and session_id is not null
+    `,
+  ]);
 
-  let pageViews = 0, mobile = 0, desktop = 0;
-  const visitorSet = new Set<string>();
+  const dailyMap = new Map(dailyRows.map(r => [r.day, r]));
+  const daily: AnalyticsStats['daily'] = days.map(day => {
+    const r = dailyMap.get(day);
+    return { date: day, views: r?.views ?? 0, visitors: r?.visitors ?? 0 };
+  });
+  const pageViews = dailyRows.reduce((s, r) => s + r.views, 0);
+
+  let mobile = 0, desktop = 0;
+  for (const r of deviceRows) {
+    if (r.device === 'mobile') mobile = r.n;
+    else if (r.device === 'desktop') desktop = r.n;
+  }
+
   const pageAgg: Record<string, number> = {};
+  for (const r of pageRows) pageAgg[r.page_key] = r.n;
+
   const clickMenuAgg: Record<string, number> = {};
   const clickCategoryAgg: Record<string, number> = {};
   const clickProductAgg: Record<string, number> = {};
   const clickAddCartAgg: Record<string, number> = {};
-  const daily: AnalyticsStats['daily'] = [];
-
-  const addTo = (agg: Record<string, number>, source: unknown) => {
-    for (const [key, count] of Object.entries((source as Record<string, number>) ?? {})) {
-      agg[key] = (agg[key] ?? 0) + Number(count);
-    }
+  const CLICK_AGG: Record<string, Record<string, number>> = {
+    menu: clickMenuAgg, category: clickCategoryAgg, product: clickProductAgg, addcart: clickAddCartAgg,
   };
-
-  for (let i = 0; i < snapshots.length; i++) {
-    const snap = snapshots[i];
-    if (!snap.exists) {
-      daily.push({ date: days[i], views: 0, visitors: 0 });
-      continue;
-    }
-    const data      = snap.data()!;
-    const dayViews  = Number(data.views   ?? 0);
-    const dayMob    = Number(data.mobile  ?? 0);
-    const dayDesk   = Number(data.desktop ?? 0);
-    pageViews += dayViews;
-    mobile    += dayMob;
-    desktop   += dayDesk;
-
-    const visArr = Array.isArray(data.visitors) ? (data.visitors as string[]) : [];
-    for (const id of visArr) visitorSet.add(id);
-
-    addTo(pageAgg, data.pages);
-    addTo(clickMenuAgg, data.clickMenu);
-    addTo(clickCategoryAgg, data.clickCategory);
-    addTo(clickProductAgg, data.clickProduct);
-    addTo(clickAddCartAgg, data.clickAddCart);
-
-    daily.push({ date: days[i], views: dayViews, visitors: visArr.length });
+  for (const r of clickRows) {
+    const agg = CLICK_AGG[r.click_type];
+    if (agg) agg[r.click_key] = r.n;
   }
 
   return {
-    visitors: visitorSet.size, pageViews, mobile, desktop,
+    visitors: totalVisitors.visitors, pageViews, mobile, desktop,
     pageAgg, clickMenuAgg, clickCategoryAgg, clickProductAgg, clickAddCartAgg,
     daily,
   };
