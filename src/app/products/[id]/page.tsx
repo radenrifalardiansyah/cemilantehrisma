@@ -7,7 +7,7 @@ import { imageSrc } from '@/lib/liveProducts';
 import { getMergedProduct } from '@/lib/server/getProduct';
 import ProductDetailClient from './ProductDetailClient';
 
-// Refreshes prerendered metadata/JSON-LD against Firestore periodically, so admin
+// Refreshes prerendered metadata/JSON-LD against Postgres periodically, so admin
 // edits (name/price/stock/images/...) show up without a full redeploy.
 export const revalidate = 300;
 

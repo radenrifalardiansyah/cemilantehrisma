@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
   // a bare tag with no profile now only logs a deprecation warning in this Next version.
   tags.forEach(tag => revalidateTag(tag, { expire: 0 }));
 
-  // The homepage and product-detail pages read Firestore directly under a 5-min
+  // The homepage and product-detail pages read Postgres directly under a 5-min
   // ISR window (not via unstable_cache), so they need revalidatePath too.
   if (tags.includes('products')) {
     revalidatePath('/');

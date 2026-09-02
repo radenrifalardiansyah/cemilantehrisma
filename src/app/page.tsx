@@ -11,7 +11,7 @@ import { products } from '@/lib/products';
 import { imageSrc } from '@/lib/liveProducts';
 import { getAllMergedProducts, getMergedProduct } from '@/lib/server/getProduct';
 
-// Refreshes the featured-product JSON-LD against Firestore periodically, so admin
+// Refreshes the featured-product JSON-LD against Postgres periodically, so admin
 // edits (name/price/stock/images/...) show up without a full redeploy.
 export const revalidate = 300;
 

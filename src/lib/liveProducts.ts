@@ -1,7 +1,7 @@
 import type { StaticImageData } from 'next/image';
 import { Product } from '@/types';
 
-// Shape returned by GET /api/products (Firestore product docs, admin-managed).
+// Shape returned by GET /api/products (Postgres product rows, admin-managed).
 export interface FireProductRaw {
   id: string;
   name: string;
@@ -25,7 +25,7 @@ export interface FireProductRaw {
 const VALID_STOCK = new Set(['ready', 'habis', 'open_po']);
 const VALID_BADGE = new Set(['Popular', 'New', 'Best Seller']);
 
-// Converts a raw Firestore product document into the shape returned by GET /api/products.
+// Converts a raw product row (Postgres) into the shape returned by GET /api/products.
 // Shared by that route and by the server-side single-product lookup used in generateMetadata.
 export function rawFromDoc(id: string, data: Record<string, unknown>): FireProductRaw {
   return {
@@ -73,10 +73,10 @@ export function fireToProduct(f: FireProductRaw): Product {
   };
 }
 
-// Overlays a live Firestore product onto its static catalog counterpart. Firestore is
-// the source of truth for anything an admin can edit (price, stock, name, ...); the
-// static entry's bundled images are kept as a fallback for legacy/seeded products that
-// have no admin-uploaded photos yet.
+// Overlays a live (Postgres-backed) product onto its static catalog counterpart. The
+// live row is the source of truth for anything an admin can edit (price, stock, name,
+// ...); the static entry's bundled images are kept as a fallback for legacy/seeded
+// products that have no admin-uploaded photos yet.
 export function mergeProduct(base: Product | undefined, f: FireProductRaw | undefined): Product | undefined {
   if (!f) return base;
   const live = fireToProduct(f);
@@ -85,12 +85,12 @@ export function mergeProduct(base: Product | undefined, f: FireProductRaw | unde
 }
 
 // Merges the static bundled catalog (local optimized images, curated copy) with the
-// live Firestore catalog managed from the admin dashboard. Products that only exist in
-// Firestore (added via the admin panel after the initial seed) are included as-is.
+// live Postgres catalog managed from the admin dashboard. Products that only exist in
+// Postgres (added via the admin panel after the initial seed) are included as-is.
 export function mergeLiveProducts(staticList: Product[], fireList: FireProductRaw[]): Product[] {
   const publishedFire = fireList.filter(isPublished);
   const fireById = new Map(publishedFire.map(f => [f.id, f]));
-  // A static product whose Firestore doc was explicitly unpublished is hidden
+  // A static product whose live row was explicitly unpublished is hidden
   // entirely, rather than falling back to the static entry.
   const unpublishedIds = new Set(fireList.filter(f => !isPublished(f)).map(f => f.id));
 

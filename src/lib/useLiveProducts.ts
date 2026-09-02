@@ -32,7 +32,7 @@ function loadLiveProducts(): Promise<Product[]> {
 }
 
 // Live product catalog: the static bundled catalog merged with whatever is in
-// Firestore (admin-edited prices/stock/copy, plus any product added after the
+// Postgres (admin-edited prices/stock/copy, plus any product added after the
 // initial seed). Falls back to the static catalog alone until the fetch resolves.
 export function useLiveProducts(): Product[] {
   const [products, setProducts] = useState<Product[]>(cache?.data ?? staticProducts);
