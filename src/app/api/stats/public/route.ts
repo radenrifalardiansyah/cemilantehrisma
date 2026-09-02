@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import { unstable_cache } from 'next/cache';
 import { getDb } from '@/lib/firebase';
+import { getSql, parseJsonb } from '@/lib/db';
 
-interface OrderDoc { status?: string; items?: { qty?: number }[] }
 interface ReviewDoc { approved?: boolean; rating?: number }
-interface RecapDoc { totalSold?: number }
 
 // Angka "terjual" & rating yang ditampilkan di beranda — dihitung dari pesanan
 // selesai (website & kasir online) plus rekap penjualan mitra/reseller, dan
@@ -15,19 +14,22 @@ interface RecapDoc { totalSold?: number }
 const getCachedStats = unstable_cache(
   async () => {
     const db = getDb();
+    const sql = getSql();
 
-    // Pesanan website selesai berstatus 'selesai'; pesanan kasir online tidak
-    // pernah berubah dari 'done' (lihat admin app), jadi keduanya harus dihitung.
-    const ordersSnap = await db.collection('orders').where('status', 'in', ['selesai', 'done']).get();
-    const orderSoldCount = ordersSnap.docs.reduce((sum, d) => {
-      const items = (d.data() as OrderDoc).items ?? [];
+    // `orders` pindah ke Postgres (Tahap 12 migrasi Fase 2 — lihat plan gleaming-wondering-quokka.md).
+    // Pesanan website selesai berstatus 'selesai'; pesanan kasir online lama tidak pernah berubah
+    // dari 'done' (bug lama di admin app, sudah dinormalisasi saat backfill — 'done' tetap dicek
+    // di sini untuk jaga-jaga).
+    const orderRows = await sql<{ items: unknown }[]>`select items from orders where status in ('selesai', 'done')`;
+    const orderSoldCount = orderRows.reduce((sum, r) => {
+      const items = (parseJsonb(r.items) as { qty?: number }[] | null) ?? [];
       return sum + items.reduce((s, it) => s + (it.qty ?? 0), 0);
     }, 0);
 
-    // Penjualan mitra/reseller (konsinyasi) direkap terpisah di consignmentRecaps,
-    // dengan totalSold sudah berupa jumlah unit terjual per rekap.
-    const recapsSnap = await db.collection('consignmentRecaps').get();
-    const recapSoldCount = recapsSnap.docs.reduce((sum, d) => sum + ((d.data() as RecapDoc).totalSold ?? 0), 0);
+    // Penjualan mitra/reseller (konsinyasi) direkap terpisah di consignment_recaps (Postgres,
+    // Tahap 13 migrasi Fase 2), dengan total_sold sudah berupa jumlah unit terjual per rekap.
+    const [{ sold }] = await sql<{ sold: string | null }[]>`select coalesce(sum(total_sold), 0) as sold from consignment_recaps`;
+    const recapSoldCount = Number(sold) || 0;
 
     const soldCount = orderSoldCount + recapSoldCount;
 

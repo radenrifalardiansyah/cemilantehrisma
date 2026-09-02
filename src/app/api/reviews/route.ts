@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb, FieldValue } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 import { getSessionCustomer } from '@/lib/customerAuth';
 
 interface ReviewBody { rating?: number; comment?: string }
@@ -23,9 +24,10 @@ export async function POST(req: NextRequest) {
 
   const db = getDb();
 
-  const ordersSnap = await db.collection('orders').where('customerId', '==', session.id).get();
-  const eligible = ordersSnap.docs.some(d => (d.data() as { status?: string }).status === 'selesai');
-  if (!eligible) {
+  // `orders` pindah ke Postgres (Tahap 12 migrasi Fase 2 — lihat plan gleaming-wondering-quokka.md).
+  const sql = getSql();
+  const [{ exists }] = await sql<{ exists: boolean }[]>`select exists(select 1 from orders where customer_id = ${session.id} and status = 'selesai')`;
+  if (!exists) {
     return NextResponse.json({ error: 'not_eligible' }, { status: 403 });
   }
 

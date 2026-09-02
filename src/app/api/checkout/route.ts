@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb, FieldValue } from '@/lib/firebase';
+import { randomUUID } from 'crypto';
+import { getSql } from '@/lib/db';
 import { notify } from '@/lib/notifications';
 import { getSessionCustomer } from '@/lib/customerAuth';
 import { getMergedProduct } from '@/lib/server/getProduct';
@@ -14,9 +15,11 @@ interface CheckoutBody {
 
 const MAX_ITEMS = 100;
 
-// Merekam pesanan dari checkout website (portal) ke koleksi `orders` yang sama
-// dengan yang dipakai admin panel, supaya masuk ke menu Pesanan bertanda source: 'portal'.
-// Wajib login (lihat /login) — order selalu terikat ke akun customer.
+// Merekam pesanan dari checkout website (portal) ke tabel Postgres `orders` yang sama dengan yang
+// dipakai admin panel (Tahap 12 migrasi Fase 2 — lihat plan gleaming-wondering-quokka.md), supaya
+// masuk ke menu Pesanan bertanda source: 'portal'. Wajib login (lihat /login) — order selalu
+// terikat ke akun customer. Insert biasa (tanpa transaksi) — stok belum disentuh di titik checkout
+// (baru dipotong belakangan oleh admin saat pesanan ditandai "selesai").
 export async function POST(req: NextRequest) {
   try {
     const session = await getSessionCustomer(req);
@@ -73,20 +76,20 @@ export async function POST(req: NextRequest) {
     const invoiceNo = `WEB-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}-${rand}`;
     const date  = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
-    const db = getDb();
-    const ref = await db.collection('orders').add({
-      invoiceNo, date, customerName, customerPhone, customerId: session.id,
-      deliveryMethod: body.deliveryMethod === 'delivery' ? 'delivery' : 'pickup',
-      address: (body.address ?? '').toString().slice(0, 500),
-      note: (body.note ?? '').toString().slice(0, 500),
-      items: cleanItems,
-      subtotal: Number(body.subtotal) || total,
-      total,
-      status: 'baru',
-      source: 'portal',
-      paymentStatus: 'belum_lunas',
-      createdAt: FieldValue.serverTimestamp(),
-    });
+    const sql = getSql();
+    const id = randomUUID();
+    await sql`
+      insert into orders (
+        id, invoice_no, date, customer_name, customer_phone, customer_id,
+        delivery_method, address, note, items, subtotal, total, status, source, payment_status, created_at
+      ) values (
+        ${id}, ${invoiceNo}, ${date}, ${customerName}, ${customerPhone}, ${session.id},
+        ${body.deliveryMethod === 'delivery' ? 'delivery' : 'pickup'},
+        ${(body.address ?? '').toString().slice(0, 500)}, ${(body.note ?? '').toString().slice(0, 500)},
+        ${JSON.stringify(cleanItems)}, ${Number(body.subtotal) || total}, ${total},
+        'baru', 'portal', 'belum_lunas', now()
+      )
+    `;
 
     try {
       await notify({
@@ -94,14 +97,14 @@ export async function POST(req: NextRequest) {
         title: 'Pesanan online baru',
         message: `Pesanan ${invoiceNo} senilai Rp${total.toLocaleString('id-ID')} — oleh ${customerName} (Online).`,
         link: 'orders',
-        entityCollection: 'orders', entityId: ref.id,
+        entityCollection: 'orders', entityId: id,
         actorUsername: customerName,
       });
     } catch (err) {
       console.error('[api/checkout] Failed to write notification', err);
     }
 
-    return NextResponse.json({ id: ref.id, invoiceNo });
+    return NextResponse.json({ id, invoiceNo });
   } catch (err) {
     console.error('[api/checkout]', err);
     return NextResponse.json({ error: 'Gagal menyimpan pesanan.' }, { status: 500 });

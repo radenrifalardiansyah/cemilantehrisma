@@ -1,37 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb, FieldValue } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 import { getSessionCustomer } from '@/lib/customerAuth';
 import { notify } from '@/lib/notifications';
+import { rowToOrder, OrderRow } from '@/lib/orders-pg';
 
 type Ctx = { params: Promise<{ id: string }> };
-
-interface OrderDoc {
-  invoiceNo?: string; status?: string; total?: number; customerId?: string;
-  paymentMethod?: 'transfer' | 'qris'; paymentStatus?: 'lunas' | 'belum_lunas';
-  transferBank?: string; transferProofUrl?: string;
-}
 
 export async function GET(req: NextRequest, ctx: Ctx) {
   const session = await getSessionCustomer(req);
   if (!session) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
 
   const { id } = await ctx.params;
-  const snap = await getDb().collection('orders').doc(id).get();
-  if (!snap.exists) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+  const sql = getSql();
+  const [row] = await sql<OrderRow[]>`select * from orders where id = ${id}`;
+  if (!row) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+  if (row.customer_id !== session.id) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
-  const order = snap.data() as OrderDoc;
-  if (order.customerId !== session.id) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-
+  const order = rowToOrder(row);
   return NextResponse.json({
     order: {
-      id: snap.id,
-      invoiceNo: order.invoiceNo ?? snap.id,
-      status: order.status ?? 'baru',
-      total: order.total ?? 0,
-      paymentMethod: order.paymentMethod ?? null,
-      paymentStatus: order.paymentStatus ?? 'belum_lunas',
-      transferBank: order.transferBank ?? '',
-      transferProofUrl: order.transferProofUrl ?? '',
+      id: order.id,
+      invoiceNo: order.invoiceNo,
+      status: order.status,
+      total: order.total,
+      paymentMethod: order.paymentMethod,
+      paymentStatus: order.paymentStatus,
+      transferBank: order.transferBank,
+      transferProofUrl: order.transferProofUrl,
     },
   });
 }
@@ -43,32 +38,32 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
   if (!session) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
 
   const { id } = await ctx.params;
-  const ref = getDb().collection('orders').doc(id);
-  const snap = await ref.get();
-  if (!snap.exists) return NextResponse.json({ error: 'not_found' }, { status: 404 });
-
-  const order = snap.data() as OrderDoc;
-  if (order.customerId !== session.id) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  if (order.status === 'dibatalkan') return NextResponse.json({ error: 'order_cancelled' }, { status: 400 });
+  const sql = getSql();
+  const [row] = await sql<OrderRow[]>`select * from orders where id = ${id}`;
+  if (!row) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+  if (row.customer_id !== session.id) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  if (row.status === 'dibatalkan') return NextResponse.json({ error: 'order_cancelled' }, { status: 400 });
 
   const body = await req.json() as { paymentMethod?: string; transferBank?: string; transferProofUrl?: string };
   const paymentMethod = body.paymentMethod === 'qris' ? 'qris' : 'transfer';
   const transferProofUrl = (body.transferProofUrl ?? '').toString().trim();
   if (!transferProofUrl) return NextResponse.json({ error: 'Bukti pembayaran wajib diupload.' }, { status: 400 });
 
-  await ref.update({
-    paymentMethod,
-    transferBank: paymentMethod === 'transfer' ? (body.transferBank ?? '').toString().slice(0, 100) : FieldValue.delete(),
-    transferProofUrl,
-    paymentStatus: 'belum_lunas',
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await sql`
+    update orders set
+      payment_method = ${paymentMethod},
+      transfer_bank = ${paymentMethod === 'transfer' ? (body.transferBank ?? '').toString().slice(0, 100) : null},
+      transfer_proof_url = ${transferProofUrl},
+      payment_status = 'belum_lunas',
+      updated_at = now()
+    where id = ${id}
+  `;
 
   try {
     await notify({
       type: 'payment_proof',
       title: 'Bukti pembayaran diupload',
-      message: `Pesanan ${order.invoiceNo ?? id} sudah upload bukti transfer, menunggu verifikasi.`,
+      message: `Pesanan ${row.invoice_no ?? id} sudah upload bukti transfer, menunggu verifikasi.`,
       link: 'orders',
       entityCollection: 'orders', entityId: id,
       actorUsername: session.name || session.phone,

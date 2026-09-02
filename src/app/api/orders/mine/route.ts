@@ -1,53 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 import { getSessionCustomer } from '@/lib/customerAuth';
-
-interface OrderDoc {
-  invoiceNo?: string; date?: string; status?: string; total?: number;
-  deliveryMethod?: 'pickup' | 'delivery'; address?: string;
-  items?: { name?: string; qty?: number; weight?: string; price?: number }[];
-  createdAt?: { toMillis?: () => number };
-  paymentStatus?: 'lunas' | 'belum_lunas'; transferProofUrl?: string;
-}
+import { rowToOrder, OrderRow } from '@/lib/orders-pg';
 
 export async function GET(req: NextRequest) {
   const session = await getSessionCustomer(req);
   if (!session) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
 
   try {
-    // Sorted in-memory instead of an .orderBy() on Firestore — an equality filter on
-    // customerId plus an orderBy on a different field (createdAt) needs a composite
-    // index; a single customer's order count is small enough this is cheaper overall.
-    const snap = await getDb().collection('orders').where('customerId', '==', session.id).get();
+    // `orders` pindah ke Postgres (Tahap 12 migrasi Fase 2 — lihat plan gleaming-wondering-quokka.md).
+    const sql = getSql();
+    const rows = await sql<OrderRow[]>`select * from orders where customer_id = ${session.id} order by created_at desc`;
 
-    const withTimestamp = snap.docs.map(d => {
-      const data = d.data() as OrderDoc;
+    const orders = rows.map(row => {
+      const o = rowToOrder(row);
+      const items = o.items as { name?: string; qty?: number; weight?: string; price?: number }[];
       return {
-        order: {
-          id: d.id,
-          invoiceNo: data.invoiceNo ?? d.id,
-          date: data.date ?? '',
-          status: data.status ?? 'baru',
-          total: data.total ?? 0,
-          deliveryMethod: data.deliveryMethod === 'delivery' ? 'delivery' as const : 'pickup' as const,
-          address: data.address ?? '',
-          items: (data.items ?? []).map(it => ({
-            name: it.name ?? '', qty: it.qty ?? 1, weight: it.weight ?? '', price: it.price ?? 0,
-          })),
-          paymentStatus: data.paymentStatus ?? 'belum_lunas',
-          hasProof: !!data.transferProofUrl,
-        },
-        createdAtMs: data.createdAt?.toMillis?.() ?? 0,
+        id: o.id,
+        invoiceNo: o.invoiceNo,
+        date: o.date,
+        status: o.status,
+        total: o.total,
+        deliveryMethod: o.deliveryMethod,
+        address: o.address,
+        items: items.map(it => ({
+          name: it.name ?? '', qty: it.qty ?? 1, weight: it.weight ?? '', price: it.price ?? 0,
+        })),
+        paymentStatus: o.paymentStatus,
+        hasProof: !!o.transferProofUrl,
       };
     });
-
-    const orders = withTimestamp
-      .sort((a, b) => b.createdAtMs - a.createdAtMs)
-      .map(w => w.order);
 
     return NextResponse.json({ orders });
   } catch (err) {
     console.error('[api/orders/mine]', err);
-    return NextResponse.json({ error: 'firebase_error', orders: [] }, { status: 500 });
+    return NextResponse.json({ error: 'db_error', orders: [] }, { status: 500 });
   }
 }

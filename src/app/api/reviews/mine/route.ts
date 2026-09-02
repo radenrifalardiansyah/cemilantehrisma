@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 import { getSessionCustomer } from '@/lib/customerAuth';
 
 export async function GET(req: NextRequest) {
@@ -8,8 +9,9 @@ export async function GET(req: NextRequest) {
 
   const db = getDb();
 
-  const ordersSnap = await db.collection('orders').where('customerId', '==', session.id).get();
-  const eligible = ordersSnap.docs.some(d => (d.data() as { status?: string }).status === 'selesai');
+  // `orders` pindah ke Postgres (Tahap 12 migrasi Fase 2 — lihat plan gleaming-wondering-quokka.md).
+  const sql = getSql();
+  const [{ exists: eligible }] = await sql<{ exists: boolean }[]>`select exists(select 1 from orders where customer_id = ${session.id} and status = 'selesai')`;
 
   const reviewDoc = await db.collection('reviews').doc(session.id).get();
   const data = reviewDoc.data() as { rating?: number; comment?: string; approved?: boolean } | undefined;
