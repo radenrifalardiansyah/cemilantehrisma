@@ -1,5 +1,5 @@
 import { unstable_cache } from 'next/cache';
-import { getDb } from '@/lib/firebase';
+import { getSettings } from '@/lib/settings-pg';
 import { defaultLiveBranding, LiveBranding } from '@/lib/branding';
 
 interface SettingsDoc {
@@ -22,17 +22,17 @@ function instagramHandleFromUrl(url: string, fallback: string): string {
 }
 
 // Branding is admin-editable via Settings > Info Toko / Kontak & Sosial Media / Tampilan
-// & Tema (settings/main di Firestore, sama seperti payment-info — lihat api/payment-info/
+// & Tema (Postgres `settings` table, sama seperti payment-info — lihat api/payment-info/
 // route.ts). Cache 1 jam, tag 'branding'; admin memicu revalidateStorefront('branding')
 // lewat POST /api/revalidate setiap kali Settings disimpan (lihat cemilantehrisma-admin's
-// api/settings/route.ts). Fail-open ke default statis kalau Firestore error/kosong — brand
-// harus tetap tampil walau Firestore lagi bermasalah (lihat insiden RESOURCE_EXHAUSTED).
+// api/settings/route.ts). Fail-open ke default statis kalau Postgres error/kosong — brand
+// harus tetap tampil walau database lagi bermasalah (lihat insiden RESOURCE_EXHAUSTED, yang
+// waktu itu soal Firestore — kini terlepas dari kuota harian itu sama sekali).
 export const getCachedBranding = unstable_cache(
   async (): Promise<LiveBranding> => {
     const fallback = defaultLiveBranding();
     try {
-      const doc = await getDb().collection('settings').doc('main').get();
-      const s = (doc.exists ? doc.data() : {}) as SettingsDoc;
+      const s = (await getSettings()) as SettingsDoc;
       const whatsappNumber = s.whatsapp || fallback.whatsappNumber;
       const instagramUrl = s.instagramUrl || fallback.instagramUrl;
       return {

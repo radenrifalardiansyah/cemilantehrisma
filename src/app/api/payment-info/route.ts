@@ -1,20 +1,19 @@
 import { NextResponse } from 'next/server';
 import { unstable_cache } from 'next/cache';
-import { getDb } from '@/lib/firebase';
+import { getSettings } from '@/lib/settings-pg';
 
 interface SettingsDoc {
   storeBankName?: string; storeBankAccountNumber?: string; storeBankAccountHolder?: string;
   storeQrisImageUrl?: string;
 }
 
-// Rekening & QRIS toko diatur admin lewat Settings > Rekening Pembayaran (settings/main
-// di Firestore, field-nya sama di kedua repo — lihat SettingsTab.tsx di cemilantehrisma-admin).
+// Rekening & QRIS toko diatur admin lewat Settings > Rekening Pembayaran (tabel Postgres
+// `settings`, field-nya sama di kedua repo — lihat SettingsTab.tsx di cemilantehrisma-admin).
 // Cache 1 jam, admin bisa memanggil POST /api/revalidate dengan tag "payment-info" untuk
 // memperbarui lebih cepat setelah mengganti rekening.
 const getCachedPaymentInfo = unstable_cache(
   async () => {
-    const doc = await getDb().collection('settings').doc('main').get();
-    const s = (doc.exists ? doc.data() : {}) as SettingsDoc;
+    const s = (await getSettings()) as SettingsDoc;
     return {
       bankName: s.storeBankName ?? '',
       bankAccountNumber: s.storeBankAccountNumber ?? '',
