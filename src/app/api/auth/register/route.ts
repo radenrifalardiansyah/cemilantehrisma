@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb, FieldValue } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 import {
   normalizePhone, hashPassword, createSessionCookieValue,
   SESSION_COOKIE_NAME, SESSION_COOKIE_MAX_AGE,
@@ -17,18 +17,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
   }
 
-  const db = getDb();
-  const ref = db.collection('storefront_customers').doc(phone);
-  const existing = await ref.get();
-  if (existing.exists) {
+  const sql = getSql();
+  const [existing] = await sql<{ id: string }[]>`select id from storefront_customers where id = ${phone}`;
+  if (existing) {
     return NextResponse.json({ error: 'phone_taken' }, { status: 409 });
   }
 
-  await ref.set({
-    name, phone,
-    passwordHash: hashPassword(password),
-    createdAt: FieldValue.serverTimestamp(),
-  });
+  await sql`
+    insert into storefront_customers (id, name, phone, password_hash, created_at)
+    values (${phone}, ${name}, ${phone}, ${hashPassword(password)}, now())
+  `;
 
   const res = NextResponse.json({ ok: true, customer: { id: phone, name, phone } });
   res.cookies.set(SESSION_COOKIE_NAME, createSessionCookieValue(phone), {

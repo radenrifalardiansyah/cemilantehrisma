@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb, FieldValue } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 import {
   normalizePhone, createSessionCookieValue, verifyPendingGoogleCookieValue,
   SESSION_COOKIE_NAME, SESSION_COOKIE_MAX_AGE, PENDING_GOOGLE_COOKIE_NAME,
@@ -21,24 +21,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_phone' }, { status: 400 });
   }
 
-  const db = getDb();
-  const ref = db.collection('storefront_customers').doc(phone);
-  const existing = await ref.get();
+  const sql = getSql();
+  const [existing] = await sql<{ id: string; name: string }[]>`select id, name from storefront_customers where id = ${phone}`;
 
-  if (existing.exists) {
+  let name: string;
+  if (existing) {
     // Nomor ini sudah pernah daftar (mis. lewat HP+password) — tautkan akun Google
     // ke situ saja daripada bikin akun duplikat.
-    await ref.set({ googleUid: pending.uid, ...(pending.email ? { email: pending.email } : {}) }, { merge: true });
+    await sql`
+      update storefront_customers set google_uid = ${pending.uid}, email = coalesce(${pending.email || null}, email), updated_at = now()
+      where id = ${phone}
+    `;
+    name = existing.name ?? pending.name;
   } else {
-    await ref.set({
-      name: pending.name, phone, googleUid: pending.uid, authProvider: 'google',
-      ...(pending.email ? { email: pending.email } : {}),
-      createdAt: FieldValue.serverTimestamp(),
-    });
+    await sql`
+      insert into storefront_customers (id, name, phone, google_uid, auth_provider, email, created_at)
+      values (${phone}, ${pending.name}, ${phone}, ${pending.uid}, 'google', ${pending.email || null}, now())
+    `;
+    name = pending.name;
   }
 
-  const data = (await ref.get()).data() as { name?: string };
-  const res = NextResponse.json({ ok: true, customer: { id: phone, name: data?.name ?? pending.name, phone } });
+  const res = NextResponse.json({ ok: true, customer: { id: phone, name, phone } });
   res.cookies.set(SESSION_COOKIE_NAME, createSessionCookieValue(phone), {
     httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax',
     maxAge: SESSION_COOKIE_MAX_AGE, path: '/',

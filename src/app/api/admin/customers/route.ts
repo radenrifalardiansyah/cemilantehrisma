@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 
 // Daftar akun customer (dibuat lewat /register di storefront) untuk ditampilkan
 // di admin app. Sama pola auth-nya dengan /api/admin/stats.
@@ -18,24 +18,19 @@ function isAuthed(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   if (!isAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
-    return NextResponse.json({ error: 'no_firebase' }, { status: 500 });
-  }
 
   try {
-    const snap = await getDb().collection('storefront_customers').orderBy('createdAt', 'desc').get();
-    const customers = snap.docs.map(d => {
-      const data = d.data() as { name?: string; phone?: string; createdAt?: { toDate?: () => Date } };
-      return {
-        id: d.id,
-        name: data.name ?? '',
-        phone: data.phone ?? d.id,
-        createdAt: data.createdAt?.toDate?.().toISOString() ?? null,
-      };
-    });
+    const sql = getSql();
+    const rows = await sql<{ id: string; name: string | null; phone: string | null; created_at: Date }[]>`
+      select id, name, phone, created_at from storefront_customers order by created_at desc
+    `;
+    const customers = rows.map(r => ({
+      id: r.id, name: r.name ?? '', phone: r.phone ?? r.id,
+      createdAt: r.created_at ? r.created_at.toISOString() : null,
+    }));
     return NextResponse.json({ customers });
   } catch (err) {
     console.error('[admin/customers]', err);
-    return NextResponse.json({ error: 'firebase_error', customers: [] });
+    return NextResponse.json({ error: 'db_error', customers: [] });
   }
 }

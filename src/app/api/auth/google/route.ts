@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuthAdmin, getDb } from '@/lib/firebase';
+import { getAuthAdmin } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 import {
   createSessionCookieValue, createPendingGoogleCookieValue,
   SESSION_COOKIE_NAME, SESSION_COOKIE_MAX_AGE, PENDING_GOOGLE_COOKIE_NAME,
@@ -10,7 +11,7 @@ interface GoogleBody { idToken?: string }
 // Verifies the Firebase ID token from the client's signInWithPopup(googleProvider)
 // (see src/lib/firebaseClient.ts). Accounts here are always keyed by phone number
 // (see customerAuth.ts), and Google never gives us one, so:
-// - Returning Google user (googleUid already linked to a customers doc) -> log in.
+// - Returning Google user (googleUid already linked to a customers row) -> log in.
 // - First-time Google user -> stash identity in a short-lived cookie and ask the
 //   client to send them to /lengkapi-profil to supply a phone number.
 export async function POST(req: NextRequest) {
@@ -30,17 +31,17 @@ export async function POST(req: NextRequest) {
   const email = decoded.email ?? '';
   const name = (decoded.name ?? email.split('@')[0] ?? 'Pengguna').toString();
 
-  const db = getDb();
-  const existing = await db.collection('storefront_customers').where('googleUid', '==', uid).limit(1).get();
+  const sql = getSql();
+  const [existing] = await sql<{ id: string; name: string; phone: string }[]>`
+    select id, name, phone from storefront_customers where google_uid = ${uid} limit 1
+  `;
 
-  if (!existing.empty) {
-    const doc = existing.docs[0];
-    const data = doc.data() as { name?: string; phone?: string };
+  if (existing) {
     const res = NextResponse.json({
       ok: true,
-      customer: { id: doc.id, name: data.name ?? name, phone: data.phone ?? doc.id },
+      customer: { id: existing.id, name: existing.name ?? name, phone: existing.phone ?? existing.id },
     });
-    res.cookies.set(SESSION_COOKIE_NAME, createSessionCookieValue(doc.id), {
+    res.cookies.set(SESSION_COOKIE_NAME, createSessionCookieValue(existing.id), {
       httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax',
       maxAge: SESSION_COOKIE_MAX_AGE, path: '/',
     });

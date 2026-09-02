@@ -1,6 +1,6 @@
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from 'crypto';
 import { NextRequest } from 'next/server';
-import { getDb } from '@/lib/firebase';
+import { getSql } from '@/lib/db';
 
 export const SESSION_COOKIE_NAME = 'customer_session';
 export const SESSION_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 hari
@@ -57,19 +57,22 @@ function verifySessionCookieValue(cookieValue: string | undefined): string | nul
 }
 
 // Server-only: resolves the logged-in customer from the request's session cookie,
-// re-reading Firestore so a since-deleted/edited account can't stay "logged in".
+// re-reading Postgres so a since-deleted/edited account can't stay "logged in".
+// (storefront_customers pindah ke Postgres, Tahap 22 migrasi Fase 2.)
 export async function getSessionCustomer(req: NextRequest): Promise<CustomerSession | null> {
   const id = verifySessionCookieValue(req.cookies.get(SESSION_COOKIE_NAME)?.value);
   if (!id) return null;
 
-  const doc = await getDb().collection('storefront_customers').doc(id).get();
-  if (!doc.exists) return null;
-  const data = doc.data() as { name?: string; phone?: string; createdAt?: { toMillis?: () => number } };
+  const sql = getSql();
+  const [row] = await sql<{ name: string; phone: string; created_at: Date }[]>`
+    select name, phone, created_at from storefront_customers where id = ${id}
+  `;
+  if (!row) return null;
   return {
     id,
-    name: data.name ?? '',
-    phone: data.phone ?? id,
-    createdAt: data.createdAt?.toMillis?.() ?? null,
+    name: row.name ?? '',
+    phone: row.phone ?? id,
+    createdAt: row.created_at ? row.created_at.getTime() : null,
   };
 }
 
