@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { unstable_cache } from 'next/cache';
-import { getDb } from '@/lib/firebase';
 import { getSql, parseJsonb } from '@/lib/db';
-
-interface ReviewDoc { approved?: boolean; rating?: number }
 
 // Angka "terjual" & rating yang ditampilkan di beranda — dihitung dari pesanan
 // selesai (website & kasir online) plus rekap penjualan mitra/reseller, dan
@@ -13,7 +10,6 @@ interface ReviewDoc { approved?: boolean; rating?: number }
 // memperbarui lebih cepat setelah menyetujui ulasan atau menyelesaikan pesanan.
 const getCachedStats = unstable_cache(
   async () => {
-    const db = getDb();
     const sql = getSql();
 
     // `orders` pindah ke Postgres (Tahap 12 migrasi Fase 2 — lihat plan gleaming-wondering-quokka.md).
@@ -33,10 +29,8 @@ const getCachedStats = unstable_cache(
 
     const soldCount = orderSoldCount + recapSoldCount;
 
-    const reviewsSnap = await db.collection('reviews').where('approved', '==', true).get();
-    const ratings = reviewsSnap.docs
-      .map(d => (d.data() as ReviewDoc).rating ?? 0)
-      .filter(r => r >= 1 && r <= 5);
+    const reviewRows = await sql<{ rating: number | null }[]>`select rating from reviews where approved = true`;
+    const ratings = reviewRows.map(r => r.rating ?? 0).filter(r => r >= 1 && r <= 5);
     const rating = ratings.length ? ratings.reduce((a, b) => a + b, 0) / ratings.length : null;
 
     return { soldCount, reviewCount: ratings.length, rating };
