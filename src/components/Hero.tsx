@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Star, ShoppingBag, ChevronLeft, ChevronRight, Package, MapPin } from 'lucide-react';
+import { ArrowRight, Star, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
@@ -79,9 +79,9 @@ export default function Hero() {
       title1: t.hero.keripik.title1, title2: t.hero.keripik.title2,
       sub1: t.hero.keripik.sub1, sub2: t.hero.keripik.sub2,
       flavors: [
-        { emoji: '🥔', label: t.hero.keripik.flavors[0], dot: '#16A34A' },
-        { emoji: '🌶️', label: t.hero.keripik.flavors[1], dot: '#DC2626' },
-        { emoji: '🌽', label: t.hero.keripik.flavors[2], dot: '#CA8A04' },
+        { emoji: '🥔', label: t.hero.keripik.flavors[0], bg: 'bg-green-100', text: 'text-neutral-800' },
+        { emoji: '🌶️', label: t.hero.keripik.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'   },
+        { emoji: '🌽', label: t.hero.keripik.flavors[2], bg: 'bg-yellow-100', text: 'text-yellow-700' },
       ],
       desc: t.hero.keripik.desc, price: cheapestPriceIn('keripik'),
     },
@@ -89,8 +89,8 @@ export default function Hero() {
       title1: t.hero.mie.title1, title2: t.hero.mie.title2,
       sub1: t.hero.mie.sub1, sub2: t.hero.mie.sub2,
       flavors: [
-        { emoji: '🍝', label: t.hero.mie.flavors[0], dot: '#16A34A' },
-        { emoji: '🌶️', label: t.hero.mie.flavors[1], dot: '#DC2626' },
+        { emoji: '🍝', label: t.hero.mie.flavors[0], bg: 'bg-green-100', text: 'text-neutral-800' },
+        { emoji: '🌶️', label: t.hero.mie.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'    },
       ],
       desc: t.hero.mie.desc, price: cheapestPriceIn('mie'),
     },
@@ -98,18 +98,18 @@ export default function Hero() {
       title1: t.hero.basreng.title1, title2: t.hero.basreng.title2,
       sub1: t.hero.basreng.sub1, sub2: t.hero.basreng.sub2,
       flavors: [
-        { emoji: '🥩', label: t.hero.basreng.flavors[0], dot: '#16A34A' },
-        { emoji: '🌶️', label: t.hero.basreng.flavors[1], dot: '#DC2626' },
+        { emoji: '🥩', label: t.hero.basreng.flavors[0], bg: 'bg-sky-100', text: 'text-sky-800' },
+        { emoji: '🌶️', label: t.hero.basreng.flavors[1], bg: 'bg-red-100', text: 'text-red-700' },
       ],
       desc: t.hero.basreng.desc, price: cheapestPriceIn('basreng'),
     },
   };
 
   const stats = [
-    { value: `${soldCount}`, label: t.hero.stats.sold, Icon: Package },
-    ...(reviewCount > 0 ? [{ value: `${rating?.toFixed(1)}★`, label: t.hero.stats.rating, Icon: Star }] : []),
-    { value: `${liveProducts.length}`, label: t.hero.stats.variants, Icon: ShoppingBag },
-    { value: 'Bogor', label: t.hero.stats.location, Icon: MapPin },
+    { value: `${soldCount}`, label: t.hero.stats.sold, icon: '📦' },
+    ...(reviewCount > 0 ? [{ value: `${rating?.toFixed(1)}★`, label: t.hero.stats.rating, icon: '⭐' }] : []),
+    { value: `${liveProducts.length}`, label: t.hero.stats.variants, icon: '🛒' },
+    { value: 'Bogor', label: t.hero.stats.location, icon: '📍' },
   ];
 
   const content = groupContent[slide.group as keyof typeof groupContent];
@@ -210,9 +210,8 @@ export default function Hero() {
                     initial={{ opacity: 0, scale: 0.7 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.07, type: 'spring' }}
-                    className="chip px-3 py-1.5 text-xs"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold ${f.bg} ${f.text} border border-current/20`}
                   >
-                    <span className="chip-dot" style={{ background: f.dot }} />
                     <span>{f.emoji}</span>
                     {f.label}
                   </motion.span>
@@ -454,7 +453,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
-          className={`mt-16 grid gap-4 ${stats.length === 3 ? 'grid-cols-3' : 'grid-cols-2 lg:grid-cols-4'}`}
+          className={`mt-16 grid grid-cols-2 gap-4 ${stats.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}
         >
           {stats.map((s, i) => (
             <motion.div
@@ -465,9 +464,7 @@ export default function Hero() {
               whileHover={{ y: -3 }}
               className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-black/5 transition-all duration-300"
             >
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-green-50 border border-green-100 flex items-center justify-center mx-auto mb-2">
-                <s.Icon size={18} className="text-green-700" strokeWidth={2.2} />
-              </div>
+              <div className="text-2xl sm:text-3xl mb-1.5">{s.icon}</div>
               <div className="font-display text-xl sm:text-2xl font-bold gradient-text">{s.value}</div>
               <div className="text-neutral-700/55 text-xs sm:text-sm mt-0.5">{s.label}</div>
             </motion.div>
