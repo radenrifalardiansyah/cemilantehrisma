@@ -8,7 +8,7 @@
   --bg-card:      #FFFFFF;
   --primary:      #16A34A;
   --secondary:    #15803D;
-  --accent:       #D4AF37;
+  --accent:       #16A34A;
   --text-primary: #0A0A0A;
   --text-secondary: #3F3F46;
   --text-muted:   #71717A;
@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #16A34A 0%, #D4AF37 50%, #15803D 100%);
+  background: linear-gradient(135deg, #0A0A0A 0%, #16A34A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -76,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Primary button */
 .btn-primary {
-  background: linear-gradient(135deg, #16A34A 0%, #D4AF37 100%);
+  background: #0A0A0A;
   color: #fff;
   font-weight: 700;
   border-radius: 0.75rem;
@@ -111,7 +111,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Badge */
-.badge-popular  { background: linear-gradient(135deg, #16A34A, #D4AF37); color: #fff; }
+.badge-popular  { background: #0A0A0A; color: #fff; }
 .badge-new      { background: linear-gradient(135deg, #059669, #10B981); color: #fff; }
 .badge-best     { background: linear-gradient(135deg, #DC2626, #EF4444); color: #fff; }
 
@@ -150,8 +150,5 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Warm background */
 .bg-warm {
-  background:
-    radial-gradient(ellipse 70% 50% at 10% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 70% at 90% 20%, rgba(22, 163, 74,0.08) 0%, transparent 60%),
-    #FFFFFF;
+  background: #FFFFFF;
 }

@@ -157,14 +157,14 @@ export default function BayarPesananPage() {
                 <button
                   onClick={() => setMethod('transfer')}
                   className={`flex items-center justify-center gap-2 py-3.5 text-sm font-semibold transition-all ${method === 'transfer' ? 'text-white' : 'text-green-700/60 bg-green-50/50'}`}
-                  style={method === 'transfer' ? { background: 'linear-gradient(135deg, #16A34A, #D4AF37)' } : {}}
+                  style={method === 'transfer' ? { background: '#0A0A0A' } : {}}
                 >
                   <Landmark size={15} /> Transfer Bank
                 </button>
                 <button
                   onClick={() => setMethod('qris')}
                   className={`flex items-center justify-center gap-2 py-3.5 text-sm font-semibold transition-all ${method === 'qris' ? 'text-white' : 'text-green-700/60 bg-green-50/50'}`}
-                  style={method === 'qris' ? { background: 'linear-gradient(135deg, #16A34A, #D4AF37)' } : {}}
+                  style={method === 'qris' ? { background: '#0A0A0A' } : {}}
                 >
                   <QrCode size={15} /> QRIS
                 </button>

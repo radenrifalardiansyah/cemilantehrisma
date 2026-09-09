@@ -171,7 +171,7 @@ export default function KimpulCardStack({ imgOri, imgBBQ, imgBBQPdas, imgJgn }: 
               style={{
                 width:  active === i ? 24 : 8,
                 height: 8,
-                backgroundColor: active === i ? COLORS[active] : '#FDE68A',
+                backgroundColor: active === i ? COLORS[active] : '#E5E5E5',
                 flexShrink: 0,
               }}
               title={label}

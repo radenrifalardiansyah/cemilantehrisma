@@ -60,7 +60,7 @@ export default function IOSInstallBanner() {
           className="fixed bottom-20 left-3 right-3 z-[70] rounded-2xl shadow-2xl overflow-hidden"
           style={{ background: '#FFFFFF', border: '1.5px solid rgba(22,163,74,0.25)' }}
         >
-          <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #16A34A, #D4AF37)' }} />
+          <div className="h-1 w-full" style={{ background: '#0A0A0A' }} />
 
           <div className="p-4">
             <div className="flex items-start gap-3">

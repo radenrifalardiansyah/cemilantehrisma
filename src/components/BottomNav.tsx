@@ -77,7 +77,7 @@ export default function BottomNav() {
                       <motion.div
                         layoutId="bottom-nav-pill"
                         className="absolute inset-x-3 top-1.5 h-0.5 rounded-full"
-                        style={{ background: 'linear-gradient(90deg, #D4AF37, #FCD34D)' }}
+                        style={{ background: '#16A34A' }}
                         transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
                       />
                     )}
@@ -132,7 +132,7 @@ export default function BottomNav() {
                     <motion.div
                       layoutId="bottom-nav-pill"
                       className="absolute inset-x-3 top-1.5 h-0.5 rounded-full"
-                      style={{ background: 'linear-gradient(90deg, #D4AF37, #FCD34D)' }}
+                      style={{ background: '#16A34A' }}
                       transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
                     />
                   )}
@@ -154,7 +154,7 @@ export default function BottomNav() {
                   <motion.div
                     layoutId="bottom-nav-pill"
                     className="absolute inset-x-3 top-1.5 h-0.5 rounded-full"
-                    style={{ background: 'linear-gradient(90deg, #D4AF37, #FCD34D)' }}
+                    style={{ background: '#16A34A' }}
                     transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
                   />
                 )}
@@ -234,7 +234,7 @@ export default function BottomNav() {
                     href="/login"
                     onClick={closeAll}
                     className="flex items-center justify-center gap-2 py-3.5 rounded-2xl border-2 border-green-400 shadow-md transition-all"
-                    style={{ background: 'linear-gradient(135deg, #16A34A, #D4AF37)' }}
+                    style={{ background: '#0A0A0A' }}
                   >
                     <LogIn size={20} className="text-white" />
                     <span className="text-sm font-bold text-white">Masuk</span>

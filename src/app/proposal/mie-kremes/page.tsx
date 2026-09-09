@@ -280,7 +280,7 @@ export default async function MieKremesProposalPage() {
 
             {/* Beli Putus / Reseller */}
             <div className="relative bg-white rounded-2xl border-2 border-green-400 overflow-hidden shadow-md">
-              <div className="absolute top-0 left-0 right-0 text-center py-1.5 text-xs font-bold text-white" style={{background:'linear-gradient(90deg,#D4AF37,#16A34A)'}}>
+              <div className="absolute top-0 left-0 right-0 text-center py-1.5 text-xs font-bold text-white" style={{background:'#0A0A0A'}}>
                 Margin Lebih Besar
               </div>
               <div className="bg-gradient-to-br from-green-100 to-green-100 px-6 pt-9 pb-5 border-b border-green-200">
@@ -459,7 +459,7 @@ export default async function MieKremesProposalPage() {
 
             {/* Kremes Nagih */}
             <div className="relative bg-white rounded-2xl border-2 border-green-400 overflow-hidden shadow-md">
-              <div className="absolute top-0 left-0 right-0 text-center py-1.5 text-xs font-bold text-white" style={{background:'linear-gradient(90deg,#D4AF37,#16A34A)'}}>
+              <div className="absolute top-0 left-0 right-0 text-center py-1.5 text-xs font-bold text-white" style={{background:'#0A0A0A'}}>
                 Best Seller
               </div>
               <div className="bg-gradient-to-br from-green-500 to-green-400 px-6 pt-9 pb-5 text-white text-center">

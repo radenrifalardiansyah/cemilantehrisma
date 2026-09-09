@@ -182,7 +182,7 @@ export default function ResellerPage() {
               >
                 {p.highlight && (
                   <div className="absolute top-0 left-0 right-0 text-center py-1.5 text-xs font-bold text-white"
-                    style={{ background: 'linear-gradient(90deg, #D4AF37, #16A34A)' }}
+                    style={{ background: '#0A0A0A' }}
                   >
                     {t.reseller.pakPopular}
                   </div>
@@ -286,7 +286,7 @@ export default function ResellerPage() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold text-white flex-shrink-0"
-                  style={{ background: 'linear-gradient(135deg, #16A34A, #D4AF37)' }}
+                  style={{ background: '#0A0A0A' }}
                 >
                   {r.nama.charAt(0)}
                 </div>

@@ -46,7 +46,7 @@ export default function SplashScreen() {
           {/* Logo — sudah tampil di splash native Android, jadi di sini diam saja (tidak animasi ulang) supaya menyatu, tidak terasa "muncul dua kali" */}
           <div
             className="relative w-28 h-28 rounded-full overflow-hidden shadow-2xl mb-6"
-            style={{ border: '4px solid #D4AF37' }}
+            style={{ border: '4px solid #16A34A' }}
           >
             <Image src={logo} alt={branding.brandName} fill className="object-cover" priority />
           </div>
@@ -66,7 +66,7 @@ export default function SplashScreen() {
             </p>
             <p
               className="font-display text-3xl font-bold leading-tight"
-              style={{ background: 'linear-gradient(135deg, #16A34A, #D4AF37)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+              style={{ background: '#0A0A0A', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
             >
               Teh Risma
             </p>
@@ -94,7 +94,7 @@ export default function SplashScreen() {
               <motion.div
                 key={i}
                 className="w-2 h-2 rounded-full"
-                style={{ background: '#D4AF37' }}
+                style={{ background: '#16A34A' }}
                 animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.2 }}
               />

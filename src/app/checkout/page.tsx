@@ -195,7 +195,7 @@ export default function CheckoutPage() {
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
                     isActive ? 'text-white shadow-md' : isDone ? 'text-green-600 bg-green-100' : 'text-green-800/40 bg-transparent'
                   }`}
-                  style={isActive ? { background: 'linear-gradient(135deg, #16A34A, #D4AF37)' } : {}}
+                  style={isActive ? { background: '#0A0A0A' } : {}}
                 >
                   <Icon size={12} />
                   <span className="hidden sm:inline">{s.label}</span>
@@ -362,7 +362,7 @@ export default function CheckoutPage() {
                             ? 'text-white border-transparent shadow-md'
                             : 'bg-white border-green-200 text-green-700/70 hover:border-green-300'
                         }`}
-                        style={customer.deliveryMethod === method ? { background: 'linear-gradient(135deg, #16A34A, #D4AF37)' } : {}}
+                        style={customer.deliveryMethod === method ? { background: '#0A0A0A' } : {}}
                       >
                         {method === 'pickup' ? <><Package size={14} /> {t.checkout.pickup}</> : <><Truck size={14} /> {t.checkout.delivery}</>}
                       </button>

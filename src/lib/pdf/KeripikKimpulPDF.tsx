@@ -17,14 +17,14 @@ const C = {
   primary:      '#15803D',
   primaryDark:  '#15803D',
   accent:       THEME_COLOR,
-  accentLight:  '#FEF3C7',
-  accentMid:    '#FDE68A',
+  accentLight:  '#F5F5F5',
+  accentMid:    '#E5E5E5',
   lightBg:      '#FFFFFF',
   white:        '#FFFFFF',
   dark:         '#0A0A0A',
   body:         '#0A0A0A',
   muted:        '#3F3F46',
-  border:       '#FCD34D',
+  border:       '#16A34A',
   green:        '#15803D',
   greenLight:   '#DCFCE7',
   violet:       '#7C3AED',
@@ -386,7 +386,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <View style={s.mechRow}>
 
             {/* Titip Jual */}
-            <View style={[s.mechCard, { borderColor: '#FCD34D' }]}>
+            <View style={[s.mechCard, { borderColor: '#16A34A' }]}>
               <View style={s.mechHeaderOrange}>
                 <Text style={s.mechHeaderTitle}>Titip Jual (Konsinyasi)</Text>
                 <Text style={s.mechHeaderSub}>Tidak perlu modal — bayar setelah terjual</Text>

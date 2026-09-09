@@ -13,15 +13,15 @@ interface Props {
 const C = {
   primary:      THEME_COLOR,
   primaryDark:  '#15803D',
-  accent:       '#D4AF37',
-  accentLight:  '#FFFBEB',
-  accentMid:    '#FDE68A',
+  accent:       '#0A0A0A',
+  accentLight:  '#F5F5F5',
+  accentMid:    '#E5E5E5',
   lightBg:      '#FFFFFF',
   white:        '#FFFFFF',
   dark:         '#0A0A0A',
   body:         '#0A0A0A',
   muted:        '#15803D',
-  border:       '#FCD34D',
+  border:       '#16A34A',
   green:        '#15803D',
   greenLight:   '#DCFCE7',
   violet:       '#7C3AED',
@@ -409,7 +409,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
           <View style={s.mechRow}>
 
             {/* Titip Jual */}
-            <View style={[s.mechCard, { borderColor: '#FCD34D' }]}>
+            <View style={[s.mechCard, { borderColor: '#16A34A' }]}>
               <View style={s.mechHeaderOrange}>
                 <Text style={s.mechHeaderTitle}>Titip Jual (Konsinyasi)</Text>
                 <Text style={s.mechHeaderSub}>Tidak perlu modal — bayar setelah terjual</Text>
