@@ -53,7 +53,7 @@ export default function GoogleSignInButton({ nextUrl }: { nextUrl: string }) {
       type="button"
       onClick={handleClick}
       disabled={loading}
-      className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl border border-green-200 bg-white text-green-900 text-sm font-semibold hover:border-green-300 hover:bg-green-50/60 transition-colors disabled:opacity-50"
+      className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl border border-green-200 bg-white text-neutral-900 text-sm font-semibold hover:border-green-300 hover:bg-green-50/60 transition-colors disabled:opacity-50"
     >
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
         <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.91c1.7-1.57 2.69-3.88 2.69-6.62z" />

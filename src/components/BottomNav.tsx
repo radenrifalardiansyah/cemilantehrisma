@@ -81,8 +81,8 @@ export default function BottomNav() {
                         transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
                       />
                     )}
-                    <Icon size={22} className={isActive ? 'text-green-600' : 'text-green-800/50'} strokeWidth={isActive ? 2.3 : 2} />
-                    <span className={`text-[10px] font-semibold tracking-tight transition-colors ${isActive ? 'text-green-600' : 'text-green-800/50'}`}>
+                    <Icon size={22} className={isActive ? 'text-neutral-600' : 'text-neutral-800/50'} strokeWidth={isActive ? 2.3 : 2} />
+                    <span className={`text-[10px] font-semibold tracking-tight transition-colors ${isActive ? 'text-neutral-600' : 'text-neutral-800/50'}`}>
                       {item.label}
                     </span>
                   </motion.div>
@@ -97,7 +97,7 @@ export default function BottomNav() {
               className="relative flex-1 flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
             >
               <div className="relative">
-                <ShoppingCart size={22} className={totalItems > 0 ? 'text-green-600' : 'text-green-800/50'} strokeWidth={totalItems > 0 ? 2.2 : 2} />
+                <ShoppingCart size={22} className={totalItems > 0 ? 'text-neutral-600' : 'text-neutral-800/50'} strokeWidth={totalItems > 0 ? 2.2 : 2} />
                 <AnimatePresence>
                   {totalItems > 0 && (
                     <motion.span
@@ -113,7 +113,7 @@ export default function BottomNav() {
                   )}
                 </AnimatePresence>
               </div>
-              <span className={`text-[10px] font-semibold tracking-tight ${totalItems > 0 ? 'text-green-600' : 'text-green-800/50'}`}>
+              <span className={`text-[10px] font-semibold tracking-tight ${totalItems > 0 ? 'text-neutral-600' : 'text-neutral-800/50'}`}>
                 {t.nav.cart}
               </span>
             </motion.button>
@@ -136,8 +136,8 @@ export default function BottomNav() {
                       transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
                     />
                   )}
-                  <MoreHorizontal size={22} className={isSemuaActive ? 'text-green-600' : 'text-green-800/50'} strokeWidth={isSemuaActive ? 2.3 : 2} />
-                  <span className={`text-[10px] font-semibold tracking-tight ${isSemuaActive ? 'text-green-600' : 'text-green-800/50'}`}>
+                  <MoreHorizontal size={22} className={isSemuaActive ? 'text-neutral-600' : 'text-neutral-800/50'} strokeWidth={isSemuaActive ? 2.3 : 2} />
+                  <span className={`text-[10px] font-semibold tracking-tight ${isSemuaActive ? 'text-neutral-600' : 'text-neutral-800/50'}`}>
                     {t.nav.all}
                   </span>
                 </motion.button>
@@ -158,8 +158,8 @@ export default function BottomNav() {
                     transition={{ type: 'spring', bounce: 0.3, duration: 0.45 }}
                   />
                 )}
-                <User size={22} className={isAkunActive ? 'text-green-600' : 'text-green-800/50'} strokeWidth={isAkunActive ? 2.3 : 2} />
-                <span className={`text-[10px] font-semibold tracking-tight ${isAkunActive ? 'text-green-600' : 'text-green-800/50'}`}>
+                <User size={22} className={isAkunActive ? 'text-neutral-600' : 'text-neutral-800/50'} strokeWidth={isAkunActive ? 2.3 : 2} />
+                <span className={`text-[10px] font-semibold tracking-tight ${isAkunActive ? 'text-neutral-600' : 'text-neutral-800/50'}`}>
                   {t.nav.account}
                 </span>
               </motion.div>
@@ -192,12 +192,12 @@ export default function BottomNav() {
               <div className="flex justify-center pt-3 pb-1">
                 <div className="w-10 h-1 rounded-full bg-green-200" />
               </div>
-              <button onClick={closeAll} className="absolute top-3 right-4 p-1.5 rounded-full bg-green-50 text-green-600">
+              <button onClick={closeAll} className="absolute top-3 right-4 p-1.5 rounded-full bg-green-50 text-neutral-600">
                 <X size={16} />
               </button>
 
               <div className="px-5 pt-2 pb-6">
-                <p className="text-xs font-bold text-green-400 uppercase tracking-widest mb-4">{t.nav.all}</p>
+                <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-4">{t.nav.all}</p>
 
                 {/* More nav items */}
                 <div className="grid grid-cols-3 gap-3 mb-5">
@@ -213,8 +213,8 @@ export default function BottomNav() {
                           isActive ? 'bg-green-50 border-green-300' : 'bg-green-50/50 border-green-100 hover:border-green-200'
                         }`}
                       >
-                        <Icon size={22} className={isActive ? 'text-green-600' : 'text-green-700/60'} />
-                        <span className={`text-xs font-semibold ${isActive ? 'text-green-700' : 'text-green-700/60'}`}>{item.label}</span>
+                        <Icon size={22} className={isActive ? 'text-neutral-600' : 'text-neutral-700/60'} />
+                        <span className={`text-xs font-semibold ${isActive ? 'text-neutral-700' : 'text-neutral-700/60'}`}>{item.label}</span>
                       </Link>
                     );
                   })}
@@ -224,8 +224,8 @@ export default function BottomNav() {
                     onClick={() => { setShowAll(false); setShowCredit(true); }}
                     className="flex flex-col items-center gap-2 py-4 rounded-2xl border bg-green-50/50 border-green-100 hover:border-green-200 transition-all"
                   >
-                    <Award size={22} className="text-green-700/60" />
-                    <span className="text-xs font-semibold text-green-700/60">{t.nav.credit}</span>
+                    <Award size={22} className="text-neutral-700/60" />
+                    <span className="text-xs font-semibold text-neutral-700/60">{t.nav.credit}</span>
                   </button>
                 </div>
 
@@ -279,37 +279,37 @@ export default function BottomNav() {
               <div className="flex justify-center pt-3 pb-1">
                 <div className="w-10 h-1 rounded-full bg-green-200" />
               </div>
-              <button onClick={() => setShowCredit(false)} className="absolute top-3 right-4 p-1.5 rounded-full bg-green-50 text-green-600">
+              <button onClick={() => setShowCredit(false)} className="absolute top-3 right-4 p-1.5 rounded-full bg-green-50 text-neutral-600">
                 <X size={16} />
               </button>
 
               <div className="px-5 pt-2 pb-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <Award size={18} className="text-green-600" />
-                  <h3 className="font-display font-bold text-green-900 text-base">
+                  <Award size={18} className="text-neutral-600" />
+                  <h3 className="font-display font-bold text-neutral-900 text-base">
                     {locale === 'en' ? 'About This App' : 'Tentang Aplikasi'}
                   </h3>
                 </div>
 
                 <div className="space-y-3">
                   <div className="bg-green-50 rounded-xl p-3.5 border border-green-100">
-                    <p className="text-[11px] text-green-600 font-semibold mb-0.5 uppercase tracking-wide">
+                    <p className="text-[11px] text-neutral-600 font-semibold mb-0.5 uppercase tracking-wide">
                       {locale === 'en' ? 'Developed by' : 'Dikembangkan oleh'}
                     </p>
                     <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer"
-                      className="text-green-800 font-bold text-sm underline underline-offset-2"
+                      className="text-neutral-800 font-bold text-sm underline underline-offset-2"
                     >
                       {DEVELOPER.name}
                     </a>
-                    <p className="text-green-600/70 text-xs mt-0.5">{DEVELOPER.url.replace('https://', '')}</p>
+                    <p className="text-neutral-600/70 text-xs mt-0.5">{DEVELOPER.url.replace('https://', '')}</p>
                   </div>
                   <div className="bg-green-50 rounded-xl p-3.5 border border-green-100">
-                    <p className="text-[11px] text-green-600 font-semibold mb-0.5 uppercase tracking-wide">
+                    <p className="text-[11px] text-neutral-600 font-semibold mb-0.5 uppercase tracking-wide">
                       {locale === 'en' ? 'Supported by' : 'Didukung oleh'}
                     </p>
-                    <p className="text-green-800 font-bold text-sm">{DEVELOPER.supportedBy}</p>
+                    <p className="text-neutral-800 font-bold text-sm">{DEVELOPER.supportedBy}</p>
                   </div>
-                  <p className="text-center text-green-400/70 text-[10px] pt-1">© 2026 {branding.brandName}</p>
+                  <p className="text-center text-neutral-400/70 text-[10px] pt-1">© 2026 {branding.brandName}</p>
                 </div>
               </div>
             </motion.div>

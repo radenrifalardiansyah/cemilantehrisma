@@ -67,7 +67,7 @@ export default function Navbar() {
               <Image src={logo} alt={branding.brandName} fill className="object-cover" />
             </motion.div>
             <div className="leading-none">
-              <p className="font-display text-base sm:text-lg font-bold text-green-800 leading-none">{brandFirstWord}</p>
+              <p className="font-display text-base sm:text-lg font-bold text-neutral-800 leading-none">{brandFirstWord}</p>
               <p className="font-display text-sm sm:text-base font-bold gradient-text leading-none">{brandRestWords}</p>
             </div>
           </Link>
@@ -81,8 +81,8 @@ export default function Navbar() {
                 onClick={() => trackClick('menu', link.href)}
                 className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200 ${
                   pathname === link.href
-                    ? 'text-green-700'
-                    : 'text-green-900/60 hover:text-green-800'
+                    ? 'text-neutral-700'
+                    : 'text-neutral-900/60 hover:text-neutral-800'
                 }`}
               >
                 {pathname === link.href && (
@@ -109,7 +109,7 @@ export default function Navbar() {
                   className={`h-full px-3 text-xs font-bold transition-all ${
                     locale === l.code
                       ? 'text-white'
-                      : 'text-green-700/60 hover:text-green-800'
+                      : 'text-neutral-700/60 hover:text-neutral-800'
                   }`}
                   style={locale === l.code ? { background: '#0A0A0A' } : {}}
                 >
@@ -149,14 +149,14 @@ export default function Navbar() {
             {account ? (
               <Link
                 href="/akun"
-                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-green-200 bg-white text-green-700 text-xs font-bold hover:border-green-300 hover:bg-green-50/60 transition-colors"
+                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-green-200 bg-white text-neutral-700 text-xs font-bold hover:border-green-300 hover:bg-green-50/60 transition-colors"
               >
                 <User size={13} /> {account.name.split(' ')[0]}
               </Link>
             ) : (
               <Link
                 href="/login"
-                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-green-200 bg-white text-green-700 text-xs font-bold hover:border-green-300 hover:bg-green-50/60 transition-colors"
+                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-green-200 bg-white text-neutral-700 text-xs font-bold hover:border-green-300 hover:bg-green-50/60 transition-colors"
               >
                 <LogIn size={13} /> Masuk
               </Link>
@@ -169,7 +169,7 @@ export default function Navbar() {
                 onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
                 className="p-2.5 rounded-full bg-white border border-green-200 shadow-sm"
               >
-                <ShoppingCart size={18} className="text-green-700" />
+                <ShoppingCart size={18} className="text-neutral-700" />
               </motion.button>
               <AnimatePresence>
                 {totalItems > 0 && (

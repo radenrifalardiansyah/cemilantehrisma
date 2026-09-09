@@ -64,8 +64,8 @@ export default function KontakPage() {
           <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-green-200 shadow-lg mb-4">
             <Image src={logo} alt={branding.brandName} fill className="object-cover" />
           </div>
-          <h1 className="font-display text-2xl font-bold text-green-950 mb-1">{branding.brandName}</h1>
-          <p className="text-green-700/60 text-sm">{t.kontak.subtitle}</p>
+          <h1 className="font-display text-2xl font-bold text-neutral-950 mb-1">{branding.brandName}</h1>
+          <p className="text-neutral-700/60 text-sm">{t.kontak.subtitle}</p>
         </motion.div>
 
         {/* Maps embed */}
@@ -100,15 +100,15 @@ export default function KontakPage() {
           style={{ background: 'rgba(22,163,74,0.07)', border: '1.5px solid rgba(22,163,74,0.2)' }}
         >
           <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(22,163,74,0.15)' }}>
-            <MapPin size={18} className="text-green-600" />
+            <MapPin size={18} className="text-neutral-600" />
           </div>
           <div className="flex-1">
-            <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-0.5">{t.kontak.addressLabel}</p>
-            <p className="text-green-950 text-sm font-medium leading-snug">
+            <p className="text-xs font-semibold text-neutral-600 uppercase tracking-wider mb-0.5">{t.kontak.addressLabel}</p>
+            <p className="text-neutral-950 text-sm font-medium leading-snug">
               {branding.address}<br />
               {branding.city}
             </p>
-            <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-green-600">
+            <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-neutral-600">
               {t.kontak.openMaps} <ExternalLink size={11} />
             </span>
           </div>
@@ -123,16 +123,16 @@ export default function KontakPage() {
           style={{ background: 'rgba(22,163,74,0.05)', border: '1.5px solid rgba(22,163,74,0.15)' }}
         >
           <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(22,163,74,0.12)' }}>
-            <Clock size={18} className="text-green-600" />
+            <Clock size={18} className="text-neutral-600" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-0.5">{t.kontak.hoursLabel}</p>
-            <p className="text-green-950 text-sm font-medium">{t.kontak.hours}</p>
+            <p className="text-xs font-semibold text-neutral-600 uppercase tracking-wider mb-0.5">{t.kontak.hoursLabel}</p>
+            <p className="text-neutral-950 text-sm font-medium">{t.kontak.hours}</p>
           </div>
         </motion.div>
 
         {/* Contact buttons */}
-        <p className="text-xs font-semibold text-green-700/50 uppercase tracking-widest mb-3">{t.kontak.contactUs}</p>
+        <p className="text-xs font-semibold text-neutral-700/50 uppercase tracking-widest mb-3">{t.kontak.contactUs}</p>
         <div className="space-y-3 mb-6">
           {contacts.map((c, i) => {
             const Icon = c.icon;
@@ -157,9 +157,9 @@ export default function KontakPage() {
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-semibold uppercase tracking-wider mb-0.5" style={{ color: c.color }}>{c.label}</p>
-                  <p className="text-green-950 text-sm font-medium">{c.value}</p>
+                  <p className="text-neutral-950 text-sm font-medium">{c.value}</p>
                 </div>
-                <ExternalLink size={14} className="text-green-400 flex-shrink-0" />
+                <ExternalLink size={14} className="text-neutral-400 flex-shrink-0" />
               </motion.a>
             );
           })}

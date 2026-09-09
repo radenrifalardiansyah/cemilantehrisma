@@ -124,7 +124,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
             {translateBadge(product.badge, t)}
           </motion.span>
         )}
-        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-white/90 text-green-700 border border-green-200 shadow-sm">
+        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-white/90 text-neutral-700 border border-green-200 shadow-sm">
           <Weight size={9} />
           {product.weight}
         </span>
@@ -222,12 +222,12 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
       <div className="p-4 flex flex-col flex-1">
         {/* Name */}
-        <h3 className="font-display text-base font-bold text-green-950 leading-tight line-clamp-2 mb-1">
+        <h3 className="font-display text-base font-bold text-neutral-950 leading-tight line-clamp-2 mb-1">
           {lp.name}
         </h3>
 
         {/* Description */}
-        <p className="text-green-800/50 text-xs leading-relaxed line-clamp-2 mb-3">
+        <p className="text-neutral-800/50 text-xs leading-relaxed line-clamp-2 mb-3">
           {lp.description}
         </p>
 
@@ -240,7 +240,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
                 className="flex-shrink-0 mt-0.5"
                 style={{ color: product.bgColor }}
               />
-              <span className="text-green-800/60 text-[11px] leading-snug">{detail}</span>
+              <span className="text-neutral-800/60 text-[11px] leading-snug">{detail}</span>
             </li>
           ))}
         </ul>
@@ -249,7 +249,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
         <div className="flex items-end justify-between gap-2 pt-3 border-t border-green-100">
           <div>
             {product.originalPrice && (
-              <p className="text-green-500/60 text-xs line-through leading-none mb-0.5">
+              <p className="text-neutral-500/60 text-xs line-through leading-none mb-0.5">
                 {formatCurrency(product.originalPrice)}
               </p>
             )}
@@ -257,7 +257,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
               {formatCurrency(product.price)}
             </p>
             {soldCount > 0 && (
-              <p className="text-green-800/40 text-[11px] leading-none mt-1">
+              <p className="text-neutral-800/40 text-[11px] leading-none mt-1">
                 {soldCount} {t.product.sold}
               </p>
             )}

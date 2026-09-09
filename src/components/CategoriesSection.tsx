@@ -83,14 +83,14 @@ export default function CategoriesSection() {
         viewport={{ once: true }}
         className="text-center mb-10 sm:mb-14"
       >
-        <p className="text-green-600/70 text-sm font-semibold tracking-widest uppercase mb-3">
+        <p className="text-neutral-600/70 text-sm font-semibold tracking-widest uppercase mb-3">
           {t.categories.badge}
         </p>
         <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold">
-          <span className="text-green-950">{t.categories.title1} </span>
+          <span className="text-neutral-950">{t.categories.title1} </span>
           <span className="gradient-text">{t.categories.title2}</span>
         </h2>
-        <p className="text-green-800/55 text-sm sm:text-base mt-3 max-w-md mx-auto">
+        <p className="text-neutral-800/55 text-sm sm:text-base mt-3 max-w-md mx-auto">
           {t.categories.subtitle}
         </p>
       </motion.div>
@@ -121,15 +121,15 @@ export default function CategoriesSection() {
                 </motion.span>
 
                 <div>
-                  <h3 className="font-display font-bold text-green-950 text-base sm:text-lg leading-tight">
+                  <h3 className="font-display font-bold text-neutral-950 text-base sm:text-lg leading-tight">
                     {cat.name}
                   </h3>
-                  <p className="text-green-700/55 text-xs sm:text-sm mt-0.5">
+                  <p className="text-neutral-700/55 text-xs sm:text-sm mt-0.5">
                     {cat.description}
                   </p>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-green-600/55 text-xs">{cat.count} {t.categories.menuCount}</span>
-                    <motion.div className="text-green-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-neutral-600/55 text-xs">{cat.count} {t.categories.menuCount}</span>
+                    <motion.div className="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity">
                       <ArrowRight size={13} />
                     </motion.div>
                   </div>

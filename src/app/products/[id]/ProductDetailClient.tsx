@@ -50,7 +50,7 @@ export default function ProductDetailClient() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-green-50">
         <span className="text-6xl">😕</span>
-        <p className="text-green-800 font-semibold">{t.product.notFound}</p>
+        <p className="text-neutral-800 font-semibold">{t.product.notFound}</p>
         <button
           onClick={() => router.push('/products')}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-700 text-white font-semibold text-sm"
@@ -198,10 +198,10 @@ export default function ProductDetailClient() {
             {translateBadge(product.badge, t)}
           </span>
         )}
-        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700 border border-green-200">
+        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-neutral-700 border border-green-200">
           <Weight size={10} /> {product.weight}
         </span>
-        <span className="text-xs text-green-500 capitalize bg-green-50 border border-green-100 px-2.5 py-0.5 rounded-full">
+        <span className="text-xs text-neutral-500 capitalize bg-green-50 border border-green-100 px-2.5 py-0.5 rounded-full">
           {categoryNameById(categories, product.category)}
         </span>
         <span
@@ -213,14 +213,14 @@ export default function ProductDetailClient() {
           {product.stock === 'ready' && typeof product.stockQty === 'number' && ` · ${product.stockQty} pcs`}
         </span>
         {soldCount > 0 && (
-          <span className="text-xs text-green-500 bg-green-50 border border-green-100 px-2.5 py-0.5 rounded-full">
+          <span className="text-xs text-neutral-500 bg-green-50 border border-green-100 px-2.5 py-0.5 rounded-full">
             {soldCount} {t.product.sold}
           </span>
         )}
       </div>
 
       {/* Name */}
-      <h1 className="font-display text-2xl md:text-3xl font-bold text-green-950 leading-tight mb-3">
+      <h1 className="font-display text-2xl md:text-3xl font-bold text-neutral-950 leading-tight mb-3">
         {lp.name}
       </h1>
 
@@ -231,10 +231,10 @@ export default function ProductDetailClient() {
         </span>
         {product.originalPrice && (
           <>
-            <span className="text-green-400 text-base line-through">
+            <span className="text-neutral-400 text-base line-through">
               {formatCurrency(product.originalPrice)}
             </span>
-            <span className="text-xs font-bold text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-bold text-neutral-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">
               Hemat {formatCurrency(product.originalPrice - product.price)}
             </span>
           </>
@@ -244,18 +244,18 @@ export default function ProductDetailClient() {
       <div className="h-px bg-green-100 mb-4" />
 
       {/* Description */}
-      <p className="text-green-800/75 text-sm leading-relaxed mb-5">
+      <p className="text-neutral-800/75 text-sm leading-relaxed mb-5">
         {lp.description}
       </p>
 
       {/* Details */}
       <div className="bg-white rounded-2xl border border-green-100 p-4 mb-6">
-        <h3 className="font-display font-bold text-green-900 text-sm mb-3">{t.product.detailProduct}</h3>
+        <h3 className="font-display font-bold text-neutral-900 text-sm mb-3">{t.product.detailProduct}</h3>
         <ul className="space-y-2.5">
           {lp.details.map((detail, i) => (
             <li key={i} className="flex items-start gap-2.5">
               <CheckCircle2 size={14} className="flex-shrink-0 mt-0.5" style={{ color: product.bgColor }} />
-              <span className="text-green-800/70 text-sm leading-snug">{detail}</span>
+              <span className="text-neutral-800/70 text-sm leading-snug">{detail}</span>
             </li>
           ))}
         </ul>
@@ -288,11 +288,11 @@ export default function ProductDetailClient() {
         <div className="flex items-center gap-3 px-4 h-14">
           <button
             onClick={() => router.back()}
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-green-200 text-green-700 flex-shrink-0"
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-green-200 text-neutral-700 flex-shrink-0"
           >
             <ArrowLeft size={18} />
           </button>
-          <h2 className="font-display font-bold text-green-900 text-sm line-clamp-1 flex-1">
+          <h2 className="font-display font-bold text-neutral-900 text-sm line-clamp-1 flex-1">
             {lp.name}
           </h2>
         </div>
@@ -306,12 +306,12 @@ export default function ProductDetailClient() {
       >
         {/* Desktop breadcrumb */}
         <div className="hidden md:block max-w-5xl mx-auto px-8 pt-6 pb-4">
-          <nav className="flex items-center gap-2 text-sm text-green-500">
-            <Link href="/" className="hover:text-green-800 transition-colors">{t.nav.home}</Link>
+          <nav className="flex items-center gap-2 text-sm text-neutral-500">
+            <Link href="/" className="hover:text-neutral-800 transition-colors">{t.nav.home}</Link>
             <ChevronRight size={14} />
-            <Link href="/products" className="hover:text-green-800 transition-colors">{t.nav.menu}</Link>
+            <Link href="/products" className="hover:text-neutral-800 transition-colors">{t.nav.menu}</Link>
             <ChevronRight size={14} />
-            <span className="text-green-900 font-medium line-clamp-1">{lp.name}</span>
+            <span className="text-neutral-900 font-medium line-clamp-1">{lp.name}</span>
           </nav>
         </div>
 
@@ -333,7 +333,7 @@ export default function ProductDetailClient() {
         <div className="flex items-center gap-3 px-4 py-3">
           <div className="flex-1">
             {product.originalPrice && (
-              <p className="text-green-400 text-xs line-through leading-none">
+              <p className="text-neutral-400 text-xs line-through leading-none">
                 {formatCurrency(product.originalPrice)}
               </p>
             )}

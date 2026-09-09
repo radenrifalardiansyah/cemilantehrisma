@@ -50,13 +50,13 @@ export default async function ProposalPage() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             {/* Text side */}
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 bg-green-100 border border-green-300 rounded-full px-4 py-1.5 text-green-700 text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 bg-green-100 border border-green-300 rounded-full px-4 py-1.5 text-neutral-700 text-sm font-medium mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                 Proposal Kerjasama Resmi · 2026
               </div>
               <h1 className="proposal-font text-4xl md:text-5xl font-bold leading-tight mb-3 text-[#0A0A0A]">
                 Pilih Produk<br />
-                <span className="text-green-600">untuk Proposal</span>
+                <span className="text-neutral-600">untuk Proposal</span>
               </h1>
               <p className="text-[#0A0A0A]/60 text-base md:text-lg max-w-lg">
                 {branding.brandName} menyediakan dua lini produk unggulan. Pilih salah satu di bawah untuk membuka proposal lengkapnya.
@@ -75,7 +75,7 @@ export default async function ProposalPage() {
                   priority
                 />
               </div>
-              <div className="proposal-font text-sm font-semibold text-green-700 tracking-wide text-center">{branding.brandName}</div>
+              <div className="proposal-font text-sm font-semibold text-neutral-700 tracking-wide text-center">{branding.brandName}</div>
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default async function ProposalPage() {
                 {c.icon === 'halal' ? <HalalBadge size={34} /> : <span className="text-2xl">{c.icon}</span>}
               </div>
               <div className="proposal-font text-lg font-bold gradient-text">{c.value}</div>
-              <div className="text-green-700/55 text-xs mt-0.5">{c.label}</div>
+              <div className="text-neutral-700/55 text-xs mt-0.5">{c.label}</div>
             </div>
           ))}
         </div>
@@ -119,7 +119,7 @@ export default async function ProposalPage() {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-green-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-black text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
                 Best Seller
               </span>
             </div>
@@ -130,10 +130,10 @@ export default async function ProposalPage() {
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Original', 'Pedas', '150g', 'Rp 10.000'].map(t => (
-                  <span key={t} className="bg-green-50 border border-green-200 text-green-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
+                  <span key={t} className="bg-green-50 border border-green-200 text-neutral-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-green-600 font-semibold text-sm group-hover:gap-3 transition-all">
+              <div className="flex items-center gap-2 text-neutral-600 font-semibold text-sm group-hover:gap-3 transition-all">
                 Lihat Proposal Lengkap
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </div>
@@ -151,7 +151,7 @@ export default async function ProposalPage() {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-green-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-black text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
                 3 Varian Rasa
               </span>
             </div>
@@ -162,10 +162,10 @@ export default async function ProposalPage() {
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Original', 'BBQ Pedas', 'Jagung', '100g / 250g'].map(t => (
-                  <span key={t} className="bg-green-50 border border-green-200 text-green-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
+                  <span key={t} className="bg-green-50 border border-green-200 text-neutral-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-green-700 font-semibold text-sm group-hover:gap-3 transition-all">
+              <div className="flex items-center gap-2 text-neutral-700 font-semibold text-sm group-hover:gap-3 transition-all">
                 Lihat Proposal Lengkap
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </div>
@@ -179,15 +179,15 @@ export default async function ProposalPage() {
             <Image src={logo} alt="Logo Karya Putra" width={56} height={56} className="object-cover w-full h-full" />
           </div>
           <div className="flex-1">
-            <p className="text-xs font-bold tracking-widest text-green-600 uppercase mb-1">Tentang Kami</p>
+            <p className="text-xs font-bold tracking-widest text-neutral-600 uppercase mb-1">Tentang Kami</p>
             <p className="font-semibold text-[#0A0A0A] mb-1">{branding.brandName} — Bogor, Jawa Barat</p>
             <p className="text-sm text-[#0A0A0A]/60">NIB: 0403260068412 · Bersertifikat HALAL Indonesia · Tanpa Pengawet</p>
           </div>
           <div className="no-print flex flex-col sm:flex-row gap-2 flex-shrink-0">
-            <a href="/" className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+            <a href="/" className="inline-flex items-center justify-center gap-2 bg-black hover:bg-neutral-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
               🛒 Toko Saya
             </a>
-            <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+            <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-black hover:bg-neutral-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
               💬 WhatsApp
             </a>
           </div>
@@ -198,7 +198,7 @@ export default async function ProposalPage() {
       <footer className="border-t border-green-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
           <p className="text-xs text-[#0A0A0A]/50">© 2026 <strong className="text-[#0A0A0A]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
-          <p className="text-xs text-[#0A0A0A]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-green-700/60 hover:text-green-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#0A0A0A]/45">{DEVELOPER.supportedBy}</strong></p>
+          <p className="text-xs text-[#0A0A0A]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-neutral-700/60 hover:text-neutral-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#0A0A0A]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>
     </div>
