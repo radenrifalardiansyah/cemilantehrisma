@@ -2,7 +2,7 @@ import { getDb, FieldValue } from '@/lib/firebase';
 import { getMessaging } from 'firebase-admin/messaging';
 
 // Menulis ke koleksi `notifications` yang sama dengan admin panel (lihat
-// cemilantehrisma-admin/src/lib/notifications.ts) — dibaca realtime oleh bell notifikasi admin.
+// karyaputra-admin/src/lib/notifications.ts) — dibaca realtime oleh bell notifikasi admin.
 // Endpoint checkout ini publik/tanpa auth, jadi actor-nya nama pelanggan, bukan AuthUser admin.
 export async function notify(opts: {
   type: 'order_new' | 'payment_proof';

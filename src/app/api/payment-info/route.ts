@@ -8,7 +8,7 @@ interface SettingsDoc {
 }
 
 // Rekening & QRIS toko diatur admin lewat Settings > Rekening Pembayaran (tabel Postgres
-// `settings`, field-nya sama di kedua repo — lihat SettingsTab.tsx di cemilantehrisma-admin).
+// `settings`, field-nya sama di kedua repo — lihat SettingsTab.tsx di karyaputra-admin).
 // Cache 1 jam, admin bisa memanggil POST /api/revalidate dengan tag "payment-info" untuk
 // memperbarui lebih cepat setelah mengganti rekening.
 const getCachedPaymentInfo = unstable_cache(

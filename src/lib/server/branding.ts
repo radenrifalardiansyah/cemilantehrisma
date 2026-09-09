@@ -24,7 +24,7 @@ function instagramHandleFromUrl(url: string, fallback: string): string {
 // Branding is admin-editable via Settings > Info Toko / Kontak & Sosial Media / Tampilan
 // & Tema (Postgres `settings` table, sama seperti payment-info — lihat api/payment-info/
 // route.ts). Cache 1 jam, tag 'branding'; admin memicu revalidateStorefront('branding')
-// lewat POST /api/revalidate setiap kali Settings disimpan (lihat cemilantehrisma-admin's
+// lewat POST /api/revalidate setiap kali Settings disimpan (lihat karyaputra-admin's
 // api/settings/route.ts). Fail-open ke default statis kalau Postgres error/kosong — brand
 // harus tetap tampil walau database lagi bermasalah (lihat insiden RESOURCE_EXHAUSTED, yang
 // waktu itu soal Firestore — kini terlepas dari kuota harian itu sama sekali).

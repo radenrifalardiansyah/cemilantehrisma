@@ -2,7 +2,7 @@ export const BRAND_NAME = 'Cemilan Teh Risma';
 export const LEGAL_NAME = 'Warung Teh Risma';
 export const TAGLINE = 'Keripik Kimpul & Mie Kremes khas Bogor. Halal, renyah, tanpa pengawet.';
 
-export const SITE_URL = 'https://cemilantehrisma.vercel.app';
+export const SITE_URL = 'https://karyaputra.vercel.app';
 
 export const WHATSAPP_NUMBER = '6281212132014';
 

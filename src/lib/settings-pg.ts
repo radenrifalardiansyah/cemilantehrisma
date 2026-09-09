@@ -1,7 +1,7 @@
 import { getSql, parseJsonb } from '@/lib/db';
 
 // Versi Postgres dari dokumen tunggal `settings/main` (Tahap 15 migrasi Fase 2) — sama dengan
-// cemilantehrisma-admin/src/lib/settings-pg.ts (tabel yang sama), tapi storefront cuma perlu baca,
+// karyaputra-admin/src/lib/settings-pg.ts (tabel yang sama), tapi storefront cuma perlu baca,
 // tidak pernah menulis (pengaturan cuma diedit dari admin panel).
 export async function getSettings(): Promise<Record<string, unknown>> {
   const sql = getSql();

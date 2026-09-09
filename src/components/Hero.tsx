@@ -28,8 +28,8 @@ const slideMeta = [
   { productId: 'kk-jgn-100', image: imgOriJgn100, badgeColor: '#CA8A04', glow: 'rgba(202,138,4,0.3)', bg: 'from-yellow-100 to-amber-50', group: 'keripik' as const },
   // Basreng is Firestore-only (admin-added, no bundled static entry), so the fallback
   // image points at its live Cloudinary photo instead of a local static import.
-  { productId: 'Fj3ix8FZucBIdiwMIiLh', image: 'https://res.cloudinary.com/cemilanttehrisma/image/upload/v1787195035/uploads/ddm0pomh7zj4smplx51q.jpg', badgeColor: '#0369A1', glow: 'rgba(3,105,161,0.25)', bg: 'from-sky-100 to-cyan-50', group: 'basreng' as const },
-  { productId: 'NrLK4gFF0gQr81Yt3KjF', image: 'https://res.cloudinary.com/cemilanttehrisma/image/upload/v1787193959/uploads/syst2uyvzznjxqroywal.jpg', badgeColor: '#0F766E', glow: 'rgba(15,118,110,0.25)', bg: 'from-teal-100 to-emerald-50', group: 'basreng' as const },
+  { productId: 'Fj3ix8FZucBIdiwMIiLh', image: 'https://res.cloudinary.com/jygooie9/image/upload/v1787195035/uploads/ddm0pomh7zj4smplx51q.jpg', badgeColor: '#0369A1', glow: 'rgba(3,105,161,0.25)', bg: 'from-sky-100 to-cyan-50', group: 'basreng' as const },
+  { productId: 'NrLK4gFF0gQr81Yt3KjF', image: 'https://res.cloudinary.com/jygooie9/image/upload/v1787193959/uploads/syst2uyvzznjxqroywal.jpg', badgeColor: '#0F766E', glow: 'rgba(15,118,110,0.25)', bg: 'from-teal-100 to-emerald-50', group: 'basreng' as const },
 ];
 
 const formatPrice = (price: number) => `Rp ${price.toLocaleString('id-ID')}`;

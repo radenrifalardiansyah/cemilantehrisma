@@ -1,6 +1,6 @@
 import { parseJsonb } from '@/lib/db';
 
-// Baris Postgres `orders` (Supabase, sama dengan cemilantehrisma-admin — Tahap 12 migrasi Fase 2,
+// Baris Postgres `orders` (Supabase, sama dengan karyaputra-admin — Tahap 12 migrasi Fase 2,
 // lihat plan gleaming-wondering-quokka.md) -> shape camelCase yang dipakai halaman riwayat
 // pesanan/pembayaran, supaya frontend tidak perlu berubah.
 export interface OrderRow {

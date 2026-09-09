@@ -1,6 +1,6 @@
 import { parseJsonb } from '@/lib/db';
 
-// Baris Postgres `products` (Supabase, sama dengan cemilantehrisma-admin) -> shape yang sama
+// Baris Postgres `products` (Supabase, sama dengan karyaputra-admin) -> shape yang sama
 // persis dengan dokumen Firestore lama yang diharapkan `rawFromDoc` di lib/liveProducts.ts —
 // supaya seluruh logic overlay/merge di sana tidak perlu berubah sama sekali.
 export interface ProductRow {
