@@ -30,17 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      default: `${branding.brandName} — Keripik Kimpul & Mie Kremes Bogor`,
+      default: `${branding.brandName} — Tepung Aci`,
       template: `%s | ${branding.brandName}`,
     },
     description:
-      'Toko cemilan khas Bogor: Keripik Kimpul Talas Balitung renyah (3 rasa) & Mie Kremes crispy. Halal, tanpa pengawet. Pesan langsung via WhatsApp, pengiriman ke seluruh Indonesia.',
+      'Toko tepung aci berkualitas. Pesan langsung via WhatsApp, pengiriman ke seluruh Indonesia.',
     keywords: [
-      'keripik kimpul', 'keripik talas', 'keripik bogor', 'cemilan teh risma',
-      'keripik kimpul original', 'keripik kimpul bbq pedas', 'keripik kimpul jagung',
-      'mie kremes', 'mie kremes bogor', 'mie kremes crispy', 'cemilan halal',
-      'oleh oleh bogor', 'snack bogor', 'cemilan renyah', 'jual keripik kimpul',
-      'beli keripik kimpul', 'cemilan tanpa pengawet', 'warung teh risma',
+      'tepung aci', 'tepung aci berkualitas', 'jual tepung aci', 'beli tepung aci',
+      'tepung tapioka', 'tepung kanji', 'grosir tepung aci', 'supplier tepung aci',
     ],
     authors: [{ name: branding.legalName }],
     creator: branding.legalName,

@@ -1,6 +1,6 @@
 export const BRAND_NAME = 'Karya Putra';
 export const LEGAL_NAME = 'Karya Putra';
-export const TAGLINE = 'Keripik Kimpul & Mie Kremes khas Bogor. Halal, renyah, tanpa pengawet.';
+export const TAGLINE = 'Tepung aci berkualitas untuk kebutuhan usaha & rumah tangga Anda.';
 
 export const SITE_URL = 'https://karyaputra.vercel.app';
 
