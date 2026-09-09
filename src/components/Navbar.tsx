@@ -27,6 +27,8 @@ export default function Navbar() {
   const { t, locale, setLocale } = useLanguage();
   const { customer: account } = useAuth();
   const branding = useLiveBranding();
+  const [brandFirstWord, ...brandRestWordsArr] = branding.brandName.split(' ');
+  const brandRestWords = brandRestWordsArr.join(' ') || brandFirstWord;
 
   const navLinks = [
     { href: '/', label: t.nav.home },
@@ -65,8 +67,8 @@ export default function Navbar() {
               <Image src={logo} alt={branding.brandName} fill className="object-cover" />
             </motion.div>
             <div className="leading-none">
-              <p className="font-display text-base sm:text-lg font-bold text-green-800 leading-none">Cemilan</p>
-              <p className="font-display text-sm sm:text-base font-bold gradient-text leading-none">Teh Risma</p>
+              <p className="font-display text-base sm:text-lg font-bold text-green-800 leading-none">{brandFirstWord}</p>
+              <p className="font-display text-sm sm:text-base font-bold gradient-text leading-none">{brandRestWords}</p>
             </div>
           </Link>
 

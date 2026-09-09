@@ -27,6 +27,8 @@ const footerDescs = {
 export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolean }) {
   const { t, locale } = useLanguage();
   const branding = useLiveBranding();
+  const [brandFirstWord, ...brandRestWordsArr] = branding.brandName.split(' ');
+  const brandRestWords = brandRestWordsArr.join(' ') || brandFirstWord;
   const products = useLiveProducts();
   const liveCategories = useLiveCategories();
   const [descIndex, setDescIndex] = useState(0);
@@ -84,8 +86,8 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 <Image src={logo} alt={branding.brandName} fill className="object-cover" />
               </div>
               <div>
-                <p className="font-display text-xl font-bold text-green-200 leading-none">Cemilan</p>
-                <p className="font-display text-base font-bold gradient-text leading-none">Teh Risma</p>
+                <p className="font-display text-xl font-bold text-green-200 leading-none">{brandFirstWord}</p>
+                <p className="font-display text-base font-bold gradient-text leading-none">{brandRestWords}</p>
               </div>
             </div>
             <div className="mb-5 max-w-xs h-12 relative overflow-hidden">

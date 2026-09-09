@@ -15,12 +15,12 @@ const getBanners = (brandName: string) => [
   {
     id: 1,
     image: bannerMieKremes1,
-    alt: 'Mie Kremes Teh Risma — Crispy, Gurih, Bikin Nagih',
+    alt: 'Mie Kremes Karya Putra — Crispy, Gurih, Bikin Nagih',
   },
   {
     id: 2,
     image: bannerMieKremes2,
-    alt: 'Mie Kremes Teh Risma — 2 Varian Rasa',
+    alt: 'Mie Kremes Karya Putra — 2 Varian Rasa',
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const getBanners = (brandName: string) => [
   {
     id: 4,
     image: bannerKeripik2,
-    alt: 'Keripik Kimpul Teh Risma — 3 Varian Rasa',
+    alt: 'Keripik Kimpul Karya Putra — 3 Varian Rasa',
   },
 ];
 

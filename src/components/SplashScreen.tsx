@@ -62,13 +62,13 @@ export default function SplashScreen() {
               className="font-display text-3xl font-bold leading-tight"
               style={{ color: '#3F3F46' }}
             >
-              Cemilan
+              Karya
             </p>
             <p
               className="font-display text-3xl font-bold leading-tight"
               style={{ background: '#0A0A0A', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
             >
-              Teh Risma
+              Putra
             </p>
           </motion.div>
 

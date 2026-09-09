@@ -202,7 +202,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-green-100 border border-green-300/60 text-green-700 text-sm font-semibold mb-5"
             >
               <div className="relative w-7 h-7 rounded-full overflow-hidden border border-green-300/60 flex-shrink-0">
-                <Image src={logo} alt="Teh Risma" fill className="object-cover" />
+                <Image src={logo} alt="Karya Putra" fill className="object-cover" />
               </div>
               {t.hero.brand(branding.brandName)}
             </motion.div>

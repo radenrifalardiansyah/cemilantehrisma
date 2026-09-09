@@ -307,7 +307,7 @@ export default function InvoicePDF({ data, brandName }: { data: InvoiceData; bra
               <>
                 <Text style={s.paymentTitle}>Informasi Pembayaran</Text>
                 {[
-                  ['Transfer ke',   'Bank / e-wallet sesuai kesepakatan dengan Teh Risma'],
+                  ['Transfer ke',   'Bank / e-wallet sesuai kesepakatan dengan Karya Putra'],
                   ['Konfirmasi',    'Via WhatsApp: 0812-1213-2014 setelah transfer'],
                   ['Pengiriman',    'Dikirim setelah pembayaran dikonfirmasi'],
                   ['Pertanyaan',    'WhatsApp: 0812-1213-2014 (Senin–Sabtu, 08.00–20.00)'],

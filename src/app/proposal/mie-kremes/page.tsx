@@ -88,7 +88,7 @@ export default async function MieKremesProposalPage() {
               {/* Logo kecil + judul */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="logo-float flex-shrink-0">
-                  <Image src={logo} alt="Logo Teh Risma" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
+                  <Image src={logo} alt="Logo Karya Putra" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
                 </div>
                 <p className="text-xs text-green-700 font-semibold tracking-wide">{branding.brandName}</p>
               </div>
