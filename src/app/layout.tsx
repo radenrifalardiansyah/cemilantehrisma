@@ -48,8 +48,8 @@ export async function generateMetadata(): Promise<Metadata> {
       googleBot: { index: true, follow: true },
     },
     openGraph: {
-      title: `${branding.brandName} — Keripik Kimpul & Mie Kremes Bogor`,
-      description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet. Pesan via WhatsApp!',
+      title: `${branding.brandName} — Tepung Aci`,
+      description: 'Toko tepung aci berkualitas. Pesan via WhatsApp!',
       type: 'website',
       locale: 'id_ID',
       siteName: branding.brandName,
@@ -57,8 +57,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${branding.brandName} — Keripik Kimpul & Mie Kremes Bogor`,
-      description: 'Keripik Kimpul renyah & Mie Kremes crispy khas Bogor. Halal, tanpa pengawet.',
+      title: `${branding.brandName} — Tepung Aci`,
+      description: 'Toko tepung aci berkualitas.',
     },
     alternates: {
       canonical: SITE_URL,
