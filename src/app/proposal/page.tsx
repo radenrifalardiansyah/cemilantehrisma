@@ -93,7 +93,7 @@ export default async function ProposalPage() {
             { icon: '📅', value: '3 Bulan', label: 'Masa Simpan' },
             { icon: '📋', value: 'NIB Resmi', label: '0403260068412' },
           ].map(c => (
-            <div key={c.label} className="bg-white rounded-2xl p-4 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-green-100 transition-all duration-300">
+            <div key={c.label} className="bg-white rounded-2xl p-4 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-black/5 transition-all duration-300">
               <div className="flex justify-center mb-1.5">
                 {c.icon === 'halal' ? <HalalBadge size={34} /> : <span className="text-2xl">{c.icon}</span>}
               </div>

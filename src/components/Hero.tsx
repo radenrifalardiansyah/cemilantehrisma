@@ -34,26 +34,6 @@ const slideMeta = [
 
 const formatPrice = (price: number) => `Rp ${price.toLocaleString('id-ID')}`;
 
-const particles = ['🥔', '🌶️', '🌽', '✨', '⭐', '🌿', '💫'];
-
-function Particle({ index }: { index: number }) {
-  const emoji = particles[index % particles.length];
-  const delay = (index * 1.1) % 8;
-  const duration = 9 + (index % 5);
-  const left = (index * 13.7) % 100;
-  const size = 12 + (index % 3) * 5;
-  return (
-    <motion.div
-      className="absolute pointer-events-none select-none"
-      style={{ left: `${left}%`, bottom: '-30px', fontSize: size, opacity: 0 }}
-      animate={{ y: [0, -900], opacity: [0, 0.4, 0.4, 0], rotate: [0, index % 2 === 0 ? 270 : -270] }}
-      transition={{ duration, delay, repeat: Infinity, ease: 'linear' }}
-    >
-      {emoji}
-    </motion.div>
-  );
-}
-
 
 export default function Hero() {
   const { t, locale } = useLanguage();
@@ -161,27 +141,16 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         background:
-          'radial-gradient(ellipse 80% 60% at 15% 60%, rgba(212,175,55,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 25%, rgba(22,163,74,0.09) 0%, transparent 60%), #FFFFFF',
+          'radial-gradient(ellipse 70% 60% at 85% 20%, rgba(22,163,74,0.08) 0%, transparent 60%), #FFFFFF',
       }}
     >
-      {/* Decorative blobs */}
+      {/* Decorative blob — satu titik hijau lembut, bukan campuran warna */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 8, repeat: Infinity }}
-        className="absolute -top-24 -left-24 w-80 h-80 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.22) 0%, transparent 70%)' }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
+        transition={{ duration: 9, repeat: Infinity }}
+        className="absolute -top-24 -right-24 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(22,163,74,0.14) 0%, transparent 70%)' }}
       />
-      <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 10, repeat: Infinity, delay: 3 }}
-        className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(185,28,28,0.1) 0%, transparent 70%)' }}
-      />
-
-      {/* Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 10 }, (_, i) => <Particle key={i} index={i} />)}
-      </div>
 
       {/* Dot grid */}
       <div
@@ -349,7 +318,7 @@ export default function Hero() {
               </AnimatePresence>
 
               {/* Main card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl shadow-green-200/50 border border-green-100 overflow-hidden">
+              <div className="relative bg-white rounded-3xl shadow-2xl shadow-black/10 border border-green-100 overflow-hidden">
 
                 {/* Image area */}
                 <div className={`relative h-64 sm:h-72 bg-gradient-to-br ${slide.bg} overflow-hidden`}>
@@ -493,7 +462,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 + i * 0.08 }}
               whileHover={{ y: -3 }}
-              className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-green-100 transition-all duration-300"
+              className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-black/5 transition-all duration-300"
             >
               <div className="text-2xl sm:text-3xl mb-1.5">{s.icon}</div>
               <div className="font-display text-xl sm:text-2xl font-bold gradient-text">{s.value}</div>

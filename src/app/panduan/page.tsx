@@ -88,7 +88,7 @@ export default function PanduanPage() {
       {/* Hero */}
       <section className="relative pt-28 pb-10 px-4 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(212,175,55,0.13) 0%, transparent 60%), #FFFFFF',
+          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(22,163,74,0.1) 0%, transparent 60%), #FFFFFF',
         }} />
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}

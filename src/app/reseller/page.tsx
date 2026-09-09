@@ -112,7 +112,7 @@ export default function ResellerPage() {
       {/* HERO */}
       <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(212,175,55,0.13) 0%, transparent 60%), #FFFFFF',
+          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(22,163,74,0.1) 0%, transparent 60%), #FFFFFF',
         }} />
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -177,7 +177,7 @@ export default function ResellerPage() {
                 initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -5 }}
                 className={`relative bg-white rounded-3xl border-2 shadow-sm overflow-hidden transition-all ${
-                  p.highlight ? 'border-green-400 shadow-green-100 shadow-lg' : 'border-green-100'
+                  p.highlight ? 'border-green-400 shadow-black/5 shadow-lg' : 'border-green-100'
                 }`}
               >
                 {p.highlight && (
@@ -254,7 +254,7 @@ export default function ResellerPage() {
             <motion.div key={b.title}
               initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.07 }} whileHover={{ y: -4 }}
-              className="bg-white rounded-2xl p-5 border border-green-100 shadow-sm hover:shadow-md hover:shadow-green-100 transition-all"
+              className="bg-white rounded-2xl p-5 border border-green-100 shadow-sm hover:shadow-md hover:shadow-black/5 transition-all"
             >
               <div className="text-3xl mb-3">{b.icon}</div>
               <h3 className="font-display font-bold text-neutral-950 mb-1.5">{b.title}</h3>

@@ -108,7 +108,7 @@ export default function CategoriesSection() {
               <motion.div
                 whileHover={{ y: -5, scale: 1.01 }}
                 whileTap={{ scale: 0.97 }}
-                className="group relative overflow-hidden rounded-2xl p-5 sm:p-6 cursor-pointer h-36 sm:h-44 flex flex-col justify-between bg-white border border-green-100 transition-all duration-300 hover:shadow-lg hover:shadow-green-200/60 hover:border-green-200"
+                className="group relative overflow-hidden rounded-2xl p-5 sm:p-6 cursor-pointer h-36 sm:h-44 flex flex-col justify-between bg-white border border-green-100 transition-all duration-300 hover:shadow-lg hover:shadow-black/10 hover:border-green-200"
               >
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${cat.gradient} opacity-70`} />
 

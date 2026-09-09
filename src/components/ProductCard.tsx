@@ -107,7 +107,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
       onMouseLeave={() => { x.set(0); y.set(0); }}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       whileHover={{ y: -4 }}
-      className="group relative bg-white rounded-2xl border border-green-100 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-xl hover:shadow-green-200/60 hover:border-green-200 flex flex-col"
+      className="group relative bg-white rounded-2xl border border-green-100 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-xl hover:shadow-black/10 hover:border-green-200 flex flex-col"
     >
       {/* Color top bar */}
       <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${product.gradient} z-10`} />
