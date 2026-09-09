@@ -23,16 +23,16 @@ export default function FeaturedSection() {
       >
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <Flame size={16} className="text-amber-500" />
-            <p className="text-amber-600/70 text-sm font-semibold tracking-widest uppercase">
+            <Flame size={16} className="text-green-500" />
+            <p className="text-green-600/70 text-sm font-semibold tracking-widest uppercase">
               {t.featured.badge}
             </p>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold">
-            <span className="text-amber-950">{t.featured.title1} </span>
+            <span className="text-green-950">{t.featured.title1} </span>
             <span className="gradient-text">{t.featured.title2}</span>
           </h2>
-          <p className="text-amber-800/55 text-sm sm:text-base mt-1.5 max-w-md">
+          <p className="text-green-800/55 text-sm sm:text-base mt-1.5 max-w-md">
             {t.featured.subtitle}
           </p>
         </div>

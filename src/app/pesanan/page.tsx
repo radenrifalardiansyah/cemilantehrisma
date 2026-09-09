@@ -52,9 +52,9 @@ function ReviewCard() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-amber-100 p-5 mb-6 shadow-sm">
-      <h2 className="font-display font-bold text-amber-950 text-base mb-1">Beri Ulasan</h2>
-      <p className="text-amber-700/50 text-xs mb-4">
+    <div className="bg-white rounded-2xl border border-green-100 p-5 mb-6 shadow-sm">
+      <h2 className="font-display font-bold text-green-950 text-base mb-1">Beri Ulasan</h2>
+      <p className="text-green-700/50 text-xs mb-4">
         {data.review
           ? (data.review.approved ? 'Ulasan Anda sudah tayang. Bisa diperbarui kapan saja.' : 'Ulasan Anda sedang menunggu persetujuan admin.')
           : 'Bagaimana pengalaman belanja Anda?'}
@@ -62,7 +62,7 @@ function ReviewCard() {
       <div className="flex gap-1 mb-3">
         {[1, 2, 3, 4, 5].map(i => (
           <button key={i} type="button" onClick={() => setRating(i)}>
-            <Star size={24} className={i <= rating ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'} />
+            <Star size={24} className={i <= rating ? 'text-green-400 fill-green-400' : 'text-green-200 fill-green-200'} />
           </button>
         ))}
       </div>
@@ -94,7 +94,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 const STATUS_COLOR: Record<string, string> = {
   baru: 'bg-blue-50 text-blue-700 border-blue-200',
-  diproses: 'bg-amber-50 text-amber-700 border-amber-200',
+  diproses: 'bg-green-50 text-green-700 border-green-200',
   selesai: 'bg-green-50 text-green-700 border-green-200',
   dibatalkan: 'bg-red-50 text-red-700 border-red-200',
 };
@@ -118,36 +118,36 @@ export default function OrdersPage() {
 
   if (authLoading || !account) {
     return (
-      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
-        <p className="text-amber-700/60 text-sm">Memuat...</p>
+      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFFFF' }}>
+        <p className="text-green-700/60 text-sm">Memuat...</p>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
+    <main className="min-h-screen" style={{ background: '#FFFFFF' }}>
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-28 pb-40 md:pb-20">
         <Link
           href="/products"
-          className="hidden md:inline-flex items-center gap-1.5 text-amber-600/70 hover:text-amber-700 text-sm mb-5 transition-colors"
+          className="hidden md:inline-flex items-center gap-1.5 text-green-600/70 hover:text-green-700 text-sm mb-5 transition-colors"
         >
           <ArrowLeft size={14} /> Kembali ke menu
         </Link>
         <h1 className="font-display text-3xl sm:text-4xl font-bold mb-1">
-          <span className="text-amber-950">Pesanan </span>
+          <span className="text-green-950">Pesanan </span>
           <span className="gradient-text">Saya</span>
         </h1>
-        <p className="text-amber-800/55 text-sm mb-8">Riwayat & status pesanan akun Anda.</p>
+        <p className="text-green-800/55 text-sm mb-8">Riwayat & status pesanan akun Anda.</p>
 
         <ReviewCard />
 
         {orders === null ? (
-          <p className="text-amber-700/50 text-sm">Memuat pesanan...</p>
+          <p className="text-green-700/50 text-sm">Memuat pesanan...</p>
         ) : orders.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-amber-100 p-10 text-center shadow-sm">
+          <div className="bg-white rounded-2xl border border-green-100 p-10 text-center shadow-sm">
             <div className="text-5xl mb-3">📦</div>
-            <p className="text-amber-800/50 text-sm mb-4">Belum ada pesanan.</p>
+            <p className="text-green-800/50 text-sm mb-4">Belum ada pesanan.</p>
             <Link href="/products">
               <button className="btn-primary px-5 py-2.5 text-sm font-bold">Lihat Menu</button>
             </Link>
@@ -155,11 +155,11 @@ export default function OrdersPage() {
         ) : (
           <div className="space-y-4">
             {orders.map(order => (
-              <div key={order.id} className="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm">
-                <div className="px-5 py-4 border-b border-amber-50 flex items-center justify-between gap-3">
+              <div key={order.id} className="bg-white rounded-2xl border border-green-100 overflow-hidden shadow-sm">
+                <div className="px-5 py-4 border-b border-green-50 flex items-center justify-between gap-3">
                   <div>
-                    <p className="font-display font-bold text-amber-950 text-sm">{order.invoiceNo}</p>
-                    <p className="text-amber-700/50 text-xs flex items-center gap-1 mt-0.5">
+                    <p className="font-display font-bold text-green-950 text-sm">{order.invoiceNo}</p>
+                    <p className="text-green-700/50 text-xs flex items-center gap-1 mt-0.5">
                       <Clock size={11} /> {order.date}
                     </p>
                   </div>
@@ -167,24 +167,24 @@ export default function OrdersPage() {
                     {STATUS_LABEL[order.status] ?? order.status}
                   </span>
                 </div>
-                <div className="divide-y divide-amber-50">
+                <div className="divide-y divide-green-50">
                   {order.items.map((it, i) => (
                     <div key={i} className="flex items-center justify-between px-5 py-2.5 text-sm">
-                      <span className="text-amber-900">{it.name} <span className="text-amber-700/50">× {it.qty}</span></span>
-                      <span className="text-amber-700/70">{formatCurrency(it.price * it.qty)}</span>
+                      <span className="text-green-900">{it.name} <span className="text-green-700/50">× {it.qty}</span></span>
+                      <span className="text-green-700/70">{formatCurrency(it.price * it.qty)}</span>
                     </div>
                   ))}
                 </div>
-                <div className="px-5 py-3 bg-amber-50 flex items-center justify-between">
-                  <span className="text-amber-700/60 text-xs flex items-center gap-1.5">
+                <div className="px-5 py-3 bg-green-50 flex items-center justify-between">
+                  <span className="text-green-700/60 text-xs flex items-center gap-1.5">
                     {order.deliveryMethod === 'pickup' ? <><Package size={12} /> Pickup</> : <><Truck size={12} /> Delivery</>}
                   </span>
-                  <span className="font-display font-bold text-amber-950">{formatCurrency(order.total)}</span>
+                  <span className="font-display font-bold text-green-950">{formatCurrency(order.total)}</span>
                 </div>
                 {order.paymentStatus === 'belum_lunas' && order.status !== 'dibatalkan' && order.status !== 'selesai' && (
-                  <div className="px-5 py-3 border-t border-amber-50 flex items-center justify-between gap-3">
+                  <div className="px-5 py-3 border-t border-green-50 flex items-center justify-between gap-3">
                     {order.hasProof ? (
-                      <span className="text-amber-700/60 text-xs flex items-center gap-1.5">
+                      <span className="text-green-700/60 text-xs flex items-center gap-1.5">
                         <Clock size={12} /> Menunggu verifikasi admin
                       </span>
                     ) : (

@@ -49,7 +49,7 @@ export default function KontakPage() {
   const branding = useLiveBranding();
   const contacts = getContacts(branding);
   return (
-    <main className="min-h-screen pb-28" style={{ background: '#FFFBF5' }}>
+    <main className="min-h-screen pb-28" style={{ background: '#FFFFFF' }}>
       <Navbar />
       <Cart />
 
@@ -61,11 +61,11 @@ export default function KontakPage() {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col items-center text-center mb-8"
         >
-          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-amber-200 shadow-lg mb-4">
+          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-green-200 shadow-lg mb-4">
             <Image src={logo} alt={branding.brandName} fill className="object-cover" />
           </div>
-          <h1 className="font-display text-2xl font-bold text-amber-950 mb-1">{branding.brandName}</h1>
-          <p className="text-amber-700/60 text-sm">{t.kontak.subtitle}</p>
+          <h1 className="font-display text-2xl font-bold text-green-950 mb-1">{branding.brandName}</h1>
+          <p className="text-green-700/60 text-sm">{t.kontak.subtitle}</p>
         </motion.div>
 
         {/* Maps embed */}
@@ -73,7 +73,7 @@ export default function KontakPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.08 }}
-          className="rounded-2xl overflow-hidden border border-amber-100 shadow-sm mb-4"
+          className="rounded-2xl overflow-hidden border border-green-100 shadow-sm mb-4"
         >
           <iframe
             src={`https://maps.google.com/maps?q=${encodeURIComponent(`${branding.address} ${branding.city}`)}&output=embed&z=16`}
@@ -97,18 +97,18 @@ export default function KontakPage() {
           transition={{ delay: 0.12 }}
           whileTap={{ scale: 0.98 }}
           className="flex items-start gap-3 p-4 rounded-2xl border mb-4 w-full text-left"
-          style={{ background: 'rgba(217,119,6,0.07)', border: '1.5px solid rgba(217,119,6,0.2)' }}
+          style={{ background: 'rgba(22,163,74,0.07)', border: '1.5px solid rgba(22,163,74,0.2)' }}
         >
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(217,119,6,0.15)' }}>
-            <MapPin size={18} className="text-amber-600" />
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(22,163,74,0.15)' }}>
+            <MapPin size={18} className="text-green-600" />
           </div>
           <div className="flex-1">
-            <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-0.5">{t.kontak.addressLabel}</p>
-            <p className="text-amber-950 text-sm font-medium leading-snug">
+            <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-0.5">{t.kontak.addressLabel}</p>
+            <p className="text-green-950 text-sm font-medium leading-snug">
               {branding.address}<br />
               {branding.city}
             </p>
-            <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-amber-600">
+            <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-green-600">
               {t.kontak.openMaps} <ExternalLink size={11} />
             </span>
           </div>
@@ -120,19 +120,19 @@ export default function KontakPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.16 }}
           className="flex items-center gap-3 p-4 rounded-2xl border mb-6"
-          style={{ background: 'rgba(217,119,6,0.05)', border: '1.5px solid rgba(217,119,6,0.15)' }}
+          style={{ background: 'rgba(22,163,74,0.05)', border: '1.5px solid rgba(22,163,74,0.15)' }}
         >
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(217,119,6,0.12)' }}>
-            <Clock size={18} className="text-amber-600" />
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(22,163,74,0.12)' }}>
+            <Clock size={18} className="text-green-600" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-0.5">{t.kontak.hoursLabel}</p>
-            <p className="text-amber-950 text-sm font-medium">{t.kontak.hours}</p>
+            <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-0.5">{t.kontak.hoursLabel}</p>
+            <p className="text-green-950 text-sm font-medium">{t.kontak.hours}</p>
           </div>
         </motion.div>
 
         {/* Contact buttons */}
-        <p className="text-xs font-semibold text-amber-700/50 uppercase tracking-widest mb-3">{t.kontak.contactUs}</p>
+        <p className="text-xs font-semibold text-green-700/50 uppercase tracking-widest mb-3">{t.kontak.contactUs}</p>
         <div className="space-y-3 mb-6">
           {contacts.map((c, i) => {
             const Icon = c.icon;
@@ -157,9 +157,9 @@ export default function KontakPage() {
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-semibold uppercase tracking-wider mb-0.5" style={{ color: c.color }}>{c.label}</p>
-                  <p className="text-amber-950 text-sm font-medium">{c.value}</p>
+                  <p className="text-green-950 text-sm font-medium">{c.value}</p>
                 </div>
-                <ExternalLink size={14} className="text-amber-400 flex-shrink-0" />
+                <ExternalLink size={14} className="text-green-400 flex-shrink-0" />
               </motion.a>
             );
           })}

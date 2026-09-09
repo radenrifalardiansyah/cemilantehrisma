@@ -60,12 +60,12 @@ export default function Navbar() {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-amber-300/60 shadow-md flex-shrink-0"
+              className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-green-300/60 shadow-md flex-shrink-0"
             >
               <Image src={logo} alt={branding.brandName} fill className="object-cover" />
             </motion.div>
             <div className="leading-none">
-              <p className="font-display text-base sm:text-lg font-bold text-amber-800 leading-none">Cemilan</p>
+              <p className="font-display text-base sm:text-lg font-bold text-green-800 leading-none">Cemilan</p>
               <p className="font-display text-sm sm:text-base font-bold gradient-text leading-none">Teh Risma</p>
             </div>
           </Link>
@@ -79,14 +79,14 @@ export default function Navbar() {
                 onClick={() => trackClick('menu', link.href)}
                 className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200 ${
                   pathname === link.href
-                    ? 'text-amber-700'
-                    : 'text-amber-900/60 hover:text-amber-800'
+                    ? 'text-green-700'
+                    : 'text-green-900/60 hover:text-green-800'
                 }`}
               >
                 {pathname === link.href && (
                   <motion.div
                     layoutId="nav-pill"
-                    className="absolute inset-0 rounded-xl bg-amber-100 border border-amber-200"
+                    className="absolute inset-0 rounded-xl bg-green-100 border border-green-200"
                     transition={{ type: 'spring', bounce: 0.25, duration: 0.45 }}
                   />
                 )}
@@ -99,7 +99,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
 
             {/* Language toggle */}
-            <div className="flex items-center h-9 rounded-full border border-amber-200 bg-white overflow-hidden shadow-sm">
+            <div className="flex items-center h-9 rounded-full border border-green-200 bg-white overflow-hidden shadow-sm">
               {LOCALES.map(l => (
                 <button
                   key={l.code}
@@ -107,9 +107,9 @@ export default function Navbar() {
                   className={`h-full px-3 text-xs font-bold transition-all ${
                     locale === l.code
                       ? 'text-white'
-                      : 'text-amber-700/60 hover:text-amber-800'
+                      : 'text-green-700/60 hover:text-green-800'
                   }`}
-                  style={locale === l.code ? { background: 'linear-gradient(135deg, #D97706, #F59E0B)' } : {}}
+                  style={locale === l.code ? { background: 'linear-gradient(135deg, #16A34A, #D4AF37)' } : {}}
                 >
                   {l.label}
                 </button>
@@ -147,14 +147,14 @@ export default function Navbar() {
             {account ? (
               <Link
                 href="/akun"
-                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-amber-200 bg-white text-amber-700 text-xs font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
+                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-green-200 bg-white text-green-700 text-xs font-bold hover:border-green-300 hover:bg-green-50/60 transition-colors"
               >
                 <User size={13} /> {account.name.split(' ')[0]}
               </Link>
             ) : (
               <Link
                 href="/login"
-                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-amber-200 bg-white text-amber-700 text-xs font-bold hover:border-amber-300 hover:bg-amber-50/60 transition-colors"
+                className="hidden md:flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-green-200 bg-white text-green-700 text-xs font-bold hover:border-green-300 hover:bg-green-50/60 transition-colors"
               >
                 <LogIn size={13} /> Masuk
               </Link>
@@ -165,9 +165,9 @@ export default function Navbar() {
               <motion.button
                 whileTap={{ scale: 0.88 }}
                 onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
-                className="p-2.5 rounded-full bg-white border border-amber-200 shadow-sm"
+                className="p-2.5 rounded-full bg-white border border-green-200 shadow-sm"
               >
-                <ShoppingCart size={18} className="text-amber-700" />
+                <ShoppingCart size={18} className="text-green-700" />
               </motion.button>
               <AnimatePresence>
                 {totalItems > 0 && (

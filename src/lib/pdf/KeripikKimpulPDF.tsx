@@ -14,16 +14,16 @@ interface Props {
 }
 
 const C = {
-  primary:      '#B45309',
-  primaryDark:  '#92400E',
+  primary:      '#15803D',
+  primaryDark:  '#15803D',
   accent:       THEME_COLOR,
   accentLight:  '#FEF3C7',
   accentMid:    '#FDE68A',
-  lightBg:      '#FFFBF2',
+  lightBg:      '#FFFFFF',
   white:        '#FFFFFF',
-  dark:         '#1C0A00',
-  body:         '#3D1A00',
-  muted:        '#78350F',
+  dark:         '#0A0A0A',
+  body:         '#0A0A0A',
+  muted:        '#3F3F46',
   border:       '#FCD34D',
   green:        '#15803D',
   greenLight:   '#DCFCE7',
@@ -102,7 +102,7 @@ const s = StyleSheet.create({
   // Mechanisms
   mechRow:      { flexDirection: 'row', gap: 14, marginBottom: 16 },
   mechCard:     { flex: 1, borderWidth: 1, borderRadius: 8, overflow: 'hidden' },
-  mechHeaderOrange: { backgroundColor: '#EA580C', padding: 12 },
+  mechHeaderOrange: { backgroundColor: '#16A34A', padding: 12 },
   mechHeaderViolet: { backgroundColor: '#7C3AED', padding: 12 },
   mechHeaderTitle:  { color: C.white, fontSize: 12, fontFamily: 'Helvetica-Bold' },
   mechHeaderSub:    { color: 'rgba(255,255,255,0.7)', fontSize: 8, marginTop: 2 },
@@ -311,7 +311,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <View style={s.variantGrid}>
             {[
               { img: imgOri,    name: 'Original',  desc: 'Gurih alami talas kimpul pilihan. Cocok untuk semua usia.', color: C.primary },
-              { img: imgBBQ,    name: 'BBQ',        desc: 'Rasa BBQ smoky original tanpa pedas. Favorit anak-anak.', color: '#C2410C' },
+              { img: imgBBQ,    name: 'BBQ',        desc: 'Rasa BBQ smoky original tanpa pedas. Favorit anak-anak.', color: '#16A34A' },
               { img: imgBBQPdas,name: 'BBQ Pedas',  desc: 'BBQ smoky dengan sensasi pedas yang nagih dan renyah.', color: '#B91C1C' },
               { img: imgJgn,    name: 'Jagung Manis', desc: 'Rasa jagung manis lezat. Sempurna untuk cemilan santai.', color: '#CA8A04' },
             ].map(v => (

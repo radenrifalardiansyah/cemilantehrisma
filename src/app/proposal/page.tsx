@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProposalPage() {
   const branding = await getCachedBranding();
   return (
-    <div className="min-h-screen bg-[#FFFBF2] font-[Inter,sans-serif] text-[#1C0A00]">
+    <div className="min-h-screen bg-[#FFFFFF] font-[Inter,sans-serif] text-[#0A0A0A]">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap');
         @media print { .no-print { display: none !important; } body { background: white !important; } }
@@ -40,25 +40,25 @@ export default async function ProposalPage() {
       `}</style>
 
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-amber-100 via-orange-100 to-yellow-100">
+      <section className="relative overflow-hidden bg-gradient-to-br from-green-100 via-green-100 to-yellow-100">
         <div className="absolute inset-0 opacity-50">
-          <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-amber-300 blur-3xl translate-x-1/3 -translate-y-1/3 orb-pulse" />
-          <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-orange-300 blur-3xl -translate-x-1/4 translate-y-1/4 orb-pulse" style={{animationDelay:'2s'}} />
+          <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-green-300 blur-3xl translate-x-1/3 -translate-y-1/3 orb-pulse" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-green-300 blur-3xl -translate-x-1/4 translate-y-1/4 orb-pulse" style={{animationDelay:'2s'}} />
         </div>
         <div className="relative max-w-4xl mx-auto px-6 pt-6 pb-16">
 
           <div className="flex flex-col md:flex-row items-center gap-10">
             {/* Text side */}
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 bg-amber-100 border border-amber-300 rounded-full px-4 py-1.5 text-amber-700 text-sm font-medium mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+              <div className="inline-flex items-center gap-2 bg-green-100 border border-green-300 rounded-full px-4 py-1.5 text-green-700 text-sm font-medium mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                 Proposal Kerjasama Resmi · 2026
               </div>
-              <h1 className="proposal-font text-4xl md:text-5xl font-bold leading-tight mb-3 text-[#1C0A00]">
+              <h1 className="proposal-font text-4xl md:text-5xl font-bold leading-tight mb-3 text-[#0A0A0A]">
                 Pilih Produk<br />
-                <span className="text-amber-600">untuk Proposal</span>
+                <span className="text-green-600">untuk Proposal</span>
               </h1>
-              <p className="text-[#3D1A00]/60 text-base md:text-lg max-w-lg">
+              <p className="text-[#0A0A0A]/60 text-base md:text-lg max-w-lg">
                 {branding.brandName} menyediakan dua lini produk unggulan. Pilih salah satu di bawah untuk membuka proposal lengkapnya.
               </p>
             </div>
@@ -75,12 +75,12 @@ export default async function ProposalPage() {
                   priority
                 />
               </div>
-              <div className="proposal-font text-sm font-semibold text-amber-700 tracking-wide text-center">{branding.brandName}</div>
+              <div className="proposal-font text-sm font-semibold text-green-700 tracking-wide text-center">{branding.brandName}</div>
             </div>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 40" fill="none"><path d="M0 40L60 33C120 27 240 13 360 10C480 7 600 13 720 17C840 20 960 20 1080 17C1200 13 1320 7 1380 3L1440 0V40H0Z" fill="#FFFBF2" /></svg>
+          <svg viewBox="0 0 1440 40" fill="none"><path d="M0 40L60 33C120 27 240 13 360 10C480 7 600 13 720 17C840 20 960 20 1080 17C1200 13 1320 7 1380 3L1440 0V40H0Z" fill="#FFFFFF" /></svg>
         </div>
       </section>
 
@@ -93,12 +93,12 @@ export default async function ProposalPage() {
             { icon: '📅', value: '3 Bulan', label: 'Masa Simpan' },
             { icon: '📋', value: 'NIB Resmi', label: '0403260068412' },
           ].map(c => (
-            <div key={c.label} className="bg-white rounded-2xl p-4 text-center border border-amber-100 shadow-sm hover:shadow-md hover:shadow-amber-100 transition-all duration-300">
+            <div key={c.label} className="bg-white rounded-2xl p-4 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-green-100 transition-all duration-300">
               <div className="flex justify-center mb-1.5">
                 {c.icon === 'halal' ? <HalalBadge size={34} /> : <span className="text-2xl">{c.icon}</span>}
               </div>
               <div className="proposal-font text-lg font-bold gradient-text">{c.value}</div>
-              <div className="text-amber-700/55 text-xs mt-0.5">{c.label}</div>
+              <div className="text-green-700/55 text-xs mt-0.5">{c.label}</div>
             </div>
           ))}
         </div>
@@ -109,7 +109,7 @@ export default async function ProposalPage() {
         <div className="grid md:grid-cols-2 gap-6 mb-16">
 
           {/* Mie Kremes */}
-          <a href="/proposal/mie-kremes" className="group relative overflow-hidden rounded-2xl border-2 border-orange-200 hover:border-orange-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
+          <a href="/proposal/mie-kremes" className="group relative overflow-hidden rounded-2xl border-2 border-green-200 hover:border-green-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
             <div className="relative h-48 overflow-hidden rounded-t-xl">
               <Image
                 src={bannerMie}
@@ -119,21 +119,21 @@ export default async function ProposalPage() {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-green-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
                 Best Seller
               </span>
             </div>
             <div className="p-6">
-              <h2 className="proposal-font text-2xl font-bold text-[#1C0A00] mb-2">Mie Kremes</h2>
-              <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-5">
+              <h2 className="proposal-font text-2xl font-bold text-[#0A0A0A] mb-2">Mie Kremes</h2>
+              <p className="text-sm text-[#0A0A0A]/60 leading-relaxed mb-5">
                 Mie crispy khas Bogor dengan bumbu rempah alami. Tersedia rasa Original dan Pedas dalam kemasan 150g.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Original', 'Pedas', '150g', 'Rp 10.000'].map(t => (
-                  <span key={t} className="bg-orange-50 border border-orange-200 text-orange-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
+                  <span key={t} className="bg-green-50 border border-green-200 text-green-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-orange-600 font-semibold text-sm group-hover:gap-3 transition-all">
+              <div className="flex items-center gap-2 text-green-600 font-semibold text-sm group-hover:gap-3 transition-all">
                 Lihat Proposal Lengkap
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </div>
@@ -141,7 +141,7 @@ export default async function ProposalPage() {
           </a>
 
           {/* Keripik Kimpul */}
-          <a href="/proposal/keripik-kimpul" className="group relative overflow-hidden rounded-2xl border-2 border-amber-200 hover:border-amber-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
+          <a href="/proposal/keripik-kimpul" className="group relative overflow-hidden rounded-2xl border-2 border-green-200 hover:border-green-400 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
             <div className="relative h-48 overflow-hidden rounded-t-xl">
               <Image
                 src={bannerKeripik}
@@ -151,21 +151,21 @@ export default async function ProposalPage() {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+              <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-green-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
                 3 Varian Rasa
               </span>
             </div>
             <div className="p-6">
-              <h2 className="proposal-font text-2xl font-bold text-[#1C0A00] mb-2">Keripik Kimpul</h2>
-              <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-5">
+              <h2 className="proposal-font text-2xl font-bold text-[#0A0A0A] mb-2">Keripik Kimpul</h2>
+              <p className="text-sm text-[#0A0A0A]/60 leading-relaxed mb-5">
                 Keripik talas balitung renyah khas Bogor. Tersedia 3 rasa dalam 2 ukuran kemasan: 100g dan 250g.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Original', 'BBQ Pedas', 'Jagung', '100g / 250g'].map(t => (
-                  <span key={t} className="bg-amber-50 border border-amber-200 text-amber-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
+                  <span key={t} className="bg-green-50 border border-green-200 text-green-700 text-xs px-2.5 py-1 rounded-lg font-medium">{t}</span>
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-amber-700 font-semibold text-sm group-hover:gap-3 transition-all">
+              <div className="flex items-center gap-2 text-green-700 font-semibold text-sm group-hover:gap-3 transition-all">
                 Lihat Proposal Lengkap
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </div>
@@ -174,17 +174,17 @@ export default async function ProposalPage() {
         </div>
 
         {/* Brand info */}
-        <div className="bg-white rounded-2xl border border-amber-100 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-          <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-amber-100">
+        <div className="bg-white rounded-2xl border border-green-100 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-green-100">
             <Image src={logo} alt="Logo Teh Risma" width={56} height={56} className="object-cover w-full h-full" />
           </div>
           <div className="flex-1">
-            <p className="text-xs font-bold tracking-widest text-amber-600 uppercase mb-1">Tentang Kami</p>
-            <p className="font-semibold text-[#1C0A00] mb-1">{branding.brandName} — Bogor, Jawa Barat</p>
-            <p className="text-sm text-[#3D1A00]/60">NIB: 0403260068412 · Bersertifikat HALAL Indonesia · Tanpa Pengawet</p>
+            <p className="text-xs font-bold tracking-widest text-green-600 uppercase mb-1">Tentang Kami</p>
+            <p className="font-semibold text-[#0A0A0A] mb-1">{branding.brandName} — Bogor, Jawa Barat</p>
+            <p className="text-sm text-[#0A0A0A]/60">NIB: 0403260068412 · Bersertifikat HALAL Indonesia · Tanpa Pengawet</p>
           </div>
           <div className="no-print flex flex-col sm:flex-row gap-2 flex-shrink-0">
-            <a href="/" className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+            <a href="/" className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
               🛒 Toko Saya
             </a>
             <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
@@ -195,10 +195,10 @@ export default async function ProposalPage() {
       </div>
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-amber-100 bg-white mt-4">
+      <footer className="border-t border-green-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
-          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
-          <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#3D1A00]/45">{DEVELOPER.supportedBy}</strong></p>
+          <p className="text-xs text-[#0A0A0A]/50">© 2026 <strong className="text-[#0A0A0A]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#0A0A0A]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-green-700/60 hover:text-green-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#0A0A0A]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>
     </div>

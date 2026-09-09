@@ -122,7 +122,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             duration: 2500,
             style: {
               background: 'rgba(30, 13, 0, 0.95)',
-              color: '#FFF8F0',
+              color: '#FFFFFF',
               border: '1px solid rgba(212, 160, 23, 0.3)',
               backdropFilter: 'blur(16px)',
               borderRadius: '12px',

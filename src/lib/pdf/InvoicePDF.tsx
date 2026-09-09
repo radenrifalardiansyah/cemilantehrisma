@@ -28,16 +28,16 @@ export interface InvoiceData {
 
 // ── Colour palette ────────────────────────────────────────────────────────────
 const C = {
-  primary:     '#B45309',
-  primaryDark: '#92400E',
+  primary:     '#15803D',
+  primaryDark: '#15803D',
   accent:      THEME_COLOR,
   accentLight: '#FEF3C7',
   accentMid:   '#FDE68A',
-  lightBg:     '#FFFBF2',
+  lightBg:     '#FFFFFF',
   white:       '#FFFFFF',
-  dark:        '#1C0A00',
-  body:        '#3D1A00',
-  muted:       '#78350F',
+  dark:        '#0A0A0A',
+  body:        '#0A0A0A',
+  muted:       '#3F3F46',
   border:      '#FCD34D',
   borderLight: '#FEF3C7',
   green:       '#15803D',

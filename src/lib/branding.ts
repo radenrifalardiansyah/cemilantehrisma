@@ -1,5 +1,5 @@
-export const BRAND_NAME = 'Cemilan Teh Risma';
-export const LEGAL_NAME = 'Warung Teh Risma';
+export const BRAND_NAME = 'Karya Putra';
+export const LEGAL_NAME = 'Karya Putra';
 export const TAGLINE = 'Keripik Kimpul & Mie Kremes khas Bogor. Halal, renyah, tanpa pengawet.';
 
 export const SITE_URL = 'https://karyaputra.vercel.app';
@@ -32,8 +32,8 @@ export const BUSINESS = {
   sameAs: [SOCIAL.instagramUrl, SOCIAL.shopeeUrl, SOCIAL.whatsappUrl],
 };
 
-export const THEME_COLOR = '#D97706';
-export const THEME_BACKGROUND_COLOR = '#FFFBF5';
+export const THEME_COLOR = '#16A34A';
+export const THEME_BACKGROUND_COLOR = '#FFFFFF';
 
 export const DEVELOPER = {
   name: 'PT. Eleven Digital Indonesia',
