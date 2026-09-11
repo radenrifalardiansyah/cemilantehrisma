@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Star, ShoppingBag, ChevronLeft, ChevronRight, Package, MapPin } from 'lucide-react';
+import { ArrowRight, Star, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
@@ -33,6 +33,26 @@ const slideMeta = [
 ];
 
 const formatPrice = (price: number) => `Rp ${price.toLocaleString('id-ID')}`;
+
+const particles = ['🥔', '🌶️', '🌽', '✨', '⭐', '🌿', '💫'];
+
+function Particle({ index }: { index: number }) {
+  const emoji = particles[index % particles.length];
+  const delay = (index * 1.1) % 8;
+  const duration = 9 + (index % 5);
+  const left = (index * 13.7) % 100;
+  const size = 12 + (index % 3) * 5;
+  return (
+    <motion.div
+      className="absolute pointer-events-none select-none"
+      style={{ left: `${left}%`, bottom: '-30px', fontSize: size, opacity: 0 }}
+      animate={{ y: [0, -900], opacity: [0, 0.4, 0.4, 0], rotate: [0, index % 2 === 0 ? 270 : -270] }}
+      transition={{ duration, delay, repeat: Infinity, ease: 'linear' }}
+    >
+      {emoji}
+    </motion.div>
+  );
+}
 
 
 export default function Hero() {
@@ -79,9 +99,9 @@ export default function Hero() {
       title1: t.hero.keripik.title1, title2: t.hero.keripik.title2,
       sub1: t.hero.keripik.sub1, sub2: t.hero.keripik.sub2,
       flavors: [
-        { emoji: '🥔', label: t.hero.keripik.flavors[0], dot: '#16A34A' },
-        { emoji: '🌶️', label: t.hero.keripik.flavors[1], dot: '#DC2626' },
-        { emoji: '🌽', label: t.hero.keripik.flavors[2], dot: '#CA8A04' },
+        { emoji: '🥔', label: t.hero.keripik.flavors[0], bg: 'bg-green-100', text: 'text-green-800' },
+        { emoji: '🌶️', label: t.hero.keripik.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'   },
+        { emoji: '🌽', label: t.hero.keripik.flavors[2], bg: 'bg-yellow-100', text: 'text-yellow-700' },
       ],
       desc: t.hero.keripik.desc, price: cheapestPriceIn('keripik'),
     },
@@ -89,8 +109,8 @@ export default function Hero() {
       title1: t.hero.mie.title1, title2: t.hero.mie.title2,
       sub1: t.hero.mie.sub1, sub2: t.hero.mie.sub2,
       flavors: [
-        { emoji: '🍝', label: t.hero.mie.flavors[0], dot: '#16A34A' },
-        { emoji: '🌶️', label: t.hero.mie.flavors[1], dot: '#DC2626' },
+        { emoji: '🍝', label: t.hero.mie.flavors[0], bg: 'bg-green-100', text: 'text-green-800' },
+        { emoji: '🌶️', label: t.hero.mie.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'    },
       ],
       desc: t.hero.mie.desc, price: cheapestPriceIn('mie'),
     },
@@ -98,18 +118,18 @@ export default function Hero() {
       title1: t.hero.basreng.title1, title2: t.hero.basreng.title2,
       sub1: t.hero.basreng.sub1, sub2: t.hero.basreng.sub2,
       flavors: [
-        { emoji: '🥩', label: t.hero.basreng.flavors[0], dot: '#16A34A' },
-        { emoji: '🌶️', label: t.hero.basreng.flavors[1], dot: '#DC2626' },
+        { emoji: '🥩', label: t.hero.basreng.flavors[0], bg: 'bg-sky-100', text: 'text-sky-800' },
+        { emoji: '🌶️', label: t.hero.basreng.flavors[1], bg: 'bg-red-100', text: 'text-red-700' },
       ],
       desc: t.hero.basreng.desc, price: cheapestPriceIn('basreng'),
     },
   };
 
   const stats = [
-    { value: `${soldCount}`, label: t.hero.stats.sold, Icon: Package },
-    ...(reviewCount > 0 ? [{ value: `${rating?.toFixed(1)}★`, label: t.hero.stats.rating, Icon: Star }] : []),
-    { value: `${liveProducts.length}`, label: t.hero.stats.variants, Icon: ShoppingBag },
-    { value: 'Bogor', label: t.hero.stats.location, Icon: MapPin },
+    { value: `${soldCount}`, label: t.hero.stats.sold, icon: '📦' },
+    ...(reviewCount > 0 ? [{ value: `${rating?.toFixed(1)}★`, label: t.hero.stats.rating, icon: '⭐' }] : []),
+    { value: `${liveProducts.length}`, label: t.hero.stats.variants, icon: '🛒' },
+    { value: 'Bogor', label: t.hero.stats.location, icon: '📍' },
   ];
 
   const content = groupContent[slide.group as keyof typeof groupContent];
@@ -141,16 +161,27 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         background:
-          'radial-gradient(ellipse 70% 60% at 85% 20%, rgba(22,163,74,0.08) 0%, transparent 60%), #FFFFFF',
+          'radial-gradient(ellipse 80% 60% at 15% 60%, rgba(212,175,55,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 25%, rgba(22,163,74,0.09) 0%, transparent 60%), #FFFFFF',
       }}
     >
-      {/* Decorative blob — satu titik hijau lembut, bukan campuran warna */}
+      {/* Decorative blobs */}
       <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
-        transition={{ duration: 9, repeat: Infinity }}
-        className="absolute -top-24 -right-24 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(22,163,74,0.14) 0%, transparent 70%)' }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute -top-24 -left-24 w-80 h-80 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.22) 0%, transparent 70%)' }}
       />
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity, delay: 3 }}
+        className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(185,28,28,0.1) 0%, transparent 70%)' }}
+      />
+
+      {/* Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {Array.from({ length: 10 }, (_, i) => <Particle key={i} index={i} />)}
+      </div>
 
       {/* Dot grid */}
       <div
@@ -168,7 +199,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-green-100 border border-green-300/60 text-neutral-700 text-sm font-semibold mb-5"
+              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-green-100 border border-green-300/60 text-green-700 text-sm font-semibold mb-5"
             >
               <div className="relative w-7 h-7 rounded-full overflow-hidden border border-green-300/60 flex-shrink-0">
                 <Image src={logo} alt="Karya Putra" fill className="object-cover" />
@@ -186,11 +217,11 @@ export default function Hero() {
                 transition={{ duration: 0.4 }}
                 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-3"
               >
-                <span className="text-neutral-950">{content.title1} </span>
+                <span className="text-green-950">{content.title1} </span>
                 <span className="gradient-text">{content.title2}</span>
                 <br />
-                <span className="text-3xl sm:text-4xl lg:text-5xl text-neutral-800">{content.sub1} </span>
-                <span className="text-3xl sm:text-4xl lg:text-5xl text-neutral-600">{content.sub2}</span>
+                <span className="text-3xl sm:text-4xl lg:text-5xl text-green-800">{content.sub1} </span>
+                <span className="text-3xl sm:text-4xl lg:text-5xl text-green-600">{content.sub2}</span>
               </motion.h1>
             </AnimatePresence>
 
@@ -210,9 +241,8 @@ export default function Hero() {
                     initial={{ opacity: 0, scale: 0.7 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.07, type: 'spring' }}
-                    className="chip px-3 py-1.5 text-xs"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold ${f.bg} ${f.text} border border-current/20`}
                   >
-                    <span className="chip-dot" style={{ background: f.dot }} />
                     <span>{f.emoji}</span>
                     {f.label}
                   </motion.span>
@@ -221,7 +251,7 @@ export default function Hero() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="text-neutral-600/60 text-xs font-medium"
+                  className="text-green-600/60 text-xs font-medium"
                 >
                   {t.hero.savingsAvailable}
                 </motion.span>
@@ -236,9 +266,9 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.35 }}
-                className="text-neutral-800/65 text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"
+                className="text-green-800/65 text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"
               >
-                {content.desc} <strong className="text-neutral-700">{content.price}</strong>.
+                {content.desc} <strong className="text-green-700">{content.price}</strong>.
               </motion.p>
             </AnimatePresence>
 
@@ -283,11 +313,11 @@ export default function Hero() {
                   {[1,2,3,4,5].map(i => (
                     <Star
                       key={i} size={14}
-                      className={i <= Math.round(rating ?? 0) ? 'text-neutral-400 fill-green-400' : 'text-neutral-200 fill-green-200'}
+                      className={i <= Math.round(rating ?? 0) ? 'text-green-400 fill-green-400' : 'text-green-200 fill-green-200'}
                     />
                   ))}
                 </div>
-                <span className="text-neutral-700/60 text-sm font-medium">
+                <span className="text-green-700/60 text-sm font-medium">
                   {rating?.toFixed(1)}/5 · {reviewCount} {t.hero.reviewsLabel}
                 </span>
               </motion.div>
@@ -319,7 +349,7 @@ export default function Hero() {
               </AnimatePresence>
 
               {/* Main card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl shadow-black/10 border border-green-100 overflow-hidden">
+              <div className="relative bg-white rounded-3xl shadow-2xl shadow-green-200/50 border border-green-100 overflow-hidden">
 
                 {/* Image area */}
                 <div className={`relative h-64 sm:h-72 bg-gradient-to-br ${slide.bg} overflow-hidden`}>
@@ -363,13 +393,13 @@ export default function Hero() {
                   {/* Prev / Next */}
                   <button
                     onClick={prev}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-neutral-700 transition-all backdrop-blur-sm"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-green-700 transition-all backdrop-blur-sm"
                   >
                     <ChevronLeft size={16} />
                   </button>
                   <button
                     onClick={next}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-neutral-700 transition-all backdrop-blur-sm"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-green-700 transition-all backdrop-blur-sm"
                   >
                     <ChevronRight size={16} />
                   </button>
@@ -386,10 +416,10 @@ export default function Hero() {
                       transition={{ duration: 0.3 }}
                     >
                       <div className="flex items-start justify-between gap-2 mb-1">
-                        <h3 className="font-display text-base font-bold text-neutral-950 leading-tight">
+                        <h3 className="font-display text-base font-bold text-green-950 leading-tight">
                           {slideDisplayName}
                         </h3>
-                        <span className="text-xs text-neutral-600/70 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full flex-shrink-0">
+                        <span className="text-xs text-green-600/70 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full flex-shrink-0">
                           {slide.weight}
                         </span>
                       </div>
@@ -413,7 +443,7 @@ export default function Hero() {
                         />
                       ))}
                     </div>
-                    <span className="text-xs text-neutral-600/50">{current + 1} / {slides.length}</span>
+                    <span className="text-xs text-green-600/50">{current + 1} / {slides.length}</span>
                   </div>
                 </div>
               </div>
@@ -424,8 +454,8 @@ export default function Hero() {
                 transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
                 className="absolute -left-6 top-8 bg-white rounded-2xl p-3 border border-green-200 shadow-lg z-10"
               >
-                <p className="text-[10px] text-neutral-600/60">{t.hero.priceFrom}</p>
-                <p className="font-display text-sm font-bold text-neutral-800">{cheapestPriceOverall()}</p>
+                <p className="text-[10px] text-green-600/60">{t.hero.priceFrom}</p>
+                <p className="font-display text-sm font-bold text-green-800">{cheapestPriceOverall()}</p>
               </motion.div>
 
               {/* Floating rating card — hanya tampil kalau sudah ada ulasan asli */}
@@ -437,10 +467,10 @@ export default function Hero() {
                 >
                   <div className="flex gap-0.5 mb-0.5">
                     {[1,2,3,4,5].map(s => (
-                      <Star key={s} size={8} className={s <= Math.round(rating ?? 0) ? 'text-neutral-400 fill-green-400' : 'text-neutral-200 fill-green-200'} />
+                      <Star key={s} size={8} className={s <= Math.round(rating ?? 0) ? 'text-green-400 fill-green-400' : 'text-green-200 fill-green-200'} />
                     ))}
                   </div>
-                  <p className="text-[10px] text-neutral-800/70 font-semibold">
+                  <p className="text-[10px] text-green-800/70 font-semibold">
                     {soldCount} {t.hero.soldSuffix}
                   </p>
                 </motion.div>
@@ -454,7 +484,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
-          className={`mt-16 grid gap-4 ${stats.length === 3 ? 'grid-cols-3' : 'grid-cols-2 lg:grid-cols-4'}`}
+          className={`mt-16 grid grid-cols-2 gap-4 ${stats.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}
         >
           {stats.map((s, i) => (
             <motion.div
@@ -463,13 +493,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 + i * 0.08 }}
               whileHover={{ y: -3 }}
-              className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-black/5 transition-all duration-300"
+              className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-green-100 transition-all duration-300"
             >
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-green-50 border border-green-100 flex items-center justify-center mx-auto mb-2">
-                <s.Icon size={18} className="text-green-700" strokeWidth={2.2} />
-              </div>
+              <div className="text-2xl sm:text-3xl mb-1.5">{s.icon}</div>
               <div className="font-display text-xl sm:text-2xl font-bold gradient-text">{s.value}</div>
-              <div className="text-neutral-700/55 text-xs sm:text-sm mt-0.5">{s.label}</div>
+              <div className="text-green-700/55 text-xs sm:text-sm mt-0.5">{s.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -479,7 +507,7 @@ export default function Hero() {
       <motion.div
         animate={{ y: [0, 7, 0], opacity: [0.4, 0.8, 0.4] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-neutral-500/50"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-green-500/50"
       >
         <span className="text-xs">{t.hero.scroll}</span>
         <div className="w-px h-8 bg-gradient-to-b from-green-400/50 to-transparent" />

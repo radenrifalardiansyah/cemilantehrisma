@@ -95,7 +95,7 @@ export default function BayarPesananPage() {
   if (authLoading || !account || (!order && !orderError)) {
     return (
       <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFFFF' }}>
-        <p className="text-neutral-700/60 text-sm">Memuat...</p>
+        <p className="text-green-700/60 text-sm">Memuat...</p>
       </main>
     );
   }
@@ -103,7 +103,7 @@ export default function BayarPesananPage() {
   if (orderError || !order) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center gap-3" style={{ background: '#FFFFFF' }}>
-        <p className="text-neutral-800/60 text-sm">Pesanan tidak ditemukan.</p>
+        <p className="text-green-800/60 text-sm">Pesanan tidak ditemukan.</p>
         <Link href="/pesanan" className="btn-primary px-5 py-2.5 text-sm font-bold">Lihat Pesanan Saya</Link>
       </main>
     );
@@ -116,32 +116,32 @@ export default function BayarPesananPage() {
     <main className="min-h-screen" style={{ background: '#FFFFFF' }}>
       <Navbar />
       <div className="max-w-lg mx-auto px-4 sm:px-6 pt-28 pb-40 md:pb-20">
-        <Link href="/pesanan" className="inline-flex items-center gap-1.5 text-neutral-600/70 hover:text-neutral-700 text-sm mb-5 transition-colors">
+        <Link href="/pesanan" className="inline-flex items-center gap-1.5 text-green-600/70 hover:text-green-700 text-sm mb-5 transition-colors">
           <ArrowLeft size={14} /> Pesanan Saya
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <h1 className="font-display text-2xl sm:text-3xl font-bold mb-1">
-            <span className="text-neutral-950">Pembayaran </span>
+            <span className="text-green-950">Pembayaran </span>
             <span className="gradient-text">{order.invoiceNo}</span>
           </h1>
-          <p className="text-neutral-800/55 text-sm">Total: <span className="font-bold text-neutral-900">{formatCurrency(order.total)}</span></p>
+          <p className="text-green-800/55 text-sm">Total: <span className="font-bold text-green-900">{formatCurrency(order.total)}</span></p>
         </motion.div>
 
         {isDone ? (
           <div className="bg-white rounded-2xl border border-green-100 p-8 text-center shadow-sm">
-            <CheckCircle2 size={40} className="text-neutral-500 mx-auto mb-3" />
-            <p className="font-display font-bold text-neutral-950 mb-1">
+            <CheckCircle2 size={40} className="text-green-500 mx-auto mb-3" />
+            <p className="font-display font-bold text-green-950 mb-1">
               {order.status === 'dibatalkan' ? 'Pesanan dibatalkan' : order.paymentStatus === 'lunas' ? 'Pembayaran sudah lunas' : 'Pesanan selesai'}
             </p>
-            <p className="text-neutral-700/50 text-sm mb-5">Tidak ada tindakan lain yang diperlukan.</p>
+            <p className="text-green-700/50 text-sm mb-5">Tidak ada tindakan lain yang diperlukan.</p>
             <Link href="/pesanan"><button className="btn-primary px-5 py-2.5 text-sm font-bold">Lihat Pesanan Saya</button></Link>
           </div>
         ) : hasProof ? (
           <div className="bg-white rounded-2xl border border-green-100 p-6 text-center shadow-sm">
-            <Clock size={36} className="text-neutral-500 mx-auto mb-3" />
-            <p className="font-display font-bold text-neutral-950 mb-1">Menunggu verifikasi admin</p>
-            <p className="text-neutral-700/50 text-sm mb-4">Bukti pembayaran sudah kami terima. Kami akan segera memverifikasinya.</p>
+            <Clock size={36} className="text-green-500 mx-auto mb-3" />
+            <p className="font-display font-bold text-green-950 mb-1">Menunggu verifikasi admin</p>
+            <p className="text-green-700/50 text-sm mb-4">Bukti pembayaran sudah kami terima. Kami akan segera memverifikasinya.</p>
             <div className="w-28 h-28 mx-auto rounded-xl overflow-hidden border border-green-100 mb-4">
               <Image src={order.transferProofUrl} alt="Bukti pembayaran" width={112} height={112} className="w-full h-full object-cover" />
             </div>
@@ -156,14 +156,14 @@ export default function BayarPesananPage() {
               <div className="grid grid-cols-2">
                 <button
                   onClick={() => setMethod('transfer')}
-                  className={`flex items-center justify-center gap-2 py-3.5 text-sm font-semibold transition-all ${method === 'transfer' ? 'text-white' : 'text-neutral-700/60 bg-green-50/50'}`}
+                  className={`flex items-center justify-center gap-2 py-3.5 text-sm font-semibold transition-all ${method === 'transfer' ? 'text-white' : 'text-green-700/60 bg-green-50/50'}`}
                   style={method === 'transfer' ? { background: '#0A0A0A' } : {}}
                 >
                   <Landmark size={15} /> Transfer Bank
                 </button>
                 <button
                   onClick={() => setMethod('qris')}
-                  className={`flex items-center justify-center gap-2 py-3.5 text-sm font-semibold transition-all ${method === 'qris' ? 'text-white' : 'text-neutral-700/60 bg-green-50/50'}`}
+                  className={`flex items-center justify-center gap-2 py-3.5 text-sm font-semibold transition-all ${method === 'qris' ? 'text-white' : 'text-green-700/60 bg-green-50/50'}`}
                   style={method === 'qris' ? { background: '#0A0A0A' } : {}}
                 >
                   <QrCode size={15} /> QRIS
@@ -174,17 +174,17 @@ export default function BayarPesananPage() {
                 {method === 'transfer' ? (
                   paymentInfo?.bankAccountNumber ? (
                     <div className="rounded-xl p-4" style={{ background: 'var(--surface-2, #FFFFFF)', border: '1px solid rgba(22,163,74,0.15)' }}>
-                      <p className="text-neutral-700/50 text-xs mb-1">{paymentInfo.bankName}</p>
+                      <p className="text-green-700/50 text-xs mb-1">{paymentInfo.bankName}</p>
                       <div className="flex items-center gap-2 mb-1.5">
-                        <p className="font-display text-xl font-bold text-neutral-950">{paymentInfo.bankAccountNumber}</p>
-                        <button onClick={copyAccountNumber} className="w-7 h-7 rounded-lg flex items-center justify-center bg-green-100 hover:bg-green-200 text-neutral-700 flex-shrink-0">
+                        <p className="font-display text-xl font-bold text-green-950">{paymentInfo.bankAccountNumber}</p>
+                        <button onClick={copyAccountNumber} className="w-7 h-7 rounded-lg flex items-center justify-center bg-green-100 hover:bg-green-200 text-green-700 flex-shrink-0">
                           <Copy size={12} />
                         </button>
                       </div>
-                      <p className="text-neutral-800/70 text-sm">a.n. {paymentInfo.bankAccountHolder}</p>
+                      <p className="text-green-800/70 text-sm">a.n. {paymentInfo.bankAccountHolder}</p>
                     </div>
                   ) : (
-                    <p className="text-neutral-700/50 text-sm text-center py-4">Rekening belum diatur admin, silakan hubungi kami langsung.</p>
+                    <p className="text-green-700/50 text-sm text-center py-4">Rekening belum diatur admin, silakan hubungi kami langsung.</p>
                   )
                 ) : (
                   paymentInfo?.qrisImageUrl ? (
@@ -192,17 +192,17 @@ export default function BayarPesananPage() {
                       <Image src={paymentInfo.qrisImageUrl} alt="QRIS" width={220} height={220} className="w-full h-auto" />
                     </div>
                   ) : (
-                    <p className="text-neutral-700/50 text-sm text-center py-4">QRIS belum tersedia, silakan pakai transfer bank.</p>
+                    <p className="text-green-700/50 text-sm text-center py-4">QRIS belum tersedia, silakan pakai transfer bank.</p>
                   )
                 )}
               </div>
             </div>
 
             <div className="bg-white rounded-2xl border border-green-100 p-5 shadow-sm">
-              <p className="text-neutral-950 font-semibold text-sm mb-3">Upload Bukti Pembayaran</p>
+              <p className="text-green-950 font-semibold text-sm mb-3">Upload Bukti Pembayaran</p>
               <label className={`flex flex-col items-center justify-center gap-2 py-8 rounded-xl border-2 border-dashed cursor-pointer transition-colors ${uploading ? 'opacity-60 pointer-events-none' : 'border-green-200 hover:border-green-400'}`}>
-                {uploading ? <Loader2 size={22} className="animate-spin text-neutral-500" /> : <Upload size={22} className="text-neutral-500" />}
-                <span className="text-neutral-700/60 text-xs">{uploading ? 'Mengunggah...' : 'Pilih gambar bukti transfer/pembayaran'}</span>
+                {uploading ? <Loader2 size={22} className="animate-spin text-green-500" /> : <Upload size={22} className="text-green-500" />}
+                <span className="text-green-700/60 text-xs">{uploading ? 'Mengunggah...' : 'Pilih gambar bukti transfer/pembayaran'}</span>
                 <input
                   type="file" accept="image/*" className="hidden" disabled={uploading}
                   onChange={e => handleFile(e.target.files?.[0])}

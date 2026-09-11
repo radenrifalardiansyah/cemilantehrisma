@@ -41,7 +41,7 @@ export default function AkunPage() {
   if (authLoading || !account) {
     return (
       <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFFFF' }}>
-        <p className="text-neutral-700/60 text-sm">Memuat...</p>
+        <p className="text-green-700/60 text-sm">Memuat...</p>
       </main>
     );
   }
@@ -95,10 +95,10 @@ export default function AkunPage() {
       <Navbar />
       <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-40 md:pb-20">
         <h1 className="font-display text-3xl font-bold mb-1">
-          <span className="text-neutral-950">Akun </span>
+          <span className="text-green-950">Akun </span>
           <span className="gradient-text">Saya</span>
         </h1>
-        <p className="text-neutral-800/55 text-sm mb-8">Kelola profil & pantau pesanan Anda.</p>
+        <p className="text-green-800/55 text-sm mb-8">Kelola profil & pantau pesanan Anda.</p>
 
         {/* Profile card */}
         <div className="bg-white rounded-2xl border border-green-100 p-6 shadow-sm mb-4">
@@ -119,24 +119,24 @@ export default function AkunPage() {
                     maxLength={60}
                     className="min-w-0 flex-1 px-3 py-1.5 rounded-lg input-field text-sm"
                   />
-                  <button onClick={saveName} disabled={savingName} className="p-1.5 rounded-lg bg-green-100 text-neutral-700 disabled:opacity-50">
+                  <button onClick={saveName} disabled={savingName} className="p-1.5 rounded-lg bg-green-100 text-green-700 disabled:opacity-50">
                     <Check size={16} />
                   </button>
-                  <button onClick={() => setEditingName(false)} className="p-1.5 rounded-lg bg-green-50 text-neutral-500">
+                  <button onClick={() => setEditingName(false)} className="p-1.5 rounded-lg bg-green-50 text-green-500">
                     <XIcon size={16} />
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <p className="font-display font-bold text-neutral-950 text-lg truncate">{account.name || 'Tanpa nama'}</p>
-                  <button onClick={startEdit} className="text-neutral-400 hover:text-neutral-600 flex-shrink-0">
+                  <p className="font-display font-bold text-green-950 text-lg truncate">{account.name || 'Tanpa nama'}</p>
+                  <button onClick={startEdit} className="text-green-400 hover:text-green-600 flex-shrink-0">
                     <Pencil size={14} />
                   </button>
                 </div>
               )}
-              <p className="text-neutral-700/60 text-sm mt-0.5">+{account.phone}</p>
+              <p className="text-green-700/60 text-sm mt-0.5">+{account.phone}</p>
               {memberSince && (
-                <p className="text-neutral-700/40 text-xs flex items-center gap-1 mt-1">
+                <p className="text-green-700/40 text-xs flex items-center gap-1 mt-1">
                   <Clock size={11} /> Member sejak {memberSince}
                 </p>
               )}
@@ -147,8 +147,8 @@ export default function AkunPage() {
         {/* Status pesanan */}
         <div className="bg-white rounded-2xl border border-green-100 p-5 shadow-sm mb-4">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-display font-bold text-neutral-950 text-sm">Status Pesanan</h2>
-            <Link href="/pesanan" className="text-neutral-600 text-xs font-semibold flex items-center gap-0.5">
+            <h2 className="font-display font-bold text-green-950 text-sm">Status Pesanan</h2>
+            <Link href="/pesanan" className="text-green-600 text-xs font-semibold flex items-center gap-0.5">
               Lihat semua <ChevronRight size={13} />
             </Link>
           </div>
@@ -160,14 +160,14 @@ export default function AkunPage() {
                 className="flex flex-col items-center gap-1.5 py-2 rounded-xl hover:bg-green-50 transition-colors"
               >
                 <span className="relative">
-                  <Package size={22} className="text-neutral-700/60" />
+                  <Package size={22} className="text-green-700/60" />
                   {s.count > 0 && (
                     <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full px-1">
                       {s.count > 9 ? '9+' : s.count}
                     </span>
                   )}
                 </span>
-                <span className="text-[11px] text-neutral-700/60 font-medium text-center">{s.label}</span>
+                <span className="text-[11px] text-green-700/60 font-medium text-center">{s.label}</span>
               </Link>
             ))}
           </div>
@@ -176,9 +176,9 @@ export default function AkunPage() {
         {/* Menu */}
         <div className="bg-white rounded-2xl border border-green-100 overflow-hidden shadow-sm divide-y divide-green-50 mb-4">
           <Link href="/pesanan" className="flex items-center gap-3 px-5 py-4 hover:bg-green-50/60 transition-colors">
-            <Package size={18} className="text-neutral-600" />
-            <span className="flex-1 text-sm font-medium text-neutral-900">Pesanan Saya</span>
-            <ChevronRight size={16} className="text-neutral-300" />
+            <Package size={18} className="text-green-600" />
+            <span className="flex-1 text-sm font-medium text-green-900">Pesanan Saya</span>
+            <ChevronRight size={16} className="text-green-300" />
           </Link>
           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-green-50/60 transition-colors text-left">
             <LogOut size={18} className="text-red-500" />

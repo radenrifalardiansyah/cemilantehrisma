@@ -112,11 +112,11 @@ export default function ResellerPage() {
       {/* HERO */}
       <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(22,163,74,0.1) 0%, transparent 60%), #FFFFFF',
+          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(212,175,55,0.13) 0%, transparent 60%), #FFFFFF',
         }} />
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-100 border border-green-300/60 text-neutral-700 text-sm font-semibold mb-5"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-100 border border-green-300/60 text-green-700 text-sm font-semibold mb-5"
           >
             <Users size={14} /> {t.reseller.heroBadge}
           </motion.div>
@@ -124,14 +124,14 @@ export default function ResellerPage() {
           <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }}
             className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-4"
           >
-            <span className="text-neutral-950">{t.reseller.heroTitle1} </span>
+            <span className="text-green-950">{t.reseller.heroTitle1} </span>
             <span className="gradient-text">Mie Kremes</span>
             <br />
-            <span className="text-neutral-800">{t.reseller.heroTitle2}</span>
+            <span className="text-green-800">{t.reseller.heroTitle2}</span>
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="text-neutral-800/60 text-base sm:text-lg max-w-2xl mx-auto mb-6"
+            className="text-green-800/60 text-base sm:text-lg max-w-2xl mx-auto mb-6"
           >
             {t.reseller.heroDesc}
           </motion.p>
@@ -159,12 +159,12 @@ export default function ResellerPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <p className="text-neutral-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.pakBadge}</p>
+          <p className="text-green-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.pakBadge}</p>
           <h2 className="font-display text-3xl sm:text-4xl font-bold">
-            <span className="text-neutral-950">{t.reseller.pakTitle1} </span>
+            <span className="text-green-950">{t.reseller.pakTitle1} </span>
             <span className="gradient-text">{t.reseller.pakTitle2}</span>
           </h2>
-          <p className="text-neutral-800/50 text-sm mt-2">{t.reseller.pakDesc}</p>
+          <p className="text-green-800/50 text-sm mt-2">{t.reseller.pakDesc}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -177,7 +177,7 @@ export default function ResellerPage() {
                 initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -5 }}
                 className={`relative bg-white rounded-3xl border-2 shadow-sm overflow-hidden transition-all ${
-                  p.highlight ? 'border-green-400 shadow-black/5 shadow-lg' : 'border-green-100'
+                  p.highlight ? 'border-green-400 shadow-green-100 shadow-lg' : 'border-green-100'
                 }`}
               >
                 {p.highlight && (
@@ -195,23 +195,23 @@ export default function ResellerPage() {
 
                 <div className="p-5 space-y-3">
                   <div className="text-center">
-                    <p className="text-neutral-700/50 text-xs mb-0.5">{t.reseller.pakInitial}</p>
+                    <p className="text-green-700/50 text-xs mb-0.5">{t.reseller.pakInitial}</p>
                     <p className="font-display text-2xl font-bold gradient-text">{formatCurrency(p.modal)}</p>
-                    <p className="text-neutral-600/50 text-xs">= Rp {modalPerPcs.toLocaleString('id-ID')}/pcs</p>
+                    <p className="text-green-600/50 text-xs">= Rp {modalPerPcs.toLocaleString('id-ID')}/pcs</p>
                   </div>
 
                   <div className="h-px bg-green-100" />
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-neutral-700/60">{t.reseller.pakRevenue}</span>
-                      <span className="font-semibold text-neutral-900">{formatCurrency(omset)}</span>
+                      <span className="text-green-700/60">{t.reseller.pakRevenue}</span>
+                      <span className="font-semibold text-green-900">{formatCurrency(omset)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-neutral-700/60 flex items-center gap-1">
+                      <span className="text-green-700/60 flex items-center gap-1">
                         <TrendingUp size={12} /> {t.reseller.pakProfit}
                       </span>
-                      <span className="font-bold text-neutral-600">{formatCurrency(profit)}</span>
+                      <span className="font-bold text-green-600">{formatCurrency(profit)}</span>
                     </div>
                   </div>
 
@@ -219,7 +219,7 @@ export default function ResellerPage() {
                     className={`block w-full text-center py-2.5 rounded-xl text-sm font-bold transition-all ${
                       p.highlight
                         ? 'btn-primary shadow-md'
-                        : 'bg-green-50 text-neutral-700 border border-green-200 hover:bg-green-100'
+                        : 'bg-green-50 text-green-700 border border-green-200 hover:bg-green-100'
                     }`}
                   >
                     {t.reseller.pakChoose}
@@ -231,7 +231,7 @@ export default function ResellerPage() {
         </div>
 
         <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-          className="text-center text-neutral-700/50 text-xs mt-5"
+          className="text-center text-green-700/50 text-xs mt-5"
         >
           {t.reseller.pakNote}
         </motion.p>
@@ -242,9 +242,9 @@ export default function ResellerPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <p className="text-neutral-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.benefitsBadge}</p>
+          <p className="text-green-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.benefitsBadge}</p>
           <h2 className="font-display text-3xl sm:text-4xl font-bold">
-            <span className="text-neutral-950">{t.reseller.benefitsTitle1} </span>
+            <span className="text-green-950">{t.reseller.benefitsTitle1} </span>
             <span className="gradient-text">{t.reseller.benefitsTitle2}</span>
           </h2>
         </motion.div>
@@ -254,11 +254,11 @@ export default function ResellerPage() {
             <motion.div key={b.title}
               initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.07 }} whileHover={{ y: -4 }}
-              className="bg-white rounded-2xl p-5 border border-green-100 shadow-sm hover:shadow-md hover:shadow-black/5 transition-all"
+              className="bg-white rounded-2xl p-5 border border-green-100 shadow-sm hover:shadow-md hover:shadow-green-100 transition-all"
             >
               <div className="text-3xl mb-3">{b.icon}</div>
-              <h3 className="font-display font-bold text-neutral-950 mb-1.5">{b.title}</h3>
-              <p className="text-neutral-700/55 text-sm leading-relaxed">{b.desc}</p>
+              <h3 className="font-display font-bold text-green-950 mb-1.5">{b.title}</h3>
+              <p className="text-green-700/55 text-sm leading-relaxed">{b.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -269,12 +269,12 @@ export default function ResellerPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <p className="text-neutral-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.activeBadge}</p>
+          <p className="text-green-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.activeBadge}</p>
           <h2 className="font-display text-3xl sm:text-4xl font-bold">
-            <span className="text-neutral-950">{t.reseller.activeTitle1} </span>
+            <span className="text-green-950">{t.reseller.activeTitle1} </span>
             <span className="gradient-text">{t.reseller.activeTitle2}</span>
           </h2>
-          <p className="text-neutral-800/50 text-sm mt-2">{t.reseller.activeSubtitle}</p>
+          <p className="text-green-800/50 text-sm mt-2">{t.reseller.activeSubtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -292,22 +292,22 @@ export default function ResellerPage() {
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <p className="font-display font-bold text-neutral-950">{r.nama}</p>
-                    <BadgeCheck size={14} className="text-neutral-500" />
+                    <p className="font-display font-bold text-green-950">{r.nama}</p>
+                    <BadgeCheck size={14} className="text-green-500" />
                   </div>
-                  <div className="flex items-center gap-1 text-neutral-600/60 text-xs">
+                  <div className="flex items-center gap-1 text-green-600/60 text-xs">
                     <MapPin size={10} /> {r.kota}
                   </div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5 mb-3">
                 {r.platform.map(p => (
-                  <span key={p} className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-neutral-700 border border-green-200">{p}</span>
+                  <span key={p} className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">{p}</span>
                 ))}
               </div>
-              <div className="flex items-center justify-between text-xs text-neutral-600/50 pt-3 border-t border-green-100">
-                <span className="flex items-center gap-1"><Star size={10} className="fill-green-400 text-neutral-400" /> {t.reseller.activeJoined} {r.bergabung}</span>
-                <span className="flex items-center gap-1 text-neutral-600 font-semibold"><CheckCircle2 size={10} /> {t.reseller.activeStatus}</span>
+              <div className="flex items-center justify-between text-xs text-green-600/50 pt-3 border-t border-green-100">
+                <span className="flex items-center gap-1"><Star size={10} className="fill-green-400 text-green-400" /> {t.reseller.activeJoined} {r.bergabung}</span>
+                <span className="flex items-center gap-1 text-green-600 font-semibold"><CheckCircle2 size={10} /> {t.reseller.activeStatus}</span>
               </div>
             </motion.div>
           ))}
@@ -320,7 +320,7 @@ export default function ResellerPage() {
           className="text-center mb-10"
         >
           <h2 className="font-display text-3xl sm:text-4xl font-bold">
-            <span className="text-neutral-950">{t.reseller.faqTitle1} </span>
+            <span className="text-green-950">{t.reseller.faqTitle1} </span>
             <span className="gradient-text">{t.reseller.faqTitle2}</span>
           </h2>
         </motion.div>
@@ -334,10 +334,10 @@ export default function ResellerPage() {
               <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left"
               >
-                <span className="font-semibold text-neutral-950 text-sm">{faq.q}</span>
+                <span className="font-semibold text-green-950 text-sm">{faq.q}</span>
                 {openFaq === i
-                  ? <ChevronUp size={16} className="text-neutral-500 flex-shrink-0" />
-                  : <ChevronDown size={16} className="text-neutral-400 flex-shrink-0" />
+                  ? <ChevronUp size={16} className="text-green-500 flex-shrink-0" />
+                  : <ChevronDown size={16} className="text-green-400 flex-shrink-0" />
                 }
               </button>
               <AnimatePresence>
@@ -345,7 +345,7 @@ export default function ResellerPage() {
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden"
                   >
-                    <p className="px-5 pb-4 text-neutral-700/65 text-sm leading-relaxed border-t border-green-50 pt-3">{faq.a}</p>
+                    <p className="px-5 pb-4 text-green-700/65 text-sm leading-relaxed border-t border-green-50 pt-3">{faq.a}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -359,12 +359,12 @@ export default function ResellerPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <p className="text-neutral-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.formBadge}</p>
+          <p className="text-green-600/70 text-sm font-semibold tracking-widest uppercase mb-2">{t.reseller.formBadge}</p>
           <h2 className="font-display text-3xl sm:text-4xl font-bold">
-            <span className="text-neutral-950">{t.reseller.formTitle1} </span>
+            <span className="text-green-950">{t.reseller.formTitle1} </span>
             <span className="gradient-text">{t.reseller.formTitle2}</span>
           </h2>
-          <p className="text-neutral-800/50 text-sm mt-2">{t.reseller.formSubtitle}</p>
+          <p className="text-green-800/50 text-sm mt-2">{t.reseller.formSubtitle}</p>
         </motion.div>
 
         <motion.form initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -373,7 +373,7 @@ export default function ResellerPage() {
         >
           {/* Pilih Paket */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-2">
+            <label className="block text-sm font-semibold text-green-900 mb-2">
               {t.reseller.fieldPaket} <span className="text-red-400">*</span>
             </label>
             <div className="space-y-2">
@@ -389,10 +389,10 @@ export default function ResellerPage() {
                   />
                   <span className="text-xl">{p.emoji}</span>
                   <div className="flex-1">
-                    <p className="font-semibold text-neutral-950 text-sm">{t.reseller.pakPrefix} {p.nama}</p>
-                    <p className="text-neutral-600/60 text-xs">{p.pcs} pcs · {formatCurrency(p.modal)} · {t.reseller.profitUpTo} {formatCurrency(p.pcs * p.hargaJual - p.modal)}</p>
+                    <p className="font-semibold text-green-950 text-sm">{t.reseller.pakPrefix} {p.nama}</p>
+                    <p className="text-green-600/60 text-xs">{p.pcs} pcs · {formatCurrency(p.modal)} · {t.reseller.profitUpTo} {formatCurrency(p.pcs * p.hargaJual - p.modal)}</p>
                   </div>
-                  {p.highlight && <span className="text-xs font-bold text-neutral-600 bg-green-100 px-2 py-0.5 rounded-full">{t.reseller.pakBestSeller}</span>}
+                  {p.highlight && <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">{t.reseller.pakBestSeller}</span>}
                 </label>
               ))}
             </div>
@@ -401,7 +401,7 @@ export default function ResellerPage() {
 
           {/* Nama */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-1.5">
+            <label className="block text-sm font-semibold text-green-900 mb-1.5">
               {t.reseller.fieldNama} <span className="text-red-400">*</span>
             </label>
             <input type="text" placeholder={t.reseller.phNama} value={form.nama}
@@ -413,11 +413,11 @@ export default function ResellerPage() {
 
           {/* WhatsApp */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-1.5">
+            <label className="block text-sm font-semibold text-green-900 mb-1.5">
               {t.reseller.fieldWA} <span className="text-red-400">*</span>
             </label>
             <div className="relative">
-              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-400" />
               <input type="tel" placeholder={t.reseller.phWA} value={form.whatsapp}
                 onChange={e => { setForm(f => ({ ...f, whatsapp: e.target.value })); setErrors(er => ({ ...er, whatsapp: '' })); }}
                 className={`${inputClass('whatsapp')} pl-9`}
@@ -428,11 +428,11 @@ export default function ResellerPage() {
 
           {/* Kota */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-1.5">
+            <label className="block text-sm font-semibold text-green-900 mb-1.5">
               {t.reseller.fieldKota} <span className="text-red-400">*</span>
             </label>
             <div className="relative">
-              <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-400" />
               <input type="text" placeholder={t.reseller.phKota} value={form.kota}
                 onChange={e => { setForm(f => ({ ...f, kota: e.target.value })); setErrors(er => ({ ...er, kota: '' })); }}
                 className={`${inputClass('kota')} pl-9`}
@@ -443,7 +443,7 @@ export default function ResellerPage() {
 
           {/* Alamat */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-1.5">
+            <label className="block text-sm font-semibold text-green-900 mb-1.5">
               {t.reseller.fieldAlamat} <span className="text-red-400">*</span>
             </label>
             <textarea rows={3} placeholder={t.reseller.phAlamat} value={form.alamat}
@@ -455,9 +455,9 @@ export default function ResellerPage() {
 
           {/* Platform */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-2">
+            <label className="block text-sm font-semibold text-green-900 mb-2">
               {t.reseller.fieldPlatform}{' '}
-              <span className="text-neutral-500/60 font-normal text-xs">{t.reseller.fieldPlatformHint}</span>
+              <span className="text-green-500/60 font-normal text-xs">{t.reseller.fieldPlatformHint}</span>
             </label>
             <div className="flex flex-wrap gap-2">
               {platformOptions.map(p => {
@@ -465,7 +465,7 @@ export default function ResellerPage() {
                 return (
                   <button key={p} type="button" onClick={() => togglePlatform(p)}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                      active ? 'bg-green-500 text-white border-green-500 shadow-sm' : 'bg-white text-neutral-700 border-green-200 hover:border-green-400'
+                      active ? 'bg-green-500 text-white border-green-500 shadow-sm' : 'bg-white text-green-700 border-green-200 hover:border-green-400'
                     }`}
                   >
                     {active && <CheckCircle2 size={11} />}
@@ -479,9 +479,9 @@ export default function ResellerPage() {
 
           {/* Pengalaman */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-1.5">
+            <label className="block text-sm font-semibold text-green-900 mb-1.5">
               {t.reseller.fieldPengalaman}{' '}
-              <span className="text-neutral-500/60 font-normal text-xs">{t.reseller.fieldPengalamanHint}</span>
+              <span className="text-green-500/60 font-normal text-xs">{t.reseller.fieldPengalamanHint}</span>
             </label>
             <textarea rows={3} placeholder={t.reseller.phPengalaman} value={form.pengalaman}
               onChange={e => setForm(f => ({ ...f, pengalaman: e.target.value }))}
@@ -497,7 +497,7 @@ export default function ResellerPage() {
             {t.reseller.submit}
           </motion.button>
 
-          <div className="flex items-center gap-2 justify-center text-neutral-700/40 text-xs">
+          <div className="flex items-center gap-2 justify-center text-green-700/40 text-xs">
             <Package size={11} />
             {t.reseller.privacy}
           </div>

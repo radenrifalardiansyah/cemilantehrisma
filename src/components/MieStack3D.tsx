@@ -140,7 +140,7 @@ export default function MieStack3D({ imgOri, imgPdas }: Props) {
               className="absolute bottom-1 right-1 flex items-center gap-1 bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 shadow-sm pointer-events-none"
               style={{ zIndex: 50 }}
             >
-              <span className="text-neutral-700 text-[9px] font-semibold">tap</span>
+              <span className="text-green-700 text-[9px] font-semibold">tap</span>
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                 <path d="M2 5h6M5 2l3 3-3 3" stroke="#16A34A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -166,7 +166,7 @@ export default function MieStack3D({ imgOri, imgPdas }: Props) {
           ))}
         </div>
 
-        <p className="text-[10px] text-neutral-700/60 font-medium tracking-wide">
+        <p className="text-[10px] text-green-700/60 font-medium tracking-wide">
           {LABELS[active]} · Klik untuk varian lain
         </p>
       </div>

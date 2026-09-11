@@ -79,7 +79,7 @@ export default function KimpulStack3D({ imgOri, imgBBQ, imgBBQPdas, imgJgn }: Pr
         <div
           className="kk-glow absolute inset-0 rounded-full pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at 55% 60%, rgba(22,163,74,0.5) 0%, rgba(22,163,74,0.25) 40%, transparent 70%)',
+            background: 'radial-gradient(ellipse at 55% 60%, rgba(212,175,55,0.55) 0%, rgba(212,175,55,0.3) 40%, transparent 70%)',
             filter: 'blur(20px)',
           }}
         />

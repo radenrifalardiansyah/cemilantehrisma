@@ -52,7 +52,7 @@ export default async function KeripikKimpulProposalPage() {
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             {/* Text + stats */}
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 bg-green-100 border border-green-300 rounded-full px-4 py-1.5 text-neutral-700 text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 bg-green-100 border border-green-300 rounded-full px-4 py-1.5 text-green-700 text-sm font-medium mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                 Proposal Kerjasama Resmi · 2026
               </div>
@@ -62,12 +62,12 @@ export default async function KeripikKimpulProposalPage() {
                 <div className="logo-float flex-shrink-0">
                   <Image src={logo} alt="Logo Karya Putra" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
                 </div>
-                <p className="text-xs text-neutral-700 font-semibold tracking-wide">{branding.brandName}</p>
+                <p className="text-xs text-green-700 font-semibold tracking-wide">{branding.brandName}</p>
               </div>
 
               <h1 className="pf text-4xl md:text-5xl font-bold leading-tight mb-2 text-[#0A0A0A]">
                 Proposal<br />
-                <span className="text-neutral-600">Keripik Kimpul</span>
+                <span className="text-green-600">Keripik Kimpul</span>
               </h1>
               <p className="text-[#0A0A0A]/60 text-sm md:text-base max-w-md">
                 Keripik talas balitung renyah khas Bogor — 4 varian rasa, 2 ukuran kemasan, bersertifikat Halal & tanpa pengawet.
@@ -82,7 +82,7 @@ export default async function KeripikKimpulProposalPage() {
                   { v: '3 bln', l: 'Masa Simpan' },
                 ].map(s => (
                   <div key={s.l} className="text-center bg-white/70 border border-green-100 rounded-xl px-4 py-2.5 shadow-sm">
-                    <div className="pf text-xl font-bold text-neutral-700">{s.v}</div>
+                    <div className="pf text-xl font-bold text-green-700">{s.v}</div>
                     <div className="text-xs text-[#0A0A0A]/60 mt-0.5">{s.l}</div>
                   </div>
                 ))}
@@ -106,19 +106,19 @@ export default async function KeripikKimpulProposalPage() {
             <div className="flex items-start gap-4 mb-6">
               <div className="w-10 h-10 rounded-xl bg-green-50 border border-green-200 flex items-center justify-center text-xl flex-shrink-0">📋</div>
               <div>
-                <p className="text-xs font-bold tracking-widest text-neutral-600 uppercase mb-1">Surat Pengantar</p>
+                <p className="text-xs font-bold tracking-widest text-green-600 uppercase mb-1">Surat Pengantar</p>
                 <h2 className="pf text-2xl font-bold text-[#0A0A0A]">Kepada Yth.<br />Pimpinan / Pengelola Toko</h2>
               </div>
             </div>
             <div className="text-[#0A0A0A]/80 leading-relaxed space-y-4 text-[15px]">
               <p>Assalamu&apos;alaikum Wr. Wb.</p>
               <p>
-                Dengan hormat, saya dari <strong className="text-neutral-700">{branding.brandName}</strong> — usaha camilan rumahan khas Bogor yang telah bersertifikat <strong>Halal Indonesia</strong> dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk <strong>Keripik Kimpul Talas Balitung</strong> di tempat yang Bapak/Ibu kelola.
+                Dengan hormat, saya dari <strong className="text-green-700">{branding.brandName}</strong> — usaha camilan rumahan khas Bogor yang telah bersertifikat <strong>Halal Indonesia</strong> dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk <strong>Keripik Kimpul Talas Balitung</strong> di tempat yang Bapak/Ibu kelola.
               </p>
 
               {/* Product summary box */}
               <div className="bg-green-50 border border-green-200 rounded-xl p-5 my-2">
-                <p className="text-xs font-bold tracking-wider text-neutral-700 uppercase mb-3">Ringkasan Produk</p>
+                <p className="text-xs font-bold tracking-wider text-green-700 uppercase mb-3">Ringkasan Produk</p>
                 <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
                   {[
                     ['Produk', 'Keripik Kimpul Talas Balitung'],
@@ -129,7 +129,7 @@ export default async function KeripikKimpulProposalPage() {
                     ['Legalitas', 'Halal Indonesia · NIB 0403260068412'],
                   ].map(([k, v]) => (
                     <div key={k} className="flex gap-2">
-                      <span className="text-neutral-700 font-semibold flex-shrink-0 w-28">{k}</span>
+                      <span className="text-green-700 font-semibold flex-shrink-0 w-28">{k}</span>
                       <span className="text-[#0A0A0A]/70">{v}</span>
                     </div>
                   ))}
@@ -142,11 +142,11 @@ export default async function KeripikKimpulProposalPage() {
 
               <div className="space-y-3 pl-1">
                 <div className="flex gap-3">
-                  <div className="w-6 h-6 rounded-lg bg-green-100 border border-green-300 flex items-center justify-center text-neutral-700 font-bold text-xs flex-shrink-0 mt-0.5">1</div>
+                  <div className="w-6 h-6 rounded-lg bg-green-100 border border-green-300 flex items-center justify-center text-green-700 font-bold text-xs flex-shrink-0 mt-0.5">1</div>
                   <div>
                     <p className="font-semibold text-[#0A0A0A]">Titip Jual (Konsinyasi)</p>
                     <p className="text-sm text-[#0A0A0A]/70 mt-0.5">
-                      Produk dititipkan tanpa biaya di muka. Harga pengambilan <strong className="text-neutral-700">Rp 14.000/pcs</strong> untuk 100g dan <strong className="text-neutral-700">Rp 25.500/pcs</strong> untuk 250g — dibayar mingguan atau bulanan sesuai hasil penjualan. Harga jual ke konsumen sepenuhnya bebas (saran min. Rp 15.000 / Rp 26.500). Produk yang tidak terjual atau mendekati kadaluarsa akan kami ganti, sehingga toko <strong>tidak menanggung risiko kerugian</strong>.
+                      Produk dititipkan tanpa biaya di muka. Harga pengambilan <strong className="text-green-700">Rp 14.000/pcs</strong> untuk 100g dan <strong className="text-green-700">Rp 25.500/pcs</strong> untuk 250g — dibayar mingguan atau bulanan sesuai hasil penjualan. Harga jual ke konsumen sepenuhnya bebas (saran min. Rp 15.000 / Rp 26.500). Produk yang tidak terjual atau mendekati kadaluarsa akan kami ganti, sehingga toko <strong>tidak menanggung risiko kerugian</strong>.
                     </p>
                   </div>
                 </div>
@@ -168,14 +168,14 @@ export default async function KeripikKimpulProposalPage() {
               <div className="mt-6 pt-6 border-t border-green-100 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
                   <p className="font-semibold text-[#0A0A0A]">Hormat kami,</p>
-                  <p className="pf text-xl font-bold text-neutral-700 mt-1">{branding.brandName}</p>
+                  <p className="pf text-xl font-bold text-green-700 mt-1">{branding.brandName}</p>
                   <p className="text-sm text-[#0A0A0A]/60">Bogor, Jawa Barat</p>
                 </div>
                 <a
                   href={`https://wa.me/${branding.whatsappNumber}?text=Halo%20Teh%20Risma%2C%20saya%20tertarik%20dengan%20proposal%20Keripik%20Kimpul.%20Bisa%20kita%20diskusi%20lebih%20lanjut%3F`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="no-print inline-flex items-center gap-2 bg-black hover:bg-neutral-800 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors self-start sm:self-auto"
+                  className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors self-start sm:self-auto"
                 >
                   💬 Hubungi via WhatsApp
                 </a>
@@ -189,7 +189,7 @@ export default async function KeripikKimpulProposalPage() {
           <ST icon="🥔" label="Katalog Produk" title="Detail Produk Keripik Kimpul" />
 
           {/* 4 Varian */}
-          <p className="text-sm text-[#0A0A0A]/50 mt-6 mb-4">Tersedia dalam kemasan <strong className="text-neutral-700">100g</strong> dan <strong className="text-neutral-700">250g (Jumbo)</strong></p>
+          <p className="text-sm text-[#0A0A0A]/50 mt-6 mb-4">Tersedia dalam kemasan <strong className="text-green-700">100g</strong> dan <strong className="text-green-700">250g (Jumbo)</strong></p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 
             {/* Original */}
@@ -197,7 +197,7 @@ export default async function KeripikKimpulProposalPage() {
               <div className="relative h-36 overflow-hidden">
                 <Image src={imgOri} alt="Keripik Kimpul Original" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                <span className="absolute bottom-2 right-2 bg-black text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Best Seller</span>
+                <span className="absolute bottom-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Best Seller</span>
               </div>
               <div className="p-5">
                 <div className="mb-3">
@@ -213,7 +213,7 @@ export default async function KeripikKimpulProposalPage() {
                     ['Tahan', '3 bulan'],
                   ].map(([k, v]) => (
                     <div key={k} className="flex gap-2">
-                      <span className="text-neutral-600 font-semibold w-12 flex-shrink-0">{k}</span>
+                      <span className="text-green-600 font-semibold w-12 flex-shrink-0">{k}</span>
                       <span className="text-[#0A0A0A]/60">{v}</span>
                     </div>
                   ))}
@@ -221,11 +221,11 @@ export default async function KeripikKimpulProposalPage() {
                 <div className="pt-3 border-t border-green-50 space-y-1">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-[#0A0A0A]/50">100g</span>
-                    <span className="pf font-bold text-neutral-700">Rp 15.000</span>
+                    <span className="pf font-bold text-green-700">Rp 15.000</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-[#0A0A0A]/50">250g (Jumbo)</span>
-                    <span className="pf font-bold text-neutral-700">Rp 26.500</span>
+                    <span className="pf font-bold text-green-700">Rp 26.500</span>
                   </div>
                 </div>
               </div>
@@ -236,7 +236,7 @@ export default async function KeripikKimpulProposalPage() {
               <div className="relative h-36 overflow-hidden">
                 <Image src={imgBBQ} alt="Keripik Kimpul BBQ" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                <span className="absolute bottom-2 right-2 bg-black text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Favorit</span>
+                <span className="absolute bottom-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Favorit</span>
               </div>
               <div className="p-5">
                 <div className="mb-3">
@@ -252,7 +252,7 @@ export default async function KeripikKimpulProposalPage() {
                     ['Tahan', '3 bulan'],
                   ].map(([k, v]) => (
                     <div key={k} className="flex gap-2">
-                      <span className="text-neutral-500 font-semibold w-12 flex-shrink-0">{k}</span>
+                      <span className="text-green-500 font-semibold w-12 flex-shrink-0">{k}</span>
                       <span className="text-[#0A0A0A]/60">{v}</span>
                     </div>
                   ))}
@@ -260,11 +260,11 @@ export default async function KeripikKimpulProposalPage() {
                 <div className="pt-3 border-t border-green-50 space-y-1">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-[#0A0A0A]/50">100g</span>
-                    <span className="pf font-bold text-neutral-600">Rp 15.000</span>
+                    <span className="pf font-bold text-green-600">Rp 15.000</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-[#0A0A0A]/50">250g (Jumbo)</span>
-                    <span className="pf font-bold text-neutral-600">Rp 26.500</span>
+                    <span className="pf font-bold text-green-600">Rp 26.500</span>
                   </div>
                 </div>
               </div>
@@ -351,14 +351,14 @@ export default async function KeripikKimpulProposalPage() {
 
           {/* Tabel harga ringkas */}
           <div className="mt-5 bg-green-50 border border-green-200 rounded-2xl p-5">
-            <p className="text-xs font-bold tracking-widest text-neutral-700 uppercase mb-4">Ringkasan Harga Jual</p>
+            <p className="text-xs font-bold tracking-widest text-green-700 uppercase mb-4">Ringkasan Harga Jual</p>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-green-200">
-                    <th className="text-left text-xs text-neutral-700 font-semibold pb-2">Produk</th>
-                    <th className="text-center text-xs text-neutral-700 font-semibold pb-2">100g</th>
-                    <th className="text-center text-xs text-neutral-700 font-semibold pb-2">250g (Jumbo)</th>
+                    <th className="text-left text-xs text-green-700 font-semibold pb-2">Produk</th>
+                    <th className="text-center text-xs text-green-700 font-semibold pb-2">100g</th>
+                    <th className="text-center text-xs text-green-700 font-semibold pb-2">250g (Jumbo)</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-green-100">
@@ -370,8 +370,8 @@ export default async function KeripikKimpulProposalPage() {
                   ].map(r => (
                     <tr key={r.name}>
                       <td className="py-2.5 font-medium text-[#0A0A0A]">{r.name}</td>
-                      <td className="py-2.5 text-center pf font-bold text-neutral-700">{r.p100}</td>
-                      <td className="py-2.5 text-center pf font-bold text-neutral-700">{r.p250}</td>
+                      <td className="py-2.5 text-center pf font-bold text-green-700">{r.p100}</td>
+                      <td className="py-2.5 text-center pf font-bold text-green-700">{r.p250}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -425,51 +425,51 @@ export default async function KeripikKimpulProposalPage() {
                 <span className="text-2xl">📦</span>
                 <div>
                   <h3 className="font-bold text-white text-lg leading-tight">Titip Jual</h3>
-                  <p className="text-neutral-100 text-xs">Tidak perlu modal — bayar setelah terjual</p>
+                  <p className="text-green-100 text-xs">Tidak perlu modal — bayar setelah terjual</p>
                 </div>
               </div>
               <div className="p-6 space-y-4">
                 <div>
-                  <p className="text-xs font-bold tracking-wider text-neutral-700 uppercase mb-2">Harga Pengambilan (per pcs terjual)</p>
+                  <p className="text-xs font-bold tracking-wider text-green-700 uppercase mb-2">Harga Pengambilan (per pcs terjual)</p>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="bg-white rounded-xl border border-green-200 p-3 text-center">
-                      <p className="text-xs text-neutral-700/60 mb-1">100g</p>
-                      <p className="font-bold text-neutral-800 text-lg">Rp 14.000</p>
-                      <p className="text-xs text-neutral-600/70">per pcs</p>
+                      <p className="text-xs text-green-700/60 mb-1">100g</p>
+                      <p className="font-bold text-green-800 text-lg">Rp 14.000</p>
+                      <p className="text-xs text-green-600/70">per pcs</p>
                     </div>
                     <div className="bg-white rounded-xl border border-green-200 p-3 text-center">
-                      <p className="text-xs text-neutral-700/60 mb-1">250g</p>
-                      <p className="font-bold text-neutral-800 text-lg">Rp 25.500</p>
-                      <p className="text-xs text-neutral-600/70">per pcs</p>
+                      <p className="text-xs text-green-700/60 mb-1">250g</p>
+                      <p className="font-bold text-green-800 text-lg">Rp 25.500</p>
+                      <p className="text-xs text-green-600/70">per pcs</p>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <p className="text-xs font-bold tracking-wider text-neutral-700 uppercase mb-2">Harga Jual ke Konsumen</p>
+                  <p className="text-xs font-bold tracking-wider text-green-700 uppercase mb-2">Harga Jual ke Konsumen</p>
                   <div className="bg-white rounded-xl border border-green-200 p-3">
-                    <p className="font-semibold text-neutral-800 text-sm">Bebas — Toko menentukan sendiri</p>
+                    <p className="font-semibold text-green-800 text-sm">Bebas — Toko menentukan sendiri</p>
                     <div className="mt-2 space-y-1">
-                      <p className="text-xs text-neutral-700/70">💡 Saran minimum: <strong>Rp 15.000</strong> untuk 100g</p>
-                      <p className="text-xs text-neutral-700/70">💡 Saran minimum: <strong>Rp 26.500</strong> untuk 250g</p>
-                      <p className="text-xs text-neutral-600/60 mt-1.5 italic">Harga lebih tinggi = margin toko lebih besar</p>
+                      <p className="text-xs text-green-700/70">💡 Saran minimum: <strong>Rp 15.000</strong> untuk 100g</p>
+                      <p className="text-xs text-green-700/70">💡 Saran minimum: <strong>Rp 26.500</strong> untuk 250g</p>
+                      <p className="text-xs text-green-600/60 mt-1.5 italic">Harga lebih tinggi = margin toko lebih besar</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <p className="text-xs font-bold tracking-wider text-neutral-700 uppercase mb-1.5">Estimasi Margin</p>
+                    <p className="text-xs font-bold tracking-wider text-green-700 uppercase mb-1.5">Estimasi Margin</p>
                     <div className="bg-green-50 border border-green-200 rounded-xl p-3 text-center">
-                      <p className="font-bold text-neutral-700 text-base">Min. Rp 1.000</p>
-                      <p className="text-xs text-neutral-600/70">per pcs terjual</p>
+                      <p className="font-bold text-green-700 text-base">Min. Rp 1.000</p>
+                      <p className="text-xs text-green-600/70">per pcs terjual</p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-xs font-bold tracking-wider text-neutral-700 uppercase mb-1.5">Sistem Bayar</p>
+                    <p className="text-xs font-bold tracking-wider text-green-700 uppercase mb-1.5">Sistem Bayar</p>
                     <div className="bg-white border border-green-200 rounded-xl p-3 text-center">
-                      <p className="font-semibold text-neutral-800 text-sm">Mingguan</p>
-                      <p className="text-xs text-neutral-600/70">atau bulanan</p>
+                      <p className="font-semibold text-green-800 text-sm">Mingguan</p>
+                      <p className="text-xs text-green-600/70">atau bulanan</p>
                     </div>
                   </div>
                 </div>
@@ -482,7 +482,7 @@ export default async function KeripikKimpulProposalPage() {
                     { s: '04', t: 'Produk tidak laku diganti', d: 'Mendekati kadaluarsa atau tidak habis? Kami ganti produk baru — toko tidak rugi.' },
                   ].map(item => (
                     <div key={item.s} className="flex gap-3">
-                      <div className="w-7 h-7 rounded-lg bg-green-200 border border-green-300 flex items-center justify-center text-neutral-800 font-bold text-xs flex-shrink-0">{item.s}</div>
+                      <div className="w-7 h-7 rounded-lg bg-green-200 border border-green-300 flex items-center justify-center text-green-800 font-bold text-xs flex-shrink-0">{item.s}</div>
                       <div>
                         <p className="font-semibold text-[#0A0A0A] text-sm">{item.t}</p>
                         <p className="text-xs text-[#0A0A0A]/65 leading-relaxed">{item.d}</p>
@@ -575,8 +575,8 @@ export default async function KeripikKimpulProposalPage() {
           <div className="mt-5 bg-green-50 border border-green-200 rounded-xl p-4 flex gap-3 items-start">
             <span className="text-xl flex-shrink-0">💡</span>
             <div>
-              <p className="font-semibold text-neutral-800 text-sm">Tidak yakin pilih yang mana?</p>
-              <p className="text-xs text-neutral-700/70 mt-0.5 leading-relaxed">Titip Jual cocok jika ingin coba dulu tanpa modal. Beli Putus cocok jika toko sudah yakin dan ingin stok lebih banyak dengan harga lebih hemat. Bisa mulai dari Titip Jual dulu, lanjut Beli Putus setelah melihat respons pasar.</p>
+              <p className="font-semibold text-green-800 text-sm">Tidak yakin pilih yang mana?</p>
+              <p className="text-xs text-green-700/70 mt-0.5 leading-relaxed">Titip Jual cocok jika ingin coba dulu tanpa modal. Beli Putus cocok jika toko sudah yakin dan ingin stok lebih banyak dengan harga lebih hemat. Bisa mulai dari Titip Jual dulu, lanjut Beli Putus setelah melihat respons pasar.</p>
             </div>
           </div>
         </section>
@@ -617,7 +617,7 @@ export default async function KeripikKimpulProposalPage() {
                   {item.icon === 'halal' ? <HalalBadge size={48} /> : <span className="text-4xl">{item.icon}</span>}
                 </div>
                 <h4 className="font-semibold text-[#0A0A0A] mb-1">{item.t}</h4>
-                <p className="text-xs text-neutral-700 font-semibold mb-2">{item.sub}</p>
+                <p className="text-xs text-green-700 font-semibold mb-2">{item.sub}</p>
                 <p className="text-xs text-[#0A0A0A]/60 leading-relaxed">{item.d}</p>
               </div>
             ))}
@@ -633,30 +633,30 @@ export default async function KeripikKimpulProposalPage() {
               Tertarik menitipkan Keripik Kimpul di toko Anda? Hubungi kami untuk mendiskusikan detail kerjasama, varian yang diinginkan, dan jadwal pengiriman perdana.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8 no-print">
-              <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-black hover:bg-neutral-800 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 💬 Hubungi via WhatsApp
               </a>
               <a href="/api/proposal/keripik-kimpul/pdf" download={`Proposal Keripik Kimpul - ${branding.brandName}.pdf`} className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 📄 Download Proposal PDF
               </a>
-              <a href="/" className="inline-flex items-center justify-center gap-2 bg-black hover:bg-neutral-800 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
+              <a href="/" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-xl transition-colors">
                 🛒 Toko Saya
               </a>
             </div>
             <div className="grid sm:grid-cols-3 gap-3 text-sm">
               <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-green-100 p-3 hover:border-green-300 transition-colors">
                 <div className="text-xl mb-1">📱</div>
-                <div className="text-xs text-neutral-700 font-semibold">WhatsApp</div>
+                <div className="text-xs text-green-700 font-semibold">WhatsApp</div>
                 <div className="text-[#0A0A0A] font-medium text-xs mt-0.5">+62 812-1213-2014</div>
               </a>
               <a href="/" className="bg-white rounded-xl border border-green-100 p-3 hover:border-green-300 transition-colors">
                 <div className="text-xl mb-1">🛒</div>
-                <div className="text-xs text-neutral-700 font-semibold">Toko Online</div>
-                <div className="text-neutral-600 font-medium text-xs mt-0.5 underline underline-offset-2">Kunjungi Toko Kami</div>
+                <div className="text-xs text-green-700 font-semibold">Toko Online</div>
+                <div className="text-green-600 font-medium text-xs mt-0.5 underline underline-offset-2">Kunjungi Toko Kami</div>
               </a>
               <div className="bg-white rounded-xl border border-green-100 p-3">
                 <div className="text-xl mb-1">📍</div>
-                <div className="text-xs text-neutral-700 font-semibold">Lokasi</div>
+                <div className="text-xs text-green-700 font-semibold">Lokasi</div>
                 <div className="text-[#0A0A0A] font-medium text-xs mt-0.5">Bogor, Jawa Barat</div>
               </div>
             </div>
@@ -669,7 +669,7 @@ export default async function KeripikKimpulProposalPage() {
       <footer className="border-t border-green-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
           <p className="text-xs text-[#0A0A0A]/50">© 2026 <strong className="text-[#0A0A0A]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
-          <p className="text-xs text-[#0A0A0A]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-neutral-700/60 hover:text-neutral-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#0A0A0A]/45">{DEVELOPER.supportedBy}</strong></p>
+          <p className="text-xs text-[#0A0A0A]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-green-700/60 hover:text-green-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#0A0A0A]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>
     </div>
@@ -681,7 +681,7 @@ function ST({ icon, label, title }: { icon: string; label: string; title: string
     <div className="flex items-center gap-4">
       <div className="w-12 h-12 rounded-xl bg-green-100 border border-green-200 flex items-center justify-center text-2xl flex-shrink-0">{icon}</div>
       <div>
-        <p className="text-xs font-bold tracking-widest text-neutral-600 uppercase">{label}</p>
+        <p className="text-xs font-bold tracking-widest text-green-600 uppercase">{label}</p>
         <h2 className="pf text-2xl font-bold text-[#0A0A0A]" dangerouslySetInnerHTML={{ __html: title }} />
       </div>
       <div className="flex-1 h-px bg-gradient-to-r from-green-200 to-transparent ml-2" />

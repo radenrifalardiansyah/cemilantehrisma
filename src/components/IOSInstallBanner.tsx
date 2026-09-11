@@ -68,16 +68,16 @@ export default function IOSInstallBanner() {
                 <Image src={logo} alt={branding.brandName} fill className="object-cover" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display font-bold text-neutral-950 text-sm leading-tight">
+                <p className="font-display font-bold text-green-950 text-sm leading-tight">
                   {t.pwa.title}
                 </p>
-                <p className="text-neutral-700/65 text-xs mt-0.5 leading-snug">
+                <p className="text-green-700/65 text-xs mt-0.5 leading-snug">
                   {t.pwa.desc(branding.brandName)}
                 </p>
               </div>
               <button
                 onClick={dismiss}
-                className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-600 hover:bg-green-100 transition-colors flex-shrink-0"
+                className="p-1.5 rounded-lg text-green-400 hover:text-green-600 hover:bg-green-100 transition-colors flex-shrink-0"
               >
                 <X size={15} />
               </button>
@@ -99,12 +99,12 @@ function OtherBrowserGuide({ t, onCopy, copied }: { t: Translation; onCopy: () =
   return (
     <div className="mt-3 pt-3 border-t border-green-100">
       <div className="flex items-start gap-2 bg-green-50 rounded-xl p-3 border border-green-200">
-        <AlertCircle size={14} className="text-neutral-600 flex-shrink-0 mt-0.5" />
+        <AlertCircle size={14} className="text-green-600 flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-neutral-900 text-[11px] font-semibold leading-snug">
-            {t.pwa.otherTitle} <span className="text-neutral-700">{t.pwa.otherSafari}</span>
+          <p className="text-green-900 text-[11px] font-semibold leading-snug">
+            {t.pwa.otherTitle} <span className="text-green-700">{t.pwa.otherSafari}</span>
           </p>
-          <p className="text-neutral-700/70 text-[11px] mt-0.5 leading-snug">
+          <p className="text-green-700/70 text-[11px] mt-0.5 leading-snug">
             {t.pwa.otherDesc}
           </p>
         </div>
@@ -124,7 +124,7 @@ function OtherBrowserGuide({ t, onCopy, copied }: { t: Translation; onCopy: () =
 function SafariGuide({ t }: { t: Translation }) {
   return (
     <div className="mt-3 pt-3 border-t border-green-100">
-      <p className="text-neutral-700/55 text-[11px] font-semibold uppercase tracking-wider mb-2.5">
+      <p className="text-green-700/55 text-[11px] font-semibold uppercase tracking-wider mb-2.5">
         {t.pwa.safariStepsTitle}
       </p>
 
@@ -134,7 +134,7 @@ function SafariGuide({ t }: { t: Translation }) {
             <div className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" />
             <span className="text-[9px] text-gray-500 truncate font-medium">karyaputra.vercel.app</span>
           </div>
-          <span className="ml-2 flex-shrink-0 text-[8px] font-semibold text-neutral-600 bg-green-100 border border-green-200 rounded px-1.5 py-0.5">
+          <span className="ml-2 flex-shrink-0 text-[8px] font-semibold text-green-600 bg-green-100 border border-green-200 rounded px-1.5 py-0.5">
             Contoh
           </span>
         </div>
@@ -155,14 +155,14 @@ function SafariGuide({ t }: { t: Translation }) {
           <Square size={18} className="text-gray-300" />
         </div>
         <div className="bg-green-50 py-1.5 flex items-center justify-center gap-1 border-t border-green-100">
-          <span className="text-[10px] font-semibold text-neutral-700">{t.pwa.toolbarLabel}</span>
+          <span className="text-[10px] font-semibold text-green-700">{t.pwa.toolbarLabel}</span>
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
         <StepRow number={1}>
           {t.pwa.step1}{' '}
-          <span className="font-bold text-neutral-700">{t.pwa.step1Share}</span>{' '}
+          <span className="font-bold text-green-700">{t.pwa.step1Share}</span>{' '}
           <span className="inline-flex items-center justify-center w-4 h-4 rounded bg-green-500 mx-0.5">
             <Share size={9} className="text-white" />
           </span>{' '}
@@ -170,11 +170,11 @@ function SafariGuide({ t }: { t: Translation }) {
         </StepRow>
         <StepRow number={2}>
           {t.pwa.step2}{' '}
-          <span className="font-bold text-neutral-700">{t.pwa.step2Add}</span>
+          <span className="font-bold text-green-700">{t.pwa.step2Add}</span>
         </StepRow>
         <StepRow number={3}>
           {t.pwa.step3}{' '}
-          <span className="font-bold text-neutral-700">{t.pwa.step3Add}</span>{' '}
+          <span className="font-bold text-green-700">{t.pwa.step3Add}</span>{' '}
           {t.pwa.step3Done}
         </StepRow>
       </div>
@@ -191,7 +191,7 @@ function StepRow({ number, children }: { number: number; children: React.ReactNo
       >
         {number}
       </span>
-      <span className="text-neutral-900 text-[11px] leading-snug flex items-center gap-0.5 flex-wrap">
+      <span className="text-green-900 text-[11px] leading-snug flex items-center gap-0.5 flex-wrap">
         {children}
       </span>
     </div>

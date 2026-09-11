@@ -66,14 +66,14 @@ function RegisterForm() {
     <main className="min-h-screen" style={{ background: '#FFFFFF' }}>
       <Navbar />
       <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-20">
-        <h1 className="font-display text-3xl font-bold text-neutral-950 mb-1">Daftar Akun</h1>
-        <p className="text-neutral-800/55 text-sm mb-8">Buat akun untuk bisa checkout & lacak pesanan.</p>
+        <h1 className="font-display text-3xl font-bold text-green-950 mb-1">Daftar Akun</h1>
+        <p className="text-green-800/55 text-sm mb-8">Buat akun untuk bisa checkout & lacak pesanan.</p>
 
         <form onSubmit={submit} className="bg-white rounded-2xl border border-green-100 p-6 space-y-4 shadow-sm">
           <div>
-            <label className="text-neutral-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Nama</label>
+            <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Nama</label>
             <div className="relative">
-              <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500/60" />
+              <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
               <input
                 type="text" value={name} onChange={e => setName(e.target.value)}
                 placeholder="Nama lengkap" autoComplete="name"
@@ -82,9 +82,9 @@ function RegisterForm() {
             </div>
           </div>
           <div>
-            <label className="text-neutral-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">No. HP</label>
+            <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">No. HP</label>
             <div className="relative">
-              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500/60" />
+              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
               <input
                 type="tel" value={phone} onChange={e => setPhone(e.target.value)}
                 placeholder="08xxxxxxxxxx" autoComplete="tel"
@@ -93,9 +93,9 @@ function RegisterForm() {
             </div>
           </div>
           <div>
-            <label className="text-neutral-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Password</label>
+            <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Password</label>
             <div className="relative">
-              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500/60" />
+              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
               <input
                 type="password" value={password} onChange={e => setPassword(e.target.value)}
                 placeholder="Minimal 6 karakter" autoComplete="new-password"
@@ -104,9 +104,9 @@ function RegisterForm() {
             </div>
           </div>
           <div>
-            <label className="text-neutral-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Ulangi Password</label>
+            <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Ulangi Password</label>
             <div className="relative">
-              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500/60" />
+              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
               <input
                 type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
                 placeholder="••••••••" autoComplete="new-password"
@@ -124,17 +124,17 @@ function RegisterForm() {
 
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-green-200/60" />
-          <span className="text-neutral-700/40 text-xs font-medium">atau</span>
+          <span className="text-green-700/40 text-xs font-medium">atau</span>
           <div className="flex-1 h-px bg-green-200/60" />
         </div>
 
         <GoogleSignInButton nextUrl={nextUrl} />
 
-        <p className="text-center text-neutral-800/60 text-sm mt-5">
+        <p className="text-center text-green-800/60 text-sm mt-5">
           Sudah punya akun?{' '}
           <Link
             href={`/login${nextUrl !== '/products' ? `?next=${encodeURIComponent(nextUrl)}` : ''}`}
-            className="text-neutral-700 font-semibold underline"
+            className="text-green-700 font-semibold underline"
           >
             Masuk
           </Link>

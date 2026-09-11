@@ -42,7 +42,7 @@ export default function Cart() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeCart}
-            className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-green-950/25 backdrop-blur-sm"
           />
 
           <motion.aside
@@ -51,13 +51,13 @@ export default function Cart() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-            className="fixed right-0 top-0 bottom-0 z-[60] w-full max-w-sm sm:max-w-md flex flex-col shadow-2xl shadow-black/10 cart-surface"
+            className="fixed right-0 top-0 bottom-0 z-[60] w-full max-w-sm sm:max-w-md flex flex-col shadow-2xl shadow-green-200 cart-surface"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-green-100">
               <div className="flex items-center gap-2">
-                <ShoppingCart size={19} className="text-neutral-600" />
-                <h2 className="font-display text-lg font-bold text-neutral-950">{t.cart.title}</h2>
+                <ShoppingCart size={19} className="text-green-600" />
+                <h2 className="font-display text-lg font-bold text-green-950">{t.cart.title}</h2>
                 {totalItems > 0 && (
                   <motion.span
                     key={totalItems}
@@ -71,7 +71,7 @@ export default function Cart() {
               </div>
               <button
                 onClick={closeCart}
-                className="p-2 rounded-xl hover:bg-green-100 text-neutral-600/70 hover:text-neutral-700 transition-colors"
+                className="p-2 rounded-xl hover:bg-green-100 text-green-600/70 hover:text-green-700 transition-colors"
               >
                 <X size={17} />
               </button>
@@ -94,10 +94,10 @@ export default function Cart() {
                     >
                       🛒
                     </motion.div>
-                    <p className="font-display text-lg font-semibold text-neutral-800/60 mb-1">
+                    <p className="font-display text-lg font-semibold text-green-800/60 mb-1">
                       {t.cart.empty}
                     </p>
-                    <p className="text-neutral-700/40 text-sm mb-4">{t.cart.emptyDesc}</p>
+                    <p className="text-green-700/40 text-sm mb-4">{t.cart.emptyDesc}</p>
                     <Link href="/products" onClick={closeCart}>
                       <motion.button
                         whileHover={{ scale: 1.03 }}
@@ -142,7 +142,7 @@ export default function Cart() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-1">
-                            <p className="font-display text-sm font-semibold text-neutral-950 leading-tight line-clamp-2">
+                            <p className="font-display text-sm font-semibold text-green-950 leading-tight line-clamp-2">
                               {lp.name}
                             </p>
                             <button
@@ -152,14 +152,14 @@ export default function Cart() {
                               <Trash2 size={13} />
                             </button>
                           </div>
-                          <p className="text-neutral-600 text-sm font-bold mt-0.5">
+                          <p className="text-green-600 text-sm font-bold mt-0.5">
                             {formatCurrency(item.product.price * item.quantity)}
                           </p>
                           <div className="flex items-center gap-2 mt-2">
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-green-100 hover:bg-green-200 text-neutral-700 border border-green-200 transition-colors"
+                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-green-100 hover:bg-green-200 text-green-700 border border-green-200 transition-colors"
                             >
                               <Minus size={11} />
                             </motion.button>
@@ -167,7 +167,7 @@ export default function Cart() {
                               key={item.quantity}
                               initial={{ scale: 0.7 }}
                               animate={{ scale: 1 }}
-                              className="min-w-[24px] text-center text-neutral-950 text-sm font-bold"
+                              className="min-w-[24px] text-center text-green-950 text-sm font-bold"
                             >
                               {item.quantity}
                             </motion.span>
@@ -178,7 +178,7 @@ export default function Cart() {
                             >
                               <Plus size={11} />
                             </motion.button>
-                            <span className="text-neutral-600/40 text-xs ml-1">
+                            <span className="text-green-600/40 text-xs ml-1">
                               × {formatCurrency(item.product.price)}
                             </span>
                           </div>
@@ -200,12 +200,12 @@ export default function Cart() {
                   className="px-4 py-4 border-t border-green-100 space-y-3"
                 >
                   <div className="bg-green-50 rounded-xl p-3.5 border border-green-100">
-                    <div className="flex justify-between text-sm text-neutral-700/60 mb-1.5">
+                    <div className="flex justify-between text-sm text-green-700/60 mb-1.5">
                       <span>{totalItems} {t.cart.item}</span>
                       <span>{t.cart.subtotal}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-neutral-800/70 text-sm">{t.cart.total}</span>
+                      <span className="text-green-800/70 text-sm">{t.cart.total}</span>
                       <motion.span
                         key={totalPrice}
                         initial={{ scale: 0.9 }}

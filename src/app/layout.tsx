@@ -118,19 +118,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           toastOptions={{
             duration: 2500,
             style: {
-              background: 'rgba(10, 10, 10, 0.95)',
+              background: 'rgba(30, 13, 0, 0.95)',
               color: '#FFFFFF',
-              border: '1px solid rgba(22, 163, 74, 0.3)',
+              border: '1px solid rgba(212, 160, 23, 0.3)',
               backdropFilter: 'blur(16px)',
               borderRadius: '12px',
               fontSize: '14px',
               fontFamily: 'Inter, sans-serif',
             },
             success: {
-              iconTheme: { primary: '#16A34A', secondary: '#0A0A0A' },
+              iconTheme: { primary: '#D4A017', secondary: '#050200' },
             },
             error: {
-              iconTheme: { primary: '#EF4444', secondary: '#0A0A0A' },
+              iconTheme: { primary: '#EF4444', secondary: '#050200' },
             },
           }}
         />
