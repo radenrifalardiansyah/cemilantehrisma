@@ -17,6 +17,7 @@ import {
   ChevronLeft, ChevronRight,
 } from 'lucide-react';
 import { formatCurrency } from '@/lib/whatsapp';
+import { FormattedText } from '@/lib/formatted-text';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Cart from '@/components/Cart';
@@ -244,9 +245,7 @@ export default function ProductDetailClient() {
       <div className="h-px bg-green-100 mb-4" />
 
       {/* Description */}
-      <p className="text-neutral-800/75 text-sm leading-relaxed mb-5">
-        {lp.description}
-      </p>
+      <FormattedText text={lp.description} className="text-neutral-800/75 text-sm leading-relaxed mb-5" />
 
       {/* Details */}
       <div className="bg-white rounded-2xl border border-green-100 p-4 mb-6">

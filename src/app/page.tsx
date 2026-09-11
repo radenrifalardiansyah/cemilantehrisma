@@ -10,6 +10,7 @@ import { getCachedBranding } from '@/lib/server/branding';
 import { products } from '@/lib/products';
 import { imageSrc } from '@/lib/liveProducts';
 import { getAllMergedProducts, getMergedProduct } from '@/lib/server/getProduct';
+import { stripFormatting } from '@/lib/formatted-text';
 
 // Refreshes the featured-product JSON-LD against Postgres periodically, so admin
 // edits (name/price/stock/images/...) show up without a full redeploy.
@@ -40,7 +41,7 @@ export default async function HomePage() {
     itemOffered: {
       '@type': 'Product',
       name: product.name,
-      description: product.description,
+      description: stripFormatting(product.description),
       image: product.images?.[0] ? `${SITE_URL}${imageSrc(product.images[0])}` : undefined,
       offers: {
         '@type': 'Offer',

@@ -12,6 +12,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
 import { trackClick } from '@/lib/trackClick';
 import { useProductSoldCounts } from '@/lib/useProductSoldCounts';
+import { FormattedText } from '@/lib/formatted-text';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -227,9 +228,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
         </h3>
 
         {/* Description */}
-        <p className="text-neutral-800/50 text-xs leading-relaxed line-clamp-2 mb-3">
-          {lp.description}
-        </p>
+        <FormattedText text={lp.description} className="text-neutral-800/50 text-xs leading-relaxed line-clamp-2 mb-3" />
 
         {/* Details */}
         <ul className="space-y-1 mb-4 flex-1">
