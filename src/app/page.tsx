@@ -85,7 +85,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main style={{ background: '#FFFFFF' }}>
+      <main style={{ background: '#FFFBF5' }}>
         <Navbar />
         <Cart />
         <Hero />

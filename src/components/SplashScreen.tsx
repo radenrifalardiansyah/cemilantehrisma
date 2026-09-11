@@ -30,7 +30,7 @@ export default function SplashScreen() {
 
   // Cover layar sebelum useEffect selesai — mencegah konten halaman terlihat sekilas
   if (visible === null) {
-    return <div className="fixed inset-0 z-[999]" style={{ background: '#FFFFFF' }} />;
+    return <div className="fixed inset-0 z-[999]" style={{ background: '#FFFBF5' }} />;
   }
 
   return (
@@ -41,12 +41,12 @@ export default function SplashScreen() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
           className="fixed inset-0 z-[999] flex flex-col items-center justify-center"
-          style={{ background: '#FFFFFF' }}
+          style={{ background: '#FFFBF5' }}
         >
           {/* Logo — sudah tampil di splash native Android, jadi di sini diam saja (tidak animasi ulang) supaya menyatu, tidak terasa "muncul dua kali" */}
           <div
             className="relative w-28 h-28 rounded-full overflow-hidden shadow-2xl mb-6"
-            style={{ border: '4px solid #16A34A' }}
+            style={{ border: '4px solid #F59E0B' }}
           >
             <Image src={logo} alt={branding.brandName} fill className="object-cover" priority />
           </div>
@@ -60,13 +60,13 @@ export default function SplashScreen() {
           >
             <p
               className="font-display text-3xl font-bold leading-tight"
-              style={{ color: '#3F3F46' }}
+              style={{ color: '#78350F' }}
             >
               Karya
             </p>
             <p
               className="font-display text-3xl font-bold leading-tight"
-              style={{ background: '#0A0A0A', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+              style={{ background: 'linear-gradient(135deg, #D97706, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
             >
               Putra
             </p>
@@ -78,7 +78,7 @@ export default function SplashScreen() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.55, duration: 0.4 }}
             className="text-sm mt-3"
-            style={{ color: '#15803D' }}
+            style={{ color: '#B45309' }}
           >
             {t.splash.tagline}
           </motion.p>
@@ -94,7 +94,7 @@ export default function SplashScreen() {
               <motion.div
                 key={i}
                 className="w-2 h-2 rounded-full"
-                style={{ background: '#16A34A' }}
+                style={{ background: '#F59E0B' }}
                 animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.2 }}
               />

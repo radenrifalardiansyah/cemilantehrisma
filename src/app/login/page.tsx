@@ -49,17 +49,17 @@ function LoginForm() {
   };
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFFFF' }}>
+    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
       <Navbar />
       <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-20">
-        <h1 className="font-display text-3xl font-bold text-green-950 mb-1">Masuk</h1>
-        <p className="text-green-800/55 text-sm mb-8">Masuk ke akun untuk melanjutkan checkout.</p>
+        <h1 className="font-display text-3xl font-bold text-amber-950 mb-1">Masuk</h1>
+        <p className="text-amber-800/55 text-sm mb-8">Masuk ke akun untuk melanjutkan checkout.</p>
 
-        <form onSubmit={submit} className="bg-white rounded-2xl border border-green-100 p-6 space-y-4 shadow-sm">
+        <form onSubmit={submit} className="bg-white rounded-2xl border border-amber-100 p-6 space-y-4 shadow-sm">
           <div>
-            <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">No. HP</label>
+            <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">No. HP</label>
             <div className="relative">
-              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
+              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
               <input
                 type="tel" value={phone} onChange={e => setPhone(e.target.value)}
                 placeholder="08xxxxxxxxxx" autoComplete="tel"
@@ -68,9 +68,9 @@ function LoginForm() {
             </div>
           </div>
           <div>
-            <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Password</label>
+            <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Password</label>
             <div className="relative">
-              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
+              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
               <input
                 type="password" value={password} onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••" autoComplete="current-password"
@@ -87,18 +87,18 @@ function LoginForm() {
         </form>
 
         <div className="flex items-center gap-3 my-5">
-          <div className="flex-1 h-px bg-green-200/60" />
-          <span className="text-green-700/40 text-xs font-medium">atau</span>
-          <div className="flex-1 h-px bg-green-200/60" />
+          <div className="flex-1 h-px bg-amber-200/60" />
+          <span className="text-amber-700/40 text-xs font-medium">atau</span>
+          <div className="flex-1 h-px bg-amber-200/60" />
         </div>
 
         <GoogleSignInButton nextUrl={nextUrl} />
 
-        <p className="text-center text-green-800/60 text-sm mt-5">
+        <p className="text-center text-amber-800/60 text-sm mt-5">
           Belum punya akun?{' '}
           <Link
             href={`/register${nextUrl !== '/products' ? `?next=${encodeURIComponent(nextUrl)}` : ''}`}
-            className="text-green-700 font-semibold underline"
+            className="text-amber-700 font-semibold underline"
           >
             Daftar
           </Link>

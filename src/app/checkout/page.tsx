@@ -135,27 +135,27 @@ export default function CheckoutPage() {
 
   if (authLoading || !account) {
     return (
-      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFFFF' }}>
-        <p className="text-green-700/60 text-sm">Memuat...</p>
+      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
+        <p className="text-amber-700/60 text-sm">Memuat...</p>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFFFF' }}>
+    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
       <Navbar />
       <Cart />
 
       {/* Mobile sticky top bar */}
-      <div className="sticky top-16 z-30 bg-green-50/90 backdrop-blur-md border-b border-green-100 md:hidden">
+      <div className="sticky top-16 z-30 bg-amber-50/90 backdrop-blur-md border-b border-amber-100 md:hidden">
         <div className="flex items-center gap-3 px-4 h-14">
           <button
             onClick={() => router.back()}
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-green-200 text-green-700 flex-shrink-0"
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-amber-200 text-amber-700 flex-shrink-0"
           >
             <ArrowLeft size={18} />
           </button>
-          <h2 className="font-display font-bold text-green-900 text-sm line-clamp-1 flex-1">
+          <h2 className="font-display font-bold text-amber-900 text-sm line-clamp-1 flex-1">
             {t.checkout.title1} {t.checkout.title2}
           </h2>
         </div>
@@ -166,15 +166,15 @@ export default function CheckoutPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <Link
             href="/products"
-            className="hidden md:inline-flex items-center gap-1.5 text-green-600/70 hover:text-green-700 text-sm mb-5 transition-colors"
+            className="hidden md:inline-flex items-center gap-1.5 text-amber-600/70 hover:text-amber-700 text-sm mb-5 transition-colors"
           >
             <ArrowLeft size={14} /> {t.checkout.backToMenu}
           </Link>
           <h1 className="font-display text-3xl sm:text-4xl font-bold mb-1">
-            <span className="text-green-950">{t.checkout.title1} </span>
+            <span className="text-amber-950">{t.checkout.title1} </span>
             <span className="gradient-text">{t.checkout.title2}</span>
           </h1>
-          <p className="text-green-800/55 text-sm">{t.checkout.subtitle}</p>
+          <p className="text-amber-800/55 text-sm">{t.checkout.subtitle}</p>
         </motion.div>
 
         {/* Step indicator */}
@@ -193,9 +193,9 @@ export default function CheckoutPage() {
               <div key={s.id} className="flex items-center">
                 <div
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
-                    isActive ? 'text-white shadow-md' : isDone ? 'text-green-600 bg-green-100' : 'text-green-800/40 bg-transparent'
+                    isActive ? 'text-white shadow-md' : isDone ? 'text-amber-600 bg-amber-100' : 'text-amber-800/40 bg-transparent'
                   }`}
-                  style={isActive ? { background: '#0A0A0A' } : {}}
+                  style={isActive ? { background: 'linear-gradient(135deg, #D97706, #F59E0B)' } : {}}
                 >
                   <Icon size={12} />
                   <span className="hidden sm:inline">{s.label}</span>
@@ -203,7 +203,7 @@ export default function CheckoutPage() {
                 {i < stepInfo.length - 1 && (
                   <ChevronRight
                     size={13}
-                    className={`mx-1 ${i < currentIdx ? 'text-green-500' : 'text-green-300'}`}
+                    className={`mx-1 ${i < currentIdx ? 'text-amber-500' : 'text-amber-300'}`}
                   />
                 )}
               </div>
@@ -221,29 +221,29 @@ export default function CheckoutPage() {
               exit={{ opacity: 0, x: -25 }}
               transition={{ duration: 0.25 }}
             >
-              <div className="bg-white rounded-2xl border border-green-100 overflow-hidden mb-4 shadow-sm">
-                <div className="px-5 py-4 border-b border-green-100 flex items-center justify-between">
-                  <h2 className="font-display font-bold text-green-950 flex items-center gap-2 text-base">
-                    <ShoppingBag size={16} className="text-green-600" /> {t.checkout.orderSummary}
+              <div className="bg-white rounded-2xl border border-amber-100 overflow-hidden mb-4 shadow-sm">
+                <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
+                  <h2 className="font-display font-bold text-amber-950 flex items-center gap-2 text-base">
+                    <ShoppingBag size={16} className="text-amber-600" /> {t.checkout.orderSummary}
                   </h2>
-                  <span className="text-green-600/60 text-sm">{totalItems} {t.cart.item}</span>
+                  <span className="text-amber-600/60 text-sm">{totalItems} {t.cart.item}</span>
                 </div>
 
                 {items.length === 0 ? (
                   <div className="p-10 text-center">
                     <div className="text-5xl mb-3">🛒</div>
-                    <p className="text-green-800/50 text-sm mb-4">{t.checkout.emptyCart}</p>
+                    <p className="text-amber-800/50 text-sm mb-4">{t.checkout.emptyCart}</p>
                     <Link href="/products">
                       <button className="btn-primary px-5 py-2.5 text-sm font-bold">{t.cart.seeMenu}</button>
                     </Link>
                   </div>
                 ) : (
-                  <div className="divide-y divide-green-50">
+                  <div className="divide-y divide-amber-50">
                     {items.map(item => {
                     const lp = getProductLocale(item.product.id, locale, item.product);
                     return (
                       <motion.div key={item.product.id} layout className="flex items-center gap-3 px-5 py-3.5">
-                        <div className="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 border border-green-100">
+                        <div className="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 border border-amber-100">
                           {item.product.images?.[0] ? (
                             <Image
                               src={item.product.images[0]}
@@ -262,15 +262,15 @@ export default function CheckoutPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-green-950 text-sm truncate">{lp.name}</p>
-                          <p className="text-green-600 text-sm font-bold">{formatCurrency(item.product.price * item.quantity)}</p>
+                          <p className="font-semibold text-amber-950 text-sm truncate">{lp.name}</p>
+                          <p className="text-amber-600 text-sm font-bold">{formatCurrency(item.product.price * item.quantity)}</p>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="w-7 h-7 rounded-lg flex items-center justify-center bg-green-100 hover:bg-green-200 text-green-700 border border-green-200">
+                          <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-100 hover:bg-amber-200 text-amber-700 border border-amber-200">
                             <Minus size={10} />
                           </button>
-                          <span className="text-green-950 text-sm font-bold w-5 text-center">{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-7 h-7 rounded-lg flex items-center justify-center bg-green-500 hover:bg-green-600 text-white border border-green-500">
+                          <span className="text-amber-950 text-sm font-bold w-5 text-center">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white border border-amber-500">
                             <Plus size={10} />
                           </button>
                           <button onClick={() => removeItem(item.product.id)} className="w-7 h-7 rounded-lg flex items-center justify-center text-red-400/60 hover:text-red-500 hover:bg-red-50 ml-1">
@@ -284,13 +284,13 @@ export default function CheckoutPage() {
               </div>
 
               {items.length > 0 && (
-                <div className="bg-green-50 rounded-2xl border border-green-100 p-4 mb-4">
-                  <div className="flex justify-between text-sm text-green-700/60 mb-1.5">
+                <div className="bg-amber-50 rounded-2xl border border-amber-100 p-4 mb-4">
+                  <div className="flex justify-between text-sm text-amber-700/60 mb-1.5">
                     <span>{t.checkout.subtotal} ({totalItems} {t.cart.item})</span>
                     <span>{formatCurrency(totalPrice)}</span>
                   </div>
-                  <div className="flex justify-between items-center pt-2 border-t border-green-200/50">
-                    <span className="font-display font-bold text-green-950">{t.checkout.total}</span>
+                  <div className="flex justify-between items-center pt-2 border-t border-amber-200/50">
+                    <span className="font-display font-bold text-amber-950">{t.checkout.total}</span>
                     <span className="font-display text-xl font-bold gradient-text">{formatCurrency(totalPrice)}</span>
                   </div>
                 </div>
@@ -318,16 +318,16 @@ export default function CheckoutPage() {
               transition={{ duration: 0.25 }}
               className="space-y-4"
             >
-              <div className="bg-white rounded-2xl border border-green-100 p-5 sm:p-6 space-y-5 shadow-sm">
-                <h2 className="font-display font-bold text-green-950 flex items-center gap-2">
-                  <User size={16} className="text-green-600" /> {t.checkout.formTitle}
+              <div className="bg-white rounded-2xl border border-amber-100 p-5 sm:p-6 space-y-5 shadow-sm">
+                <h2 className="font-display font-bold text-amber-950 flex items-center gap-2">
+                  <User size={16} className="text-amber-600" /> {t.checkout.formTitle}
                 </h2>
 
                 {/* Name */}
                 <div>
-                  <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.name}</label>
+                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.name}</label>
                   <div className="relative">
-                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
+                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
                     <input
                       type="text" value={customer.name} onChange={e => updateField('name', e.target.value)}
                       placeholder={t.checkout.namePlaceholder}
@@ -338,20 +338,20 @@ export default function CheckoutPage() {
 
                 {/* Phone — locked to the logged-in account, it's the order's identity */}
                 <div>
-                  <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.phone}</label>
+                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.phone}</label>
                   <div className="relative">
-                    <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
+                    <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
                     <input
                       type="tel" value={customer.phone} readOnly disabled
-                      className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm bg-green-50/60 text-green-800/70 cursor-not-allowed"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm bg-amber-50/60 text-amber-800/70 cursor-not-allowed"
                     />
                   </div>
-                  <p className="text-green-700/40 text-[11px] mt-1">Nomor akun Anda, tidak bisa diubah di sini.</p>
+                  <p className="text-amber-700/40 text-[11px] mt-1">Nomor akun Anda, tidak bisa diubah di sini.</p>
                 </div>
 
                 {/* Delivery method */}
                 <div>
-                  <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-2 block">{t.checkout.method}</label>
+                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-2 block">{t.checkout.method}</label>
                   <div className="grid grid-cols-2 gap-3">
                     {(['pickup', 'delivery'] as const).map(method => (
                       <button
@@ -360,9 +360,9 @@ export default function CheckoutPage() {
                         className={`flex items-center justify-center gap-2 py-3 rounded-xl border text-sm font-semibold transition-all ${
                           customer.deliveryMethod === method
                             ? 'text-white border-transparent shadow-md'
-                            : 'bg-white border-green-200 text-green-700/70 hover:border-green-300'
+                            : 'bg-white border-amber-200 text-amber-700/70 hover:border-amber-300'
                         }`}
-                        style={customer.deliveryMethod === method ? { background: '#0A0A0A' } : {}}
+                        style={customer.deliveryMethod === method ? { background: 'linear-gradient(135deg, #D97706, #F59E0B)' } : {}}
                       >
                         {method === 'pickup' ? <><Package size={14} /> {t.checkout.pickup}</> : <><Truck size={14} /> {t.checkout.delivery}</>}
                       </button>
@@ -378,9 +378,9 @@ export default function CheckoutPage() {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                     >
-                      <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.address}</label>
+                      <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.address}</label>
                       <div className="relative">
-                        <MapPin size={14} className="absolute left-3.5 top-3.5 text-green-500/60" />
+                        <MapPin size={14} className="absolute left-3.5 top-3.5 text-amber-500/60" />
                         <textarea
                           value={customer.address} onChange={e => updateField('address', e.target.value)}
                           placeholder={t.checkout.addressPlaceholder}
@@ -394,9 +394,9 @@ export default function CheckoutPage() {
 
                 {/* Note */}
                 <div>
-                  <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.note}</label>
+                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.note}</label>
                   <div className="relative">
-                    <FileText size={14} className="absolute left-3.5 top-3.5 text-green-500/60" />
+                    <FileText size={14} className="absolute left-3.5 top-3.5 text-amber-500/60" />
                     <textarea
                       value={customer.note} onChange={e => updateField('note', e.target.value)}
                       placeholder={t.checkout.notePlaceholder}
@@ -433,18 +433,18 @@ export default function CheckoutPage() {
               className="space-y-4"
             >
               {/* Order summary */}
-              <div className="bg-white rounded-2xl border border-green-100 overflow-hidden shadow-sm">
-                <div className="px-5 py-4 border-b border-green-50">
-                  <h2 className="font-display font-bold text-green-950 flex items-center gap-2 text-base">
-                    <ShoppingBag size={16} className="text-green-600" /> {t.checkout.yourOrder}
+              <div className="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm">
+                <div className="px-5 py-4 border-b border-amber-50">
+                  <h2 className="font-display font-bold text-amber-950 flex items-center gap-2 text-base">
+                    <ShoppingBag size={16} className="text-amber-600" /> {t.checkout.yourOrder}
                   </h2>
                 </div>
-                <div className="divide-y divide-green-50">
+                <div className="divide-y divide-amber-50">
                   {items.map(item => {
                     const lp = getProductLocale(item.product.id, locale, item.product);
                     return (
                     <div key={item.product.id} className="flex items-center gap-3 px-5 py-3">
-                      <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-green-100">
+                      <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-amber-100">
                         {item.product.images?.[0] ? (
                           <Image
                             src={item.product.images[0]}
@@ -460,23 +460,23 @@ export default function CheckoutPage() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-green-950 text-sm font-semibold truncate">{lp.name}</p>
-                        <p className="text-green-700/55 text-xs">{formatCurrency(item.product.price)} × {item.quantity}</p>
+                        <p className="text-amber-950 text-sm font-semibold truncate">{lp.name}</p>
+                        <p className="text-amber-700/55 text-xs">{formatCurrency(item.product.price)} × {item.quantity}</p>
                       </div>
-                      <p className="text-green-600 text-sm font-bold">{formatCurrency(item.product.price * item.quantity)}</p>
+                      <p className="text-amber-600 text-sm font-bold">{formatCurrency(item.product.price * item.quantity)}</p>
                     </div>
                   );})}
                 </div>
-                <div className="px-5 py-4 border-t border-green-100 bg-green-50 flex justify-between items-center">
-                  <span className="font-display font-bold text-green-950">{t.checkout.total}</span>
+                <div className="px-5 py-4 border-t border-amber-100 bg-amber-50 flex justify-between items-center">
+                  <span className="font-display font-bold text-amber-950">{t.checkout.total}</span>
                   <span className="font-display text-xl font-bold gradient-text">{formatCurrency(totalPrice)}</span>
                 </div>
               </div>
 
               {/* Customer info */}
-              <div className="bg-white rounded-2xl border border-green-100 p-5 space-y-3 shadow-sm">
-                <h2 className="font-display font-bold text-green-950 flex items-center gap-2 text-base">
-                  <User size={16} className="text-green-600" /> {t.checkout.orderInfo}
+              <div className="bg-white rounded-2xl border border-amber-100 p-5 space-y-3 shadow-sm">
+                <h2 className="font-display font-bold text-amber-950 flex items-center gap-2 text-base">
+                  <User size={16} className="text-amber-600" /> {t.checkout.orderInfo}
                 </h2>
                 {[
                   { icon: User, label: t.checkout.infoName, value: customer.name },
@@ -486,10 +486,10 @@ export default function CheckoutPage() {
                   ...(customer.note ? [{ icon: FileText, label: t.checkout.infoNote, value: customer.note }] : []),
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-start gap-3">
-                    <Icon size={13} className="text-green-500 mt-0.5 flex-shrink-0" />
+                    <Icon size={13} className="text-amber-500 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-green-700/50 text-xs">{label}</p>
-                      <p className="text-green-950 text-sm">{value}</p>
+                      <p className="text-amber-700/50 text-xs">{label}</p>
+                      <p className="text-amber-950 text-sm">{value}</p>
                     </div>
                   </div>
                 ))}

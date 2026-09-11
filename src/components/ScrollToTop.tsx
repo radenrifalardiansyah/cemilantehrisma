@@ -25,7 +25,7 @@ export default function ScrollToTop() {
           whileTap={{ scale: 0.9 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed right-4 bottom-8 z-40 w-10 h-10 rounded-xl shadow-lg hidden md:flex items-center justify-center"
-          style={{ background: '#0A0A0A' }}
+          style={{ background: 'linear-gradient(135deg, #D97706, #F59E0B)' }}
           aria-label="Kembali ke atas"
         >
           <ArrowUp size={18} className="text-white" />

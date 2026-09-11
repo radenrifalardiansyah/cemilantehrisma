@@ -21,11 +21,11 @@ import imgMiePdas150 from '@/assets/images/Mie Kremes 150g Pedas.png';
 // Presentational-only styling per slide (not admin-editable). Name/price/weight/badge
 // are pulled live from the product catalog below so the hero always matches the admin.
 const slideMeta = [
-  { productId: 'mk-ori-150', image: imgMieOri150, badgeColor: '#16A34A', glow: 'rgba(194,65,12,0.28)', bg: 'from-green-100 to-green-50', group: 'mie' as const },
+  { productId: 'mk-ori-150', image: imgMieOri150, badgeColor: '#C2410C', glow: 'rgba(194,65,12,0.28)', bg: 'from-orange-100 to-amber-50', group: 'mie' as const },
   { productId: 'mk-pdas-150', image: imgMiePdas150, badgeColor: '#BE123C', glow: 'rgba(190,18,60,0.25)', bg: 'from-rose-100 to-pink-50', group: 'mie' as const },
-  { productId: 'kk-ori-100', image: imgOriOri100, badgeColor: '#16A34A', glow: 'rgba(22,163,74,0.35)', bg: 'from-green-100 to-green-50', group: 'keripik' as const },
-  { productId: 'kk-bbq-100', image: imgOriBBQ100, badgeColor: '#B91C1C', glow: 'rgba(185,28,28,0.25)', bg: 'from-red-100 to-green-50', group: 'keripik' as const },
-  { productId: 'kk-jgn-100', image: imgOriJgn100, badgeColor: '#CA8A04', glow: 'rgba(202,138,4,0.3)', bg: 'from-yellow-100 to-green-50', group: 'keripik' as const },
+  { productId: 'kk-ori-100', image: imgOriOri100, badgeColor: '#D97706', glow: 'rgba(217,119,6,0.35)', bg: 'from-amber-100 to-amber-50', group: 'keripik' as const },
+  { productId: 'kk-bbq-100', image: imgOriBBQ100, badgeColor: '#B91C1C', glow: 'rgba(185,28,28,0.25)', bg: 'from-red-100 to-orange-50', group: 'keripik' as const },
+  { productId: 'kk-jgn-100', image: imgOriJgn100, badgeColor: '#CA8A04', glow: 'rgba(202,138,4,0.3)', bg: 'from-yellow-100 to-amber-50', group: 'keripik' as const },
   // Basreng is Firestore-only (admin-added, no bundled static entry), so the fallback
   // image points at its live Cloudinary photo instead of a local static import.
   { productId: 'Fj3ix8FZucBIdiwMIiLh', image: 'https://res.cloudinary.com/jygooie9/image/upload/v1787195035/uploads/ddm0pomh7zj4smplx51q.jpg', badgeColor: '#0369A1', glow: 'rgba(3,105,161,0.25)', bg: 'from-sky-100 to-cyan-50', group: 'basreng' as const },
@@ -99,7 +99,7 @@ export default function Hero() {
       title1: t.hero.keripik.title1, title2: t.hero.keripik.title2,
       sub1: t.hero.keripik.sub1, sub2: t.hero.keripik.sub2,
       flavors: [
-        { emoji: '🥔', label: t.hero.keripik.flavors[0], bg: 'bg-green-100', text: 'text-green-800' },
+        { emoji: '🥔', label: t.hero.keripik.flavors[0], bg: 'bg-amber-100', text: 'text-amber-800' },
         { emoji: '🌶️', label: t.hero.keripik.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'   },
         { emoji: '🌽', label: t.hero.keripik.flavors[2], bg: 'bg-yellow-100', text: 'text-yellow-700' },
       ],
@@ -109,7 +109,7 @@ export default function Hero() {
       title1: t.hero.mie.title1, title2: t.hero.mie.title2,
       sub1: t.hero.mie.sub1, sub2: t.hero.mie.sub2,
       flavors: [
-        { emoji: '🍝', label: t.hero.mie.flavors[0], bg: 'bg-green-100', text: 'text-green-800' },
+        { emoji: '🍝', label: t.hero.mie.flavors[0], bg: 'bg-orange-100', text: 'text-orange-800' },
         { emoji: '🌶️', label: t.hero.mie.flavors[1], bg: 'bg-red-100',   text: 'text-red-700'    },
       ],
       desc: t.hero.mie.desc, price: cheapestPriceIn('mie'),
@@ -161,7 +161,7 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         background:
-          'radial-gradient(ellipse 80% 60% at 15% 60%, rgba(212,175,55,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 25%, rgba(22,163,74,0.09) 0%, transparent 60%), #FFFFFF',
+          'radial-gradient(ellipse 80% 60% at 15% 60%, rgba(251,191,36,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 25%, rgba(217,119,6,0.09) 0%, transparent 60%), #FFFBF5',
       }}
     >
       {/* Decorative blobs */}
@@ -169,7 +169,7 @@ export default function Hero() {
         animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 8, repeat: Infinity }}
         className="absolute -top-24 -left-24 w-80 h-80 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.22) 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, rgba(251,191,36,0.22) 0%, transparent 70%)' }}
       />
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -186,7 +186,7 @@ export default function Hero() {
       {/* Dot grid */}
       <div
         className="absolute inset-0 opacity-[0.035] pointer-events-none"
-        style={{ backgroundImage: 'radial-gradient(circle, #16A34A 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+        style={{ backgroundImage: 'radial-gradient(circle, #D97706 1px, transparent 1px)', backgroundSize: '28px 28px' }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
@@ -199,9 +199,9 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-green-100 border border-green-300/60 text-green-700 text-sm font-semibold mb-5"
+              className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-amber-100 border border-amber-300/60 text-amber-700 text-sm font-semibold mb-5"
             >
-              <div className="relative w-7 h-7 rounded-full overflow-hidden border border-green-300/60 flex-shrink-0">
+              <div className="relative w-7 h-7 rounded-full overflow-hidden border border-amber-300/60 flex-shrink-0">
                 <Image src={logo} alt="Karya Putra" fill className="object-cover" />
               </div>
               {t.hero.brand(branding.brandName)}
@@ -217,11 +217,11 @@ export default function Hero() {
                 transition={{ duration: 0.4 }}
                 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-3"
               >
-                <span className="text-green-950">{content.title1} </span>
+                <span className="text-amber-950">{content.title1} </span>
                 <span className="gradient-text">{content.title2}</span>
                 <br />
-                <span className="text-3xl sm:text-4xl lg:text-5xl text-green-800">{content.sub1} </span>
-                <span className="text-3xl sm:text-4xl lg:text-5xl text-green-600">{content.sub2}</span>
+                <span className="text-3xl sm:text-4xl lg:text-5xl text-amber-800">{content.sub1} </span>
+                <span className="text-3xl sm:text-4xl lg:text-5xl text-amber-600">{content.sub2}</span>
               </motion.h1>
             </AnimatePresence>
 
@@ -251,7 +251,7 @@ export default function Hero() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="text-green-600/60 text-xs font-medium"
+                  className="text-amber-600/60 text-xs font-medium"
                 >
                   {t.hero.savingsAvailable}
                 </motion.span>
@@ -266,9 +266,9 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.35 }}
-                className="text-green-800/65 text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"
+                className="text-amber-800/65 text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"
               >
-                {content.desc} <strong className="text-green-700">{content.price}</strong>.
+                {content.desc} <strong className="text-amber-700">{content.price}</strong>.
               </motion.p>
             </AnimatePresence>
 
@@ -313,11 +313,11 @@ export default function Hero() {
                   {[1,2,3,4,5].map(i => (
                     <Star
                       key={i} size={14}
-                      className={i <= Math.round(rating ?? 0) ? 'text-green-400 fill-green-400' : 'text-green-200 fill-green-200'}
+                      className={i <= Math.round(rating ?? 0) ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'}
                     />
                   ))}
                 </div>
-                <span className="text-green-700/60 text-sm font-medium">
+                <span className="text-amber-700/60 text-sm font-medium">
                   {rating?.toFixed(1)}/5 · {reviewCount} {t.hero.reviewsLabel}
                 </span>
               </motion.div>
@@ -349,7 +349,7 @@ export default function Hero() {
               </AnimatePresence>
 
               {/* Main card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl shadow-green-200/50 border border-green-100 overflow-hidden">
+              <div className="relative bg-white rounded-3xl shadow-2xl shadow-amber-200/50 border border-amber-100 overflow-hidden">
 
                 {/* Image area */}
                 <div className={`relative h-64 sm:h-72 bg-gradient-to-br ${slide.bg} overflow-hidden`}>
@@ -393,13 +393,13 @@ export default function Hero() {
                   {/* Prev / Next */}
                   <button
                     onClick={prev}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-green-700 transition-all backdrop-blur-sm"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-amber-700 transition-all backdrop-blur-sm"
                   >
                     <ChevronLeft size={16} />
                   </button>
                   <button
                     onClick={next}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-green-700 transition-all backdrop-blur-sm"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-amber-700 transition-all backdrop-blur-sm"
                   >
                     <ChevronRight size={16} />
                   </button>
@@ -416,10 +416,10 @@ export default function Hero() {
                       transition={{ duration: 0.3 }}
                     >
                       <div className="flex items-start justify-between gap-2 mb-1">
-                        <h3 className="font-display text-base font-bold text-green-950 leading-tight">
+                        <h3 className="font-display text-base font-bold text-amber-950 leading-tight">
                           {slideDisplayName}
                         </h3>
-                        <span className="text-xs text-green-600/70 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full flex-shrink-0">
+                        <span className="text-xs text-amber-600/70 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full flex-shrink-0">
                           {slide.weight}
                         </span>
                       </div>
@@ -438,12 +438,12 @@ export default function Hero() {
                           style={{
                             width: i === current ? 20 : 6,
                             height: 6,
-                            background: i === current ? slide.badgeColor : 'rgba(22,163,74,0.2)',
+                            background: i === current ? slide.badgeColor : 'rgba(217,119,6,0.2)',
                           }}
                         />
                       ))}
                     </div>
-                    <span className="text-xs text-green-600/50">{current + 1} / {slides.length}</span>
+                    <span className="text-xs text-amber-600/50">{current + 1} / {slides.length}</span>
                   </div>
                 </div>
               </div>
@@ -452,10 +452,10 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, -8, 0], rotate: [-1, 1, -1] }}
                 transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
-                className="absolute -left-6 top-8 bg-white rounded-2xl p-3 border border-green-200 shadow-lg z-10"
+                className="absolute -left-6 top-8 bg-white rounded-2xl p-3 border border-amber-200 shadow-lg z-10"
               >
-                <p className="text-[10px] text-green-600/60">{t.hero.priceFrom}</p>
-                <p className="font-display text-sm font-bold text-green-800">{cheapestPriceOverall()}</p>
+                <p className="text-[10px] text-amber-600/60">{t.hero.priceFrom}</p>
+                <p className="font-display text-sm font-bold text-amber-800">{cheapestPriceOverall()}</p>
               </motion.div>
 
               {/* Floating rating card — hanya tampil kalau sudah ada ulasan asli */}
@@ -463,14 +463,14 @@ export default function Hero() {
                 <motion.div
                   animate={{ y: [0, -6, 0], rotate: [1, -1, 1] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1.2 }}
-                  className="absolute -right-6 bottom-20 bg-white rounded-2xl p-3 border border-green-200 shadow-lg z-10"
+                  className="absolute -right-6 bottom-20 bg-white rounded-2xl p-3 border border-amber-200 shadow-lg z-10"
                 >
                   <div className="flex gap-0.5 mb-0.5">
                     {[1,2,3,4,5].map(s => (
-                      <Star key={s} size={8} className={s <= Math.round(rating ?? 0) ? 'text-green-400 fill-green-400' : 'text-green-200 fill-green-200'} />
+                      <Star key={s} size={8} className={s <= Math.round(rating ?? 0) ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'} />
                     ))}
                   </div>
-                  <p className="text-[10px] text-green-800/70 font-semibold">
+                  <p className="text-[10px] text-amber-800/70 font-semibold">
                     {soldCount} {t.hero.soldSuffix}
                   </p>
                 </motion.div>
@@ -493,11 +493,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 + i * 0.08 }}
               whileHover={{ y: -3 }}
-              className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-green-100 shadow-sm hover:shadow-md hover:shadow-green-100 transition-all duration-300"
+              className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-amber-100 shadow-sm hover:shadow-md hover:shadow-amber-100 transition-all duration-300"
             >
               <div className="text-2xl sm:text-3xl mb-1.5">{s.icon}</div>
               <div className="font-display text-xl sm:text-2xl font-bold gradient-text">{s.value}</div>
-              <div className="text-green-700/55 text-xs sm:text-sm mt-0.5">{s.label}</div>
+              <div className="text-amber-700/55 text-xs sm:text-sm mt-0.5">{s.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -507,10 +507,10 @@ export default function Hero() {
       <motion.div
         animate={{ y: [0, 7, 0], opacity: [0.4, 0.8, 0.4] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-green-500/50"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-amber-500/50"
       >
         <span className="text-xs">{t.hero.scroll}</span>
-        <div className="w-px h-8 bg-gradient-to-b from-green-400/50 to-transparent" />
+        <div className="w-px h-8 bg-gradient-to-b from-amber-400/50 to-transparent" />
       </motion.div>
     </section>
   );

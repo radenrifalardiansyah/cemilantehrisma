@@ -115,7 +115,7 @@ function ProductsPage() {
   };
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFFFF' }}>
+    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
       <Navbar />
       <Cart />
 
@@ -126,14 +126,14 @@ function ProductsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10 sm:mb-14"
         >
-          <p className="text-green-600/70 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-amber-600/70 text-sm font-semibold tracking-widest uppercase mb-3">
             {t.products.badge}
           </p>
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-3">
-            <span className="text-green-950">{t.products.title1} </span>
+            <span className="text-amber-950">{t.products.title1} </span>
             <span className="gradient-text">{t.products.title2}</span>
           </h1>
-          <p className="text-green-800/55 text-sm sm:text-base max-w-md mx-auto">
+          <p className="text-amber-800/55 text-sm sm:text-base max-w-md mx-auto">
             {products.length} {t.products.subtitleSuffix}
           </p>
         </motion.div>
@@ -173,18 +173,18 @@ function ProductsPage() {
           className="flex gap-3 mb-6"
         >
           <div className="relative flex-1">
-            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
             <input
               type="text"
               placeholder={t.products.search}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-3 rounded-xl input-field text-sm placeholder:text-green-700/30"
+              className="w-full pl-10 pr-10 py-3 rounded-xl input-field text-sm placeholder:text-amber-700/30"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-green-500/60 hover:text-green-700"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500/60 hover:text-amber-700"
               >
                 <X size={14} />
               </button>
@@ -196,8 +196,8 @@ function ProductsPage() {
               onClick={() => setShowSort(!showSort)}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                 showSort
-                  ? 'bg-green-100 border-green-300 text-green-800'
-                  : 'bg-white border-green-200 text-green-700/70 hover:border-green-300 hover:text-green-800'
+                  ? 'bg-amber-100 border-amber-300 text-amber-800'
+                  : 'bg-white border-amber-200 text-amber-700/70 hover:border-amber-300 hover:text-amber-800'
               }`}
             >
               <SlidersHorizontal size={14} />
@@ -211,7 +211,7 @@ function ProductsPage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.97 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl border border-green-100 shadow-xl z-20 overflow-hidden"
+                  className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl border border-amber-100 shadow-xl z-20 overflow-hidden"
                 >
                   {Object.entries(sortLabels).map(([key, label]) => (
                     <button
@@ -219,8 +219,8 @@ function ProductsPage() {
                       onClick={() => { setSortBy(key as typeof sortBy); setShowSort(false); }}
                       className={`w-full text-left px-4 py-3 text-sm transition-colors ${
                         sortBy === key
-                          ? 'bg-green-50 text-green-700 font-semibold'
-                          : 'text-green-900/60 hover:bg-green-50 hover:text-green-800'
+                          ? 'bg-amber-50 text-amber-700 font-semibold'
+                          : 'text-amber-900/60 hover:bg-amber-50 hover:text-amber-800'
                       }`}
                     >
                       {label}
@@ -254,11 +254,11 @@ function ProductsPage() {
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
                 activeCategory === tab.id
                   ? 'text-white shadow-md'
-                  : 'bg-white border border-green-200 text-green-700/70 hover:border-green-300 hover:text-green-800'
+                  : 'bg-white border border-amber-200 text-amber-700/70 hover:border-amber-300 hover:text-amber-800'
               }`}
               style={
                 activeCategory === tab.id
-                  ? { background: '#0A0A0A' }
+                  ? { background: 'linear-gradient(135deg, #D97706, #F59E0B)' }
                   : {}
               }
             >
@@ -268,7 +268,7 @@ function ProductsPage() {
                 className={`px-1.5 py-0.5 rounded-full text-xs ${
                   activeCategory === tab.id
                     ? 'bg-white/25 text-white'
-                    : 'bg-green-100 text-green-600'
+                    : 'bg-amber-100 text-amber-600'
                 }`}
               >
                 {tab.count}
@@ -279,10 +279,10 @@ function ProductsPage() {
 
         {/* Count */}
         <div className="flex items-center mb-5">
-          <p className="text-green-800/50 text-sm">
-            <span className="text-green-700 font-semibold">{filtered.length}</span> {t.products.found}
+          <p className="text-amber-800/50 text-sm">
+            <span className="text-amber-700 font-semibold">{filtered.length}</span> {t.products.found}
             {searchQuery && (
-              <span> {t.products.foundFor} <span className="text-green-600 font-semibold">&quot;{searchQuery}&quot;</span></span>
+              <span> {t.products.foundFor} <span className="text-amber-600 font-semibold">&quot;{searchQuery}&quot;</span></span>
             )}
           </p>
         </div>
@@ -316,10 +316,10 @@ function ProductsPage() {
               >
                 🔍
               </motion.div>
-              <h3 className="font-display text-xl font-bold text-green-900/50 mb-2">
+              <h3 className="font-display text-xl font-bold text-amber-900/50 mb-2">
                 {t.products.notFound}
               </h3>
-              <p className="text-green-700/45 text-sm mb-5">
+              <p className="text-amber-700/45 text-sm mb-5">
                 {t.products.notFoundDesc}
               </p>
               <button
@@ -342,7 +342,7 @@ function ProductsPage() {
 export default function ProductsPageWrapper() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#FFFFFF' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
         <motion.div
           animate={{ rotate: [0, 10, -10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}

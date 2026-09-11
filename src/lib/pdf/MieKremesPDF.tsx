@@ -12,16 +12,16 @@ interface Props {
 
 const C = {
   primary:      THEME_COLOR,
-  primaryDark:  '#15803D',
-  accent:       '#0A0A0A',
-  accentLight:  '#F5F5F5',
-  accentMid:    '#E5E5E5',
-  lightBg:      '#FFFFFF',
+  primaryDark:  '#B45309',
+  accent:       '#F59E0B',
+  accentLight:  '#FFFBEB',
+  accentMid:    '#FDE68A',
+  lightBg:      '#FFFDF5',
   white:        '#FFFFFF',
-  dark:         '#0A0A0A',
-  body:         '#0A0A0A',
-  muted:        '#15803D',
-  border:       '#16A34A',
+  dark:         '#1A0A00',
+  body:         '#3B2800',
+  muted:        '#92400E',
+  border:       '#FCD34D',
   green:        '#15803D',
   greenLight:   '#DCFCE7',
   violet:       '#7C3AED',
@@ -126,7 +126,7 @@ const s = StyleSheet.create({
   paketRow:         { flexDirection: 'row', gap: 12, marginBottom: 12 },
   paketCard:        { flex: 1, borderWidth: 1, borderRadius: 8, overflow: 'hidden' },
   paketHeaderGreen: { backgroundColor: '#15803D', padding: 10, alignItems: 'center' },
-  paketHeaderOrange:{ backgroundColor: '#16A34A', padding: 10, alignItems: 'center' },
+  paketHeaderOrange:{ backgroundColor: '#C2410C', padding: 10, alignItems: 'center' },
   paketHeaderPurple:{ backgroundColor: '#6D28D9', padding: 10, alignItems: 'center' },
   paketHeaderIcon:  { fontSize: 10, fontFamily: 'Helvetica-Bold', color: 'rgba(255,255,255,0.7)', marginBottom: 3, letterSpacing: 1 },
   paketHeaderTitle: { color: C.white, fontSize: 10, fontFamily: 'Helvetica-Bold', textAlign: 'center' },
@@ -409,7 +409,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
           <View style={s.mechRow}>
 
             {/* Titip Jual */}
-            <View style={[s.mechCard, { borderColor: '#16A34A' }]}>
+            <View style={[s.mechCard, { borderColor: '#FCD34D' }]}>
               <View style={s.mechHeaderOrange}>
                 <Text style={s.mechHeaderTitle}>Titip Jual (Konsinyasi)</Text>
                 <Text style={s.mechHeaderSub}>Tidak perlu modal — bayar setelah terjual</Text>

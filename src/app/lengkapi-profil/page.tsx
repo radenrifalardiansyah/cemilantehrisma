@@ -51,19 +51,19 @@ function CompleteProfileForm() {
   };
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFFFF' }}>
+    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
       <Navbar />
       <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-20">
-        <h1 className="font-display text-3xl font-bold text-green-950 mb-1">Satu Langkah Lagi</h1>
-        <p className="text-green-800/55 text-sm mb-8">
+        <h1 className="font-display text-3xl font-bold text-amber-950 mb-1">Satu Langkah Lagi</h1>
+        <p className="text-amber-800/55 text-sm mb-8">
           {name ? `Halo, ${name}! ` : ''}Kami perlu nomor HP Anda untuk konfirmasi pesanan.
         </p>
 
-        <form onSubmit={submit} className="bg-white rounded-2xl border border-green-100 p-6 space-y-4 shadow-sm">
+        <form onSubmit={submit} className="bg-white rounded-2xl border border-amber-100 p-6 space-y-4 shadow-sm">
           <div>
-            <label className="text-green-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">No. HP</label>
+            <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">No. HP</label>
             <div className="relative">
-              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-500/60" />
+              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
               <input
                 type="tel" value={phone} onChange={e => setPhone(e.target.value)}
                 placeholder="08xxxxxxxxxx" autoComplete="tel" autoFocus

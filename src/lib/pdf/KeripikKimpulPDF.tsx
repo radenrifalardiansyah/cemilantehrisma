@@ -14,17 +14,17 @@ interface Props {
 }
 
 const C = {
-  primary:      '#15803D',
-  primaryDark:  '#15803D',
+  primary:      '#B45309',
+  primaryDark:  '#92400E',
   accent:       THEME_COLOR,
-  accentLight:  '#F5F5F5',
-  accentMid:    '#E5E5E5',
-  lightBg:      '#FFFFFF',
+  accentLight:  '#FEF3C7',
+  accentMid:    '#FDE68A',
+  lightBg:      '#FFFBF2',
   white:        '#FFFFFF',
-  dark:         '#0A0A0A',
-  body:         '#0A0A0A',
-  muted:        '#3F3F46',
-  border:       '#16A34A',
+  dark:         '#1C0A00',
+  body:         '#3D1A00',
+  muted:        '#78350F',
+  border:       '#FCD34D',
   green:        '#15803D',
   greenLight:   '#DCFCE7',
   violet:       '#7C3AED',
@@ -102,7 +102,7 @@ const s = StyleSheet.create({
   // Mechanisms
   mechRow:      { flexDirection: 'row', gap: 14, marginBottom: 16 },
   mechCard:     { flex: 1, borderWidth: 1, borderRadius: 8, overflow: 'hidden' },
-  mechHeaderOrange: { backgroundColor: '#16A34A', padding: 12 },
+  mechHeaderOrange: { backgroundColor: '#EA580C', padding: 12 },
   mechHeaderViolet: { backgroundColor: '#7C3AED', padding: 12 },
   mechHeaderTitle:  { color: C.white, fontSize: 12, fontFamily: 'Helvetica-Bold' },
   mechHeaderSub:    { color: 'rgba(255,255,255,0.7)', fontSize: 8, marginTop: 2 },
@@ -311,7 +311,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <View style={s.variantGrid}>
             {[
               { img: imgOri,    name: 'Original',  desc: 'Gurih alami talas kimpul pilihan. Cocok untuk semua usia.', color: C.primary },
-              { img: imgBBQ,    name: 'BBQ',        desc: 'Rasa BBQ smoky original tanpa pedas. Favorit anak-anak.', color: '#16A34A' },
+              { img: imgBBQ,    name: 'BBQ',        desc: 'Rasa BBQ smoky original tanpa pedas. Favorit anak-anak.', color: '#C2410C' },
               { img: imgBBQPdas,name: 'BBQ Pedas',  desc: 'BBQ smoky dengan sensasi pedas yang nagih dan renyah.', color: '#B91C1C' },
               { img: imgJgn,    name: 'Jagung Manis', desc: 'Rasa jagung manis lezat. Sempurna untuk cemilan santai.', color: '#CA8A04' },
             ].map(v => (
@@ -386,7 +386,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <View style={s.mechRow}>
 
             {/* Titip Jual */}
-            <View style={[s.mechCard, { borderColor: '#16A34A' }]}>
+            <View style={[s.mechCard, { borderColor: '#FCD34D' }]}>
               <View style={s.mechHeaderOrange}>
                 <Text style={s.mechHeaderTitle}>Titip Jual (Konsinyasi)</Text>
                 <Text style={s.mechHeaderSub}>Tidak perlu modal — bayar setelah terjual</Text>

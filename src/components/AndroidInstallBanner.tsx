@@ -64,26 +64,26 @@ export default function AndroidInstallBanner() {
           exit={{ y: 120, opacity: 0 }}
           transition={{ type: 'spring', damping: 24, stiffness: 200 }}
           className="fixed bottom-20 left-3 right-3 z-[70] rounded-2xl shadow-2xl overflow-hidden"
-          style={{ background: '#FFFFFF', border: '1.5px solid rgba(22,163,74,0.25)' }}
+          style={{ background: '#FFFBF5', border: '1.5px solid rgba(217,119,6,0.25)' }}
         >
-          <div className="h-1 w-full" style={{ background: '#0A0A0A' }} />
+          <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #D97706, #F59E0B)' }} />
 
           <div className="p-4">
             <div className="flex items-start gap-3">
-              <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-green-200">
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-amber-200">
                 <Image src={logo} alt={branding.brandName} fill className="object-cover" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display font-bold text-green-950 text-sm leading-tight">
+                <p className="font-display font-bold text-amber-950 text-sm leading-tight">
                   {t.pwaAndroid.title}
                 </p>
-                <p className="text-green-700/65 text-xs mt-0.5 leading-snug">
+                <p className="text-amber-700/65 text-xs mt-0.5 leading-snug">
                   {t.pwaAndroid.desc(branding.brandName)}
                 </p>
               </div>
               <button
                 onClick={dismiss}
-                className="p-1.5 rounded-lg text-green-400 hover:text-green-600 hover:bg-green-100 transition-colors flex-shrink-0"
+                className="p-1.5 rounded-lg text-amber-400 hover:text-amber-600 hover:bg-amber-100 transition-colors flex-shrink-0"
               >
                 <X size={15} />
               </button>
@@ -92,14 +92,14 @@ export default function AndroidInstallBanner() {
             <div className="mt-3 flex gap-2">
               <button
                 onClick={dismiss}
-                className="flex-1 py-2.5 rounded-xl text-[12px] font-semibold border border-green-200 text-green-700 transition-colors hover:bg-green-50"
+                className="flex-1 py-2.5 rounded-xl text-[12px] font-semibold border border-amber-200 text-amber-700 transition-colors hover:bg-amber-50"
               >
                 {t.pwaAndroid.later}
               </button>
               <button
                 onClick={handleInstall}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-[12px] font-semibold text-white transition-colors"
-                style={{ background: '#0A0A0A' }}
+                style={{ background: 'linear-gradient(135deg, #D97706, #F59E0B)' }}
               >
                 <Download size={13} />
                 {t.pwaAndroid.install}

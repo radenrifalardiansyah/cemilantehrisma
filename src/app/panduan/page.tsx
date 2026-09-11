@@ -81,18 +81,18 @@ export default function PanduanPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen" style={{ background: '#FFFFFF' }}>
+    <div className="min-h-screen" style={{ background: '#FFFBF5' }}>
       <Navbar />
       <Cart />
 
       {/* Hero */}
       <section className="relative pt-28 pb-10 px-4 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(212,175,55,0.13) 0%, transparent 60%), #FFFFFF',
+          background: 'radial-gradient(ellipse 70% 60% at 60% 40%, rgba(251,191,36,0.13) 0%, transparent 60%), #FFFBF5',
         }} />
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-100 border border-green-300/60 text-green-700 text-sm font-semibold mb-5"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100 border border-amber-300/60 text-amber-700 text-sm font-semibold mb-5"
           >
             <BookOpen size={14} />
             {locale === 'en' ? 'Complete Guide' : 'Panduan Lengkap'}
@@ -101,12 +101,12 @@ export default function PanduanPage() {
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }}
             className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
           >
-            <span className="text-green-950">{locale === 'en' ? 'How to ' : 'Cara '}</span>
+            <span className="text-amber-950">{locale === 'en' ? 'How to ' : 'Cara '}</span>
             <span className="gradient-text">{locale === 'en' ? 'Order' : 'Pesan'}</span>
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="text-green-800/60 text-sm sm:text-base max-w-xl mx-auto"
+            className="text-amber-800/60 text-sm sm:text-base max-w-xl mx-auto"
           >
             {locale === 'en'
               ? 'Step-by-step guide on how to order.'
@@ -116,7 +116,7 @@ export default function PanduanPage() {
       </section>
 
       {/* Sticky tab switcher */}
-      <div className="sticky top-16 sm:top-20 z-20 bg-white/90 backdrop-blur-md border-b border-green-100 shadow-sm">
+      <div className="sticky top-16 sm:top-20 z-20 bg-white/90 backdrop-blur-md border-b border-amber-100 shadow-sm">
         <div className="max-w-3xl mx-auto px-4">
           <div className="flex gap-1 py-2 overflow-x-auto no-scrollbar">
             {tabs.map(tab => (
@@ -124,13 +124,13 @@ export default function PanduanPage() {
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-colors duration-200 ${
-                  activeTab === tab.key ? 'text-green-800' : 'text-green-500 hover:text-green-700'
+                  activeTab === tab.key ? 'text-amber-800' : 'text-amber-500 hover:text-amber-700'
                 }`}
               >
                 {activeTab === tab.key && (
                   <motion.div
                     layoutId="guide-tab"
-                    className="absolute inset-0 bg-white rounded-xl border border-green-200 shadow-sm"
+                    className="absolute inset-0 bg-white rounded-xl border border-amber-200 shadow-sm"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
                   />
                 )}
@@ -153,17 +153,17 @@ export default function PanduanPage() {
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.28 }}
             >
-              <StepList steps={oSteps} color="#16A34A" />
+              <StepList steps={oSteps} color="#D97706" />
 
               {/* Info note: order tracking */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45 }}
-                className="mt-6 flex gap-3 bg-green-50 border border-green-200 rounded-2xl p-4"
+                className="mt-6 flex gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4"
               >
-                <ClipboardList size={18} className="text-green-500 flex-shrink-0 mt-0.5" />
-                <p className="text-green-700/80 text-xs leading-relaxed">
+                <ClipboardList size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                <p className="text-amber-700/80 text-xs leading-relaxed">
                   {locale === 'en'
                     ? 'Already have an account? Track the status of all your orders anytime via the "My Orders" menu after signing in.'
                     : 'Sudah punya akun? Pantau status semua pesananmu kapan saja lewat menu "Pesanan Saya" setelah masuk.'}
@@ -175,17 +175,17 @@ export default function PanduanPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="mt-6 bg-gradient-to-br from-green-700 to-green-600 rounded-2xl p-6 text-center shadow-lg"
+                className="mt-6 bg-gradient-to-br from-amber-700 to-orange-600 rounded-2xl p-6 text-center shadow-lg"
               >
                 <p className="text-white font-display font-bold text-lg mb-1">
                   {locale === 'en' ? 'Ready to order?' : 'Siap memesan?'}
                 </p>
-                <p className="text-green-200 text-sm mb-4">
+                <p className="text-amber-200 text-sm mb-4">
                   {locale === 'en' ? 'Browse our products and add to cart now.' : 'Lihat produk kami dan mulai belanja sekarang.'}
                 </p>
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 font-bold rounded-xl text-sm shadow hover:bg-green-50 transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-amber-700 font-bold rounded-xl text-sm shadow hover:bg-amber-50 transition-colors"
                 >
                   <ShoppingCart size={16} />
                   {locale === 'en' ? 'Shop Now' : 'Belanja Sekarang'}
@@ -216,14 +216,14 @@ export default function PanduanPage() {
               </motion.div>
 
               <div>
-                <p className="font-display font-bold text-green-900 text-base mb-3">
+                <p className="font-display font-bold text-amber-900 text-base mb-3">
                   {locale === 'en' ? 'How to Sign In' : 'Cara Masuk'}
                 </p>
                 <StepList steps={liSteps} color="#0284C7" />
               </div>
 
               <div>
-                <p className="font-display font-bold text-green-900 text-base mb-3">
+                <p className="font-display font-bold text-amber-900 text-base mb-3">
                   {locale === 'en' ? 'How to Register' : 'Cara Daftar'}
                 </p>
                 <StepList steps={reSteps} color="#DB2777" />
@@ -288,9 +288,9 @@ export default function PanduanPage() {
                   },
                   {
                     icon: Clock3,
-                    color: '#16A34A',
-                    bg: 'rgba(22,163,74,0.1)',
-                    border: 'rgba(22,163,74,0.25)',
+                    color: '#D97706',
+                    bg: 'rgba(217,119,6,0.1)',
+                    border: 'rgba(217,119,6,0.25)',
                     label: 'Purchase Order (PO)',
                     desc: locale === 'en'
                       ? 'Product is available via pre-order. Order now and we will process your request.'
@@ -318,7 +318,7 @@ export default function PanduanPage() {
                 items={[
                   {
                     icon: Flame,
-                    color: '#16A34A',
+                    color: '#EA580C',
                     bg: 'rgba(234,88,12,0.1)',
                     border: 'rgba(234,88,12,0.25)',
                     label: locale === 'en' ? 'Best Seller' : 'Best Seller',
@@ -354,10 +354,10 @@ export default function PanduanPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="flex gap-3 bg-green-50 border border-green-200 rounded-2xl p-4"
+                className="flex gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4"
               >
-                <Tag size={18} className="text-green-500 flex-shrink-0 mt-0.5" />
-                <p className="text-green-700/80 text-xs leading-relaxed">
+                <Tag size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                <p className="text-amber-700/80 text-xs leading-relaxed">
                   {locale === 'en'
                     ? 'Still have questions about a product? Chat directly with us via WhatsApp — we respond quickly!'
                     : 'Masih bingung dengan status produk? Chat langsung ke WhatsApp kami — kami balas dengan cepat!'}
@@ -388,13 +388,13 @@ function StatusGroup({ title, desc, items }: { title: string; desc: string; item
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl border border-green-100 overflow-hidden shadow-sm"
+      className="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm"
     >
-      <div className="px-4 pt-4 pb-2 border-b border-green-50">
-        <p className="font-bold text-green-900 text-sm">{title}</p>
-        <p className="text-green-600/60 text-xs mt-0.5">{desc}</p>
+      <div className="px-4 pt-4 pb-2 border-b border-amber-50">
+        <p className="font-bold text-amber-900 text-sm">{title}</p>
+        <p className="text-amber-600/60 text-xs mt-0.5">{desc}</p>
       </div>
-      <div className="divide-y divide-green-50">
+      <div className="divide-y divide-amber-50">
         {items.map((item, i) => {
           const Icon = item.icon;
           return (
@@ -412,7 +412,7 @@ function StatusGroup({ title, desc, items }: { title: string; desc: string; item
                 >
                   {item.label}
                 </span>
-                <p className="text-green-700/65 text-xs leading-relaxed">{item.desc}</p>
+                <p className="text-amber-700/65 text-xs leading-relaxed">{item.desc}</p>
               </div>
             </div>
           );
@@ -434,7 +434,7 @@ function StepList({ steps, color }: { steps: typeof orderSteps.id; color: string
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.07, duration: 0.35 }}
-              className="flex gap-4 bg-white rounded-2xl border border-green-100 p-4 shadow-sm hover:shadow-md hover:border-green-200 transition-all"
+              className="flex gap-4 bg-white rounded-2xl border border-amber-100 p-4 shadow-sm hover:shadow-md hover:border-amber-200 transition-all"
             >
               {/* Number + Icon */}
               <div className="flex flex-col items-center gap-1 flex-shrink-0">
@@ -453,8 +453,8 @@ function StepList({ steps, color }: { steps: typeof orderSteps.id; color: string
               </div>
               {/* Text */}
               <div className="flex-1 min-w-0 pt-0.5">
-                <p className="font-bold text-green-900 text-sm mb-1">{step.title}</p>
-                <p className="text-green-700/65 text-xs leading-relaxed">{step.desc}</p>
+                <p className="font-bold text-amber-900 text-sm mb-1">{step.title}</p>
+                <p className="text-amber-700/65 text-xs leading-relaxed">{step.desc}</p>
               </div>
             </motion.li>
           );

@@ -69,8 +69,8 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
   const categories = [...liveCards, ...legacyCards];
   return (
     <>
-    <footer className={`relative bg-green-800 overflow-hidden ${fullOnMobile ? 'block' : 'hidden md:block'}`}>
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/60 to-transparent" />
+    <footer className={`relative bg-amber-800 overflow-hidden ${fullOnMobile ? 'block' : 'hidden md:block'}`}>
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -82,11 +82,11 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
             className="sm:col-span-2 lg:col-span-1"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-green-700/60 shadow-lg flex-shrink-0">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-amber-700/60 shadow-lg flex-shrink-0">
                 <Image src={logo} alt={branding.brandName} fill className="object-cover" />
               </div>
               <div>
-                <p className="font-display text-xl font-bold text-green-200 leading-none">{brandFirstWord}</p>
+                <p className="font-display text-xl font-bold text-amber-200 leading-none">{brandFirstWord}</p>
                 <p className="font-display text-base font-bold gradient-text leading-none">{brandRestWords}</p>
               </div>
             </div>
@@ -98,7 +98,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="text-green-50/90 text-sm leading-relaxed absolute inset-0"
+                  className="text-amber-50/90 text-sm leading-relaxed absolute inset-0"
                 >
                   {footerDescs[locale]?.[descIndex] ?? footerDescs.id[descIndex]}
                 </motion.p>
@@ -127,7 +127,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 href={branding.shopeeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-green-500 flex items-center justify-center border border-green-400 hover:bg-green-400 transition-all"
+                className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center border border-orange-400 hover:bg-orange-400 transition-all"
                 aria-label="Shopee tehrisma.id"
               >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -146,15 +146,15 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h4 className="font-display font-bold text-green-100 mb-4 text-sm">{t.footer.navigation}</h4>
+            <h4 className="font-display font-bold text-amber-100 mb-4 text-sm">{t.footer.navigation}</h4>
             <ul className="space-y-2.5">
               {quickLinks.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-green-50/90 hover:text-white text-sm transition-colors flex items-center gap-2 group"
+                    className="text-amber-50/90 hover:text-white text-sm transition-colors flex items-center gap-2 group"
                   >
-                    <span className="w-1 h-1 rounded-full bg-green-700 group-hover:bg-green-500 transition-colors" />
+                    <span className="w-1 h-1 rounded-full bg-amber-700 group-hover:bg-amber-500 transition-colors" />
                     {link.label}
                   </Link>
                 </li>
@@ -169,13 +169,13 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
           >
-            <h4 className="font-display font-bold text-green-100 mb-4 text-sm">{t.footer.flavors}</h4>
+            <h4 className="font-display font-bold text-amber-100 mb-4 text-sm">{t.footer.flavors}</h4>
             <ul className="space-y-2.5">
               {categories.map(cat => (
                 <li key={cat.label}>
                   <Link
                     href={cat.href}
-                    className="text-green-50/90 hover:text-white text-sm transition-colors flex items-center gap-2"
+                    className="text-amber-50/90 hover:text-white text-sm transition-colors flex items-center gap-2"
                   >
                     <span>{cat.emoji}</span>
                     {cat.label}
@@ -192,12 +192,12 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="font-display font-bold text-green-100 mb-4 text-sm">{t.footer.contact}</h4>
+            <h4 className="font-display font-bold text-amber-100 mb-4 text-sm">{t.footer.contact}</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5">
-                <MapPin size={14} className="text-green-100 mt-0.5 flex-shrink-0" />
+                <MapPin size={14} className="text-amber-100 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-green-50/90 text-sm leading-snug">
+                  <p className="text-amber-50/90 text-sm leading-snug">
                     {branding.address}<br />
                     {branding.city}
                   </p>
@@ -205,7 +205,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                     href={branding.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 mt-1.5 text-xs font-semibold text-green-300 hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 mt-1.5 text-xs font-semibold text-amber-300 hover:text-white transition-colors"
                   >
                     <MapPin size={10} />
                     {t.footer.mapsLink}
@@ -213,52 +213,52 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 </div>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone size={14} className="text-green-100 flex-shrink-0" />
+                <Phone size={14} className="text-amber-100 flex-shrink-0" />
                 <a
                   href={branding.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-50/90 hover:text-white text-sm transition-colors"
+                  className="text-amber-50/90 hover:text-white text-sm transition-colors"
                 >
                   0812-1213-2014
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Instagram size={14} className="text-green-100 flex-shrink-0" />
+                <Instagram size={14} className="text-amber-100 flex-shrink-0" />
                 <a
                   href={branding.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-50/90 hover:text-white text-sm transition-colors"
+                  className="text-amber-50/90 hover:text-white text-sm transition-colors"
                 >
                   @{branding.instagramHandle}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Clock size={14} className="text-green-100 flex-shrink-0" />
-                <span className="text-green-50/90 text-sm">{t.footer.hours}</span>
+                <Clock size={14} className="text-amber-100 flex-shrink-0" />
+                <span className="text-amber-50/90 text-sm">{t.footer.hours}</span>
               </li>
             </ul>
           </motion.div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-green-600/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-12 pt-6 border-t border-amber-600/60 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex flex-col items-center sm:items-start gap-0.5">
-            <p className="text-green-50/85 text-sm">{t.footer.copyright(branding.brandName)}</p>
-            <p className="text-green-200/70 text-xs whitespace-nowrap">
+            <p className="text-amber-50/85 text-sm">{t.footer.copyright(branding.brandName)}</p>
+            <p className="text-amber-200/70 text-xs whitespace-nowrap">
               {locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}
               <a
                 href={DEVELOPER.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green-300/80 hover:text-green-200 transition-colors"
+                className="text-amber-300/80 hover:text-amber-200 transition-colors"
               >
                 {DEVELOPER.name}
               </a>
               {locale === 'en' ? ` · supported by ${DEVELOPER.supportedBy}` : ` · didukung oleh ${DEVELOPER.supportedBy}`}
             </p>
           </div>
-          <div className="flex items-center gap-1.5 text-green-50/75 text-sm">
+          <div className="flex items-center gap-1.5 text-amber-50/75 text-sm">
             <span>{t.footer.madeWith}</span>
             <span className="text-red-400">♥</span>
             <span>{t.footer.madeFrom}</span>
@@ -268,19 +268,19 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
     </footer>
 
     {!fullOnMobile && (
-      <div className="block md:hidden bg-green-800 border-t border-green-700/50 px-4 py-3 text-center">
-        <p className="text-green-50/70 text-xs mb-1">{t.footer.copyright(branding.brandName)}</p>
+      <div className="block md:hidden bg-amber-800 border-t border-amber-700/50 px-4 py-3 text-center">
+        <p className="text-amber-50/70 text-xs mb-1">{t.footer.copyright(branding.brandName)}</p>
         <p className="text-[10px] mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
-          <span className="text-green-200/50">{locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}</span>
+          <span className="text-amber-200/50">{locale === 'en' ? 'Developed by ' : 'Dikembangkan oleh '}</span>
           <a
             href={DEVELOPER.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-green-300/70 hover:text-green-200 transition-colors underline underline-offset-2"
+            className="text-amber-300/70 hover:text-amber-200 transition-colors underline underline-offset-2"
           >
             {DEVELOPER.name}
           </a>
-          <span className="text-green-200/50">{locale === 'en' ? ` · supported by ${DEVELOPER.supportedBy}` : ` · didukung oleh ${DEVELOPER.supportedBy}`}</span>
+          <span className="text-amber-200/50">{locale === 'en' ? ` · supported by ${DEVELOPER.supportedBy}` : ` · didukung oleh ${DEVELOPER.supportedBy}`}</span>
         </p>
       </div>
     )}
