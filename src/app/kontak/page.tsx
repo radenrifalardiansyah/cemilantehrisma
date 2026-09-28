@@ -11,15 +11,14 @@ import Cart from '@/components/Cart';
 import BottomNav from '@/components/BottomNav';
 import { useLiveBranding } from '@/lib/useLiveBranding';
 import { useLanguage } from '@/contexts/LanguageContext';
-import logo from '@/assets/images/logo-tehrisma.jpeg';
-import { LiveBranding } from '@/lib/branding';
+import { LiveBranding, whatsappLink } from '@/lib/branding';
 
 const getContacts = (branding: LiveBranding) => [
   {
     icon: Phone,
     label: 'WhatsApp',
-    value: '0812-1213-2014',
-    href: `https://wa.me/${branding.whatsappNumber}`,
+    value: branding.whatsappDisplay,
+    href: branding.whatsappUrl,
     color: '#16A34A',
     bg: 'rgba(22,163,74,0.08)',
     border: 'rgba(22,163,74,0.2)',
@@ -36,13 +35,13 @@ const getContacts = (branding: LiveBranding) => [
   {
     icon: ShoppingBag,
     label: 'Shopee',
-    value: 'tehrisma.id',
+    value: branding.shopeeName,
     href: branding.shopeeUrl,
     color: '#EE4D2D',
     bg: 'rgba(238,77,45,0.08)',
     border: 'rgba(238,77,45,0.2)',
   },
-];
+].filter(c => c.href);
 
 export default function KontakPage() {
   const { t } = useLanguage();
@@ -62,10 +61,10 @@ export default function KontakPage() {
           className="flex flex-col items-center text-center mb-8"
         >
           <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-amber-200 shadow-lg mb-4">
-            <Image src={logo} alt={branding.brandName} fill className="object-cover" />
+            <Image src={branding.logoUrl} alt={branding.brandName} fill sizes="80px" className="object-cover" />
           </div>
           <h1 className="font-display text-2xl font-bold text-amber-950 mb-1">{branding.brandName}</h1>
-          <p className="text-amber-700/60 text-sm">{t.kontak.subtitle}</p>
+          <p className="text-amber-700/60 text-sm">{branding.tagline || t.kontak.subtitle}</p>
         </motion.div>
 
         {/* Maps embed */}
@@ -167,7 +166,7 @@ export default function KontakPage() {
 
         {/* WA order shortcut */}
         <motion.a
-          href={`https://wa.me/${branding.whatsappNumber}?text=${encodeURIComponent('Halo Karya Putra, saya mau pesan cemilan')}`}
+          href={whatsappLink(branding, `Halo ${branding.brandName}, saya mau pesan`)}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 12 }}

@@ -1,3 +1,5 @@
+import { LiveBranding, whatsappLink } from '@/lib/branding';
+
 export const formatCurrency = (amount: number): string =>
   new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
 
@@ -11,13 +13,12 @@ export interface ResellerInfo {
   pengalaman: string;
 }
 
-export const formatResellerMessage = (data: ResellerInfo): string => {
+export const formatResellerMessage = (data: ResellerInfo, brandName: string): string => {
   const platformLine = data.platform.length > 0 ? data.platform.join(', ') : '-';
   const pengalamanLine = data.pengalaman.trim() || '-';
   const paketLine = data.paket || '-';
 
-  return `*PENDAFTARAN RESELLER MIE KREMES TEH RISMA*
-_Asli Gurihnya, Mantap Pedasnya!_
+  return `*PENDAFTARAN RESELLER ${brandName.toUpperCase()}*
 
 *Data Pendaftar*
 Nama      : ${data.nama}
@@ -30,11 +31,10 @@ Paket     : ${paketLine}
 Platform  : ${platformLine}
 Pengalaman: ${pengalamanLine}
 
-Saya ingin *secure slot* reseller Mie Kremes Teh Risma. Mohon info lebih lanjut ya Teh, terima kasih!`.trim();
+Saya ingin *secure slot* reseller ${brandName}. Mohon info lebih lanjut ya, terima kasih!`.trim();
 };
 
-export const openResellerWhatsApp = (data: ResellerInfo, whatsappNumber: string): void => {
-  const message = formatResellerMessage(data);
-  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+export const openResellerWhatsApp = (data: ResellerInfo, branding: Pick<LiveBranding, 'brandName' | 'whatsappNumber'>): void => {
+  const url = whatsappLink(branding, formatResellerMessage(data, branding.brandName));
   window.open(url, '_blank', 'noopener,noreferrer');
 };

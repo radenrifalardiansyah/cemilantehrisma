@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { MapPin, Phone, Clock, Instagram, MessageCircle } from 'lucide-react';
 import { DEVELOPER } from '@/lib/branding';
 import { useLiveBranding } from '@/lib/useLiveBranding';
@@ -10,19 +10,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useLiveProducts } from '@/lib/useLiveProducts';
 import { useLiveCategories } from '@/lib/useLiveCategories';
 import { categoryData } from '@/lib/products';
-import logo from '@/assets/images/logo-tehrisma.jpeg';
-import { useState, useEffect } from 'react';
-
-const footerDescs = {
-  id: [
-    'Keripik Kimpul renyah khas Bogor. Gurih, nagih, tanpa pengawet.',
-    'Mie Kremes crispy khas Bogor. Gurih, renyah, tanpa pengawet.',
-  ],
-  en: [
-    'Crunchy Kimpul chips from Bogor. Savory & addictive.',
-    'Crispy Mie Kremes from Bogor. Savory & crunchy.',
-  ],
-};
 
 export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolean }) {
   const { t, locale } = useLanguage();
@@ -31,14 +18,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
   const brandRestWords = brandRestWordsArr.join(' ') || brandFirstWord;
   const products = useLiveProducts();
   const liveCategories = useLiveCategories();
-  const [descIndex, setDescIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDescIndex(i => (i + 1) % 2);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
+  const footerDesc = branding.description || branding.tagline;
 
   const quickLinks = [
     { href: '/', label: t.footer.links.home },
@@ -83,29 +63,20 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-amber-700/60 shadow-lg flex-shrink-0">
-                <Image src={logo} alt={branding.brandName} fill className="object-cover" />
+                <Image src={branding.logoUrl} alt={branding.brandName} fill sizes="56px" className="object-cover" />
               </div>
               <div>
                 <p className="font-display text-xl font-bold text-amber-200 leading-none">{brandFirstWord}</p>
                 <p className="font-display text-base font-bold gradient-text leading-none">{brandRestWords}</p>
               </div>
             </div>
-            <div className="mb-5 max-w-xs h-12 relative overflow-hidden">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={descIndex}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="text-amber-50/90 text-sm leading-relaxed absolute inset-0"
-                >
-                  {footerDescs[locale]?.[descIndex] ?? footerDescs.id[descIndex]}
-                </motion.p>
-              </AnimatePresence>
-            </div>
+            {footerDesc && (
+              <p className="mb-5 max-w-xs text-amber-50/90 text-sm leading-relaxed line-clamp-3">
+                {footerDesc}
+              </p>
+            )}
             <div className="flex gap-3">
-              <a
+              {branding.whatsappUrl && <a
                 href={branding.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -113,8 +84,8 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 aria-label="WhatsApp"
               >
                 <MessageCircle size={16} />
-              </a>
-              <a
+              </a>}
+              {branding.instagramUrl && <a
                 href={branding.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -122,20 +93,20 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                 aria-label={`Instagram @${branding.instagramHandle}`}
               >
                 <Instagram size={16} />
-              </a>
-              <a
+              </a>}
+              {branding.shopeeUrl && <a
                 href={branding.shopeeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center border border-orange-400 hover:bg-orange-400 transition-all"
-                aria-label="Shopee tehrisma.id"
+                aria-label={`Shopee ${branding.shopeeName}`}
               >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2C9.8 2 8 3.8 8 6H4.5C3.7 6 3 6.6 3 7.4L2 19.4C1.9 20.3 2.6 21 3.5 21H20.5C21.4 21 22.1 20.3 22 19.4L21 7.4C21 6.6 20.3 6 19.5 6H16C16 3.8 14.2 2 12 2ZM12 3.5C13.4 3.5 14.5 4.6 14.5 6H9.5C9.5 4.6 10.6 3.5 12 3.5Z" fill="#EE4D2D"/>
                   <circle cx="8.5" cy="12" r="1.5" fill="#EE4D2D"/>
                   <circle cx="15.5" cy="12" r="1.5" fill="#EE4D2D"/>
                 </svg>
-              </a>
+              </a>}
             </div>
           </motion.div>
 
@@ -220,7 +191,7 @@ export default function Footer({ fullOnMobile = false }: { fullOnMobile?: boolea
                   rel="noopener noreferrer"
                   className="text-amber-50/90 hover:text-white text-sm transition-colors"
                 >
-                  0812-1213-2014
+                  {branding.whatsappDisplay}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">

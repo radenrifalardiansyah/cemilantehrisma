@@ -309,7 +309,7 @@ export default function BottomNav() {
                     </p>
                     <p className="text-amber-800 font-bold text-sm">{DEVELOPER.supportedBy}</p>
                   </div>
-                  <p className="text-center text-amber-400/70 text-[10px] pt-1">© 2026 {branding.brandName}</p>
+                  <p className="text-center text-amber-400/70 text-[10px] pt-1">© {new Date().getFullYear()} {branding.brandName}</p>
                 </div>
               </div>
             </motion.div>

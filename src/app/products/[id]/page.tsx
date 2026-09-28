@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { products } from '@/lib/products';
-import { SITE_URL } from '@/lib/branding';
+import { absoluteUrl } from '@/lib/branding';
 import { getCachedBranding } from '@/lib/server/branding';
 import { imageSrc } from '@/lib/liveProducts';
 import { getMergedProduct } from '@/lib/server/getProduct';
@@ -39,11 +39,11 @@ export async function generateMetadata(
   return {
     title,
     description: plainDescription,
-    keywords: [product.name, `beli ${product.name.toLowerCase()}`, `${product.name.toLowerCase()} bogor`, product.category],
+    keywords: [product.name, `beli ${product.name.toLowerCase()}`, ...(branding.region ? [`${product.name.toLowerCase()} ${branding.region.toLowerCase()}`] : []), product.category],
     openGraph: {
       title: `${title} | ${branding.brandName}`,
       description: plainDescription,
-      url: `${SITE_URL}/products/${product.id}`,
+      url: `${branding.siteUrl}/products/${product.id}`,
       images: imagePath ? [{ url: imagePath }] : undefined,
     },
     twitter: {
@@ -52,7 +52,7 @@ export async function generateMetadata(
       description: plainDescription,
     },
     alternates: {
-      canonical: `${SITE_URL}/products/${product.id}`,
+      canonical: `${branding.siteUrl}/products/${product.id}`,
     },
   };
 }
@@ -74,11 +74,11 @@ export default async function ProductDetailPage(
     name: product.name,
     description: stripFormatting(product.description),
     category: product.category,
-    image: imagePath ? `${SITE_URL}${imagePath}` : undefined,
+    image: imagePath ? absoluteUrl(branding.siteUrl, imagePath) : undefined,
     brand: { '@type': 'Brand', name: branding.brandName },
     offers: {
       '@type': 'Offer',
-      url: `${SITE_URL}/products/${product.id}`,
+      url: `${branding.siteUrl}/products/${product.id}`,
       priceCurrency: 'IDR',
       price: product.price,
       availability: availabilityMap[product.stock] ?? 'https://schema.org/InStock',

@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import logo from '@/assets/images/logo-tehrisma.jpeg';
 import imgOri    from '@/assets/images/Keripik Kimpul 100g Original.png';
 import imgBBQ    from '@/assets/images/Keripik Kimpul 100g BBQ.png';
 import imgBBQPdas from '@/assets/images/Keripik Kimpul 100g BBQ Pedas.png';
 import imgJgn    from '@/assets/images/Keripik Kimpul 100g Jagung.png';
 import HalalBadge from '@/components/HalalBadge';
 import KimpulCardStack from '@/components/KimpulCardStack';
-import { DEVELOPER } from '@/lib/branding';
+import { DEVELOPER, whatsappLink } from '@/lib/branding';
 import { getCachedBranding } from '@/lib/server/branding';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,6 +21,9 @@ export async function generateMetadata(): Promise<Metadata> {
 // ── Warna tema: sesuai stiker produk Keripik Kimpul (amber-700 → yellow-500 → amber-400)
 export default async function KeripikKimpulProposalPage() {
   const branding = await getCachedBranding();
+  const region = branding.region || branding.city;
+  const location = branding.city || branding.region;
+  const year = new Date().getFullYear();
   return (
     <div className="min-h-screen bg-[#FFFBF2] font-[Inter,sans-serif] text-[#1C0A00]">
       <style>{`
@@ -54,13 +56,13 @@ export default async function KeripikKimpulProposalPage() {
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 bg-amber-100 border border-amber-300 rounded-full px-4 py-1.5 text-amber-700 text-sm font-medium mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                Proposal Kerjasama Resmi · 2026
+                Proposal Kerjasama Resmi · {year}
               </div>
 
               {/* Logo kecil + brand */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="logo-float flex-shrink-0">
-                  <Image src={logo} alt="Logo Karya Putra" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
+                  <Image src={branding.logoUrl} alt={`Logo ${branding.brandName}`} width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
                 </div>
                 <p className="text-xs text-amber-700 font-semibold tracking-wide">{branding.brandName}</p>
               </div>
@@ -70,7 +72,7 @@ export default async function KeripikKimpulProposalPage() {
                 <span className="text-amber-600">Keripik Kimpul</span>
               </h1>
               <p className="text-[#3D1A00]/60 text-sm md:text-base max-w-md">
-                Keripik talas balitung renyah khas Bogor — 4 varian rasa, 2 ukuran kemasan, bersertifikat Halal & tanpa pengawet.
+                Keripik talas balitung renyah khas {region} — 4 varian rasa, 2 ukuran kemasan, bersertifikat Halal & tanpa pengawet.
               </p>
 
               {/* Stats */}
@@ -113,7 +115,7 @@ export default async function KeripikKimpulProposalPage() {
             <div className="text-[#3D1A00]/80 leading-relaxed space-y-4 text-[15px]">
               <p>Assalamu&apos;alaikum Wr. Wb.</p>
               <p>
-                Dengan hormat, saya dari <strong className="text-amber-700">{branding.brandName}</strong> — usaha camilan rumahan khas Bogor yang telah bersertifikat <strong>Halal Indonesia</strong> dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk <strong>Keripik Kimpul Talas Balitung</strong> di tempat yang Bapak/Ibu kelola.
+                Dengan hormat, saya dari <strong className="text-amber-700">{branding.brandName}</strong> — usaha camilan rumahan khas {region} yang telah bersertifikat <strong>Halal Indonesia</strong> dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk <strong>Keripik Kimpul Talas Balitung</strong> di tempat yang Bapak/Ibu kelola.
               </p>
 
               {/* Product summary box */}
@@ -126,7 +128,7 @@ export default async function KeripikKimpulProposalPage() {
                     ['Ukuran', '100g · 250g (Jumbo)'],
                     ['Harga Eceran', 'Rp 15.000 (100g) · Rp 26.500 (250g)'],
                     ['Masa Simpan', '3 bulan (kemasan kedap udara)'],
-                    ['Legalitas', 'Halal Indonesia · NIB 0403260068412'],
+                    ['Legalitas', ['Halal Indonesia', branding.nib && `NIB ${branding.nib}`].filter(Boolean).join(' · ')],
                   ].map(([k, v]) => (
                     <div key={k} className="flex gap-2">
                       <span className="text-amber-700 font-semibold flex-shrink-0 w-28">{k}</span>
@@ -162,17 +164,17 @@ export default async function KeripikKimpulProposalPage() {
               </div>
 
               <p>
-                Kami percaya Keripik Kimpul memiliki daya tarik kuat sebagai <strong>oleh-oleh khas Bogor</strong> yang autentik — bahan baku lokal, rasa yang unik, dan kemasan yang menarik. Kami siap berdiskusi lebih lanjut mengenai mekanisme, jumlah, maupun jadwal pengiriman yang paling sesuai untuk toko Anda.
+                Kami percaya Keripik Kimpul memiliki daya tarik kuat sebagai <strong>oleh-oleh khas {region}</strong> yang autentik — bahan baku lokal, rasa yang unik, dan kemasan yang menarik. Kami siap berdiskusi lebih lanjut mengenai mekanisme, jumlah, maupun jadwal pengiriman yang paling sesuai untuk toko Anda.
               </p>
               <p>Wassalamu&apos;alaikum Wr. Wb.</p>
               <div className="mt-6 pt-6 border-t border-amber-100 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
                   <p className="font-semibold text-[#1C0A00]">Hormat kami,</p>
                   <p className="pf text-xl font-bold text-amber-700 mt-1">{branding.brandName}</p>
-                  <p className="text-sm text-[#3D1A00]/60">Bogor, Jawa Barat</p>
+                  <p className="text-sm text-[#3D1A00]/60">{location}</p>
                 </div>
                 <a
-                  href={`https://wa.me/${branding.whatsappNumber}?text=Halo%20Teh%20Risma%2C%20saya%20tertarik%20dengan%20proposal%20Keripik%20Kimpul.%20Bisa%20kita%20diskusi%20lebih%20lanjut%3F`}
+                  href={whatsappLink(branding, `Halo ${branding.brandName}, saya tertarik dengan proposal Keripik Kimpul. Bisa kita diskusi lebih lanjut?`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors self-start sm:self-auto"
@@ -394,12 +396,12 @@ export default async function KeripikKimpulProposalPage() {
           <ST icon="⭐" label="Keunggulan" title="Mengapa Keripik Kimpul?" />
           <div className="grid md:grid-cols-2 gap-4 mt-6">
             {[
-              { icon: '🌱', title: 'Bahan Baku Lokal Bogor', desc: 'Menggunakan talas kimpul / balitung pilihan dari petani lokal Bogor. Mendukung ekonomi lokal sekaligus menjaga kualitas bahan.' },
+              { icon: '🌱', title: `Bahan Baku Lokal ${region}`, desc: `Menggunakan talas kimpul / balitung pilihan dari petani lokal ${region}. Mendukung ekonomi lokal sekaligus menjaga kualitas bahan.` },
               { icon: '🔊', title: 'Super Renyah & Tahan Lama', desc: 'Tekstur crispy yang tahan lama bahkan setelah kemasan dibuka. Proses penggorengan dan pengemasan yang tepat mempertahankan kerenyahan.' },
               { icon: '✅', title: 'HALAL & Tanpa Pengawet', desc: 'Bersertifikat Halal Indonesia. Tidak ada bahan pengawet kimia — aman untuk seluruh keluarga, termasuk anak-anak.' },
               { icon: '📅', title: 'Masa Simpan 3 Bulan', desc: 'Dikemas kedap udara sehingga tahan hingga 3 bulan. Stok toko aman tanpa khawatir cepat kadaluarsa.' },
               { icon: '🎨', title: '4 Rasa, 2 Ukuran', desc: 'Variasi rasa (Original, BBQ, BBQ Pedas, Jagung) dan ukuran (100g, 250g) memungkinkan segmentasi harga yang fleksibel untuk toko Anda.' },
-              { icon: '🏆', title: 'Potensi Oleh-Oleh Khas', desc: 'Talas kimpul adalah bahan khas Bogor yang ikonik. Produk ini memiliki identitas lokal yang kuat — nilai jual sebagai oleh-oleh autentik.' },
+              { icon: '🏆', title: 'Potensi Oleh-Oleh Khas', desc: `Talas kimpul adalah bahan khas ${region} yang ikonik. Produk ini memiliki identitas lokal yang kuat — nilai jual sebagai oleh-oleh autentik.` },
             ].map(item => (
               <div key={item.title} className="bg-white rounded-xl border border-amber-100 p-5 flex gap-4">
                 <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-xl flex-shrink-0">{item.icon}</div>
@@ -559,7 +561,7 @@ export default async function KeripikKimpulProposalPage() {
 
                 <div className="pt-2">
                   <a
-                    href={`https://wa.me/${branding.whatsappNumber}?text=Halo%20Teh%20Risma%2C%20saya%20tertarik%20beli%20putus%20Keripik%20Kimpul.%20Bisa%20minta%20info%20harga%20reseller%3F`}
+                    href={whatsappLink(branding, `Halo ${branding.brandName}, saya tertarik beli putus Keripik Kimpul. Bisa minta info harga reseller?`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm py-2.5 px-4 rounded-xl transition-colors"
@@ -608,7 +610,7 @@ export default async function KeripikKimpulProposalPage() {
           <ST icon="📜" label="Legalitas" title="Legalitas &amp; Kepercayaan" />
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             {[
-              { icon: '🔰', t: 'NIB Resmi', sub: '0403260068412', d: 'Terdaftar resmi di OSS — Kementerian Investasi RI.' },
+              { icon: '🔰', t: 'NIB Resmi', sub: branding.nib || '-', d: 'Terdaftar resmi di OSS — Kementerian Investasi RI.' },
               { icon: 'halal', t: 'Halal Certified', sub: 'Sertifikat Halal Indonesia', d: 'Aman dikonsumsi seluruh kalangan, termasuk anak-anak.' },
               { icon: '🏭', t: 'Produksi Higienis', sub: 'Standar Keamanan Pangan', d: 'Diproduksi di fasilitas bersih dengan standar higienitas tinggi.' },
             ].map(item => (
@@ -647,7 +649,7 @@ export default async function KeripikKimpulProposalPage() {
               <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
                 <div className="text-xl mb-1">📱</div>
                 <div className="text-xs text-amber-700 font-semibold">WhatsApp</div>
-                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">+62 812-1213-2014</div>
+                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">{branding.whatsappDisplay}</div>
               </a>
               <a href="/" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
                 <div className="text-xl mb-1">🛒</div>
@@ -657,18 +659,18 @@ export default async function KeripikKimpulProposalPage() {
               <div className="bg-white rounded-xl border border-amber-100 p-3">
                 <div className="text-xl mb-1">📍</div>
                 <div className="text-xs text-amber-700 font-semibold">Lokasi</div>
-                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">Bogor, Jawa Barat</div>
+                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">{location}</div>
               </div>
             </div>
           </div>
-          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>{branding.brandName}</strong> — Bogor · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
+          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>{branding.brandName}</strong> — {region} · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
         </section>
       </div>
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
-          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/50">© {year} <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
           <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#3D1A00]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>

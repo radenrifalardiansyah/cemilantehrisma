@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLiveBranding } from '@/lib/useLiveBranding';
 
@@ -12,6 +11,8 @@ export default function SplashScreen() {
   const [visible, setVisible] = useState<boolean | null>(null);
   const { t } = useLanguage();
   const branding = useLiveBranding();
+  const [brandFirstWord, ...brandRestWordsArr] = branding.brandName.split(' ');
+  const brandRestWords = brandRestWordsArr.join(' ');
 
   useEffect(() => {
     const isStandalone =
@@ -48,7 +49,7 @@ export default function SplashScreen() {
             className="relative w-28 h-28 rounded-full overflow-hidden shadow-2xl mb-6"
             style={{ border: '4px solid #F59E0B' }}
           >
-            <Image src={logo} alt={branding.brandName} fill className="object-cover" priority />
+            <Image src={branding.logoUrl} alt={branding.brandName} fill sizes="112px" className="object-cover" priority />
           </div>
 
           {/* Brand name */}
@@ -62,13 +63,13 @@ export default function SplashScreen() {
               className="font-display text-3xl font-bold leading-tight"
               style={{ color: '#78350F' }}
             >
-              Karya
+              {brandFirstWord}
             </p>
             <p
               className="font-display text-3xl font-bold leading-tight"
               style={{ background: 'linear-gradient(135deg, #D97706, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
             >
-              Putra
+              {brandRestWords}
             </p>
           </motion.div>
 
@@ -80,7 +81,7 @@ export default function SplashScreen() {
             className="text-sm mt-3"
             style={{ color: '#B45309' }}
           >
-            {t.splash.tagline}
+            {branding.tagline || t.splash.tagline}
           </motion.p>
 
           {/* Loading dots */}

@@ -13,7 +13,6 @@ const en: Record<string, ProductLocale> = {
     details: [
       'Ingredients: Dried Noodles, Vegetable Oil, Kencur, Garlic, Lime Leaves',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'No preservatives, super crispy texture',
       'Perfect for afternoon snacking & relaxing',
     ],
@@ -24,18 +23,16 @@ const en: Record<string, ProductLocale> = {
     details: [
       'Ingredients: Dried Noodles, Real Chili Powder, Spicy Seasoning, Lime Leaves, Kencur, Garlic',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'No preservatives, super crispy texture',
       'For true spice lovers!',
     ],
   },
   'kk-ori-100': {
     name: 'Original Kimpul Chips',
-    description: 'Super crunchy kimpul / taro balitung chips with a natural savory original flavor. Selected ingredients from local Bogor farmers.',
+    description: 'Super crunchy kimpul / taro balitung chips with a natural savory original flavor. Selected ingredients from local farmers.',
     details: [
       'Ingredients: Selected Kimpul Taro, Cooking Oil, Salt',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'No preservatives, stays fresh up to 3 months',
       'Great for souvenirs & daily snacking',
     ],
@@ -46,7 +43,6 @@ const en: Record<string, ProductLocale> = {
     details: [
       'Ingredients: Selected Kimpul Taro, Cooking Oil, Salt, BBQ Flavor Powder',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'No preservatives, stays fresh up to 3 months',
       'Great for snacking with friends & family',
     ],
@@ -57,7 +53,6 @@ const en: Record<string, ProductLocale> = {
     details: [
       'Ingredients: Selected Kimpul Taro, Cooking Oil, Salt, Sweet Corn Powder',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'No preservatives, stays fresh up to 3 months',
       'Kids\' favorite & great as a lunch box snack',
     ],
@@ -68,7 +63,6 @@ const en: Record<string, ProductLocale> = {
     details: [
       'Ingredients: Selected Kimpul Taro, Cooking Oil, Salt',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'Jumbo 250g — better value than 100g',
       'Stays fresh up to 3 months from production',
     ],
@@ -79,7 +73,6 @@ const en: Record<string, ProductLocale> = {
     details: [
       'Ingredients: Selected Kimpul Taro, Cooking Oil, Salt, BBQ Flavor Powder',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'Jumbo 250g — even greater savings',
       'Stays fresh up to 3 months from production',
     ],
@@ -90,7 +83,6 @@ const en: Record<string, ProductLocale> = {
     details: [
       'Ingredients: Selected Kimpul Taro, Cooking Oil, Salt, Sweet Corn Powder',
       'HALAL Indonesia Certified',
-      'NIB: 0403260068412 — Made in Bogor',
       'Jumbo 250g — even greater savings',
       'Stays fresh up to 3 months from production',
     ],

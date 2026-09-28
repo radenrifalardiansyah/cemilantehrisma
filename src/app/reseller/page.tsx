@@ -40,9 +40,9 @@ const pakets = [
 ];
 
 const resellers = [
-  { id: 1, nama: 'Ibu Sari', kota: 'Bogor Barat', platform: ['WhatsApp', 'Instagram'], bergabung: 'Jan 2025' },
-  { id: 2, nama: 'Kak Dina', kota: 'Bogor Tengah', platform: ['Shopee', 'Tokopedia'], bergabung: 'Mar 2025' },
-  { id: 3, nama: 'Pak Rudi', kota: 'Bogor Timur', platform: ['Offline', 'WhatsApp'], bergabung: 'Apr 2025' },
+  { id: 1, nama: 'Ibu Sari', kota: 'Barat', platform: ['WhatsApp', 'Instagram'], bergabung: 'Jan 2025' },
+  { id: 2, nama: 'Kak Dina', kota: 'Tengah', platform: ['Shopee', 'Tokopedia'], bergabung: 'Mar 2025' },
+  { id: 3, nama: 'Pak Rudi', kota: 'Timur', platform: ['Offline', 'WhatsApp'], bergabung: 'Apr 2025' },
 ];
 
 const PLATFORM_FIXED = ['WhatsApp', 'Instagram', 'Shopee', 'Tokopedia', 'TikTok Shop'];
@@ -96,7 +96,7 @@ export default function ResellerPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    openResellerWhatsApp(form, branding.whatsappNumber);
+    openResellerWhatsApp(form, branding);
   };
 
   const inputClass = (field: keyof ResellerInfo) =>
@@ -296,7 +296,7 @@ export default function ResellerPage() {
                     <BadgeCheck size={14} className="text-amber-500" />
                   </div>
                   <div className="flex items-center gap-1 text-amber-600/60 text-xs">
-                    <MapPin size={10} /> {r.kota}
+                    <MapPin size={10} /> {[branding.region, r.kota].filter(Boolean).join(' ')}
                   </div>
                 </div>
               </div>

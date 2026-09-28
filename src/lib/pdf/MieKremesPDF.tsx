@@ -1,17 +1,22 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import { THEME_COLOR } from '@/lib/branding';
+import { DEFAULT_THEME_COLOR, hostOf, type LiveBranding } from '@/lib/branding';
+
+const YEAR = new Date().getFullYear();
+const locationOf = (b: LiveBranding) => b.city || b.region;
+const nibLine = (b: LiveBranding) => (b.nib ? `NIB: ${b.nib}` : '');
+const joinDot = (...parts: string[]) => parts.filter(Boolean).join(' · ');
 
 interface Props {
   logo: string;
   imgOri: string;
   imgPdas: string;
   halalLogo: string;
-  brandName: string;
+  branding: LiveBranding;
 }
 
 const C = {
-  primary:      THEME_COLOR,
+  primary:      DEFAULT_THEME_COLOR,
   primaryDark:  '#B45309',
   accent:       '#F59E0B',
   accentLight:  '#FFFBEB',
@@ -173,14 +178,15 @@ const s = StyleSheet.create({
 
 // ── Shared components ─────────────────────────────────────────────────────────
 
-function Letterhead({ logo, brandName }: { logo: string; brandName: string }) {
+function Letterhead({ logo, branding }: { logo: string; branding: LiveBranding }) {
+  const brandName = branding.brandName;
   return (
     <View style={s.letterhead}>
       <Image src={logo} style={s.letterLogo} />
       <View style={s.letterBrand}>
         <Text style={s.letterBrandName}>{brandName}</Text>
-        <Text style={s.letterBrandSub}>Bogor, Jawa Barat · NIB: 0403260068412</Text>
-        <Text style={s.letterBrandSub}>WA: 0812-1213-2014</Text>
+        <Text style={s.letterBrandSub}>{joinDot(locationOf(branding), nibLine(branding))}</Text>
+        {branding.whatsappDisplay ? <Text style={s.letterBrandSub}>WA: {branding.whatsappDisplay}</Text> : null}
       </View>
     </View>
   );
@@ -198,7 +204,7 @@ function SectionBar({ title, sub }: { title: string; sub?: string }) {
 function PageFooter({ page, total, brandName }: { page: number; total: number; brandName: string }) {
   return (
     <View style={s.pageFooter} fixed>
-      <Text style={s.pageFooterText}>{`${brandName} · Proposal Mie Kremes 2026`}</Text>
+      <Text style={s.pageFooterText}>{`${brandName} · Proposal Mie Kremes ${YEAR}`}</Text>
       <Text style={s.pageFooterText}>Halaman {page} / {total}</Text>
     </View>
   );
@@ -206,13 +212,15 @@ function PageFooter({ page, total, brandName }: { page: number; total: number; b
 
 // ── Main document ─────────────────────────────────────────────────────────────
 
-export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandName }: Props) {
+export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, branding }: Props) {
+  const brandName = branding.brandName;
+  const region = branding.region || branding.city;
   return (
     <Document
       title={`Proposal Kerjasama Mie Kremes - ${brandName}`}
       author={brandName}
       subject="Proposal Kerjasama Titip Jual / Reseller Mie Kremes"
-      keywords="proposal, mie kremes, kerjasama, titip jual, reseller, cemilan teh risma"
+      keywords={`proposal, mie kremes, kerjasama, titip jual, reseller, ${brandName.toLowerCase()}`}
     >
 
       {/* ══ PAGE 1 – COVER ══════════════════════════════════════════════════ */}
@@ -222,11 +230,11 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
             <Image src={logo} style={s.coverLogo} />
           </View>
           <View style={s.coverBadge}>
-            <Text style={s.coverBadgeText}>Proposal Kerjasama Resmi · 2026</Text>
+            <Text style={s.coverBadgeText}>Proposal Kerjasama Resmi · {YEAR}</Text>
           </View>
           <Text style={s.coverTitle}>MIE KREMES</Text>
           <Text style={s.coverSub}>{brandName}</Text>
-          <Text style={s.coverTagline}>Camilan mie crispy renyah khas Bogor — bumbu rempah alami, tanpa pengawet</Text>
+          <Text style={s.coverTagline}>Camilan mie crispy renyah khas {region} — bumbu rempah alami, tanpa pengawet</Text>
           <View style={s.coverStats}>
             {[
               { v: '2 Varian', l: 'Original & Pedas' },
@@ -242,18 +250,18 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
           </View>
         </View>
         <View style={s.coverBottom}>
-          <Text style={s.coverBottomText}>Bogor, Jawa Barat · Indonesia</Text>
+          <Text style={s.coverBottomText}>{joinDot(locationOf(branding), 'Indonesia')}</Text>
           <Text style={s.coverConfidential}>DOKUMEN RAHASIA — UNTUK KEPERLUAN KERJASAMA BISNIS</Text>
         </View>
       </Page>
 
       {/* ══ PAGE 2 – SURAT PENGANTAR ════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
 
         <View style={[s.body, { paddingTop: 28 }]}>
           {/* Recipient */}
-          <Text style={[s.bodyText, { marginBottom: 4 }]}>Bogor, 2026</Text>
+          <Text style={[s.bodyText, { marginBottom: 4 }]}>{`${region}, ${YEAR}`}</Text>
           <Text style={[s.bodyText, { fontFamily: 'Helvetica-Bold', marginBottom: 16, fontSize: 12 }]}>
             Kepada Yth.{'\n'}Pimpinan / Pengelola Toko
           </Text>
@@ -262,7 +270,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
           <Text style={s.bodyText}>
             Dengan hormat, saya dari{' '}
             <Text style={s.bold}>{brandName}</Text>
-            {' '}— usaha camilan rumahan khas Bogor yang telah bersertifikat{' '}
+            {' '}— usaha camilan rumahan khas {region} yang telah bersertifikat{' '}
             <Text style={s.bold}>Halal Indonesia</Text>
             {' '}dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk{' '}
             <Text style={s.bold}>Mie Kremes</Text>
@@ -278,7 +286,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
               ['Berat Kemasan', '150g per pcs'],
               ['Harga Eceran',  'Rp 10.000 per pcs'],
               ['Masa Simpan',   '3 bulan (kemasan kedap udara)'],
-              ['Legalitas',     'Halal Indonesia · NIB 0403260068412'],
+              ['Legalitas',     joinDot('Halal Indonesia', nibLine(branding))],
             ].map(([k, v]) => (
               <View key={k} style={s.infoRow}>
                 <Text style={s.infoKey}>{k}</Text>
@@ -325,11 +333,11 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
             <View>
               <Text style={[s.bodyText, { marginBottom: 2 }]}>Hormat kami,</Text>
               <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>{brandName}</Text>
-              <Text style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>Bogor, Jawa Barat</Text>
+              <Text style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>{locationOf(branding)}</Text>
             </View>
             <View style={{ borderWidth: 1, borderColor: C.border, borderRadius: 8, padding: 12, backgroundColor: C.white }}>
               <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: C.muted, textTransform: 'uppercase', letterSpacing: 0.5 }}>Hubungi Kami</Text>
-              <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: C.dark, marginTop: 4 }}>0812-1213-2014</Text>
+              <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: C.dark, marginTop: 4 }}>{branding.whatsappDisplay}</Text>
               <Text style={{ fontSize: 8.5, color: C.primary, marginTop: 2 }}>WhatsApp (Chat / Telepon)</Text>
             </View>
           </View>
@@ -339,7 +347,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
 
       {/* ══ PAGE 3 – PROFIL PRODUK ══════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="Profil & Detail Produk" sub="Mie Kremes tersedia dalam 2 varian rasa · Berat 150g per kemasan" />
 
         <View style={s.body}>
@@ -391,7 +399,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
                 </View>
                 <View style={s.infoRow}>
                   <Text style={[s.infoKey, { fontSize: 9 }]}>Diproduksi oleh</Text>
-                  <Text style={[s.infoVal, { fontSize: 9 }]}>{`${brandName} · Bogor, Jawa Barat · NIB: 0403260068412`}</Text>
+                  <Text style={[s.infoVal, { fontSize: 9 }]}>{joinDot(brandName, locationOf(branding), nibLine(branding))}</Text>
                 </View>
               </View>
             </View>
@@ -402,7 +410,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
 
       {/* ══ PAGE 4 – MEKANISME KERJASAMA ════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="2 Pilihan Mekanisme Kerjasama" sub="Pilih yang paling sesuai kondisi toko Anda" />
 
         <View style={s.body}>
@@ -527,7 +535,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
 
       {/* ══ PAGE 5 – PAKET RESELLER ═════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="Paket Reseller (Beli Putus)" sub="Harga per pcs lebih hemat sesuai volume pembelian" />
 
         <View style={s.body}>
@@ -622,7 +630,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
 
       {/* ══ PAGE 6 – KEUNGGULAN, TARGET PASAR, LEGALITAS & KONTAK ══════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="Keunggulan Produk, Legalitas & Kontak" />
 
         <View style={s.body}>
@@ -630,12 +638,12 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
           <Text style={{ fontSize: 10.5, fontFamily: 'Helvetica-Bold', color: C.dark, marginBottom: 8 }}>Mengapa Memilih Mie Kremes?</Text>
           <View style={s.keunggulanGrid}>
             {[
-              { t: 'Rasa Unik & Khas',          d: 'Mie kering crispy dengan bumbu rempah alami khas Bogor yang berbeda dari snack pada umumnya.' },
+              { t: 'Rasa Unik & Khas',          d: `Mie kering crispy dengan bumbu rempah alami khas ${region} yang berbeda dari snack pada umumnya.` },
               { t: 'Super Renyah & Gurih',       d: 'Tekstur crispy yang tahan lama. Digoreng sempurna untuk kerenyahan maksimal di setiap gigitan.' },
               { t: 'HALAL & Tanpa Pengawet',     d: 'Bersertifikat Halal Indonesia. Tidak ada bahan pengawet — aman untuk seluruh keluarga.' },
               { t: 'Masa Simpan 3 Bulan',        d: 'Dikemas kedap udara sehingga tahan 3 bulan. Stok toko aman tanpa khawatir cepat kadaluarsa.' },
               { t: '2 Varian Pilihan',           d: 'Original (gurih) dan Pedas memungkinkan segmentasi pelanggan yang lebih luas di toko.' },
-              { t: 'Produk Lokal Bogor',         d: 'Nilai lokal yang kuat — cocok dijual sebagai oleh-oleh atau snack khas daerah Bogor.' },
+              { t: `Produk Lokal ${region}`,         d: `Nilai lokal yang kuat — cocok dijual sebagai oleh-oleh atau snack khas daerah ${region}.` },
             ].map(k => (
               <View key={k.t} style={s.keunggulanItem}>
                 <Text style={s.keunggulanTitle}>{k.t}</Text>
@@ -664,8 +672,8 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
             </View>
             <View style={{ borderTopWidth: 1, borderTopColor: C.border, paddingTop: 10 }}>
               {[
-                ['Nomor Induk Berusaha (NIB)', '0403260068412'],
-                ['Domisili Usaha',             'Bogor, Jawa Barat, Indonesia'],
+                ['Nomor Induk Berusaha (NIB)', branding.nib || '-'],
+                ['Domisili Usaha',             joinDot(locationOf(branding), 'Indonesia')],
                 ['Jenis Usaha',                'Industri Camilan / Makanan Ringan Rumahan'],
               ].map(([k, v]) => (
                 <View key={k} style={[s.infoRow, { marginBottom: 5 }]}>
@@ -680,9 +688,9 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
           <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: C.dark, marginBottom: 6 }}>Informasi Kontak</Text>
           <View style={s.contactRow}>
             {[
-              { l: 'WhatsApp', v: '+62 812-1213-2014', s: 'Chat / Telepon — Senin-Sabtu 08.00-20.00' },
-              { l: 'Website', v: 'karyaputra.vercel.app', s: 'Lihat katalog & pesan online' },
-              { l: 'Lokasi', v: 'Bogor, Jawa Barat', s: 'Pengiriman area Bogor & sekitarnya' },
+              { l: 'WhatsApp', v: branding.whatsappDisplay, s: joinDot('Chat / Telepon', branding.openHours) },
+              { l: 'Website', v: hostOf(branding.siteUrl), s: 'Lihat katalog & pesan online' },
+              { l: 'Lokasi', v: locationOf(branding), s: `Pengiriman area ${region} & sekitarnya` },
             ].map(c => (
               <View key={c.l} style={s.contactCard}>
                 <Text style={s.contactLabel}>{c.l}</Text>
@@ -694,7 +702,7 @@ export default function MieKremesPDF({ logo, imgOri, imgPdas, halalLogo, brandNa
 
           <View style={[s.infoBox, { marginTop: 4 }]} wrap={false}>
             <Text style={[s.bodyText, { marginBottom: 0, fontSize: 9, fontStyle: 'italic' }]}>
-              Dokumen ini diterbitkan oleh {brandName} — Bogor · 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Untuk diskusi lebih lanjut, hubungi kami via WhatsApp di nomor 0812-1213-2014.
+              Dokumen ini diterbitkan oleh {brandName} — {region} · {YEAR}. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Untuk diskusi lebih lanjut, hubungi kami via WhatsApp di nomor {branding.whatsappDisplay}.
             </Text>
           </View>
         </View>

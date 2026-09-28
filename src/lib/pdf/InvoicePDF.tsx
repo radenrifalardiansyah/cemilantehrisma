@@ -1,6 +1,10 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import { THEME_COLOR } from '@/lib/branding';
+import { DEFAULT_THEME_COLOR, type LiveBranding } from '@/lib/branding';
+
+const locationOf = (b: LiveBranding) => b.city || b.region;
+const nibLine = (b: LiveBranding) => (b.nib ? `NIB: ${b.nib}` : '');
+const joinDot = (...parts: string[]) => parts.filter(Boolean).join(' · ');
 
 export interface InvoiceItem {
   name:     string;
@@ -30,7 +34,7 @@ export interface InvoiceData {
 const C = {
   primary:     '#B45309',
   primaryDark: '#92400E',
-  accent:      THEME_COLOR,
+  accent:      DEFAULT_THEME_COLOR,
   accentLight: '#FEF3C7',
   accentMid:   '#FDE68A',
   lightBg:     '#FFFBF2',
@@ -185,7 +189,9 @@ const s = StyleSheet.create({
   footerSub:   { color: 'rgba(255,255,255,0.55)', fontSize: 7.5, marginTop: 2 },
 });
 
-export default function InvoicePDF({ data, brandName }: { data: InvoiceData; brandName: string }) {
+export default function InvoicePDF({ data, branding }: { data: InvoiceData; branding: LiveBranding }) {
+  const brandName = branding.brandName;
+  const region = branding.region || branding.city;
   const itemCount    = data.items.reduce((s, i) => s + i.qty, 0);
   const hasDiscount  = data.discount && data.discount.amount > 0;
   const isKasir      = data.source === 'kasir';
@@ -208,8 +214,8 @@ export default function InvoicePDF({ data, brandName }: { data: InvoiceData; bra
             </View>
             <View>
               <Text style={s.brandName}>{brandName}</Text>
-              <Text style={s.brandSub}>Bogor, Jawa Barat · Indonesia</Text>
-              <Text style={s.brandSub2}>NIB: 0403260068412 · WA: 0812-1213-2014</Text>
+              <Text style={s.brandSub}>{joinDot(locationOf(branding), 'Indonesia')}</Text>
+              <Text style={s.brandSub2}>{joinDot(nibLine(branding), branding.whatsappDisplay && `WA: ${branding.whatsappDisplay}`)}</Text>
             </View>
           </View>
           <View style={s.headerRight}>
@@ -307,10 +313,10 @@ export default function InvoicePDF({ data, brandName }: { data: InvoiceData; bra
               <>
                 <Text style={s.paymentTitle}>Informasi Pembayaran</Text>
                 {[
-                  ['Transfer ke',   'Bank / e-wallet sesuai kesepakatan dengan Karya Putra'],
-                  ['Konfirmasi',    'Via WhatsApp: 0812-1213-2014 setelah transfer'],
+                  ['Transfer ke',   `Bank / e-wallet sesuai kesepakatan dengan ${brandName}`],
+                  ['Konfirmasi',    `Via WhatsApp: ${branding.whatsappDisplay} setelah transfer`],
                   ['Pengiriman',    'Dikirim setelah pembayaran dikonfirmasi'],
-                  ['Pertanyaan',    'WhatsApp: 0812-1213-2014 (Senin–Sabtu, 08.00–20.00)'],
+                  ['Pertanyaan',    `WhatsApp: ${branding.whatsappDisplay}${branding.openHours ? ` (${branding.openHours})` : ''}`],
                 ].map(([k, v]) => (
                   <View key={k} style={s.paymentRow}>
                     <Text style={s.paymentKey}>{k}</Text>
@@ -324,7 +330,7 @@ export default function InvoicePDF({ data, brandName }: { data: InvoiceData; bra
               <Image src={data.halalLogo} style={s.halalImg} />
               <View>
                 <Text style={s.halalText}>Produk Bersertifikat Halal Indonesia</Text>
-                <Text style={s.halalSub}>Tanpa pengawet · Bahan alami pilihan · Produksi Bogor</Text>
+                <Text style={s.halalSub}>Tanpa pengawet · Bahan alami pilihan · Produksi {region}</Text>
               </View>
             </View>
           </View>
@@ -335,7 +341,7 @@ export default function InvoicePDF({ data, brandName }: { data: InvoiceData; bra
         <View style={s.footer} fixed>
           <View style={s.footerLeft}>
             <Text style={s.footerBold}>{brandName}</Text>
-            <Text style={s.footerText}>Bogor, Jawa Barat · WA: 0812-1213-2014 · NIB: 0403260068412</Text>
+            <Text style={s.footerText}>{joinDot(locationOf(branding), branding.whatsappDisplay && `WA: ${branding.whatsappDisplay}`, nibLine(branding))}</Text>
           </View>
           <View style={s.footerRight}>
             <Text style={s.footerThank}>Terima kasih sudah berbelanja!</Text>

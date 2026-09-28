@@ -1,43 +1,44 @@
 import type { MetadataRoute } from 'next';
 import { products } from '@/lib/products';
-import { SITE_URL } from '@/lib/branding';
+import { getCachedBranding } from '@/lib/server/branding';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { siteUrl } = await getCachedBranding();
   const now = new Date();
 
   return [
     {
-      url: SITE_URL,
+      url: siteUrl,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${SITE_URL}/products`,
+      url: `${siteUrl}/products`,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     ...products.map(product => ({
-      url: `${SITE_URL}/products/${product.id}`,
+      url: `${siteUrl}/products/${product.id}`,
       lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     })),
     {
-      url: `${SITE_URL}/reseller`,
+      url: `${siteUrl}/reseller`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${SITE_URL}/panduan`,
+      url: `${siteUrl}/panduan`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.5,
     },
     {
-      url: `${SITE_URL}/kontak`,
+      url: `${siteUrl}/kontak`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.5,

@@ -10,7 +10,6 @@ import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Locale } from '@/lib/i18n';
-import logo from '@/assets/images/logo-tehrisma.jpeg';
 import { trackClick } from '@/lib/trackClick';
 import { useLiveBranding } from '@/lib/useLiveBranding';
 
@@ -64,7 +63,7 @@ export default function Navbar() {
               transition={{ duration: 0.3 }}
               className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-amber-300/60 shadow-md flex-shrink-0"
             >
-              <Image src={logo} alt={branding.brandName} fill className="object-cover" />
+              <Image src={branding.logoUrl} alt={branding.brandName} fill sizes="48px" className="object-cover" />
             </motion.div>
             <div className="leading-none">
               <p className="font-display text-base sm:text-lg font-bold text-amber-800 leading-none">{brandFirstWord}</p>

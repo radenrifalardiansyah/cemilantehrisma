@@ -7,16 +7,16 @@ export async function generateMetadata(): Promise<Metadata> {
     title: 'Program Reseller',
     description: `Bergabung jadi reseller ${branding.brandName}! Komisi menarik, produk halal laris manis, support penuh dari kami. Daftar sekarang via WhatsApp.`,
     keywords: [
-      'reseller cemilan bogor', 'reseller keripik kimpul', 'bisnis cemilan rumahan',
-      'jual cemilan online', 'reseller snack halal', 'bisnis sampingan bogor',
+      `reseller ${branding.brandName.toLowerCase()}`, 'bisnis cemilan rumahan', 'jual cemilan online',
+      'reseller snack halal', ...(branding.region ? [`bisnis sampingan ${branding.region.toLowerCase()}`] : []),
     ],
     openGraph: {
       title: `Program Reseller | ${branding.brandName}`,
       description: `Raih penghasilan tambahan dengan menjadi reseller ${branding.brandName}. Komisi menarik, produk halal!`,
-      url: 'https://warungtehrisma-one.vercel.app/reseller',
+      url: `${branding.siteUrl}/reseller`,
     },
     alternates: {
-      canonical: 'https://warungtehrisma-one.vercel.app/reseller',
+      canonical: `${branding.siteUrl}/reseller`,
     },
   };
 }

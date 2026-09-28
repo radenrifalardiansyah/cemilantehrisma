@@ -9,8 +9,9 @@ import { Analytics } from '@vercel/analytics/next';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import VisitorTracker from '@/components/VisitorTracker';
-import { SITE_URL } from '@/lib/branding';
+import { logoVariant } from '@/lib/branding';
 import { getCachedBranding } from '@/lib/server/branding';
+import { BrandingProvider } from '@/lib/useLiveBranding';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -27,18 +28,15 @@ const inter = Inter({
 
 export async function generateMetadata(): Promise<Metadata> {
   const branding = await getCachedBranding();
+  const iconBase = branding.logoUrl;
   return {
-    metadataBase: new URL(SITE_URL),
+    metadataBase: new URL(branding.siteUrl),
     title: {
-      default: `${branding.brandName} — Tepung Aci`,
+      default: branding.seoTitle,
       template: `%s | ${branding.brandName}`,
     },
-    description:
-      'Toko tepung aci berkualitas. Pesan langsung via WhatsApp, pengiriman ke seluruh Indonesia.',
-    keywords: [
-      'tepung aci', 'tepung aci berkualitas', 'jual tepung aci', 'beli tepung aci',
-      'tepung tapioka', 'tepung kanji', 'grosir tepung aci', 'supplier tepung aci',
-    ],
+    description: branding.seoDescription || undefined,
+    keywords: branding.seoKeywords.length ? branding.seoKeywords : undefined,
     authors: [{ name: branding.legalName }],
     creator: branding.legalName,
     publisher: branding.legalName,
@@ -48,24 +46,25 @@ export async function generateMetadata(): Promise<Metadata> {
       googleBot: { index: true, follow: true },
     },
     openGraph: {
-      title: `${branding.brandName} — Tepung Aci`,
-      description: 'Toko tepung aci berkualitas. Pesan via WhatsApp!',
+      title: branding.seoTitle,
+      description: branding.seoDescription || undefined,
       type: 'website',
       locale: 'id_ID',
       siteName: branding.brandName,
-      url: SITE_URL,
+      url: branding.siteUrl,
+      images: [{ url: logoVariant(iconBase, 512) }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${branding.brandName} — Tepung Aci`,
-      description: 'Toko tepung aci berkualitas.',
+      title: branding.seoTitle,
+      description: branding.seoDescription || undefined,
     },
     alternates: {
-      canonical: SITE_URL,
+      canonical: branding.siteUrl,
     },
-    verification: {
-      google: 'XpJPL5HFJcMPdsWjv7vkn6AOzO06qdM3PeFWO1GckYM',
-    },
+    verification: branding.googleSiteVerification
+      ? { google: branding.googleSiteVerification }
+      : undefined,
     manifest: '/manifest.webmanifest',
     appleWebApp: {
       capable: true,
@@ -73,10 +72,10 @@ export async function generateMetadata(): Promise<Metadata> {
       statusBarStyle: 'default',
     },
     icons: {
-      apple: '/apple-touch-icon.png',
+      apple: logoVariant(iconBase, 180),
       icon: [
-        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-        { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+        { url: logoVariant(iconBase, 192), sizes: '192x192', type: 'image/png' },
+        { url: logoVariant(iconBase, 512), sizes: '512x512', type: 'image/png' },
       ],
     },
   };
@@ -101,10 +100,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content={branding.brandName} />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
       <body className="antialiased">
+        <BrandingProvider value={branding}>
         <LanguageProvider>
         <AuthProvider>
         <SplashScreen />
@@ -136,6 +134,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         </AuthProvider>
         </LanguageProvider>
+        </BrandingProvider>
         <Analytics />
       </body>
     </html>

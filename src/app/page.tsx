@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import FeaturedSection from '@/components/FeaturedSection';
 import CategoriesSection from '@/components/CategoriesSection';
 import BottomNav from '@/components/BottomNav';
-import { SITE_URL } from '@/lib/branding';
+import { absoluteUrl } from '@/lib/branding';
 import { getCachedBranding } from '@/lib/server/branding';
 import { products } from '@/lib/products';
 import { imageSrc } from '@/lib/liveProducts';
@@ -42,10 +42,10 @@ export default async function HomePage() {
       '@type': 'Product',
       name: product.name,
       description: stripFormatting(product.description),
-      image: product.images?.[0] ? `${SITE_URL}${imageSrc(product.images[0])}` : undefined,
+      image: product.images?.[0] ? absoluteUrl(branding.siteUrl, imageSrc(product.images[0])) : undefined,
       offers: {
         '@type': 'Offer',
-        url: `${SITE_URL}/products/${product.id}`,
+        url: `${branding.siteUrl}/products/${product.id}`,
         priceCurrency: 'IDR',
         price: product.price,
         availability: availabilityMap[product.stock] ?? 'https://schema.org/InStock',
@@ -59,17 +59,17 @@ export default async function HomePage() {
     '@type': 'Store',
     name: branding.brandName,
     alternateName: branding.legalName,
-    description: 'Toko cemilan khas Bogor: Keripik Kimpul Talas Balitung renyah dan Mie Kremes crispy. Halal, tanpa pengawet.',
-    url: SITE_URL,
-    telephone: `+${branding.whatsappNumber}`,
-    image: `${SITE_URL}/icon-512.png`,
+    description: branding.seoDescription || undefined,
+    url: branding.siteUrl,
+    telephone: branding.whatsappNumber ? `+${branding.whatsappNumber}` : undefined,
+    image: absoluteUrl(branding.siteUrl, branding.logoUrl),
     address: {
       '@type': 'PostalAddress',
       streetAddress: branding.address,
       addressLocality: branding.city,
       addressCountry: 'ID',
     },
-    sameAs: [branding.instagramUrl, branding.shopeeUrl, branding.whatsappUrl],
+    sameAs: [branding.instagramUrl, branding.tiktokUrl, branding.shopeeUrl, branding.whatsappUrl].filter(Boolean),
     servesCuisine: 'Snack',
     priceRange,
     hasOfferCatalog: {

@@ -1,24 +1,43 @@
 import { unstable_cache } from 'next/cache';
 import { getSettings } from '@/lib/settings-pg';
-import { defaultLiveBranding, LiveBranding } from '@/lib/branding';
+import {
+  defaultLiveBranding, formatWhatsappDisplay, LiveBranding, normalizeWhatsapp, regionFromCity,
+} from '@/lib/branding';
 
 interface SettingsDoc {
   storeName?: string;
   legalName?: string;
   storeTagline?: string;
+  storeDescription?: string;
+  ownerName?: string;
+  logo?: string;
+  siteUrl?: string;
   whatsapp?: string;
   address?: string;
   city?: string;
+  region?: string;
+  nib?: string;
+  openHours?: string;
   instagramUrl?: string;
+  tiktokUrl?: string;
   shopeeUrl?: string;
+  shopeeName?: string;
   mapsUrl?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  googleSiteVerification?: string;
   storefrontThemeColor?: string;
   storefrontThemeBackgroundColor?: string;
 }
 
-function instagramHandleFromUrl(url: string, fallback: string): string {
+function instagramHandleFromUrl(url: string): string {
   const m = url.match(/instagram\.com\/([^/?]+)/i);
-  return m?.[1] || fallback;
+  return m?.[1] || '';
+}
+
+function str(v: unknown): string {
+  return typeof v === 'string' ? v.trim() : '';
 }
 
 // Branding is admin-editable via Settings > Info Toko / Kontak & Sosial Media / Tampilan
@@ -32,21 +51,38 @@ export const getCachedBranding = unstable_cache(
   async (): Promise<LiveBranding> => {
     const fallback = defaultLiveBranding();
     try {
-      const s = (await getSettings()) as SettingsDoc;
-      const whatsappNumber = s.whatsapp || fallback.whatsappNumber;
-      const instagramUrl = s.instagramUrl || fallback.instagramUrl;
+      const raw = (await getSettings()) as Record<string, unknown>;
+      const s = Object.fromEntries(Object.entries(raw).map(([k, v]) => [k, str(v)])) as SettingsDoc;
+      const brandName = s.storeName || fallback.brandName;
+      const whatsappNumber = normalizeWhatsapp(s.whatsapp || '');
+      const instagramUrl = s.instagramUrl || '';
+      const city = s.city || '';
       return {
-        brandName: s.storeName || fallback.brandName,
-        legalName: s.legalName || fallback.legalName,
-        tagline: s.storeTagline || fallback.tagline,
+        brandName,
+        legalName: s.legalName || brandName,
+        tagline: s.storeTagline || '',
+        description: s.storeDescription || '',
+        ownerName: s.ownerName || '',
+        logoUrl: s.logo || fallback.logoUrl,
+        siteUrl: (s.siteUrl || fallback.siteUrl).replace(/\/+$/, ''),
         whatsappNumber,
-        whatsappUrl: `https://wa.me/${whatsappNumber}`,
-        address: s.address || fallback.address,
-        city: s.city || fallback.city,
+        whatsappDisplay: formatWhatsappDisplay(whatsappNumber),
+        whatsappUrl: whatsappNumber ? `https://wa.me/${whatsappNumber}` : '',
+        address: s.address || '',
+        city,
+        region: s.region || regionFromCity(city),
+        nib: s.nib || '',
+        openHours: s.openHours || '',
         instagramUrl,
-        instagramHandle: instagramHandleFromUrl(instagramUrl, fallback.instagramHandle),
-        shopeeUrl: s.shopeeUrl || fallback.shopeeUrl,
-        mapsUrl: s.mapsUrl || fallback.mapsUrl,
+        instagramHandle: instagramHandleFromUrl(instagramUrl),
+        tiktokUrl: s.tiktokUrl || '',
+        shopeeUrl: s.shopeeUrl || '',
+        shopeeName: s.shopeeName || brandName,
+        mapsUrl: s.mapsUrl || '',
+        seoTitle: s.seoTitle || (s.storeTagline ? `${brandName} — ${s.storeTagline}` : brandName),
+        seoDescription: s.seoDescription || s.storeDescription || s.storeTagline || '',
+        seoKeywords: (s.seoKeywords || '').split(/[,\n]/).map(k => k.trim()).filter(Boolean),
+        googleSiteVerification: s.googleSiteVerification || '',
         themeColor: s.storefrontThemeColor || fallback.themeColor,
         themeBackgroundColor: s.storefrontThemeBackgroundColor || fallback.themeBackgroundColor,
       };
@@ -55,6 +91,6 @@ export const getCachedBranding = unstable_cache(
       return fallback;
     }
   },
-  ['public-branding'],
+  ['public-branding-v2'],
   { revalidate: 3600, tags: ['branding'] }
 );

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import logo from '@/assets/images/logo-tehrisma.jpeg';
 import imgMieOri from '@/assets/images/Mie Kremes 150g Original.png';
 import imgMiePdas from '@/assets/images/Mie Kremes 150g Pedas.png';
 import HalalBadge from '@/components/HalalBadge';
@@ -48,6 +47,9 @@ const C = {
 
 export default async function MieKremesProposalPage() {
   const branding = await getCachedBranding();
+  const region = branding.region || branding.city;
+  const location = branding.city || branding.region;
+  const year = new Date().getFullYear();
   return (
     <div className="min-h-screen bg-[#FFFBF2] font-[Inter,sans-serif] text-[#1C0A00]">
       <style>{`
@@ -82,13 +84,13 @@ export default async function MieKremesProposalPage() {
               {/* Badge */}
               <div className={`inline-flex items-center gap-2 ${C.badge} border rounded-full px-4 py-1.5 text-sm font-medium mb-6`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${C.badgeDot} animate-pulse`} />
-                Proposal Kerjasama Resmi · 2026
+                Proposal Kerjasama Resmi · {year}
               </div>
 
               {/* Logo kecil + judul */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="logo-float flex-shrink-0">
-                  <Image src={logo} alt="Logo Karya Putra" width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
+                  <Image src={branding.logoUrl} alt={`Logo ${branding.brandName}`} width={56} height={56} className="rounded-full border-2 border-white shadow-lg object-cover" />
                 </div>
                 <p className="text-xs text-amber-700 font-semibold tracking-wide">{branding.brandName}</p>
               </div>
@@ -98,7 +100,7 @@ export default async function MieKremesProposalPage() {
                 <span className={C.heading}>Mie Kremes</span>
               </h1>
               <p className="text-[#3D1A00]/60 text-sm md:text-base max-w-md">
-                Camilan mie crispy renyah khas Bogor — bumbu rempah alami, bersertifikat Halal, tanpa pengawet.
+                Camilan mie crispy renyah khas {region} — bumbu rempah alami, bersertifikat Halal, tanpa pengawet.
               </p>
 
               {/* Stats */}
@@ -145,11 +147,11 @@ export default async function MieKremesProposalPage() {
               <p>Assalamu&apos;alaikum Wr. Wb.</p>
 
               <p>
-                Dengan hormat, perkenalkan kami dari <strong className="text-amber-700">{branding.brandName}</strong> — usaha camilan rumahan yang berbasis di <strong>Bogor, Jawa Barat</strong>, terdaftar resmi dengan <strong>NIB: 0403260068412</strong> dan produk bersertifikat <strong>Halal Indonesia</strong>. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk unggulan kami, <strong className="text-amber-700">Mie Kremes</strong>, untuk dapat dipasarkan di tempat yang Bapak/Ibu kelola.
+                Dengan hormat, perkenalkan kami dari <strong className="text-amber-700">{branding.brandName}</strong> — usaha camilan rumahan yang berbasis di <strong>{location}</strong>,{branding.nib && <> terdaftar resmi dengan <strong>NIB: {branding.nib}</strong></>} dan produk bersertifikat <strong>Halal Indonesia</strong>. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk unggulan kami, <strong className="text-amber-700">Mie Kremes</strong>, untuk dapat dipasarkan di tempat yang Bapak/Ibu kelola.
               </p>
 
               <p>
-                <strong>Mie Kremes</strong> adalah camilan mie crispy khas Bogor yang dibuat dari bahan-bahan pilihan dengan bumbu rempah alami — tanpa pengawet, tanpa MSG berlebih, dan aman untuk semua kalangan. Produk kami hadir dalam dua pilihan rasa: <strong>Original</strong> (gurih alami dari kencur, bawang putih &amp; daun jeruk) dan <strong>Pedas</strong> (cabai asli yang nendang), masing-masing dalam kemasan higienis 150g. Dengan harga yang sangat terjangkau, Mie Kremes cocok sebagai camilan harian, bekal, maupun oleh-oleh khas Bogor yang bernilai jual tinggi.
+                <strong>Mie Kremes</strong> adalah camilan mie crispy khas {region} yang dibuat dari bahan-bahan pilihan dengan bumbu rempah alami — tanpa pengawet, tanpa MSG berlebih, dan aman untuk semua kalangan. Produk kami hadir dalam dua pilihan rasa: <strong>Original</strong> (gurih alami dari kencur, bawang putih &amp; daun jeruk) dan <strong>Pedas</strong> (cabai asli yang nendang), masing-masing dalam kemasan higienis 150g. Dengan harga yang sangat terjangkau, Mie Kremes cocok sebagai camilan harian, bekal, maupun oleh-oleh khas {region} yang bernilai jual tinggi.
               </p>
 
               {/* Ringkasan produk */}
@@ -197,11 +199,11 @@ export default async function MieKremesProposalPage() {
               </div>
 
               <p>
-                Kami meyakini bahwa <strong>Mie Kremes</strong> memiliki potensi pasar yang besar — khususnya sebagai camilan harian yang terjangkau dengan cita rasa khas yang sulit ditolak. Produk ini juga sangat cocok sebagai <strong>oleh-oleh khas Bogor</strong> yang autentik dengan identitas lokal yang kuat.
+                Kami meyakini bahwa <strong>Mie Kremes</strong> memiliki potensi pasar yang besar — khususnya sebagai camilan harian yang terjangkau dengan cita rasa khas yang sulit ditolak. Produk ini juga sangat cocok sebagai <strong>oleh-oleh khas {region}</strong> yang autentik dengan identitas lokal yang kuat.
               </p>
 
               <p>
-                Besar harapan kami untuk dapat berdiskusi lebih lanjut mengenai kerjasama ini. Kami terbuka untuk bernegosiasi terkait jumlah produk, jadwal pengiriman, dan detail teknis lainnya demi kenyamanan dan keuntungan kedua belah pihak. Untuk informasi lebih lanjut, Bapak/Ibu dapat menghubungi kami melalui WhatsApp di nomor <strong className="text-amber-700">0812-1213-2014</strong>.
+                Besar harapan kami untuk dapat berdiskusi lebih lanjut mengenai kerjasama ini. Kami terbuka untuk bernegosiasi terkait jumlah produk, jadwal pengiriman, dan detail teknis lainnya demi kenyamanan dan keuntungan kedua belah pihak. Untuk informasi lebih lanjut, Bapak/Ibu dapat menghubungi kami melalui WhatsApp di nomor <strong className="text-amber-700">{branding.whatsappDisplay}</strong>.
               </p>
 
               <p>Atas perhatian dan kepercayaan Bapak/Ibu, kami ucapkan terima kasih yang sebesar-besarnya.</p>
@@ -209,10 +211,10 @@ export default async function MieKremesProposalPage() {
 
               <div className="mt-6 pt-6 border-t border-amber-100 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                  <p className="text-sm text-[#3D1A00]/60 mb-1">Bogor, 2026</p>
+                  <p className="text-sm text-[#3D1A00]/60 mb-1">{region}, {year}</p>
                   <p className="font-semibold text-[#1C0A00]">Hormat kami,</p>
                   <p className="pf text-xl font-bold text-amber-700 mt-1">{branding.brandName}</p>
-                  <p className="text-sm text-[#3D1A00]/60">Bogor, Jawa Barat</p>
+                  <p className="text-sm text-[#3D1A00]/60">{location}</p>
                 </div>
                 <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer"
                   className="no-print inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors self-start sm:self-auto">
@@ -518,7 +520,7 @@ export default async function MieKremesProposalPage() {
               { icon: '✅', title: 'HALAL & Aman', desc: 'Bersertifikat Halal Indonesia, tanpa MSG berlebih, tanpa pengawet kimia. Aman untuk semua kalangan termasuk anak-anak.' },
               { icon: '💰', title: 'Harga Sangat Terjangkau', desc: 'Harga jual Rp 10.000 sangat kompetitif untuk pasar camilan. Margin menarik untuk mitra dengan omset yang stabil.' },
               { icon: '📦', title: 'Kemasan Higienis', desc: 'Dikemas kedap udara dengan label informatif. Bersih, rapi, dan photogenic untuk display toko maupun konten media sosial.' },
-              { icon: '🎯', title: 'Potensi Pasar Luas', desc: 'Cocok untuk semua segmen: anak-anak, remaja, dewasa. Ideal sebagai camilan harian, bekal, maupun oleh-oleh khas Bogor.' },
+              { icon: '🎯', title: 'Potensi Pasar Luas', desc: `Cocok untuk semua segmen: anak-anak, remaja, dewasa. Ideal sebagai camilan harian, bekal, maupun oleh-oleh khas ${region}.` },
             ].map(item => (
               <div key={item.title} className="bg-white rounded-xl border border-amber-100 p-5 flex gap-4">
                 <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-xl flex-shrink-0">{item.icon}</div>
@@ -558,7 +560,7 @@ export default async function MieKremesProposalPage() {
           <ST icon="📜" label="Legalitas" title="Legalitas &amp; Kepercayaan" accent="text-amber-600" iconBg="bg-amber-100 border-amber-200" line="from-amber-200" />
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             {[
-              { icon: '🔰', t: 'NIB Resmi', sub: '0403260068412', d: 'Terdaftar resmi di OSS — Kementerian Investasi RI.' },
+              { icon: '🔰', t: 'NIB Resmi', sub: branding.nib || '-', d: 'Terdaftar resmi di OSS — Kementerian Investasi RI.' },
               { icon: 'halal', t: 'Halal Certified', sub: 'Sertifikat Halal Indonesia', d: 'Aman dikonsumsi seluruh kalangan, termasuk anak-anak.' },
               { icon: '🏭', t: 'Produksi Higienis', sub: 'Standar Keamanan Pangan', d: 'Diproduksi di fasilitas bersih dengan standar higienitas tinggi.' },
             ].map(item => (
@@ -597,7 +599,7 @@ export default async function MieKremesProposalPage() {
               <a href={branding.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
                 <div className="text-xl mb-1">📱</div>
                 <div className="text-xs text-amber-700 font-semibold">WhatsApp</div>
-                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">+62 812-1213-2014</div>
+                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">{branding.whatsappDisplay}</div>
               </a>
               <a href="/" className="bg-white rounded-xl border border-amber-100 p-3 hover:border-amber-300 transition-colors">
                 <div className="text-xl mb-1">🛒</div>
@@ -607,18 +609,18 @@ export default async function MieKremesProposalPage() {
               <div className="bg-white rounded-xl border border-amber-100 p-3">
                 <div className="text-xl mb-1">📍</div>
                 <div className="text-xs text-amber-700 font-semibold">Lokasi</div>
-                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">Bogor, Jawa Barat</div>
+                <div className="text-[#1C0A00] font-medium text-xs mt-0.5">{location}</div>
               </div>
             </div>
           </div>
-          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>{branding.brandName}</strong> — Bogor · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
+          <p className="text-center text-xs text-[#3D1A00]/30 mt-6">Dokumen ini diterbitkan oleh <strong>{branding.brandName}</strong> — {region} · Bersifat rahasia untuk keperluan kerjasama bisnis.</p>
         </section>
       </div>
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
-          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/50">© {year} <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
           <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#3D1A00]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>

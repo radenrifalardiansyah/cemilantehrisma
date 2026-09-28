@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import React from 'react';
 import { renderToBuffer } from '@react-pdf/renderer';
 import InvoicePDF, { type InvoiceData } from '@/lib/pdf/InvoicePDF';
-import { LOGO_DATA_URI, HALAL_DATA_URI } from '@/lib/invoice-assets';
+import { HALAL_DATA_URI } from '@/lib/invoice-assets';
+import { pdfLogoSrc } from '@/lib/server/pdfLogo';
 import { getInvoice } from '@/lib/services/invoiceService';
 import { getCachedBranding } from '@/lib/server/branding';
 
@@ -24,11 +25,11 @@ export async function GET(
     }
 
     const printedAt = new Date().toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-    const data: InvoiceData = { ...saved, printedAt, logo: LOGO_DATA_URI, halalLogo: HALAL_DATA_URI };
+    const data: InvoiceData = { ...saved, printedAt, logo: await pdfLogoSrc(branding), halalLogo: HALAL_DATA_URI };
 
     const buffer = await renderToBuffer(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      React.createElement(InvoicePDF, { data, brandName: branding.brandName }) as any,
+      React.createElement(InvoicePDF, { data, branding }) as any,
     );
 
     const safeName = saved.customerName.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-');

@@ -26,7 +26,6 @@ export const products: Product[] = [
     details: [
       'Bahan: Mie Kering, Minyak Nabati, Kencur, Bawang Putih, Daun Jeruk',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Tanpa pengawet, tekstur super crispy',
       'Cocok untuk camilan sore & menemani santai',
     ],
@@ -47,7 +46,6 @@ export const products: Product[] = [
     details: [
       'Bahan: Mie Kering, Bubuk Cabai Asli, Bumbu Pedas, Daun Jeruk, Kencur, Bawang Putih',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Tanpa pengawet, tekstur super crispy',
       'Untuk pecinta pedas sejati!',
     ],
@@ -65,11 +63,10 @@ export const products: Product[] = [
   {
     id: 'kk-ori-100',
     name: 'Keripik Kimpul Original',
-    description: 'Keripik kimpul / talas balitung super renyah dengan rasa original gurih alami. Bahan pilihan dari petani lokal Bogor.',
+    description: 'Keripik kimpul / talas balitung super renyah dengan rasa original gurih alami. Bahan pilihan dari petani lokal.',
     details: [
       'Bahan: Talas Kimpul Pilihan, Minyak Goreng, Garam',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Tanpa pengawet, tahan hingga 3 bulan',
       'Cocok untuk oleh-oleh & stok ngemil',
     ],
@@ -90,7 +87,6 @@ export const products: Product[] = [
     details: [
       'Bahan: Talas Kimpul Pilihan, Minyak Goreng, Garam, Bubuk Perasa BBQ',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Tanpa pengawet, tahan hingga 3 bulan',
       'Cocok untuk menemani kumpul bareng',
     ],
@@ -111,7 +107,6 @@ export const products: Product[] = [
     details: [
       'Bahan: Talas Kimpul Pilihan, Minyak Goreng, Garam, Bubuk Jagung Manis',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Tanpa pengawet, tahan hingga 3 bulan',
       'Favorit anak-anak & cocok untuk bekal',
     ],
@@ -133,7 +128,6 @@ export const products: Product[] = [
     details: [
       'Bahan: Talas Kimpul Pilihan, Minyak Goreng, Garam',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Ukuran jumbo 250g, lebih hemat dari 100g',
       'Tahan hingga 3 bulan setelah produksi',
     ],
@@ -153,7 +147,6 @@ export const products: Product[] = [
     details: [
       'Bahan: Talas Kimpul Pilihan, Minyak Goreng, Garam, Bubuk Perasa BBQ',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Ukuran jumbo 250g, hemat lebih banyak',
       'Tahan hingga 3 bulan setelah produksi',
     ],
@@ -174,7 +167,6 @@ export const products: Product[] = [
     details: [
       'Bahan: Talas Kimpul Pilihan, Minyak Goreng, Garam, Bubuk Jagung Manis',
       'Bersertifikat HALAL Indonesia',
-      'NIB: 0403260068412 — Produksi Bogor',
       'Ukuran jumbo 250g, hemat lebih banyak',
       'Tahan hingga 3 bulan setelah produksi',
     ],

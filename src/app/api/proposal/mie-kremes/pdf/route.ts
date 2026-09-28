@@ -5,6 +5,7 @@ import React from 'react';
 import { renderToBuffer } from '@react-pdf/renderer';
 import MieKremesPDF from '@/lib/pdf/MieKremesPDF';
 import { getCachedBranding } from '@/lib/server/branding';
+import { pdfLogoSrc } from '@/lib/server/pdfLogo';
 
 const ASSETS = path.join(process.cwd(), 'src', 'assets', 'images');
 
@@ -18,14 +19,14 @@ function toDataUri(filename: string): string {
 export async function GET() {
   try {
     const branding = await getCachedBranding();
-    const logo     = toDataUri('logo-tehrisma.jpeg');
+    const logo     = await pdfLogoSrc(branding);
     const imgOri   = toDataUri('Mie Kremes 150g Original.png');
     const imgPdas  = toDataUri('Mie Kremes 150g Pedas.png');
     const halalLogo = toDataUri('logo-halal-indonesia.png');
 
     const buffer = await renderToBuffer(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      React.createElement(MieKremesPDF, { logo, imgOri, imgPdas, halalLogo, brandName: branding.brandName }) as any
+      React.createElement(MieKremesPDF, { logo, imgOri, imgPdas, halalLogo, branding }) as any
     );
 
     return new NextResponse(new Uint8Array(buffer), {

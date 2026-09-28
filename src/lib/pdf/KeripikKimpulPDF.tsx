@@ -1,6 +1,11 @@
 import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import { THEME_COLOR } from '@/lib/branding';
+import { DEFAULT_THEME_COLOR, hostOf, type LiveBranding } from '@/lib/branding';
+
+const YEAR = new Date().getFullYear();
+const locationOf = (b: LiveBranding) => b.city || b.region;
+const nibLine = (b: LiveBranding) => (b.nib ? `NIB: ${b.nib}` : '');
+const joinDot = (...parts: string[]) => parts.filter(Boolean).join(' · ');
 
 interface Props {
   logo: string;
@@ -10,13 +15,13 @@ interface Props {
   imgJgn: string;
   imgOri250: string;
   halalLogo: string;
-  brandName: string;
+  branding: LiveBranding;
 }
 
 const C = {
   primary:      '#B45309',
   primaryDark:  '#92400E',
-  accent:       THEME_COLOR,
+  accent:       DEFAULT_THEME_COLOR,
   accentLight:  '#FEF3C7',
   accentMid:    '#FDE68A',
   lightBg:      '#FFFBF2',
@@ -147,14 +152,15 @@ const s = StyleSheet.create({
   pageFooterText: { fontSize: 8, color: C.gray },
 });
 
-function Letterhead({ logo, brandName }: { logo: string; brandName: string }) {
+function Letterhead({ logo, branding }: { logo: string; branding: LiveBranding }) {
+  const brandName = branding.brandName;
   return (
     <View style={s.letterhead}>
       <Image src={logo} style={s.letterLogo} />
       <View style={s.letterBrand}>
         <Text style={s.letterBrandName}>{brandName}</Text>
-        <Text style={s.letterBrandSub}>Bogor, Jawa Barat · NIB: 0403260068412</Text>
-        <Text style={s.letterBrandSub}>WA: 0812-1213-2014</Text>
+        <Text style={s.letterBrandSub}>{joinDot(locationOf(branding), nibLine(branding))}</Text>
+        {branding.whatsappDisplay ? <Text style={s.letterBrandSub}>WA: {branding.whatsappDisplay}</Text> : null}
       </View>
     </View>
   );
@@ -172,19 +178,21 @@ function SectionBar({ title, sub }: { title: string; sub?: string }) {
 function PageFooter({ page, total, brandName }: { page: number; total: number; brandName: string }) {
   return (
     <View style={s.pageFooter} fixed>
-      <Text style={s.pageFooterText}>{`${brandName} · Proposal Keripik Kimpul 2026`}</Text>
+      <Text style={s.pageFooterText}>{`${brandName} · Proposal Keripik Kimpul ${YEAR}`}</Text>
       <Text style={s.pageFooterText}>Halaman {page} / {total}</Text>
     </View>
   );
 }
 
-export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, imgJgn, imgOri250, halalLogo, brandName }: Props) {
+export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, imgJgn, imgOri250, halalLogo, branding }: Props) {
+  const brandName = branding.brandName;
+  const region = branding.region || branding.city;
   return (
     <Document
       title={`Proposal Kerjasama Keripik Kimpul - ${brandName}`}
       author={brandName}
       subject="Proposal Kerjasama Titip Jual / Reseller Keripik Kimpul Talas Balitung"
-      keywords="proposal, keripik kimpul, talas, kerjasama, titip jual, reseller, cemilan teh risma, bogor"
+      keywords={`proposal, keripik kimpul, talas, kerjasama, titip jual, reseller, ${brandName.toLowerCase()}, ${region.toLowerCase()}`}
     >
 
       {/* ══ PAGE 1 – COVER ══════════════════════════════════════════════════ */}
@@ -194,11 +202,11 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             <Image src={logo} style={s.coverLogo} />
           </View>
           <View style={s.coverBadge}>
-            <Text style={s.coverBadgeText}>Proposal Kerjasama Resmi · 2026</Text>
+            <Text style={s.coverBadgeText}>Proposal Kerjasama Resmi · {YEAR}</Text>
           </View>
           <Text style={s.coverTitle}>KERIPIK KIMPUL</Text>
           <Text style={s.coverSub}>{brandName}</Text>
-          <Text style={s.coverTagline}>Keripik talas balitung super renyah khas Bogor — 4 rasa, 2 ukuran, tanpa pengawet</Text>
+          <Text style={s.coverTagline}>Keripik talas balitung super renyah khas {region} — 4 rasa, 2 ukuran, tanpa pengawet</Text>
           <View style={s.coverStats}>
             {[
               { v: '4 Varian', l: 'Original, BBQ, BBQ Pedas, Jagung' },
@@ -214,16 +222,16 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           </View>
         </View>
         <View style={s.coverBottom}>
-          <Text style={s.coverBottomText}>Bogor, Jawa Barat · Indonesia</Text>
+          <Text style={s.coverBottomText}>{joinDot(locationOf(branding), 'Indonesia')}</Text>
           <Text style={s.coverConfidential}>DOKUMEN RAHASIA — UNTUK KEPERLUAN KERJASAMA BISNIS</Text>
         </View>
       </Page>
 
       {/* ══ PAGE 2 – SURAT PENGANTAR ════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <View style={[s.body, { paddingTop: 28 }]}>
-          <Text style={[s.bodyText, { marginBottom: 4 }]}>Bogor, 2026</Text>
+          <Text style={[s.bodyText, { marginBottom: 4 }]}>{`${region}, ${YEAR}`}</Text>
           <Text style={[s.bodyText, { fontFamily: 'Helvetica-Bold', marginBottom: 16, fontSize: 12 }]}>
             Kepada Yth.{'\n'}Pimpinan / Pengelola Toko
           </Text>
@@ -232,7 +240,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <Text style={s.bodyText}>
             Dengan hormat, saya dari{' '}
             <Text style={s.bold}>{brandName}</Text>
-            {' '}— usaha camilan rumahan khas Bogor yang telah bersertifikat{' '}
+            {' '}— usaha camilan rumahan khas {region} yang telah bersertifikat{' '}
             <Text style={s.bold}>Halal Indonesia</Text>
             {' '}dan memiliki NIB resmi. Melalui surat ini, kami mengajukan penawaran kerjasama pemasaran produk{' '}
             <Text style={s.bold}>Keripik Kimpul Talas Balitung</Text>
@@ -246,8 +254,8 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
               ['Varian Rasa',   'Original, BBQ, BBQ Pedas, Jagung Manis (4 rasa)'],
               ['Ukuran',        '100g (Rp 15.000) · 250g Jumbo (Rp 26.500)'],
               ['Masa Simpan',   '3 bulan (kemasan kedap udara)'],
-              ['Bahan Baku',    'Talas Kimpul Pilihan dari Petani Lokal Bogor'],
-              ['Legalitas',     'Halal Indonesia · NIB 0403260068412'],
+              ['Bahan Baku',    `Talas Kimpul Pilihan dari Petani Lokal ${region}`],
+              ['Legalitas',     joinDot('Halal Indonesia', nibLine(branding))],
             ].map(([k, v]) => (
               <View key={k} style={s.infoRow}>
                 <Text style={s.infoKey}>{k}</Text>
@@ -281,7 +289,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
           <Text style={s.bodyText}>
             Keripik Kimpul merupakan produk dengan identitas lokal yang kuat sebagai{' '}
-            <Text style={s.bold}>oleh-oleh autentik khas Bogor</Text>
+            <Text style={s.bold}>oleh-oleh autentik khas {region}</Text>
             {' '}— bahan baku lokal, rasa unik, dan kemasan menarik. Kami siap berdiskusi lebih lanjut mengenai detail kerjasama yang paling sesuai.
           </Text>
           <Text style={s.bodyText}>Wassalamualaikum Wr. Wb.</Text>
@@ -290,11 +298,11 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             <View>
               <Text style={[s.bodyText, { marginBottom: 2 }]}>Hormat kami,</Text>
               <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: C.primary }}>{brandName}</Text>
-              <Text style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>Bogor, Jawa Barat</Text>
+              <Text style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>{locationOf(branding)}</Text>
             </View>
             <View style={{ borderWidth: 1, borderColor: C.border, borderRadius: 8, padding: 12, backgroundColor: C.white }}>
               <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: C.muted, textTransform: 'uppercase', letterSpacing: 0.5 }}>Hubungi Kami</Text>
-              <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: C.dark, marginTop: 4 }}>0812-1213-2014</Text>
+              <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: C.dark, marginTop: 4 }}>{branding.whatsappDisplay}</Text>
               <Text style={{ fontSize: 8.5, color: C.primary, marginTop: 2 }}>WhatsApp (Chat / Telepon)</Text>
             </View>
           </View>
@@ -304,7 +312,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
       {/* ══ PAGE 3 – PROFIL PRODUK ══════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="Profil & Detail Produk" sub="4 varian rasa · 2 ukuran kemasan (100g & 250g Jumbo)" />
 
         <View style={s.body}>
@@ -364,7 +372,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
               ['Masa Simpan',   '3 bulan sejak tanggal produksi (kemasan kedap udara)'],
               ['Komposisi',     'Talas Kimpul Pilihan, Minyak Goreng, Garam, Bumbu Perasa (sesuai varian)'],
               ['Halal',         'Bersertifikat Halal Indonesia dari BPJPH'],
-              ['Diproduksi',    `${brandName} · Bogor, Jawa Barat · NIB: 0403260068412`],
+              ['Diproduksi',    joinDot(brandName, locationOf(branding), nibLine(branding))],
               ['Tersedia juga', 'Paket Hemat Mix 3 Rasa (Rp 40.000) & Mix 5 Pcs (Rp 65.000)'],
             ].map(([k, v]) => (
               <View key={k} style={[s.infoRow, { marginBottom: 3 }]}>
@@ -379,7 +387,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
       {/* ══ PAGE 4 – MEKANISME KERJASAMA ════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="2 Pilihan Mekanisme Kerjasama" sub="Pilih yang paling sesuai kondisi toko Anda" />
 
         <View style={s.body}>
@@ -494,7 +502,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
                 {/* WA CTA */}
                 <View style={{ backgroundColor: '#EDE9FE', borderRadius: 6, padding: 8, marginTop: 8, alignItems: 'center' }}>
                   <Text style={{ fontSize: 8.5, color: '#4C1D95', fontFamily: 'Helvetica-Bold' }}>Tanya harga reseller via WhatsApp</Text>
-                  <Text style={{ fontSize: 9, color: C.violet, marginTop: 2 }}>0812-1213-2014</Text>
+                  <Text style={{ fontSize: 9, color: C.violet, marginTop: 2 }}>{branding.whatsappDisplay}</Text>
                 </View>
               </View>
             </View>
@@ -513,19 +521,19 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
       {/* ══ PAGE 5 – KEUNGGULAN & TARGET PASAR ═════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="Keunggulan Produk & Target Pasar" />
 
         <View style={s.body}>
           <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: C.dark, marginBottom: 10 }}>Mengapa Memilih Keripik Kimpul?</Text>
           <View style={s.keunggulanGrid}>
             {[
-              { t: 'Bahan Baku Lokal Bogor',    d: 'Talas kimpul/balitung pilihan dari petani lokal Bogor. Mendukung ekonomi lokal dan menjamin kualitas.' },
+              { t: `Bahan Baku Lokal ${region}`,    d: `Talas kimpul/balitung pilihan dari petani lokal ${region}. Mendukung ekonomi lokal dan menjamin kualitas.` },
               { t: 'Super Renyah & Tahan Lama', d: 'Tekstur crispy yang tahan lama bahkan setelah kemasan dibuka. Proses penggorengan optimal.' },
               { t: 'HALAL & Tanpa Pengawet',    d: 'Bersertifikat Halal Indonesia. Bebas pengawet kimia — aman untuk seluruh keluarga.' },
               { t: 'Masa Simpan 3 Bulan',       d: 'Dikemas kedap udara tahan 3 bulan. Stok toko aman tanpa khawatir cepat kadaluarsa.' },
               { t: '4 Rasa, 2 Ukuran',          d: 'Variasi rasa dan ukuran memungkinkan segmentasi harga yang fleksibel untuk toko Anda.' },
-              { t: 'Oleh-Oleh Khas Bogor',      d: 'Talas kimpul adalah bahan khas Bogor yang ikonik. Nilai jual sebagai oleh-oleh autentik sangat kuat.' },
+              { t: `Oleh-Oleh Khas ${region}`,      d: `Talas kimpul adalah bahan khas ${region} yang ikonik. Nilai jual sebagai oleh-oleh autentik sangat kuat.` },
             ].map(k => (
               <View key={k.t} style={s.keunggulanItem}>
                 <Text style={s.keunggulanTitle}>{k.t}</Text>
@@ -561,7 +569,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
       {/* ══ PAGE 6 – LEGALITAS & KONTAK ════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Letterhead logo={logo} brandName={brandName} />
+        <Letterhead logo={logo} branding={branding} />
         <SectionBar title="Legalitas, Sertifikasi & Informasi Kontak" />
 
         <View style={s.body}>
@@ -576,10 +584,10 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
             </View>
             <View style={{ borderTopWidth: 1, borderTopColor: C.border, paddingTop: 10 }}>
               {[
-                ['Nomor Induk Berusaha (NIB)', '0403260068412'],
-                ['Domisili Usaha',             'Bogor, Jawa Barat, Indonesia'],
+                ['Nomor Induk Berusaha (NIB)', branding.nib || '-'],
+                ['Domisili Usaha',             joinDot(locationOf(branding), 'Indonesia')],
                 ['Jenis Usaha',                'Industri Camilan / Makanan Ringan Rumahan'],
-                ['Bahan Baku',                 'Talas Kimpul dari Petani Lokal Bogor, Minyak Goreng, Bumbu Alami'],
+                ['Bahan Baku',                 `Talas Kimpul dari Petani Lokal ${region}, Minyak Goreng, Bumbu Alami`],
               ].map(([k, v]) => (
                 <View key={k} style={[s.infoRow, { marginBottom: 5 }]}>
                   <Text style={[s.infoKey, { width: 140 }]}>{k}</Text>
@@ -592,9 +600,9 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
           <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: C.dark, marginBottom: 8 }}>Informasi Kontak</Text>
           <View style={s.contactRow}>
             {[
-              { l: 'WhatsApp', v: '+62 812-1213-2014', s: 'Chat / Telepon — Senin-Sabtu 08.00-20.00' },
-              { l: 'Website', v: 'karyaputra.vercel.app', s: 'Lihat katalog & pesan online' },
-              { l: 'Lokasi', v: 'Bogor, Jawa Barat', s: 'Pengiriman area Bogor & sekitarnya' },
+              { l: 'WhatsApp', v: branding.whatsappDisplay, s: joinDot('Chat / Telepon', branding.openHours) },
+              { l: 'Website', v: hostOf(branding.siteUrl), s: 'Lihat katalog & pesan online' },
+              { l: 'Lokasi', v: locationOf(branding), s: `Pengiriman area ${region} & sekitarnya` },
             ].map(c => (
               <View key={c.l} style={s.contactCard}>
                 <Text style={s.contactLabel}>{c.l}</Text>
@@ -614,7 +622,7 @@ export default function KeripikKimpulPDF({ logo, imgOri, imgBBQ, imgBBQPdas, img
 
           <View style={[s.infoBox, { borderLeftColor: C.gray, backgroundColor: '#F9FAFB', marginTop: 8 }]}>
             <Text style={[s.bodyText, { marginBottom: 0, fontSize: 9, color: C.gray, fontStyle: 'italic' }]}>
-              Dokumen ini diterbitkan oleh {brandName} — Bogor, 2026. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Penggandaan atau penyebaran tanpa izin tidak diperkenankan.
+              Dokumen ini diterbitkan oleh {brandName} — {region}, {YEAR}. Bersifat rahasia dan hanya untuk keperluan kerjasama bisnis. Penggandaan atau penyebaran tanpa izin tidak diperkenankan.
             </Text>
           </View>
         </View>

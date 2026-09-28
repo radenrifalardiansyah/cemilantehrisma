@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import logo          from '@/assets/images/logo-tehrisma.jpeg';
 import bannerMie      from '@/assets/images/Banner Mie Kremes 1.png';
 import bannerKeripik  from '@/assets/images/Banner 1 Keripik Kimpul.png';
 import HalalBadge     from '@/components/HalalBadge';
@@ -18,6 +17,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ProposalPage() {
   const branding = await getCachedBranding();
+  const region = branding.region || branding.city;
+  const location = branding.city || branding.region;
+  const year = new Date().getFullYear();
   return (
     <div className="min-h-screen bg-[#FFFBF2] font-[Inter,sans-serif] text-[#1C0A00]">
       <style>{`
@@ -52,7 +54,7 @@ export default async function ProposalPage() {
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 bg-amber-100 border border-amber-300 rounded-full px-4 py-1.5 text-amber-700 text-sm font-medium mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                Proposal Kerjasama Resmi · 2026
+                Proposal Kerjasama Resmi · {year}
               </div>
               <h1 className="proposal-font text-4xl md:text-5xl font-bold leading-tight mb-3 text-[#1C0A00]">
                 Pilih Produk<br />
@@ -67,7 +69,7 @@ export default async function ProposalPage() {
             <div className="flex-shrink-0 flex flex-col items-center gap-3">
               <div className="logo-float">
                 <Image
-                  src={logo}
+                  src={branding.logoUrl}
                   alt={`Logo ${branding.brandName}`}
                   width={180}
                   height={180}
@@ -91,7 +93,7 @@ export default async function ProposalPage() {
             { icon: 'halal', value: 'HALAL', label: 'Bersertifikat Resmi' },
             { icon: '🌿', value: '0%', label: 'Bahan Pengawet' },
             { icon: '📅', value: '3 Bulan', label: 'Masa Simpan' },
-            { icon: '📋', value: 'NIB Resmi', label: '0403260068412' },
+            ...(branding.nib ? [{ icon: '📋', value: 'NIB Resmi', label: branding.nib }] : []),
           ].map(c => (
             <div key={c.label} className="bg-white rounded-2xl p-4 text-center border border-amber-100 shadow-sm hover:shadow-md hover:shadow-amber-100 transition-all duration-300">
               <div className="flex justify-center mb-1.5">
@@ -126,7 +128,7 @@ export default async function ProposalPage() {
             <div className="p-6">
               <h2 className="proposal-font text-2xl font-bold text-[#1C0A00] mb-2">Mie Kremes</h2>
               <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-5">
-                Mie crispy khas Bogor dengan bumbu rempah alami. Tersedia rasa Original dan Pedas dalam kemasan 150g.
+                Mie crispy khas {region} dengan bumbu rempah alami. Tersedia rasa Original dan Pedas dalam kemasan 150g.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Original', 'Pedas', '150g', 'Rp 10.000'].map(t => (
@@ -158,7 +160,7 @@ export default async function ProposalPage() {
             <div className="p-6">
               <h2 className="proposal-font text-2xl font-bold text-[#1C0A00] mb-2">Keripik Kimpul</h2>
               <p className="text-sm text-[#3D1A00]/60 leading-relaxed mb-5">
-                Keripik talas balitung renyah khas Bogor. Tersedia 3 rasa dalam 2 ukuran kemasan: 100g dan 250g.
+                Keripik talas balitung renyah khas {region}. Tersedia 3 rasa dalam 2 ukuran kemasan: 100g dan 250g.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Original', 'BBQ Pedas', 'Jagung', '100g / 250g'].map(t => (
@@ -176,12 +178,12 @@ export default async function ProposalPage() {
         {/* Brand info */}
         <div className="bg-white rounded-2xl border border-amber-100 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
           <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-amber-100">
-            <Image src={logo} alt="Logo Karya Putra" width={56} height={56} className="object-cover w-full h-full" />
+            <Image src={branding.logoUrl} alt={`Logo ${branding.brandName}`} width={56} height={56} className="object-cover w-full h-full" />
           </div>
           <div className="flex-1">
             <p className="text-xs font-bold tracking-widest text-amber-600 uppercase mb-1">Tentang Kami</p>
-            <p className="font-semibold text-[#1C0A00] mb-1">{branding.brandName} — Bogor, Jawa Barat</p>
-            <p className="text-sm text-[#3D1A00]/60">NIB: 0403260068412 · Bersertifikat HALAL Indonesia · Tanpa Pengawet</p>
+            <p className="font-semibold text-[#1C0A00] mb-1">{branding.brandName}{location ? ` — ${location}` : ''}</p>
+            <p className="text-sm text-[#3D1A00]/60">{[branding.nib && `NIB: ${branding.nib}`, 'Bersertifikat HALAL Indonesia', 'Tanpa Pengawet'].filter(Boolean).join(' · ')}</p>
           </div>
           <div className="no-print flex flex-col sm:flex-row gap-2 flex-shrink-0">
             <a href="/" className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
@@ -197,7 +199,7 @@ export default async function ProposalPage() {
       {/* ── FOOTER ── */}
       <footer className="border-t border-amber-100 bg-white mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 text-center space-y-1.5">
-          <p className="text-xs text-[#3D1A00]/50">© 2026 <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
+          <p className="text-xs text-[#3D1A00]/50">© {year} <strong className="text-[#3D1A00]/70">{branding.brandName}</strong>. Semua hak dilindungi.</p>
           <p className="text-xs text-[#3D1A00]/35">Dikembangkan oleh <a href={DEVELOPER.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700/60 hover:text-amber-700 underline underline-offset-2 transition-colors">{DEVELOPER.name}</a> · didukung oleh <strong className="text-[#3D1A00]/45">{DEVELOPER.supportedBy}</strong></p>
         </div>
       </footer>
