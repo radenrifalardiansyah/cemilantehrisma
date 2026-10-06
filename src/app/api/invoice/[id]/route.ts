@@ -4,14 +4,14 @@ import { renderToBuffer } from '@react-pdf/renderer';
 import InvoicePDF, { type InvoiceData } from '@/lib/pdf/InvoicePDF';
 import { HALAL_DATA_URI } from '@/lib/invoice-assets';
 import { pdfLogoSrc } from '@/lib/server/pdfLogo';
-import { getInvoice } from '@/lib/services/invoiceService';
+import { getInvoice, invoiceTokenOk } from '@/lib/services/invoiceService';
 import { getCachedBranding } from '@/lib/server/branding';
 import { getSettings } from '@/lib/settings-pg';
 
 export const runtime = 'nodejs';
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
@@ -30,7 +30,8 @@ export async function GET(
         }
       : undefined;
 
-    if (!saved) {
+    // 404 (bukan 403) untuk token salah — tidak membocorkan bahwa nomor invoice itu ada.
+    if (!saved || !invoiceTokenOk(saved, req.nextUrl.searchParams.get('t'))) {
       return new NextResponse('Invoice tidak ditemukan.', { status: 404 });
     }
 

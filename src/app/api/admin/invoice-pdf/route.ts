@@ -9,9 +9,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json() as InvoiceData;
     const { logo: _l, halalLogo: _h, ...invoiceData } = body;
 
-    await saveInvoice(invoiceData);
+    const token = await saveInvoice(invoiceData);
+    // Nomor sudah dipakai: endpoint publik ini tidak boleh menimpa invoice yang ada.
+    if (!token) return NextResponse.json({ error: 'Nomor invoice sudah dipakai.' }, { status: 409 });
 
-    const invoiceUrl = `${req.nextUrl.origin}/api/invoice/${body.invoiceNo}`;
+    const invoiceUrl = `${req.nextUrl.origin}/api/invoice/${body.invoiceNo}?t=${token}`;
     return NextResponse.json({ url: invoiceUrl });
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
