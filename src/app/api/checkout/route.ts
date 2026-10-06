@@ -6,7 +6,7 @@ import { getSessionCustomer } from '@/lib/customerAuth';
 import { getMergedProduct } from '@/lib/server/getProduct';
 import { products as staticProducts } from '@/lib/products';
 import { computeVoucherDiscount, normalizeVoucherCode, voucherDiscountLabel } from '@/lib/voucher';
-import { voucherProblem, voucherRule, type VoucherRow } from '@/lib/server/vouchers';
+import { voucherProblem, voucherRule, customerVoucherUses, type VoucherRow } from '@/lib/server/vouchers';
 
 interface CheckoutItem { productId?: string; name: string; weight: string; qty: number; price: number; subtotal: number; }
 interface CheckoutBody {
@@ -103,7 +103,8 @@ export async function POST(req: NextRequest) {
       await sql.begin(async tx => {
         if (voucherCode) {
           const [voucher] = await tx<VoucherRow[]>`select * from vouchers where code = ${voucherCode} for update`;
-          const problem = voucherProblem(voucher, itemsSubtotal);
+          const uses = voucher ? await customerVoucherUses(tx, voucherCode, { customerId: session.id, phone: session.phone }) : 0;
+          const problem = voucherProblem(voucher, itemsSubtotal, new Date(), uses);
           if (problem) throw new VoucherError(problem);
           const amount = computeVoucherDiscount(voucherRule(voucher), itemsSubtotal);
           if (itemsSubtotal - amount <= 0) throw new VoucherError('Total pesanan setelah voucher tidak boleh nol.');
