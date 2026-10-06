@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSql } from '@/lib/db';
+import { getSql, parseJsonb } from '@/lib/db';
 import { getSessionCustomer } from '@/lib/customerAuth';
 import { notify } from '@/lib/notifications';
 import { rowToOrder, OrderRow } from '@/lib/orders-pg';
@@ -23,6 +23,7 @@ export async function GET(req: NextRequest, ctx: Ctx) {
       invoiceNo: order.invoiceNo,
       status: order.status,
       total: order.total,
+      discount: parseJsonb((row as unknown as { discount?: unknown }).discount ?? null),
       paymentMethod: order.paymentMethod,
       paymentStatus: order.paymentStatus,
       transferBank: order.transferBank,

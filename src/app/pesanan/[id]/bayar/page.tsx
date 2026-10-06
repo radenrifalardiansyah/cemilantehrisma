@@ -15,7 +15,7 @@ import { formatCurrency } from '@/lib/whatsapp';
 import { compressImage } from '@/lib/imageCompress';
 
 interface Order {
-  id: string; invoiceNo: string; status: string; total: number;
+  id: string; invoiceNo: string; status: string; total: number; discount?: { amount: number; label: string } | null;
   paymentMethod: 'transfer' | 'qris' | null; paymentStatus: 'lunas' | 'belum_lunas';
   transferBank: string; transferProofUrl: string;
 }
@@ -125,6 +125,9 @@ export default function BayarPesananPage() {
             <span className="text-amber-950">Pembayaran </span>
             <span className="gradient-text">{order.invoiceNo}</span>
           </h1>
+          {order.discount && order.discount.amount > 0 && (
+            <p className="text-green-700 text-sm">{order.discount.label}: <span className="font-bold">- {formatCurrency(order.discount.amount)}</span></p>
+          )}
           <p className="text-amber-800/55 text-sm">Total: <span className="font-bold text-amber-900">{formatCurrency(order.total)}</span></p>
         </motion.div>
 

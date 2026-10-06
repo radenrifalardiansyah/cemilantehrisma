@@ -45,6 +45,48 @@ export default function CheckoutPage() {
 
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
+
+  // Voucher: server yang menghitung potongan (pratinjau di sini, angka mengikat dihitung ulang
+  // saat pesanan dikirim). Divalidasi ulang tiap subtotal berubah supaya minimum belanja tetap benar.
+  const [voucher, setVoucher] = useState<{ code: string; amount: number; label: string } | null>(null);
+  const [voucherInput, setVoucherInput] = useState('');
+  const [voucherError, setVoucherError] = useState('');
+  const [voucherChecking, setVoucherChecking] = useState(false);
+  const discountAmount = voucher ? Math.min(voucher.amount, totalPrice) : 0;
+  const grandTotal = totalPrice - discountAmount;
+
+  const checkVoucher = async (code: string): Promise<{ code: string; amount: number; label: string } | { error: string }> => {
+    try {
+      const r = await fetch('/api/vouchers/validate', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, subtotal: totalPrice }),
+      });
+      const d = await r.json().catch(() => ({})) as { error?: string; code?: string; amount?: number; label?: string };
+      if (r.ok && d.code) return { code: d.code, amount: d.amount ?? 0, label: d.label ?? d.code };
+      return { error: d.error ?? 'Voucher tidak valid.' };
+    } catch {
+      return { error: 'Gagal memeriksa voucher.' };
+    }
+  };
+  const applyVoucher = async () => {
+    if (!voucherInput.trim()) return;
+    setVoucherChecking(true); setVoucherError('');
+    const res = await checkVoucher(voucherInput.trim());
+    if ('error' in res) setVoucherError(res.error);
+    else { setVoucher(res); setVoucherInput(''); }
+    setVoucherChecking(false);
+  };
+  useEffect(() => {
+    if (!voucher) return;
+    let cancelled = false;
+    checkVoucher(voucher.code).then(res => {
+      if (cancelled) return;
+      if ('error' in res) { setVoucher(null); setVoucherError(res.error); }
+      else if (res.amount !== voucher.amount) setVoucher(res);
+    });
+    return () => { cancelled = true; };
+  }, [totalPrice]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const updateField = (field: keyof CustomerInfo, value: string) =>
     setCustomer(prev => ({ ...prev, [field]: value }));
 
@@ -76,7 +118,8 @@ export default function CheckoutPage() {
             productId: i.product.id, name: i.product.name, weight: i.product.weight, qty: i.quantity,
             price: i.product.price, subtotal: i.product.price * i.quantity,
           })),
-          subtotal: totalPrice, total: totalPrice,
+          subtotal: totalPrice, total: grandTotal,
+          ...(voucher ? { voucherCode: voucher.code } : {}),
         }),
       });
     } catch {
@@ -90,6 +133,16 @@ export default function CheckoutPage() {
       setLoading(false);
       router.replace('/login?next=%2Fcheckout');
       return;
+    }
+
+    if (res.status === 400) {
+      const data = await res.json().catch(() => null) as { error?: string; message?: string } | null;
+      if (data?.error === 'voucher_invalid') {
+        toast.error(data.message ?? 'Voucher tidak valid.');
+        setVoucher(null);
+        setLoading(false);
+        return;
+      }
     }
 
     if (res.status === 409) {
@@ -289,9 +342,44 @@ export default function CheckoutPage() {
                     <span>{t.checkout.subtotal} ({totalItems} {t.cart.item})</span>
                     <span>{formatCurrency(totalPrice)}</span>
                   </div>
+                  {voucher && discountAmount > 0 && (
+                    <div className="flex justify-between text-sm text-green-700 mb-1.5">
+                      <span>{voucher.label}</span>
+                      <span>- {formatCurrency(discountAmount)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between items-center pt-2 border-t border-amber-200/50">
                     <span className="font-display font-bold text-amber-950">{t.checkout.total}</span>
-                    <span className="font-display text-xl font-bold gradient-text">{formatCurrency(totalPrice)}</span>
+                    <span className="font-display text-xl font-bold gradient-text">{formatCurrency(grandTotal)}</span>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-amber-200/50">
+                    {voucher ? (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-green-700 font-semibold">{voucher.code}</span>
+                        <button onClick={() => { setVoucher(null); setVoucherError(''); }} className="text-red-500 text-xs font-semibold">{t.checkout.voucherRemove}</button>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex gap-2">
+                          <input
+                            value={voucherInput}
+                            onChange={e => { setVoucherInput(e.target.value.toUpperCase()); setVoucherError(''); }}
+                            onKeyDown={e => { if (e.key === 'Enter') applyVoucher(); }}
+                            placeholder={t.checkout.voucherPlaceholder}
+                            aria-label={t.checkout.voucher}
+                            className="flex-1 min-w-0 rounded-xl border border-amber-200 bg-white px-3 py-2 text-sm text-amber-950 outline-none focus:border-amber-400"
+                          />
+                          <button
+                            onClick={applyVoucher}
+                            disabled={!voucherInput.trim() || voucherChecking}
+                            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold disabled:opacity-40"
+                          >
+                            {t.checkout.voucherApply}
+                          </button>
+                        </div>
+                        {voucherError && <p className="text-red-500 text-xs mt-1.5">{voucherError}</p>}
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -469,7 +557,12 @@ export default function CheckoutPage() {
                 </div>
                 <div className="px-5 py-4 border-t border-amber-100 bg-amber-50 flex justify-between items-center">
                   <span className="font-display font-bold text-amber-950">{t.checkout.total}</span>
-                  <span className="font-display text-xl font-bold gradient-text">{formatCurrency(totalPrice)}</span>
+                  <span className="text-right">
+                    {voucher && discountAmount > 0 && (
+                      <span className="block text-xs text-green-700 font-medium">{voucher.label}: - {formatCurrency(discountAmount)}</span>
+                    )}
+                    <span className="font-display text-xl font-bold gradient-text">{formatCurrency(grandTotal)}</span>
+                  </span>
                 </div>
               </div>
 
