@@ -198,13 +198,13 @@ export default function InvoicePDF({ data, branding }: { data: InvoiceData; bran
   const hasDiscount  = data.discount && data.discount.amount > 0;
   const isKasir      = data.source === 'kasir';
   const statusText   = isKasir
-    ? 'Dibayar'
-    : data.paymentStatus === 'belum_lunas' ? 'BELUM LUNAS' : 'MENUNGGU PEMBAYARAN';
+    ? (data.paymentStatus === 'belum_lunas' ? 'BELUM LUNAS' : 'Dibayar')
+    : data.paymentStatus === 'belum_lunas' ? 'BELUM LUNAS' : data.paymentStatus === 'lunas' ? 'LUNAS' : 'MENUNGGU PEMBAYARAN';
 
   const bankText = data.bank
     ? `${data.bank.name} ${data.bank.accountNumber}${data.bank.accountHolder ? ` a.n. ${data.bank.accountHolder}` : ''}`
     : '';
-  const showBank = !!data.bank && (isKasir ? data.paymentStatus === 'belum_lunas' : true);
+  const showBank = !!data.bank && (isKasir ? data.paymentStatus === 'belum_lunas' : data.paymentStatus !== 'lunas');
 
   return (
     <Document
