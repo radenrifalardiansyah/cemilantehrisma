@@ -6,6 +6,7 @@ import { HALAL_DATA_URI } from '@/lib/invoice-assets';
 import { pdfLogoSrc } from '@/lib/server/pdfLogo';
 import { getInvoice } from '@/lib/services/invoiceService';
 import { getCachedBranding } from '@/lib/server/branding';
+import { getSettings } from '@/lib/settings-pg';
 
 export const runtime = 'nodejs';
 
@@ -15,17 +16,26 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const [saved, branding] = await Promise.all([
+    const [saved, branding, settings] = await Promise.all([
       getInvoice(id),
       getCachedBranding(),
+      getSettings().catch(() => ({} as Record<string, unknown>)),
     ]);
+    const bankNumber = String(settings.storeBankAccountNumber ?? '').trim();
+    const bank = bankNumber
+      ? {
+          name: String(settings.storeBankName ?? '').trim() || 'Bank',
+          accountNumber: bankNumber,
+          accountHolder: String(settings.storeBankAccountHolder ?? '').trim() || undefined,
+        }
+      : undefined;
 
     if (!saved) {
       return new NextResponse('Invoice tidak ditemukan.', { status: 404 });
     }
 
     const printedAt = new Date().toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-    const data: InvoiceData = { ...saved, printedAt, logo: await pdfLogoSrc(branding), halalLogo: HALAL_DATA_URI };
+    const data: InvoiceData = { ...saved, printedAt, logo: await pdfLogoSrc(branding), halalLogo: HALAL_DATA_URI, bank };
 
     const buffer = await renderToBuffer(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

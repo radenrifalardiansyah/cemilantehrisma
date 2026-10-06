@@ -28,6 +28,8 @@ export interface InvoiceData {
   halalLogo:    string;
   source?:        'kasir' | 'portal';
   paymentStatus?: 'lunas' | 'belum_lunas';
+  // Rekening toko — ditampilkan hanya bila invoice belum lunas (diisi saat render, tidak disimpan).
+  bank?:          { name: string; accountNumber: string; accountHolder?: string };
 }
 
 // ── Colour palette ────────────────────────────────────────────────────────────
@@ -199,6 +201,11 @@ export default function InvoicePDF({ data, branding }: { data: InvoiceData; bran
     ? 'Dibayar'
     : data.paymentStatus === 'belum_lunas' ? 'BELUM LUNAS' : 'MENUNGGU PEMBAYARAN';
 
+  const bankText = data.bank
+    ? `${data.bank.name} ${data.bank.accountNumber}${data.bank.accountHolder ? ` a.n. ${data.bank.accountHolder}` : ''}`
+    : '';
+  const showBank = !!data.bank && (isKasir ? data.paymentStatus === 'belum_lunas' : true);
+
   return (
     <Document
       title={`Invoice ${data.invoiceNo} — ${data.customerName}`}
@@ -309,11 +316,24 @@ export default function InvoicePDF({ data, branding }: { data: InvoiceData; bran
 
           {/* ── Payment info + Halal ────────────────────────────────────── */}
           <View style={s.paymentBox}>
+            {isKasir && showBank && (
+              <>
+                <Text style={s.paymentTitle}>Informasi Pembayaran</Text>
+                <View style={s.paymentRow}>
+                  <Text style={s.paymentKey}>Transfer ke</Text>
+                  <Text style={s.paymentVal}>{bankText}</Text>
+                </View>
+                <View style={[s.paymentRow, { marginBottom: 12 }]}>
+                  <Text style={s.paymentKey}>Nominal</Text>
+                  <Text style={s.paymentVal}>{rp(data.total)}</Text>
+                </View>
+              </>
+            )}
             {!isKasir && (
               <>
                 <Text style={s.paymentTitle}>Informasi Pembayaran</Text>
                 {[
-                  ['Transfer ke',   `Bank / e-wallet sesuai kesepakatan dengan ${brandName}`],
+                  ['Transfer ke',   showBank ? bankText : `Bank / e-wallet sesuai kesepakatan dengan ${brandName}`],
                   ['Konfirmasi',    `Via WhatsApp: ${branding.whatsappDisplay} setelah transfer`],
                   ['Pengiriman',    'Dikirim setelah pembayaran dikonfirmasi'],
                   ['Pertanyaan',    `WhatsApp: ${branding.whatsappDisplay}${branding.openHours ? ` (${branding.openHours})` : ''}`],
