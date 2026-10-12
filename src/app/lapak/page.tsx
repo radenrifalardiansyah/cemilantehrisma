@@ -98,18 +98,32 @@ export default function LapakPage() {
           <>
             {/* Pilihan lapak */}
             <div className="flex gap-2 overflow-x-auto pb-2 mb-4 no-scrollbar">
-              {[{ id: 'semua', name: t.lapak.allStalls, count: rows.length }, ...stalls.map(s => ({ id: s.id, name: s.name, count: s.products.length }))].map(s => (
+              {[{ id: 'semua', name: t.lapak.allStalls, count: rows.length, logoUrl: '' }, ...stalls.map(s => ({ id: s.id, name: s.name, count: s.products.length, logoUrl: s.logoUrl }))].map(s => (
                 <button key={s.id} onClick={() => { trackClick('category', `lapak:${s.id}`); setStallId(s.id); setCategory('semua'); }}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex-shrink-0 ${stallId === s.id ? 'text-white shadow-md' : 'bg-white border border-amber-200 text-amber-700/70 hover:border-amber-300 hover:text-amber-800'}`}
                   style={stallId === s.id ? { background: 'linear-gradient(135deg, #D97706, #F59E0B)' } : {}}>
-                  <Store size={14} />
+                  {s.logoUrl
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={s.logoUrl} alt="" className="w-5 h-5 rounded-full object-cover bg-white" />
+                    : <Store size={14} />}
                   <span>{s.name}</span>
                   <span className={`px-1.5 py-0.5 rounded-full text-xs ${stallId === s.id ? 'bg-white/25 text-white' : 'bg-amber-100 text-amber-600'}`}>{s.count}</span>
                 </button>
               ))}
             </div>
-            {activeStall?.address && (
-              <p className="flex items-center gap-1.5 text-sm text-amber-800/60 mb-4"><MapPin size={14} className="text-amber-500" /> {activeStall.address}</p>
+            {activeStall && (
+              <div className="flex items-center gap-3 rounded-2xl border border-amber-100 bg-white px-4 py-3 mb-4">
+                <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center bg-amber-50 border border-amber-100">
+                  {activeStall.logoUrl
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={activeStall.logoUrl} alt={activeStall.name} className="w-full h-full object-contain" />
+                    : <Store size={20} className="text-amber-500" />}
+                </div>
+                <div className="min-w-0">
+                  <p className="font-display font-bold text-amber-950 leading-tight">{activeStall.name}</p>
+                  {activeStall.address && <p className="flex items-center gap-1.5 text-sm text-amber-800/60"><MapPin size={13} className="text-amber-500 flex-shrink-0" /> <span className="truncate">{activeStall.address}</span></p>}
+                </div>
+              </div>
             )}
 
             {/* Cari + filter */}
@@ -212,7 +226,14 @@ export default function LapakPage() {
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   {detail.category && <div><p className="text-[11px] uppercase tracking-wide text-amber-800/45 flex items-center gap-1"><Tag size={10} /> {t.lapak.category}</p><p className="font-semibold text-amber-900">{detail.category}</p></div>}
                   {detail.weight && <div><p className="text-[11px] uppercase tracking-wide text-amber-800/45 flex items-center gap-1"><Weight size={10} /> {t.lapak.weight}</p><p className="font-semibold text-amber-900">{detail.weight}</p></div>}
-                  <div className="col-span-2"><p className="text-[11px] uppercase tracking-wide text-amber-800/45 flex items-center gap-1"><Store size={10} /> {t.lapak.stall}</p><p className="font-semibold text-amber-900">{detail.stallName}</p>
+                  <div className="col-span-2"><p className="text-[11px] uppercase tracking-wide text-amber-800/45 flex items-center gap-1"><Store size={10} /> {t.lapak.stall}</p>
+                    <p className="font-semibold text-amber-900 flex items-center gap-2">
+                      {stalls?.find(s => s.id === detail.stallId)?.logoUrl
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img src={stalls?.find(s => s.id === detail.stallId)?.logoUrl} alt="" className="w-6 h-6 rounded-full object-cover" />
+                        : null}
+                      {detail.stallName}
+                    </p>
                     {stalls?.find(s => s.id === detail.stallId)?.address && <p className="text-xs text-amber-800/60 mt-0.5">{stalls?.find(s => s.id === detail.stallId)?.address}</p>}</div>
                 </div>
                 <div>

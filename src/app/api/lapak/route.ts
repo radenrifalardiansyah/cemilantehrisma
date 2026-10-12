@@ -11,13 +11,13 @@ export interface LapakProduct {
   id: string; kind: 'titipan' | 'toko'; name: string; imageUrl: string; weight: string; description: string;
   category: string; emoji: string; price: number; stock: number; unit: string;
 }
-export interface LapakStall { id: string; name: string; address: string; isStore: boolean; products: LapakProduct[] }
+export interface LapakStall { id: string; name: string; address: string; logoUrl: string; isStore: boolean; products: LapakProduct[] }
 
 const getCachedLapak = unstable_cache(
   async (): Promise<{ stalls: LapakStall[]; updatedAt: string }> => {
     const sql = getSql();
-    const stalls = await sql<{ id: string; name: string; address: string; is_store: boolean }[]>`
-      select id, name, address, is_store from stalls where is_active and show_in_storefront
+    const stalls = await sql<{ id: string; name: string; address: string; logo_url: string | null; is_store: boolean }[]>`
+      select id, name, address, logo_url, is_store from stalls where is_active and show_in_storefront
       order by is_store desc, created_at asc
     `;
     if (stalls.length === 0) return { stalls: [], updatedAt: new Date().toISOString() };
@@ -62,7 +62,7 @@ const getCachedLapak = unstable_cache(
       });
     }
     return {
-      stalls: stalls.map(s => ({ id: s.id, name: s.name, address: s.address, isStore: s.is_store, products: byStall.get(s.id)!.sort((a, b) => a.name.localeCompare(b.name, 'id')) })),
+      stalls: stalls.map(s => ({ id: s.id, name: s.name, address: s.address, logoUrl: s.logo_url ?? '', isStore: s.is_store, products: byStall.get(s.id)!.sort((a, b) => a.name.localeCompare(b.name, 'id')) })),
       updatedAt: new Date().toISOString(),
     };
   },
