@@ -32,6 +32,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: t.nav.home },
     { href: '/products', label: t.nav.menu },
+    { href: '/lapak', label: t.nav.lapak },
     { href: '/panduan', label: t.nav.guide },
     // { href: '/reseller', label: t.nav.reseller }, // hidden for now
     ...(account ? [{ href: '/pesanan', label: 'Pesanan Saya' }] : []),

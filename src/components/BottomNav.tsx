@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Users kept for the hidden reseller nav item
-import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHorizontal, X, LogIn, LogOut, User } from 'lucide-react';
+import { Home, LayoutGrid, ShoppingCart, Users, BookOpen, Award, MapPin, MoreHorizontal, X, LogIn, LogOut, User, Store } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -33,6 +33,7 @@ export default function BottomNav() {
   ];
 
   const moreItems = [
+    { href: '/lapak',   label: t.nav.lapak,  icon: Store },
     { href: '/panduan', label: t.nav.guide,  icon: BookOpen },
     { href: '/kontak',  label: t.nav.kontak, icon: MapPin },
   ];

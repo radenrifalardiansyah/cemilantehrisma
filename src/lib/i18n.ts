@@ -3,7 +3,7 @@ export type Locale = 'id' | 'en';
 export const translations = {
   id: {
     nav: {
-      home: 'Beranda', menu: 'Menu', reseller: 'Reseller',
+      home: 'Beranda', menu: 'Menu', reseller: 'Reseller', lapak: 'Lapak',
       cart: 'Keranjang', kontak: 'Kontak', guide: 'Panduan', credit: 'Credit', all: 'Semua', account: 'Akun',
     },
     hero: {
@@ -99,6 +99,17 @@ export const translations = {
       notFound: 'Menu tidak ditemukan', notFoundDesc: 'Coba kata kunci lain atau pilih kategori berbeda',
       reset: 'Reset Filter',
     },
+    lapak: {
+      badge: 'Lapak Kami', title1: 'Produk di', title2: 'Lapak',
+      subtitle: 'Lihat produk dan stok yang tersedia di setiap lapak. Pembelian dilakukan langsung di lapak.',
+      noOrder: 'Produk di halaman ini tidak bisa dipesan online — datang langsung ke lapak untuk membeli.',
+      allStalls: 'Semua Lapak', search: 'Cari produk di lapak...', allCategory: 'Semua', onlyAvailable: 'Hanya yang tersedia',
+      found: 'produk ditemukan', stall: 'Lapak', address: 'Alamat', updated: 'Diperbarui',
+      available: 'Tersedia', outOfStock: 'Habis', lowStock: 'Stok menipis', stock: 'Stok', consigned: 'Titipan',
+      notFound: 'Produk tidak ditemukan', notFoundDesc: 'Coba kata kunci lain atau pilih lapak/kategori berbeda',
+      noStalls: 'Belum ada lapak yang ditampilkan.', loading: 'Memuat lapak...', close: 'Tutup', category: 'Kategori', weight: 'Berat / ukuran', price: 'Harga', description: 'Deskripsi', noDescription: 'Belum ada deskripsi.',
+      reset: 'Reset Filter', unit: 'pcs',
+    },
     pwa: {
       title: 'Pasang di iPhone kamu!',
       desc: (brand: string) => `Akses ${brand} seperti aplikasi, lebih cepat & mudah.`,
@@ -184,7 +195,7 @@ export const translations = {
 
   en: {
     nav: {
-      home: 'Home', menu: 'Menu', reseller: 'Reseller',
+      home: 'Home', menu: 'Menu', reseller: 'Reseller', lapak: 'Stalls',
       cart: 'Cart', kontak: 'Contact', guide: 'Guide', credit: 'Credit', all: 'More', account: 'Account',
     },
     hero: {
@@ -278,6 +289,17 @@ export const translations = {
       allCategory: 'All', found: 'menu found', foundFor: 'for',
       notFound: 'Menu not found', notFoundDesc: 'Try another keyword or select a different category',
       reset: 'Reset Filter',
+    },
+    lapak: {
+      badge: 'Our Stalls', title1: 'Products at', title2: 'Stalls',
+      subtitle: 'See the products and stock available at each stall. Purchases are made in person at the stall.',
+      noOrder: 'Products on this page cannot be ordered online — visit the stall to buy.',
+      allStalls: 'All Stalls', search: 'Search products at stalls...', allCategory: 'All', onlyAvailable: 'Available only',
+      found: 'products found', stall: 'Stall', address: 'Address', updated: 'Updated',
+      available: 'Available', outOfStock: 'Out of stock', lowStock: 'Low stock', stock: 'Stock', consigned: 'Consigned',
+      notFound: 'No products found', notFoundDesc: 'Try another keyword or pick a different stall/category',
+      noStalls: 'No stalls to show yet.', loading: 'Loading stalls...', close: 'Close', category: 'Category', weight: 'Weight / size', price: 'Price', description: 'Description', noDescription: 'No description yet.',
+      reset: 'Reset Filter', unit: 'pcs',
     },
     pwa: {
       title: 'Install on your iPhone!',
