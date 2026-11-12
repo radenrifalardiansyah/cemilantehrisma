@@ -44,6 +44,11 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
   if (!row) return NextResponse.json({ error: 'not_found' }, { status: 404 });
   if (row.customer_id !== session.id) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   if (row.status === 'dibatalkan') return NextResponse.json({ error: 'order_cancelled' }, { status: 400 });
+  // Pesanan yang sudah lunas (atau sudah masuk Closing HPP di admin) tidak boleh dibalik lagi ke belum_lunas.
+  // `closing_id` baru ada setelah migrasi admin — `select *` aman bila kolomnya belum ada (undefined).
+  if (row.payment_status === 'lunas' || (row as unknown as { closing_id?: string | null }).closing_id) {
+    return NextResponse.json({ error: 'Pesanan ini sudah lunas, bukti pembayaran tidak bisa diunggah lagi.' }, { status: 409 });
+  }
 
   const body = await req.json() as { paymentMethod?: string; transferBank?: string; transferProofUrl?: string };
   const paymentMethod = body.paymentMethod === 'qris' ? 'qris' : 'transfer';
