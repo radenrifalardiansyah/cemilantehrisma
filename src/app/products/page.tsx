@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useState, useEffect, useMemo, useRef } from 'react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
@@ -9,6 +10,7 @@ import Cart from '@/components/Cart';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import ProductBanner from '@/components/ProductBanner';
+import ProductGridSkeleton from '@/components/ProductGridSkeleton';
 import BottomNav from '@/components/BottomNav';
 import { categoryData } from '@/lib/products';
 import { Category, Product } from '@/types';
@@ -30,6 +32,24 @@ function ProductsPage() {
   // Mouse drag-to-scroll for the category tabs row, so desktop users (no touchpad
   // swipe / no visible scrollbar) can still slide it with a click-drag, same as touch.
   const tabsRef = useRef<HTMLDivElement>(null);
+  const sortRef = useRef<HTMLDivElement>(null);
+
+  // Dropdown sort: tutup saat klik di luar atau tekan Escape.
+  useEffect(() => {
+    if (!showSort) return;
+    const onDown = (e: MouseEvent | TouchEvent) => {
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) setShowSort(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowSort(false); };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('touchstart', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('touchstart', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [showSort]);
   const drag = useRef({ down: false, moved: false, startX: 0, scrollLeft: 0 });
 
   const onTabsPointerDown = (e: React.PointerEvent) => {
@@ -152,11 +172,14 @@ function ProductsPage() {
                 className="relative w-full overflow-hidden rounded-2xl shadow-md mb-8"
                 style={{ aspectRatio: '2 / 1' }}
               >
-                {/* Remote banner from the admin dashboard — plain img avoids next/image remote-domain config */}
-                <img
+                {/* Banner dari dashboard admin: host tidak dijamin ada di remotePatterns, jadi unoptimized */}
+                <Image
                   src={activeBannerUrl}
                   alt={activeCategoryMeta?.name ?? ''}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  unoptimized
+                  className="object-cover"
                 />
               </div>
             ) : (
@@ -192,9 +215,11 @@ function ProductsPage() {
             )}
           </div>
 
-          <div className="relative">
+          <div className="relative" ref={sortRef}>
             <button
               onClick={() => setShowSort(!showSort)}
+              aria-haspopup="menu"
+              aria-expanded={showSort}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                 showSort
                   ? 'bg-amber-100 border-amber-300 text-amber-800'
@@ -212,11 +237,14 @@ function ProductsPage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.97 }}
                   transition={{ duration: 0.15 }}
+                  role="menu"
                   className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl border border-amber-100 shadow-xl z-20 overflow-hidden"
                 >
                   {Object.entries(sortLabels).map(([key, label]) => (
                     <button
                       key={key}
+                      role="menuitemradio"
+                      aria-checked={sortBy === key}
                       onClick={() => { setSortBy(key as typeof sortBy); setShowSort(false); }}
                       className={`w-full text-left px-4 py-3 text-sm transition-colors ${
                         sortBy === key
@@ -251,6 +279,7 @@ function ProductsPage() {
               key={tab.id}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
+              aria-pressed={activeCategory === tab.id}
               onClick={() => { trackClick('category', tab.id); setActiveCategory(tab.id); }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
                 activeCategory === tab.id
@@ -343,14 +372,10 @@ function ProductsPage() {
 export default function ProductsPageWrapper() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
-        <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="text-5xl"
-        >
-          🍵
-        </motion.div>
+      <div className="min-h-screen" style={{ background: '#FFFBF5' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-32 md:pb-20">
+          <ProductGridSkeleton />
+        </div>
       </div>
     }>
       <ProductsPage />
