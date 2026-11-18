@@ -176,9 +176,19 @@ h1, h2, h3, h4, h5, h6 {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .animate-float { animation: none; }
+  /* Spinner/pulse loading tetap bergerak: itu indikator proses, bukan dekorasi. */
+  .animate-spin { animation-duration: 1s !important; animation-iteration-count: infinite !important; }
+  .animate-pulse { animation-duration: 2s !important; animation-iteration-count: infinite !important; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* iOS Safari auto-zoom saat fokus bila font input < 16px; zoom manual sengaja dibiarkan terbuka. */
+@media (max-width: 767px) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  textarea,
+  select { font-size: 16px !important; }
 }

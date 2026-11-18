@@ -180,7 +180,7 @@ export default function BayarPesananPage() {
                       <p className="text-amber-700/50 text-xs mb-1">{paymentInfo.bankName}</p>
                       <div className="flex items-center gap-2 mb-1.5">
                         <p className="font-display text-xl font-bold text-amber-950">{paymentInfo.bankAccountNumber}</p>
-                        <button onClick={copyAccountNumber} className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-100 hover:bg-amber-200 text-amber-700 flex-shrink-0">
+                        <button onClick={copyAccountNumber} aria-label="Salin nomor rekening" className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-100 hover:bg-amber-200 text-amber-700 flex-shrink-0">
                           <Copy size={12} />
                         </button>
                       </div>

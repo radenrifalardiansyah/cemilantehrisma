@@ -177,14 +177,14 @@ export default function ProductCard({ product, index = 0 }: Props) {
                 <button
                   onClick={prevImg}
                   aria-label="Foto sebelumnya"
-                  className="before:absolute before:-inset-2 before:content-[''] absolute left-1.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
+                  className="before:absolute before:-inset-2 before:content-[''] absolute left-1.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
                 >
                   <ChevronLeft size={14} aria-hidden="true" />
                 </button>
                 <button
                   onClick={nextImg}
                   aria-label="Foto berikutnya"
-                  className="before:absolute before:-inset-2 before:content-[''] absolute right-1.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
+                  className="before:absolute before:-inset-2 before:content-[''] absolute right-1.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
                 >
                   <ChevronRight size={14} aria-hidden="true" />
                 </button>

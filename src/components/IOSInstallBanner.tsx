@@ -77,6 +77,7 @@ export default function IOSInstallBanner() {
               </div>
               <button
                 onClick={dismiss}
+                aria-label="Tutup"
                 className="p-1.5 rounded-lg text-amber-400 hover:text-amber-600 hover:bg-amber-100 transition-colors flex-shrink-0"
               >
                 <X size={15} />
