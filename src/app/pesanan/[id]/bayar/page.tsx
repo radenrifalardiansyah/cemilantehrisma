@@ -13,11 +13,14 @@ import BottomNav from '@/components/BottomNav';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatCurrency } from '@/lib/whatsapp';
 import { compressImage } from '@/lib/imageCompress';
+import { CancelOrderButton, PaymentDeadlineNote } from '@/components/OrderCancel';
+import { isAwaitingPayment } from '@/lib/order-expiry';
 
 interface Order {
   id: string; invoiceNo: string; status: string; total: number; discount?: { amount: number; label: string } | null;
   paymentMethod: 'transfer' | 'qris' | null; paymentStatus: 'lunas' | 'belum_lunas';
   transferBank: string; transferProofUrl: string;
+  fulfillmentStatus?: string | null; createdAt?: string | null;
 }
 
 interface PaymentInfo {
@@ -111,6 +114,7 @@ export default function BayarPesananPage() {
 
   const isDone = order.paymentStatus === 'lunas' || order.status === 'selesai' || order.status === 'dibatalkan';
   const hasProof = !!order.transferProofUrl && !reuploading;
+  const awaitingPayment = isAwaitingPayment({ ...order, hasProof: !!order.transferProofUrl });
 
   return (
     <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
@@ -129,6 +133,7 @@ export default function BayarPesananPage() {
             <p className="text-green-700 text-sm">{order.discount.label}: <span className="font-bold">- {formatCurrency(order.discount.amount)}</span></p>
           )}
           <p className="text-amber-800/55 text-sm">Total: <span className="font-bold text-amber-900">{formatCurrency(order.total)}</span></p>
+          {awaitingPayment && <PaymentDeadlineNote createdAt={order.createdAt} className="mt-1.5" />}
         </motion.div>
 
         {isDone ? (
@@ -212,6 +217,11 @@ export default function BayarPesananPage() {
                 />
               </label>
             </div>
+            {awaitingPayment && (
+              <div className="flex justify-center">
+                <CancelOrderButton orderId={order.id} invoiceNo={order.invoiceNo} onCancelled={loadOrder} />
+              </div>
+            )}
           </div>
         )}
       </div>

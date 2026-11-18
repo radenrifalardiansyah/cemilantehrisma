@@ -31,6 +31,7 @@ export async function GET(req: NextRequest) {
         })),
         paymentStatus: o.paymentStatus,
         hasProof: !!o.transferProofUrl,
+        createdAt: row.created_at ? new Date(row.created_at).toISOString() : null,
       };
     });
 

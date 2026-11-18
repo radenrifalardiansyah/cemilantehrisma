@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Package, Truck, Clock, Star, Copy, Check } from 'lucide-react';
@@ -11,6 +11,8 @@ import BottomNav from '@/components/BottomNav';
 import Cart from '@/components/Cart';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatCurrency } from '@/lib/whatsapp';
+import { CancelOrderButton, PaymentDeadlineNote } from '@/components/OrderCancel';
+import { isAwaitingPayment } from '@/lib/order-expiry';
 import {
   getDisplayStatus, getTimelineSteps, DISPLAY_STATUS_LABEL, DISPLAY_STATUS_COLOR,
 } from '@/lib/order-display-status';
@@ -91,6 +93,7 @@ interface Order {
   deliveryMethod: 'pickup' | 'delivery'; address: string; items: OrderItem[];
   paymentStatus: 'lunas' | 'belum_lunas'; hasProof: boolean;
   fulfillmentStatus?: string | null; shippingCourier?: string; trackingNo?: string;
+  createdAt?: string | null;
 }
 
 function OrderProgress({ order }: { order: Order }) {
@@ -153,13 +156,20 @@ export default function OrdersPage() {
     if (!authLoading && !account) router.replace('/login?next=%2Fpesanan');
   }, [authLoading, account, router]);
 
+  const loadOrders = useCallback(async () => {
+    try {
+      const r = await fetch('/api/orders/mine');
+      const d = r.ok ? await r.json() : null;
+      setOrders(d?.orders ?? []);
+    } catch {
+      setOrders([]);
+    }
+  }, []);
+
   useEffect(() => {
     if (!account) return;
-    fetch('/api/orders/mine')
-      .then(r => r.ok ? r.json() : null)
-      .then(d => setOrders(d?.orders ?? []))
-      .catch(() => setOrders([]));
-  }, [account]);
+    loadOrders();
+  }, [account, loadOrders]);
 
   if (authLoading || !account) {
     return (
@@ -238,17 +248,25 @@ export default function OrdersPage() {
                   <span className="font-display font-bold text-amber-950">{formatCurrency(order.total)}</span>
                 </div>
                 {order.paymentStatus === 'belum_lunas' && order.status !== 'dibatalkan' && order.status !== 'selesai' && (
-                  <div className="px-5 py-3 border-t border-amber-50 flex items-center justify-between gap-3">
-                    {order.hasProof ? (
-                      <span className="text-amber-700/60 text-xs flex items-center gap-1.5">
-                        <Clock size={12} /> Menunggu verifikasi admin
-                      </span>
-                    ) : (
-                      <span className="text-red-600/70 text-xs font-semibold">Belum dibayar</span>
+                  <div className="px-5 py-3 border-t border-amber-50">
+                    <div className="flex items-center justify-between gap-3">
+                      {order.hasProof ? (
+                        <span className="text-amber-700/60 text-xs flex items-center gap-1.5">
+                          <Clock size={12} /> Menunggu verifikasi admin
+                        </span>
+                      ) : (
+                        <span className="text-red-600/70 text-xs font-semibold">Belum dibayar</span>
+                      )}
+                      <Link href={`/pesanan/${order.id}/bayar`} className="btn-primary inline-flex items-center justify-center px-4 py-2 text-xs font-bold">
+                        {order.hasProof ? 'Lihat Pembayaran' : 'Bayar Sekarang'}
+                      </Link>
+                    </div>
+                    {isAwaitingPayment(order) && (
+                      <div className="mt-2 flex items-center justify-between gap-3 flex-wrap">
+                        <PaymentDeadlineNote createdAt={order.createdAt} />
+                        <CancelOrderButton orderId={order.id} invoiceNo={order.invoiceNo} onCancelled={loadOrders} />
+                      </div>
                     )}
-                    <Link href={`/pesanan/${order.id}/bayar`} className="btn-primary inline-flex items-center justify-center px-4 py-2 text-xs font-bold">
-                      {order.hasProof ? 'Lihat Pembayaran' : 'Bayar Sekarang'}
-                    </Link>
                   </div>
                 )}
               </div>

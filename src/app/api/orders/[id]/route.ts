@@ -32,6 +32,7 @@ export async function GET(req: NextRequest, ctx: Ctx) {
       paymentStatus: order.paymentStatus,
       transferBank: order.transferBank,
       transferProofUrl: order.transferProofUrl,
+      createdAt: row.created_at ? new Date(row.created_at).toISOString() : null,
     },
   });
 }
