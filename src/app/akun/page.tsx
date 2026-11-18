@@ -40,8 +40,15 @@ export default function AkunPage() {
 
   if (authLoading || !account) {
     return (
-      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
-        <p className="text-amber-700/60 text-sm">Memuat...</p>
+      <main className="min-h-screen">
+        <Navbar />
+        <div role="status" aria-live="polite" className="max-w-md mx-auto px-4 pt-28 pb-40 md:pb-20 animate-pulse">
+          <span className="sr-only">Memuat...</span>
+          <div className="h-9 w-40 rounded-lg bg-amber-100 mb-3" />
+          <div className="h-4 w-56 max-w-full rounded bg-amber-100/70 mb-8" />
+          <div className="h-28 rounded-2xl bg-amber-100/60 mb-4" />
+          <div className="h-28 rounded-2xl bg-amber-100/60" />
+        </div>
       </main>
     );
   }
@@ -91,10 +98,10 @@ export default function AkunPage() {
     : null;
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
+    <main className="min-h-screen">
       <Navbar />
-      <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-40 md:pb-20">
-        <h1 className="font-display text-3xl font-bold mb-1">
+      <div className="max-w-md mx-auto px-4 pt-28 pb-40 md:pb-20">
+        <h1 className="font-display text-3xl sm:text-4xl font-bold mb-1">
           <span className="text-amber-950">Akun </span>
           <span className="gradient-text">Saya</span>
         </h1>

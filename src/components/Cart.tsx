@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -32,6 +32,17 @@ export default function Cart() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
+  // Fokus awal ke tombol tutup, kembalikan ke pemicu saat drawer ditutup.
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    const trigger = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+    return () => {
+      if (trigger && document.contains(trigger)) trigger.focus();
+    };
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -47,6 +58,9 @@ export default function Cart() {
 
           <motion.aside
             key="drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cart-title"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -57,7 +71,7 @@ export default function Cart() {
             <div className="flex items-center justify-between px-5 py-4 border-b border-amber-100">
               <div className="flex items-center gap-2">
                 <ShoppingCart size={19} className="text-amber-600" />
-                <h2 className="font-display text-lg font-bold text-amber-950">{t.cart.title}</h2>
+                <h2 id="cart-title" className="font-display text-lg font-bold text-amber-950">{t.cart.title}</h2>
                 {totalItems > 0 && (
                   <motion.span
                     key={totalItems}
@@ -70,6 +84,7 @@ export default function Cart() {
                 )}
               </div>
               <button
+                ref={closeBtnRef}
                 onClick={closeCart}
                 aria-label="Tutup keranjang"
                 className="p-2 rounded-xl hover:bg-amber-100 text-amber-600/70 hover:text-amber-700 transition-colors"
@@ -88,25 +103,15 @@ export default function Cart() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col items-center justify-center h-64 text-center"
                   >
-                    <motion.div
-                      animate={{ y: [0, -8, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                      className="text-6xl mb-3"
-                    >
-                      🛒
-                    </motion.div>
+                    <div className="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center mb-3" aria-hidden="true">
+                      <ShoppingCart size={34} className="text-amber-600" />
+                    </div>
                     <p className="font-display text-lg font-semibold text-amber-800/60 mb-1">
                       {t.cart.empty}
                     </p>
                     <p className="text-amber-700/40 text-sm mb-4">{t.cart.emptyDesc}</p>
-                    <Link href="/products" onClick={closeCart}>
-                      <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        className="btn-primary px-5 py-2.5 text-sm font-bold flex items-center gap-2"
-                      >
-                        {t.cart.seeMenu} <ArrowRight size={13} />
-                      </motion.button>
+                    <Link href="/products" onClick={closeCart} className="btn-primary px-5 py-2.5 text-sm font-bold inline-flex items-center gap-2">
+                      {t.cart.seeMenu} <ArrowRight size={13} aria-hidden="true" />
                     </Link>
                   </motion.div>
                 ) : (
@@ -221,16 +226,14 @@ export default function Cart() {
                     </div>
                   </div>
 
-                  <Link href="/checkout" onClick={closeCart}>
-                    <motion.button
-                      whileHover={{ scale: 1.02, y: -1 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full btn-primary py-3.5 font-bold flex items-center justify-center gap-2 shadow-lg text-sm sm:text-base"
-                    >
-                      <ShoppingBag size={17} />
-                      {t.cart.checkout}
-                      <ArrowRight size={15} />
-                    </motion.button>
+                  <Link
+                    href="/checkout"
+                    onClick={closeCart}
+                    className="w-full btn-primary py-3.5 font-bold flex items-center justify-center gap-2 shadow-lg text-sm sm:text-base"
+                  >
+                    <ShoppingBag size={17} aria-hidden="true" />
+                    {t.cart.checkout}
+                    <ArrowRight size={15} aria-hidden="true" />
                   </Link>
                 </motion.div>
               )}

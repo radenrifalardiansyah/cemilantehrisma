@@ -7,6 +7,7 @@ import {
   ExternalLink, ShoppingBag,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import BottomNav from '@/components/BottomNav';
 import { useLiveBranding } from '@/lib/useLiveBranding';
@@ -48,11 +49,11 @@ export default function KontakPage() {
   const branding = useLiveBranding();
   const contacts = getContacts(branding);
   return (
-    <main className="min-h-screen pb-28" style={{ background: '#FFFBF5' }}>
+    <main className="min-h-screen">
       <Navbar />
       <Cart />
 
-      <div className="max-w-lg mx-auto px-4 pt-24">
+      <div className="max-w-lg mx-auto px-4 pt-28 pb-40 md:pb-20">
 
         {/* Header */}
         <motion.div
@@ -63,7 +64,7 @@ export default function KontakPage() {
           <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-amber-200 shadow-lg mb-4">
             <Image src={branding.logoUrl} alt={branding.brandName} fill sizes="80px" className="object-cover" />
           </div>
-          <h1 className="font-display text-2xl font-bold text-amber-950 mb-1">{branding.brandName}</h1>
+          <h1 className="font-display text-3xl sm:text-4xl font-bold text-amber-950 mb-1">{branding.brandName}</h1>
           <p className="text-amber-700/60 text-sm">{branding.tagline || t.kontak.subtitle}</p>
         </motion.div>
 
@@ -181,6 +182,7 @@ export default function KontakPage() {
         </motion.a>
       </div>
 
+      <div className="hidden sm:block"><Footer /></div>
       <BottomNav />
     </main>
   );

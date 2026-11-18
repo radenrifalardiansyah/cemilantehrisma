@@ -9,10 +9,30 @@ import toast from 'react-hot-toast';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect, useRef, type RefObject } from 'react';
 import { trackClick } from '@/lib/trackClick';
 import { DEVELOPER } from '@/lib/branding';
 import { useLiveBranding } from '@/lib/useLiveBranding';
+
+// Perilaku dialog: Escape menutup, scroll body terkunci, fokus awal ke tombol tutup, fokus kembali ke pemicu.
+function useDialogA11y(open: boolean, onClose: () => void, closeBtnRef: RefObject<HTMLButtonElement | null>) {
+  const onCloseRef = useRef(onClose);
+  useEffect(() => { onCloseRef.current = onClose; });
+  useEffect(() => {
+    if (!open) return;
+    const trigger = document.activeElement as HTMLElement | null;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeBtnRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onCloseRef.current(); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+      if (trigger && document.contains(trigger)) trigger.focus();
+    };
+  }, [open, closeBtnRef]);
+}
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -39,6 +59,10 @@ export default function BottomNav() {
   ];
 
   const closeAll = () => setShowAll(false);
+  const allCloseRef = useRef<HTMLButtonElement>(null);
+  const creditCloseRef = useRef<HTMLButtonElement>(null);
+  useDialogA11y(showAll, closeAll, allCloseRef);
+  useDialogA11y(showCredit, () => setShowCredit(false), creditCloseRef);
 
   const handleLogout = async () => {
     setLoggingOut(true);
@@ -186,6 +210,9 @@ export default function BottomNav() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="all-sheet-title"
               className="fixed bottom-0 left-0 right-0 z-[70] md:hidden rounded-t-2xl bg-white shadow-2xl"
               style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
@@ -193,12 +220,12 @@ export default function BottomNav() {
               <div className="flex justify-center pt-3 pb-1">
                 <div className="w-10 h-1 rounded-full bg-amber-200" />
               </div>
-              <button onClick={closeAll} aria-label="Tutup menu" className="before:absolute before:-inset-2 before:content-[''] absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
+              <button ref={allCloseRef} onClick={closeAll} aria-label="Tutup menu" className="before:absolute before:-inset-2 before:content-[''] absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
                 <X size={16} aria-hidden="true" />
               </button>
 
               <div className="px-5 pt-2 pb-6">
-                <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-4">{t.nav.all}</p>
+                <p id="all-sheet-title" className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-4">{t.nav.all}</p>
 
                 {/* More nav items */}
                 <div className="grid grid-cols-3 gap-3 mb-5">
@@ -274,20 +301,23 @@ export default function BottomNav() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="credit-sheet-title"
               className="fixed bottom-0 left-0 right-0 z-[70] md:hidden rounded-t-2xl bg-white shadow-2xl"
               style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
               <div className="flex justify-center pt-3 pb-1">
                 <div className="w-10 h-1 rounded-full bg-amber-200" />
               </div>
-              <button onClick={() => setShowCredit(false)} aria-label="Tutup" className="before:absolute before:-inset-2 before:content-[''] absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
+              <button ref={creditCloseRef} onClick={() => setShowCredit(false)} aria-label="Tutup" className="before:absolute before:-inset-2 before:content-[''] absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
                 <X size={16} aria-hidden="true" />
               </button>
 
               <div className="px-5 pt-2 pb-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Award size={18} className="text-amber-600" />
-                  <h3 className="font-display font-bold text-amber-900 text-base">
+                  <h3 id="credit-sheet-title" className="font-display font-bold text-amber-900 text-base">
                     {locale === 'en' ? 'About This App' : 'Tentang Aplikasi'}
                   </h3>
                 </div>

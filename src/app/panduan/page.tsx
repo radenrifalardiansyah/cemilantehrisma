@@ -81,7 +81,7 @@ export default function PanduanPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen" style={{ background: '#FFFBF5' }}>
+    <div className="min-h-screen">
       <Navbar />
       <Cart />
 
@@ -117,13 +117,17 @@ export default function PanduanPage() {
 
       {/* Sticky tab switcher */}
       <div className="sticky top-16 sm:top-20 z-20 bg-white/90 backdrop-blur-md border-b border-amber-100 shadow-sm">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="flex gap-1 py-2 overflow-x-auto no-scrollbar">
+        <div className="relative max-w-3xl mx-auto px-4">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-4 z-10 bg-gradient-to-r from-white/90 to-transparent sm:hidden" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-6 z-10 bg-gradient-to-l from-white/90 to-transparent sm:hidden" />
+          <div role="tablist" aria-label={locale === 'en' ? 'Guide sections' : 'Bagian panduan'} className="flex gap-1 py-2 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-px-4">
             {tabs.map(tab => (
               <button
                 key={tab.key}
+                role="tab"
+                aria-selected={activeTab === tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-colors duration-200 ${
+                className={`snap-start relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-colors duration-200 ${
                   activeTab === tab.key ? 'text-amber-800' : 'text-amber-500 hover:text-amber-700'
                 }`}
               >
@@ -143,7 +147,7 @@ export default function PanduanPage() {
       </div>
 
       {/* Steps content */}
-      <main className="max-w-3xl mx-auto px-4 py-8 pb-28 md:pb-16">
+      <main className="max-w-3xl mx-auto px-4 pt-8 pb-40 md:pb-16">
         <AnimatePresence mode="wait">
           {activeTab === 'order' ? (
             <motion.div

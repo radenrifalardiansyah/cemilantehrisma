@@ -59,9 +59,9 @@ function ReviewCard() {
           ? (data.review.approved ? 'Ulasan Anda sudah tayang. Bisa diperbarui kapan saja.' : 'Ulasan Anda sedang menunggu persetujuan admin.')
           : 'Bagaimana pengalaman belanja Anda?'}
       </p>
-      <div className="flex gap-1 mb-3">
+      <div className="flex mb-2">
         {[1, 2, 3, 4, 5].map(i => (
-          <button key={i} type="button" onClick={() => setRating(i)} aria-label={`${i} bintang`} aria-pressed={i === rating}>
+          <button key={i} type="button" onClick={() => setRating(i)} aria-label={`${i} bintang`} aria-pressed={i === rating} className="w-11 h-11 -mx-0.5 flex items-center justify-center rounded-lg hover:bg-amber-50 transition-colors">
             <Star size={24} aria-hidden="true" className={i <= rating ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'} />
           </button>
         ))}
@@ -118,14 +118,20 @@ export default function OrdersPage() {
 
   if (authLoading || !account) {
     return (
-      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
-        <p className="text-amber-700/60 text-sm">Memuat...</p>
+      <main className="min-h-screen">
+        <Navbar />
+        <div role="status" aria-live="polite" className="max-w-2xl mx-auto px-4 sm:px-6 pt-28 pb-40 md:pb-20 animate-pulse">
+          <span className="sr-only">Memuat...</span>
+          <div className="h-9 w-48 rounded-lg bg-amber-100 mb-3" />
+          <div className="h-4 w-64 max-w-full rounded bg-amber-100/70 mb-8" />
+          <div className="h-36 rounded-2xl bg-amber-100/60" />
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
+    <main className="min-h-screen">
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-28 pb-40 md:pb-20">
         <Link
@@ -143,14 +149,18 @@ export default function OrdersPage() {
         <ReviewCard />
 
         {orders === null ? (
-          <p className="text-amber-700/50 text-sm">Memuat pesanan...</p>
+          <div role="status" aria-live="polite" className="space-y-4 animate-pulse">
+            <span className="sr-only">Memuat pesanan...</span>
+            <div className="h-40 rounded-2xl bg-amber-100/60" />
+            <div className="h-40 rounded-2xl bg-amber-100/60" />
+          </div>
         ) : orders.length === 0 ? (
           <div className="bg-white rounded-2xl border border-amber-100 p-10 text-center shadow-sm">
-            <div className="text-5xl mb-3">📦</div>
+            <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3" aria-hidden="true">
+              <Package size={28} className="text-amber-600" />
+            </div>
             <p className="text-amber-800/50 text-sm mb-4">Belum ada pesanan.</p>
-            <Link href="/products">
-              <button className="btn-primary px-5 py-2.5 text-sm font-bold">Lihat Menu</button>
-            </Link>
+            <Link href="/products" className="btn-primary inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold">Lihat Menu</Link>
           </div>
         ) : (
           <div className="space-y-4">
@@ -190,10 +200,8 @@ export default function OrdersPage() {
                     ) : (
                       <span className="text-red-600/70 text-xs font-semibold">Belum dibayar</span>
                     )}
-                    <Link href={`/pesanan/${order.id}/bayar`}>
-                      <button className="btn-primary px-4 py-2 text-xs font-bold">
-                        {order.hasProof ? 'Lihat Pembayaran' : 'Bayar Sekarang'}
-                      </button>
+                    <Link href={`/pesanan/${order.id}/bayar`} className="btn-primary inline-flex items-center justify-center px-4 py-2 text-xs font-bold">
+                      {order.hasProof ? 'Lihat Pembayaran' : 'Bayar Sekarang'}
                     </Link>
                   </div>
                 )}
