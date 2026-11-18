@@ -11,6 +11,8 @@ export interface OrderRow {
   payment_method: string | null; payment_status: string;
   transfer_bank: string | null; transfer_proof_url: string | null;
   created_at: Date;
+  // Kolom baru (migrasi admin): bisa undefined bila migrasi belum dijalankan (`select *`).
+  fulfillment_status?: string | null; shipping_courier?: string | null; tracking_no?: string | null;
 }
 
 export function toTimestamp(d: Date | null | undefined) {
@@ -35,6 +37,9 @@ export function rowToOrder(r: OrderRow) {
     paymentStatus: r.payment_status,
     transferBank: r.transfer_bank ?? '',
     transferProofUrl: r.transfer_proof_url ?? '',
+    fulfillmentStatus: r.fulfillment_status ?? null,
+    shippingCourier: r.shipping_courier ?? '',
+    trackingNo: r.tracking_no ?? '',
     createdAt: toTimestamp(r.created_at),
   };
 }

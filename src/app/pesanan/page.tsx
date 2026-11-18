@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Package, Truck, Clock, Star } from 'lucide-react';
+import { ArrowLeft, Package, Truck, Clock, Star, Copy, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -11,6 +11,9 @@ import BottomNav from '@/components/BottomNav';
 import Cart from '@/components/Cart';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatCurrency } from '@/lib/whatsapp';
+import {
+  getDisplayStatus, getTimelineSteps, DISPLAY_STATUS_LABEL, DISPLAY_STATUS_COLOR,
+} from '@/lib/order-display-status';
 
 interface MyReview { rating: number; comment: string; approved: boolean }
 
@@ -87,17 +90,59 @@ interface Order {
   id: string; invoiceNo: string; date: string; status: string; total: number;
   deliveryMethod: 'pickup' | 'delivery'; address: string; items: OrderItem[];
   paymentStatus: 'lunas' | 'belum_lunas'; hasProof: boolean;
+  fulfillmentStatus?: string | null; shippingCourier?: string; trackingNo?: string;
 }
 
-const STATUS_LABEL: Record<string, string> = {
-  baru: 'Pesanan Baru', diproses: 'Diproses', selesai: 'Selesai', dibatalkan: 'Dibatalkan',
-};
-const STATUS_COLOR: Record<string, string> = {
-  baru: 'bg-blue-50 text-blue-700 border-blue-200',
-  diproses: 'bg-amber-50 text-amber-700 border-amber-200',
-  selesai: 'bg-green-50 text-green-700 border-green-200',
-  dibatalkan: 'bg-red-50 text-red-700 border-red-200',
-};
+function OrderProgress({ order }: { order: Order }) {
+  const [copied, setCopied] = useState(false);
+  const display = getDisplayStatus(order.status, order.fulfillmentStatus);
+  if (display === 'dibatalkan') return null;
+  const steps = getTimelineSteps(display, order.deliveryMethod);
+  const courier = order.shippingCourier?.trim();
+  const resi = order.trackingNo?.trim();
+
+  const copyResi = async () => {
+    if (!resi) return;
+    try {
+      await navigator.clipboard.writeText(resi);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error('Gagal menyalin nomor resi.');
+    }
+  };
+
+  return (
+    <div className="px-5 py-3 border-b border-amber-50">
+      <ol className="flex items-start" aria-label="Progres pesanan">
+        {steps.map((st, i) => (
+          <li key={st.key} aria-current={st.current ? 'step' : undefined} className="flex-1 min-w-0 flex flex-col items-center text-center relative">
+            {i > 0 && (
+              <span aria-hidden="true" className={`absolute top-[7px] right-1/2 w-full h-0.5 ${st.done || st.current ? 'bg-amber-400' : 'bg-amber-100'}`} />
+            )}
+            <span aria-hidden="true" className={`relative w-4 h-4 rounded-full border-2 ${st.done ? 'bg-amber-400 border-amber-400' : st.current ? 'bg-white border-amber-500 ring-2 ring-amber-200' : 'bg-white border-amber-200'}`} />
+            <span className={`mt-1.5 text-[10px] sm:text-xs leading-tight px-0.5 break-words ${st.current ? 'font-bold text-amber-950' : st.done ? 'text-amber-800/70' : 'text-amber-700/40'}`}>
+              {st.label}
+            </span>
+          </li>
+        ))}
+      </ol>
+      {display === 'dikirim' && (courier || resi) && (
+        <div className="mt-3 rounded-xl bg-indigo-50/60 border border-indigo-100 px-3 py-2 flex items-center justify-between gap-2 text-xs">
+          <div className="min-w-0">
+            {courier && <p className="text-indigo-900 font-semibold break-words">{courier}</p>}
+            {resi && <p className="text-indigo-800/80 font-mono break-all">Resi: {resi}</p>}
+          </div>
+          {resi && (
+            <button type="button" onClick={copyResi} aria-label="Salin nomor resi" className="shrink-0 min-h-9 inline-flex items-center gap-1 px-3 rounded-lg border border-indigo-200 bg-white text-indigo-700 font-semibold hover:bg-indigo-50 transition-colors">
+              {copied ? <Check size={12} /> : <Copy size={12} />} {copied ? 'Tersalin' : 'Salin'}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -173,10 +218,11 @@ export default function OrdersPage() {
                       <Clock size={11} /> {order.date}
                     </p>
                   </div>
-                  <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${STATUS_COLOR[order.status] ?? 'bg-gray-50 text-gray-700 border-gray-200'}`}>
-                    {STATUS_LABEL[order.status] ?? order.status}
+                  <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${DISPLAY_STATUS_COLOR[getDisplayStatus(order.status, order.fulfillmentStatus)]}`}>
+                    {DISPLAY_STATUS_LABEL[getDisplayStatus(order.status, order.fulfillmentStatus)]}
                   </span>
                 </div>
+                <OrderProgress order={order} />
                 <div className="divide-y divide-amber-50">
                   {order.items.map((it, i) => (
                     <div key={i} className="flex items-center justify-between px-5 py-2.5 text-sm">

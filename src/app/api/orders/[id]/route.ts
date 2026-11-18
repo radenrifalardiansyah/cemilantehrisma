@@ -3,6 +3,7 @@ import { getSql, parseJsonb } from '@/lib/db';
 import { getSessionCustomer } from '@/lib/customerAuth';
 import { notify } from '@/lib/notifications';
 import { rowToOrder, OrderRow } from '@/lib/orders-pg';
+import { isValidPaymentProofUrl } from '@/lib/payment-proof-url';
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -22,6 +23,9 @@ export async function GET(req: NextRequest, ctx: Ctx) {
       id: order.id,
       invoiceNo: order.invoiceNo,
       status: order.status,
+      fulfillmentStatus: order.fulfillmentStatus,
+      shippingCourier: order.shippingCourier,
+      trackingNo: order.trackingNo,
       total: order.total,
       discount: parseJsonb((row as unknown as { discount?: unknown }).discount ?? null),
       paymentMethod: order.paymentMethod,
