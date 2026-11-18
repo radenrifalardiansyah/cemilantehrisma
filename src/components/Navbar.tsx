@@ -101,12 +101,13 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
 
             {/* Language toggle */}
-            <div className="flex items-center h-9 rounded-full border border-amber-200 bg-white overflow-hidden shadow-sm">
+            <div className="flex items-center h-11 md:h-9 rounded-full border border-amber-200 bg-white overflow-hidden shadow-sm">
               {LOCALES.map(l => (
                 <button
                   key={l.code}
                   onClick={() => setLocale(l.code)}
-                  className={`h-full px-3 text-xs font-bold transition-all ${
+                  aria-pressed={locale === l.code}
+                  className={`h-full min-w-[44px] md:min-w-0 px-3 text-xs font-bold transition-all ${
                     locale === l.code
                       ? 'text-white'
                       : 'text-amber-700/60 hover:text-amber-800'
@@ -167,9 +168,10 @@ export default function Navbar() {
               <motion.button
                 whileTap={{ scale: 0.88 }}
                 onClick={() => { trackClick('menu', 'cart'); toggleCart(); }}
+                aria-label="Buka keranjang"
                 className="p-2.5 rounded-full bg-white border border-amber-200 shadow-sm"
               >
-                <ShoppingCart size={18} className="text-amber-700" />
+                <ShoppingCart size={18} aria-hidden="true" className="text-amber-700" />
               </motion.button>
               <AnimatePresence>
                 {totalItems > 0 && (

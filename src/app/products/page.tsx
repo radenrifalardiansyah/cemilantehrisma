@@ -184,9 +184,10 @@ function ProductsPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500/60 hover:text-amber-700"
+                aria-label="Hapus pencarian"
+                className="before:absolute before:-inset-[15px] before:content-[''] absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500/60 hover:text-amber-700"
               >
-                <X size={14} />
+                <X size={14} aria-hidden="true" />
               </button>
             )}
           </div>

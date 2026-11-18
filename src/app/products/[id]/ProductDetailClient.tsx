@@ -138,11 +138,11 @@ export default function ProductDetailClient() {
 
             {hasMultiple && (
               <>
-                <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/25 hover:bg-black/40 text-white flex items-center justify-center backdrop-blur-sm">
-                  <ChevronLeft size={18} />
+                <button onClick={prev} aria-label="Foto sebelumnya" className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/25 hover:bg-black/40 text-white flex items-center justify-center backdrop-blur-sm">
+                  <ChevronLeft size={18} aria-hidden="true" />
                 </button>
-                <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/25 hover:bg-black/40 text-white flex items-center justify-center backdrop-blur-sm">
-                  <ChevronRight size={18} />
+                <button onClick={next} aria-label="Foto berikutnya" className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/25 hover:bg-black/40 text-white flex items-center justify-center backdrop-blur-sm">
+                  <ChevronRight size={18} aria-hidden="true" />
                 </button>
                 <div className="absolute top-4 right-4 z-10 bg-black/30 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full">
                   {imgIndex + 1} / {images.length}
@@ -171,6 +171,8 @@ export default function ProductDetailClient() {
             <button
               key={i}
               onClick={() => goTo(i, i > imgIndex ? 1 : -1)}
+              aria-label={`Lihat foto ${i + 1}`}
+              aria-current={i === imgIndex ? 'true' : undefined}
               className="relative rounded-xl overflow-hidden border-2 transition-all duration-200 flex-shrink-0"
               style={{
                 width: i === imgIndex ? 58 : 48,
@@ -179,7 +181,7 @@ export default function ProductDetailClient() {
                 opacity: i === imgIndex ? 1 : 0.5,
               }}
             >
-              <Image src={img} alt={`thumb ${i + 1}`} fill className="object-contain p-1 bg-white" />
+              <Image src={img} alt="" fill className="object-contain p-1 bg-white" />
             </button>
           ))}
         </div>
@@ -287,9 +289,10 @@ export default function ProductDetailClient() {
         <div className="flex items-center gap-3 px-4 h-14">
           <button
             onClick={() => router.back()}
+            aria-label="Kembali"
             className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-amber-200 text-amber-700 flex-shrink-0"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={18} aria-hidden="true" />
           </button>
           <h2 className="font-display font-bold text-amber-900 text-sm line-clamp-1 flex-1">
             {lp.name}

@@ -71,9 +71,10 @@ export default function Cart() {
               </div>
               <button
                 onClick={closeCart}
+                aria-label="Tutup keranjang"
                 className="p-2 rounded-xl hover:bg-amber-100 text-amber-600/70 hover:text-amber-700 transition-colors"
               >
-                <X size={17} />
+                <X size={17} aria-hidden="true" />
               </button>
             </div>
 
@@ -147,9 +148,10 @@ export default function Cart() {
                             </p>
                             <button
                               onClick={() => removeItem(item.product.id)}
-                              className="p-1 rounded-lg text-red-400/60 hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
+                              aria-label={`Hapus ${lp.name} dari keranjang`}
+                              className="relative before:absolute before:-inset-3 before:content-[''] p-1 rounded-lg text-red-400/60 hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
                             >
-                              <Trash2 size={13} />
+                              <Trash2 size={13} aria-hidden="true" />
                             </button>
                           </div>
                           <p className="text-amber-600 text-sm font-bold mt-0.5">
@@ -159,9 +161,10 @@ export default function Cart() {
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-100 hover:bg-amber-200 text-amber-700 border border-amber-200 transition-colors"
+                              aria-label={`Kurangi jumlah ${lp.name}`}
+                              className="relative before:absolute before:-inset-2 before:content-[''] w-7 h-7 rounded-lg flex items-center justify-center bg-amber-100 hover:bg-amber-200 text-amber-700 border border-amber-200 transition-colors"
                             >
-                              <Minus size={11} />
+                              <Minus size={11} aria-hidden="true" />
                             </motion.button>
                             <motion.span
                               key={item.quantity}
@@ -174,9 +177,10 @@ export default function Cart() {
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white border border-amber-500 transition-colors"
+                              aria-label={`Tambah jumlah ${lp.name}`}
+                              className="relative before:absolute before:-inset-2 before:content-[''] w-7 h-7 rounded-lg flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white border border-amber-500 transition-colors"
                             >
-                              <Plus size={11} />
+                              <Plus size={11} aria-hidden="true" />
                             </motion.button>
                             <span className="text-amber-600/40 text-xs ml-1">
                               × {formatCurrency(item.product.price)}

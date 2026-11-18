@@ -193,8 +193,8 @@ export default function BottomNav() {
               <div className="flex justify-center pt-3 pb-1">
                 <div className="w-10 h-1 rounded-full bg-amber-200" />
               </div>
-              <button onClick={closeAll} className="absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
-                <X size={16} />
+              <button onClick={closeAll} aria-label="Tutup menu" className="before:absolute before:-inset-2 before:content-[''] absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
+                <X size={16} aria-hidden="true" />
               </button>
 
               <div className="px-5 pt-2 pb-6">
@@ -280,8 +280,8 @@ export default function BottomNav() {
               <div className="flex justify-center pt-3 pb-1">
                 <div className="w-10 h-1 rounded-full bg-amber-200" />
               </div>
-              <button onClick={() => setShowCredit(false)} className="absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
-                <X size={16} />
+              <button onClick={() => setShowCredit(false)} aria-label="Tutup" className="before:absolute before:-inset-2 before:content-[''] absolute top-3 right-4 p-1.5 rounded-full bg-amber-50 text-amber-600">
+                <X size={16} aria-hidden="true" />
               </button>
 
               <div className="px-5 pt-2 pb-6">

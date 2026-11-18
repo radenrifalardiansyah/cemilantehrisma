@@ -132,7 +132,7 @@ export default function LapakPage() {
                 <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
                 <input type="text" placeholder={t.lapak.search} value={query} onChange={e => setQuery(e.target.value)}
                   className="w-full pl-10 pr-10 py-3 rounded-xl input-field text-sm placeholder:text-amber-700/30" />
-                {query && <button onClick={() => setQuery('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500/60 hover:text-amber-700"><X size={14} /></button>}
+                {query && <button onClick={() => setQuery('')} aria-label="Hapus pencarian" className="before:absolute before:-inset-[15px] before:content-[''] absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500/60 hover:text-amber-700"><X size={14} aria-hidden="true" /></button>}
               </div>
               <label className="flex items-center gap-2 text-sm text-amber-800/70 px-1 select-none cursor-pointer">
                 <input type="checkbox" checked={onlyAvailable} onChange={e => setOnlyAvailable(e.target.checked)} className="accent-amber-600" />

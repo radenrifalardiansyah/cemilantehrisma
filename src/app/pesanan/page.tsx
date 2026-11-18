@@ -61,8 +61,8 @@ function ReviewCard() {
       </p>
       <div className="flex gap-1 mb-3">
         {[1, 2, 3, 4, 5].map(i => (
-          <button key={i} type="button" onClick={() => setRating(i)}>
-            <Star size={24} className={i <= rating ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'} />
+          <button key={i} type="button" onClick={() => setRating(i)} aria-label={`${i} bintang`} aria-pressed={i === rating}>
+            <Star size={24} aria-hidden="true" className={i <= rating ? 'text-amber-400 fill-amber-400' : 'text-amber-200 fill-amber-200'} />
           </button>
         ))}
       </div>

@@ -204,9 +204,10 @@ export default function CheckoutPage() {
         <div className="flex items-center gap-3 px-4 h-14">
           <button
             onClick={() => router.back()}
+            aria-label="Kembali"
             className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-amber-200 text-amber-700 flex-shrink-0"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={18} aria-hidden="true" />
           </button>
           <h2 className="font-display font-bold text-amber-900 text-sm line-clamp-1 flex-1">
             {t.checkout.title1} {t.checkout.title2}
@@ -319,15 +320,15 @@ export default function CheckoutPage() {
                           <p className="text-amber-600 text-sm font-bold">{formatCurrency(item.product.price * item.quantity)}</p>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-100 hover:bg-amber-200 text-amber-700 border border-amber-200">
-                            <Minus size={10} />
+                          <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} aria-label={`Kurangi jumlah ${lp.name}`} className="relative before:absolute before:-inset-2 before:content-[''] w-7 h-7 rounded-lg flex items-center justify-center bg-amber-100 hover:bg-amber-200 text-amber-700 border border-amber-200">
+                            <Minus size={10} aria-hidden="true" />
                           </button>
                           <span className="text-amber-950 text-sm font-bold w-5 text-center">{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white border border-amber-500">
-                            <Plus size={10} />
+                          <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} aria-label={`Tambah jumlah ${lp.name}`} className="relative before:absolute before:-inset-2 before:content-[''] w-7 h-7 rounded-lg flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white border border-amber-500">
+                            <Plus size={10} aria-hidden="true" />
                           </button>
-                          <button onClick={() => removeItem(item.product.id)} className="w-7 h-7 rounded-lg flex items-center justify-center text-red-400/60 hover:text-red-500 hover:bg-red-50 ml-1">
-                            <Trash2 size={11} />
+                          <button onClick={() => removeItem(item.product.id)} aria-label={`Hapus ${lp.name} dari keranjang`} className="relative before:absolute before:-inset-2 before:content-[''] w-7 h-7 rounded-lg flex items-center justify-center text-red-400/60 hover:text-red-500 hover:bg-red-50 ml-3">
+                            <Trash2 size={11} aria-hidden="true" />
                           </button>
                         </div>
                       </motion.div>

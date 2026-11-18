@@ -392,15 +392,17 @@ export default function Hero() {
                   {/* Prev / Next */}
                   <button
                     onClick={prev}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-amber-700 transition-all backdrop-blur-sm"
+                    aria-label="Produk sebelumnya"
+                    className="before:absolute before:-inset-1.5 before:content-[''] absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-amber-700 transition-all backdrop-blur-sm"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={16} aria-hidden="true" />
                   </button>
                   <button
                     onClick={next}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-amber-700 transition-all backdrop-blur-sm"
+                    aria-label="Produk berikutnya"
+                    className="before:absolute before:-inset-1.5 before:content-[''] absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-amber-700 transition-all backdrop-blur-sm"
                   >
-                    <ChevronRight size={16} />
+                    <ChevronRight size={16} aria-hidden="true" />
                   </button>
                 </div>
 
@@ -433,7 +435,9 @@ export default function Hero() {
                         <button
                           key={i}
                           onClick={() => { setDir(i > current ? 1 : -1); setCurrent(i); }}
-                          className="rounded-full transition-all duration-300"
+                          aria-label={`Lihat produk ${i + 1}`}
+                          aria-current={i === current ? 'true' : undefined}
+                          className="relative before:absolute before:-inset-x-[3px] before:-inset-y-[19px] before:content-[''] rounded-full transition-all duration-300"
                           style={{
                             width: i === current ? 20 : 6,
                             height: 6,

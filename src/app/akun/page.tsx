@@ -111,7 +111,7 @@ export default function AkunPage() {
             </div>
             <div className="min-w-0 flex-1">
               {editingName ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                   <input
                     autoFocus
                     value={nameInput}
@@ -119,18 +119,18 @@ export default function AkunPage() {
                     maxLength={60}
                     className="min-w-0 flex-1 px-3 py-1.5 rounded-lg input-field text-sm"
                   />
-                  <button onClick={saveName} disabled={savingName} className="p-1.5 rounded-lg bg-amber-100 text-amber-700 disabled:opacity-50">
-                    <Check size={16} />
+                  <button onClick={saveName} disabled={savingName} aria-label="Simpan nama" className="before:absolute before:-inset-2 before:content-[''] relative p-1.5 rounded-lg bg-amber-100 text-amber-700 disabled:opacity-50">
+                    <Check size={16} aria-hidden="true" />
                   </button>
-                  <button onClick={() => setEditingName(false)} className="p-1.5 rounded-lg bg-amber-50 text-amber-500">
-                    <XIcon size={16} />
+                  <button onClick={() => setEditingName(false)} aria-label="Batal ubah nama" className="before:absolute before:-inset-2 before:content-[''] relative p-1.5 rounded-lg bg-amber-50 text-amber-500">
+                    <XIcon size={16} aria-hidden="true" />
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <p className="font-display font-bold text-amber-950 text-lg truncate">{account.name || 'Tanpa nama'}</p>
-                  <button onClick={startEdit} className="text-amber-400 hover:text-amber-600 flex-shrink-0">
-                    <Pencil size={14} />
+                  <button onClick={startEdit} aria-label="Ubah nama" className="before:absolute before:-inset-[15px] before:content-[''] relative text-amber-400 hover:text-amber-600 flex-shrink-0">
+                    <Pencil size={14} aria-hidden="true" />
                   </button>
                 </div>
               )}
