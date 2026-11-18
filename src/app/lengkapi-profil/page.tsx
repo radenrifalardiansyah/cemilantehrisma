@@ -36,6 +36,14 @@ function CompleteProfileForm() {
         router.replace('/login');
         return;
       }
+      if (res.status === 409) {
+        toast.error('Nomor ini sudah terdaftar. Masuk dengan nomor HP dan password, atau gunakan nomor lain.', { duration: 5000 });
+        return;
+      }
+      if (res.status >= 500) {
+        toast.error('Terjadi gangguan server, coba lagi.');
+        return;
+      }
       if (!res.ok) {
         toast.error('Nomor HP tidak valid.');
         return;

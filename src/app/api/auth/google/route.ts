@@ -27,14 +27,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_token' }, { status: 401 });
   }
 
+  if (decoded.firebase?.sign_in_provider !== 'google.com' || (decoded.email && decoded.email_verified === false)) {
+    return NextResponse.json({ error: 'invalid_token' }, { status: 401 });
+  }
+
   const uid = decoded.uid;
   const email = decoded.email ?? '';
   const name = (decoded.name ?? email.split('@')[0] ?? 'Pengguna').toString();
 
   const sql = getSql();
-  const [existing] = await sql<{ id: string; name: string; phone: string }[]>`
-    select id, name, phone from storefront_customers where google_uid = ${uid} limit 1
-  `;
+  let existing: { id: string; name: string; phone: string } | undefined;
+  try {
+    [existing] = await sql<{ id: string; name: string; phone: string }[]>`
+      select id, name, phone from storefront_customers where google_uid = ${uid} limit 1
+    `;
+  } catch (err) {
+    console.error('[api/auth/google] db error', err);
+    return NextResponse.json({ error: 'server_error' }, { status: 500 });
+  }
 
   if (existing) {
     const res = NextResponse.json({

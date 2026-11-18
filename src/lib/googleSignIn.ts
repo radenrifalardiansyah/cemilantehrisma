@@ -9,7 +9,9 @@ export type GoogleSignInResult =
   | { status: 'redirecting' }
   | { status: 'error' };
 
-const POPUP_TIMEOUT_MS = 12000;
+// Cukup panjang agar pengguna sempat memilih akun/mengetik password di popup; fallback redirect
+// hanya untuk kasus relay hasil yang diblokir browser.
+const POPUP_TIMEOUT_MS = 60000;
 const REDIRECT_PENDING_KEY = 'google-signin-redirect-pending';
 
 // Firebase's popup flow relays the auth result back to this tab via a hidden iframe
@@ -82,7 +84,12 @@ export async function completeGoogleRedirectSignIn(): Promise<GoogleSignInResult
   sessionStorage.removeItem(REDIRECT_PENDING_KEY);
   if (!isGoogleSignInConfigured()) return null;
 
-  const result = await getRedirectResult(await getFirebaseAuthReady());
-  if (!result) return null;
-  return exchangeForSession(result.user);
+  try {
+    const result = await getRedirectResult(await getFirebaseAuthReady());
+    if (!result) return null;
+    return await exchangeForSession(result.user);
+  } catch (err) {
+    console.error('[completeGoogleRedirectSignIn]', err);
+    return { status: 'error' };
+  }
 }

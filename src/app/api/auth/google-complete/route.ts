@@ -21,24 +21,31 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_phone' }, { status: 400 });
   }
 
+  // Nomor HP berasal dari input pengguna dan TIDAK diverifikasi, jadi jangan pernah
+  // menautkan identitas Google ke akun yang sudah ada: siapa pun yang tahu nomor korban
+  // bisa mengambil alih akunnya. Akun lama masuk dengan password.
   const sql = getSql();
-  const [existing] = await sql<{ id: string; name: string }[]>`select id, name from storefront_customers where id = ${phone}`;
-
   let name: string;
-  if (existing) {
-    // Nomor ini sudah pernah daftar (mis. lewat HP+password) — tautkan akun Google
-    // ke situ saja daripada bikin akun duplikat.
-    await sql`
-      update storefront_customers set google_uid = ${pending.uid}, email = coalesce(${pending.email || null}, email), updated_at = now()
-      where id = ${phone}
-    `;
-    name = existing.name ?? pending.name;
-  } else {
-    await sql`
+  try {
+    const inserted = await sql<{ id: string }[]>`
       insert into storefront_customers (id, name, phone, google_uid, auth_provider, email, created_at)
       values (${phone}, ${pending.name}, ${phone}, ${pending.uid}, 'google', ${pending.email || null}, now())
+      on conflict do nothing
+      returning id
     `;
-    name = pending.name;
+    // Konflik: nomor sudah terdaftar, atau akun Google ini sudah dibuat (double submit/dua tab).
+    if (inserted.length === 0) {
+      const [mine] = await sql<{ id: string; name: string }[]>`
+        select id, name from storefront_customers where google_uid = ${pending.uid} and id = ${phone} limit 1
+      `;
+      if (!mine) return NextResponse.json({ error: 'phone_registered' }, { status: 409 });
+      name = mine.name ?? pending.name;
+    } else {
+      name = pending.name;
+    }
+  } catch (err) {
+    console.error('[api/auth/google-complete] db error', err);
+    return NextResponse.json({ error: 'server_error' }, { status: 500 });
   }
 
   const res = NextResponse.json({ ok: true, customer: { id: phone, name, phone } });
