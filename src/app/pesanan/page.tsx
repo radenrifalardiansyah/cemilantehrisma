@@ -127,7 +127,7 @@ function OrderProgress({ order }: { order: Order }) {
           </li>
         ))}
       </ol>
-      {display === 'dikirim' && (courier || resi) && (
+      {(display === 'dikirim' || display === 'selesai') && (courier || resi) && (
         <div className="mt-3 rounded-xl bg-indigo-50/60 border border-indigo-100 px-3 py-2 flex items-center justify-between gap-2 text-xs">
           <div className="min-w-0">
             {courier && <p className="text-indigo-900 font-semibold break-words">{courier}</p>}
