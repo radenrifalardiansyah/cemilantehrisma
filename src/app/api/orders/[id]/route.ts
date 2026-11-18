@@ -44,30 +44,42 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
 
   const { id } = await ctx.params;
   const sql = getSql();
-  const [row] = await sql<OrderRow[]>`select * from orders where id = ${id}`;
-  if (!row) return NextResponse.json({ error: 'not_found' }, { status: 404 });
-  if (row.customer_id !== session.id) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  if (row.status === 'dibatalkan') return NextResponse.json({ error: 'order_cancelled' }, { status: 400 });
-  // Pesanan yang sudah lunas (atau sudah masuk Closing HPP di admin) tidak boleh dibalik lagi ke belum_lunas.
-  // `closing_id` baru ada setelah migrasi admin — `select *` aman bila kolomnya belum ada (undefined).
-  if (row.payment_status === 'lunas' || (row as unknown as { closing_id?: string | null }).closing_id) {
-    return NextResponse.json({ error: 'Pesanan ini sudah lunas, bukti pembayaran tidak bisa diunggah lagi.' }, { status: 409 });
-  }
-
   const body = await req.json() as { paymentMethod?: string; transferBank?: string; transferProofUrl?: string };
   const paymentMethod = body.paymentMethod === 'qris' ? 'qris' : 'transfer';
   const transferProofUrl = (body.transferProofUrl ?? '').toString().trim();
-  if (!transferProofUrl) return NextResponse.json({ error: 'Bukti pembayaran wajib diupload.' }, { status: 400 });
+  const transferBank = paymentMethod === 'transfer' ? (body.transferBank ?? '').toString().slice(0, 100) : null;
 
-  await sql`
-    update orders set
-      payment_method = ${paymentMethod},
-      transfer_bank = ${paymentMethod === 'transfer' ? (body.transferBank ?? '').toString().slice(0, 100) : null},
-      transfer_proof_url = ${transferProofUrl},
-      payment_status = 'belum_lunas',
-      updated_at = now()
-    where id = ${id}
-  `;
+  // Cek status + update dalam satu transaksi dengan row lock (`for update`), sehingga admin
+  // menandai lunas / Closing tidak bisa menyelip di antara baca dan tulis.
+  // Urutan error dipertahankan: 404/403/400 cancelled/409 lunas dulu, baru validasi bukti.
+  const result = await sql.begin(async (tx) => {
+    const [row] = await tx<OrderRow[]>`select * from orders where id = ${id} for update`;
+    if (!row) return { res: NextResponse.json({ error: 'not_found' }, { status: 404 }) };
+    if (row.customer_id !== session.id) return { res: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
+    if (row.status === 'dibatalkan') return { res: NextResponse.json({ error: 'order_cancelled' }, { status: 400 }) };
+    // Pesanan yang sudah lunas (atau sudah masuk Closing HPP di admin) tidak boleh dibalik lagi ke belum_lunas.
+    // `closing_id` baru ada setelah migrasi admin — `select *` aman bila kolomnya belum ada (undefined).
+    if (row.payment_status === 'lunas' || (row as unknown as { closing_id?: string | null }).closing_id) {
+      return { res: NextResponse.json({ error: 'Pesanan ini sudah lunas, bukti pembayaran tidak bisa diunggah lagi.' }, { status: 409 }) };
+    }
+    if (!transferProofUrl) return { res: NextResponse.json({ error: 'Bukti pembayaran wajib diupload.' }, { status: 400 }) };
+    if (!isValidPaymentProofUrl(transferProofUrl)) {
+      return { res: NextResponse.json({ error: 'Bukti pembayaran tidak valid.' }, { status: 400 }) };
+    }
+
+    await tx`
+      update orders set
+        payment_method = ${paymentMethod},
+        transfer_bank = ${transferBank},
+        transfer_proof_url = ${transferProofUrl},
+        payment_status = 'belum_lunas',
+        updated_at = now()
+      where id = ${id}
+    `;
+    return { row };
+  });
+  if ('res' in result) return result.res;
+  const row = result.row;
 
   try {
     await notify({
