@@ -218,7 +218,6 @@ function ProductsPage() {
           <div className="relative" ref={sortRef}>
             <button
               onClick={() => setShowSort(!showSort)}
-              aria-haspopup="menu"
               aria-expanded={showSort}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                 showSort
@@ -237,14 +236,12 @@ function ProductsPage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.97 }}
                   transition={{ duration: 0.15 }}
-                  role="menu"
                   className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl border border-amber-100 shadow-xl z-20 overflow-hidden"
                 >
                   {Object.entries(sortLabels).map(([key, label]) => (
                     <button
                       key={key}
-                      role="menuitemradio"
-                      aria-checked={sortBy === key}
+                      aria-pressed={sortBy === key}
                       onClick={() => { setSortBy(key as typeof sortBy); setShowSort(false); }}
                       className={`w-full text-left px-4 py-3 text-sm transition-colors ${
                         sortBy === key

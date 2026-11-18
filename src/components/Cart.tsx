@@ -9,6 +9,7 @@ import { useCartStore } from '@/lib/store';
 import { formatCurrency } from '@/lib/whatsapp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductLocale } from '@/lib/product-translations';
+import { useDialogA11y } from '@/lib/useDialogA11y';
 
 export default function Cart() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, getTotalItems, getTotalPrice } =
@@ -21,27 +22,10 @@ export default function Cart() {
     useCartStore.persist.rehydrate();
   }, []);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && closeCart();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [closeCart]);
-
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
-
-  // Fokus awal ke tombol tutup, kembalikan ke pemicu saat drawer ditutup.
+  // Escape, focus trap, scroll lock, fokus awal ke tombol tutup, dan fokus kembali ke pemicu.
   const closeBtnRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (!isOpen) return;
-    const trigger = document.activeElement as HTMLElement | null;
-    closeBtnRef.current?.focus();
-    return () => {
-      if (trigger && document.contains(trigger)) trigger.focus();
-    };
-  }, [isOpen]);
+  const drawerRef = useRef<HTMLElement>(null);
+  useDialogA11y(isOpen, closeCart, drawerRef, closeBtnRef);
 
   return (
     <AnimatePresence>
@@ -58,6 +42,7 @@ export default function Cart() {
 
           <motion.aside
             key="drawer"
+            ref={drawerRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="cart-title"

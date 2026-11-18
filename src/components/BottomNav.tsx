@@ -9,30 +9,11 @@ import toast from 'react-hot-toast';
 import { useCartStore } from '@/lib/store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { useState, useEffect, useRef, type RefObject } from 'react';
+import { useState, useRef } from 'react';
+import { useDialogA11y } from '@/lib/useDialogA11y';
 import { trackClick } from '@/lib/trackClick';
 import { DEVELOPER } from '@/lib/branding';
 import { useLiveBranding } from '@/lib/useLiveBranding';
-
-// Perilaku dialog: Escape menutup, scroll body terkunci, fokus awal ke tombol tutup, fokus kembali ke pemicu.
-function useDialogA11y(open: boolean, onClose: () => void, closeBtnRef: RefObject<HTMLButtonElement | null>) {
-  const onCloseRef = useRef(onClose);
-  useEffect(() => { onCloseRef.current = onClose; });
-  useEffect(() => {
-    if (!open) return;
-    const trigger = document.activeElement as HTMLElement | null;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    closeBtnRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onCloseRef.current(); };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prevOverflow;
-      if (trigger && document.contains(trigger)) trigger.focus();
-    };
-  }, [open, closeBtnRef]);
-}
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -61,8 +42,12 @@ export default function BottomNav() {
   const closeAll = () => setShowAll(false);
   const allCloseRef = useRef<HTMLButtonElement>(null);
   const creditCloseRef = useRef<HTMLButtonElement>(null);
-  useDialogA11y(showAll, closeAll, allCloseRef);
-  useDialogA11y(showCredit, () => setShowCredit(false), creditCloseRef);
+  const allSheetRef = useRef<HTMLDivElement>(null);
+  const creditSheetRef = useRef<HTMLDivElement>(null);
+  const allOpenBtnRef = useRef<HTMLButtonElement>(null);
+  useDialogA11y(showAll, closeAll, allSheetRef, allCloseRef);
+  // Pemicu sheet kredit ada di sheet "Semua" (sudah unmount saat ditutup): fallback ke tombol "Semua".
+  useDialogA11y(showCredit, () => setShowCredit(false), creditSheetRef, creditCloseRef, { fallbackFocusRef: allOpenBtnRef });
 
   const handleLogout = async () => {
     setLoggingOut(true);
@@ -149,6 +134,7 @@ export default function BottomNav() {
               const isSemuaActive = !isAnyMainActive && !isAkunActive;
               return (
                 <motion.button
+                  ref={allOpenBtnRef}
                   whileTap={{ scale: 0.88 }}
                   onClick={() => setShowAll(true)}
                   className="relative flex-1 flex flex-col items-center justify-center py-3 gap-0.5 min-h-[60px]"
@@ -210,6 +196,7 @@ export default function BottomNav() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              ref={allSheetRef}
               role="dialog"
               aria-modal="true"
               aria-labelledby="all-sheet-title"
@@ -301,6 +288,7 @@ export default function BottomNav() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              ref={creditSheetRef}
               role="dialog"
               aria-modal="true"
               aria-labelledby="credit-sheet-title"

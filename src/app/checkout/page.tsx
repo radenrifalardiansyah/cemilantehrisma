@@ -92,6 +92,9 @@ export default function CheckoutPage() {
 
   const updateField = (field: keyof CustomerInfo, value: string) => {
     setCustomer(prev => ({ ...prev, [field]: value }));
+    if (field === 'deliveryMethod' && value === 'pickup') {
+      setFieldErrors(prev => (prev.address ? { ...prev, address: undefined } : prev));
+    }
     if (field === 'name' || field === 'phone' || field === 'address') {
       setFieldErrors(prev => (prev[field] ? { ...prev, [field]: undefined } : prev));
     }

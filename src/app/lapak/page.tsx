@@ -1,5 +1,6 @@
 'use client';
 
+import { useDialogA11y } from '@/lib/useDialogA11y';
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,6 +42,7 @@ export default function LapakPage() {
   const [reloadKey, setReloadKey] = useState(0);
   const triggerRef = useRef<HTMLElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const hasDetail = detail !== null;
 
   useEffect(() => {
@@ -72,21 +74,9 @@ export default function LapakPage() {
 
   const openDetail = useCallback((row: Row, el: HTMLElement) => { triggerRef.current = el; setDetail(row); }, []);
 
-  // Modal detail: Escape menutup, scroll body dikunci, fokus awal ke tombol tutup, fokus dikembalikan ke pemicu.
-  useEffect(() => {
-    if (!hasDetail) return;
-    const trigger = triggerRef.current;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    closeBtnRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setDetail(null); };
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      document.removeEventListener('keydown', onKey);
-      trigger?.focus();
-    };
-  }, [hasDetail]);
+  // Modal detail: Escape, focus trap, scroll lock, fokus awal ke tombol tutup, fokus kembali ke pemicu.
+  const closeDetail = useCallback(() => setDetail(null), []);
+  useDialogA11y(hasDetail, closeDetail, dialogRef, closeBtnRef, { returnFocusRef: triggerRef });
 
   const rows: Row[] = useMemo(
     () => (stalls ?? []).flatMap(s => s.products.map(p => ({ ...p, stallId: s.id, stallName: s.name }))),
@@ -253,7 +243,7 @@ export default function LapakPage() {
         {detail && (
           <motion.div key="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[60] bg-black/50 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={() => setDetail(null)}>
-            <motion.div role="dialog" aria-modal="true" aria-labelledby="lapak-detail-title" initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }}
+            <motion.div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="lapak-detail-title" initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }}
               className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden max-h-[92vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
               <div className="relative w-full" style={{ aspectRatio: '4 / 3', background: 'linear-gradient(135deg, #B4530912, #B4530906)' }}>
                 {detail.imageUrl

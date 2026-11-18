@@ -12,7 +12,7 @@ interface FieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'id'> {
   ref?: Ref<HTMLInputElement>;
 }
 
-export default function Field({ label, icon: Icon, error, type = 'text', className, ref, ...rest }: FieldProps) {
+export default function Field({ label, icon: Icon, error, type = 'text', className, style, ref, ...rest }: FieldProps) {
   const id = useId();
   const errorId = `${id}-error`;
   const [show, setShow] = useState(false);
@@ -34,7 +34,7 @@ export default function Field({ label, icon: Icon, error, type = 'text', classNa
           type={isPassword && show ? 'text' : type}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
-          style={error ? { borderColor: '#B91C1C' } : undefined}
+          style={error ? { ...style, borderColor: '#B91C1C' } : style}
           className={`w-full ${Icon ? 'pl-10' : 'pl-4'} ${isPassword ? 'pr-12' : 'pr-4'} py-3 rounded-xl input-field text-sm ${className ?? ''}`}
         />
         {isPassword && (
