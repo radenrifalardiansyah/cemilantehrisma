@@ -14,7 +14,7 @@ export function PaymentDeadlineNote({ createdAt, className = '' }: { createdAt?:
   return (
     <p className={`text-xs flex items-center gap-1.5 ${expired ? 'text-red-600 font-semibold' : 'text-amber-700/70'} ${className}`}>
       <Clock size={12} aria-hidden="true" className="shrink-0" />
-      {expired ? 'Batas bayar terlewat, pesanan akan dibatalkan otomatis' : `Bayar sebelum ${formatDeadlineWib(deadline)}`}
+      {expired ? 'Batas bayar sudah terlewat, segera selesaikan pembayaran atau hubungi kami' : `Bayar sebelum ${formatDeadlineWib(deadline)}`}
     </p>
   );
 }
