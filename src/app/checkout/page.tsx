@@ -13,6 +13,7 @@ import Navbar from '@/components/Navbar';
 import Cart from '@/components/Cart';
 import Footer from '@/components/Footer';
 import BottomNav from '@/components/BottomNav';
+import CheckoutSkeleton from '@/components/CheckoutSkeleton';
 import { useCartStore } from '@/lib/store';
 import { formatCurrency } from '@/lib/whatsapp';
 import { CustomerInfo } from '@/types';
@@ -87,20 +88,30 @@ export default function CheckoutPage() {
     return () => { cancelled = true; };
   }, [totalPrice]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const updateField = (field: keyof CustomerInfo, value: string) =>
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<'name' | 'phone' | 'address', string>>>({});
+
+  const updateField = (field: keyof CustomerInfo, value: string) => {
     setCustomer(prev => ({ ...prev, [field]: value }));
+    if (field === 'name' || field === 'phone' || field === 'address') {
+      setFieldErrors(prev => (prev[field] ? { ...prev, [field]: undefined } : prev));
+    }
+  };
 
   const validateStep1 = () => {
     if (items.length === 0) { toast.error(t.checkout.toast.emptyCart); return false; }
     return true;
   };
   const validateStep2 = () => {
-    if (!customer.name.trim()) { toast.error(t.checkout.toast.nameRequired); return false; }
-    if (!customer.phone.trim() || customer.phone.length < 8) { toast.error(t.checkout.toast.phoneInvalid); return false; }
-    if (customer.deliveryMethod === 'delivery' && !customer.address.trim()) {
-      toast.error(t.checkout.toast.addressRequired); return false;
-    }
-    return true;
+    const errs: Partial<Record<'name' | 'phone' | 'address', string>> = {};
+    if (!customer.name.trim()) errs.name = t.checkout.toast.nameRequired;
+    if (!customer.phone.trim() || customer.phone.length < 8) errs.phone = t.checkout.toast.phoneInvalid;
+    if (customer.deliveryMethod === 'delivery' && !customer.address.trim()) errs.address = t.checkout.toast.addressRequired;
+    setFieldErrors(errs);
+    const first = (['name', 'phone', 'address'] as const).find(k => errs[k]);
+    if (!first) return true;
+    toast.error(errs[first]!);
+    document.getElementById(`checkout-${first}`)?.focus();
+    return false;
   };
 
   const handleSubmit = async () => {
@@ -187,11 +198,7 @@ export default function CheckoutPage() {
   ];
 
   if (authLoading || !account) {
-    return (
-      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFFBF5' }}>
-        <p className="text-amber-700/60 text-sm">Memuat...</p>
-      </main>
-    );
+    return <CheckoutSkeleton />;
   }
 
   return (
@@ -205,13 +212,13 @@ export default function CheckoutPage() {
           <button
             onClick={() => router.back()}
             aria-label="Kembali"
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-amber-200 text-amber-700 flex-shrink-0"
+            className="relative before:absolute before:-inset-1 before:content-[''] w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-amber-200 text-amber-700 flex-shrink-0"
           >
             <ArrowLeft size={18} aria-hidden="true" />
           </button>
-          <h2 className="font-display font-bold text-amber-900 text-sm line-clamp-1 flex-1">
+          <p aria-hidden="true" className="font-display font-bold text-amber-900 text-sm line-clamp-1 flex-1">
             {t.checkout.title1} {t.checkout.title2}
-          </h2>
+          </p>
         </div>
       </div>
 
@@ -287,8 +294,8 @@ export default function CheckoutPage() {
                   <div className="p-10 text-center">
                     <div className="text-5xl mb-3">🛒</div>
                     <p className="text-amber-800/50 text-sm mb-4">{t.checkout.emptyCart}</p>
-                    <Link href="/products">
-                      <button className="btn-primary px-5 py-2.5 text-sm font-bold">{t.cart.seeMenu}</button>
+                    <Link href="/products" className="btn-primary inline-block px-5 py-2.5 text-sm font-bold">
+                      {t.cart.seeMenu}
                     </Link>
                   </div>
                 ) : (
@@ -368,6 +375,9 @@ export default function CheckoutPage() {
                             onKeyDown={e => { if (e.key === 'Enter') applyVoucher(); }}
                             placeholder={t.checkout.voucherPlaceholder}
                             aria-label={t.checkout.voucher}
+                            id="checkout-voucher"
+                            aria-invalid={voucherError ? true : undefined}
+                            aria-describedby={voucherError ? 'checkout-voucher-error' : undefined}
                             className="flex-1 min-w-0 rounded-xl border border-amber-200 bg-white px-3 py-2 text-sm text-amber-950 outline-none focus:border-amber-400"
                           />
                           <button
@@ -378,7 +388,7 @@ export default function CheckoutPage() {
                             {t.checkout.voucherApply}
                           </button>
                         </div>
-                        {voucherError && <p className="text-red-500 text-xs mt-1.5">{voucherError}</p>}
+                        {voucherError && <p id="checkout-voucher-error" role="alert" className="text-red-600 text-xs mt-1.5">{voucherError}</p>}
                       </>
                     )}
                   </div>
@@ -414,38 +424,47 @@ export default function CheckoutPage() {
 
                 {/* Name */}
                 <div>
-                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.name}</label>
+                  <label htmlFor="checkout-name" className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.name}</label>
                   <div className="relative">
                     <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
                     <input
+                      id="checkout-name"
                       type="text" value={customer.name} onChange={e => updateField('name', e.target.value)}
                       placeholder={t.checkout.namePlaceholder}
+                      aria-invalid={fieldErrors.name ? true : undefined}
+                      aria-describedby={fieldErrors.name ? 'checkout-name-error' : undefined}
                       className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm"
                     />
                   </div>
+                  {fieldErrors.name && <p id="checkout-name-error" role="alert" className="text-red-600 text-xs mt-1">{fieldErrors.name}</p>}
                 </div>
 
                 {/* Phone — locked to the logged-in account, it's the order's identity */}
                 <div>
-                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.phone}</label>
+                  <label htmlFor="checkout-phone" className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.phone}</label>
                   <div className="relative">
                     <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
                     <input
+                      id="checkout-phone"
                       type="tel" value={customer.phone} readOnly disabled
+                      aria-invalid={fieldErrors.phone ? true : undefined}
+                      aria-describedby={fieldErrors.phone ? 'checkout-phone-error checkout-phone-hint' : 'checkout-phone-hint'}
                       className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm bg-amber-50/60 text-amber-800/70 cursor-not-allowed"
                     />
                   </div>
-                  <p className="text-amber-700/40 text-[11px] mt-1">Nomor akun Anda, tidak bisa diubah di sini.</p>
+                  <p id="checkout-phone-hint" className="text-amber-700/40 text-[11px] mt-1">Nomor akun Anda, tidak bisa diubah di sini.</p>
+                  {fieldErrors.phone && <p id="checkout-phone-error" role="alert" className="text-red-600 text-xs mt-1">{fieldErrors.phone}</p>}
                 </div>
 
                 {/* Delivery method */}
-                <div>
-                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-2 block">{t.checkout.method}</label>
+                <div role="group" aria-labelledby="checkout-method-label">
+                  <span id="checkout-method-label" className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-2 block">{t.checkout.method}</span>
                   <div className="grid grid-cols-2 gap-3">
                     {(['pickup', 'delivery'] as const).map(method => (
                       <button
                         key={method}
                         onClick={() => updateField('deliveryMethod', method)}
+                        aria-pressed={customer.deliveryMethod === method}
                         className={`flex items-center justify-center gap-2 py-3 rounded-xl border text-sm font-semibold transition-all ${
                           customer.deliveryMethod === method
                             ? 'text-white border-transparent shadow-md'
@@ -467,26 +486,31 @@ export default function CheckoutPage() {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                     >
-                      <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.address}</label>
+                      <label htmlFor="checkout-address" className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.address}</label>
                       <div className="relative">
                         <MapPin size={14} className="absolute left-3.5 top-3.5 text-amber-500/60" />
                         <textarea
+                          id="checkout-address"
                           value={customer.address} onChange={e => updateField('address', e.target.value)}
                           placeholder={t.checkout.addressPlaceholder}
                           rows={3}
+                          aria-invalid={fieldErrors.address ? true : undefined}
+                          aria-describedby={fieldErrors.address ? 'checkout-address-error' : undefined}
                           className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm resize-none"
                         />
                       </div>
+                      {fieldErrors.address && <p id="checkout-address-error" role="alert" className="text-red-600 text-xs mt-1">{fieldErrors.address}</p>}
                     </motion.div>
                   )}
                 </AnimatePresence>
 
                 {/* Note */}
                 <div>
-                  <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.note}</label>
+                  <label htmlFor="checkout-note" className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">{t.checkout.note}</label>
                   <div className="relative">
                     <FileText size={14} className="absolute left-3.5 top-3.5 text-amber-500/60" />
                     <textarea
+                      id="checkout-note"
                       value={customer.note} onChange={e => updateField('note', e.target.value)}
                       placeholder={t.checkout.notePlaceholder}
                       rows={2}

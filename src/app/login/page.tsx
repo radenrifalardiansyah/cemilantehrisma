@@ -1,15 +1,32 @@
 'use client';
 
-import { Suspense, useState, FormEvent } from 'react';
+import { Suspense, useRef, useState, FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Phone, Lock, LogIn } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Field from '@/components/Field';
 import BottomNav from '@/components/BottomNav';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
 import { useAuth } from '@/contexts/AuthContext';
+
+function FormSkeleton() {
+  return (
+    <main className="min-h-screen" aria-busy="true">
+      <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-20 animate-pulse">
+        <div className="h-9 w-40 rounded-lg bg-amber-100 mb-3" />
+        <div className="h-4 w-64 max-w-full rounded bg-amber-100 mb-8" />
+        <div className="bg-white rounded-2xl border border-amber-100 p-6 space-y-4 shadow-sm">
+          <div className="h-12 rounded-xl bg-amber-50" />
+          <div className="h-12 rounded-xl bg-amber-50" />
+          <div className="h-12 rounded-xl bg-amber-200/60" />
+        </div>
+      </div>
+    </main>
+  );
+}
 
 function LoginForm() {
   const router = useRouter();
@@ -20,10 +37,18 @@ function LoginForm() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ phone?: string; password?: string }>({});
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!phone.trim() || !password) {
+    const errs: { phone?: string; password?: string } = {};
+    if (!phone.trim()) errs.phone = 'Nomor HP wajib diisi.';
+    if (!password) errs.password = 'Password wajib diisi.';
+    setErrors(errs);
+    if (errs.phone || errs.password) {
+      (errs.phone ? phoneRef : passwordRef).current?.focus();
       toast.error('Nomor HP & password wajib diisi.');
       return;
     }
@@ -49,35 +74,23 @@ function LoginForm() {
   };
 
   return (
-    <main className="min-h-screen" style={{ background: '#FFFBF5' }}>
+    <main className="min-h-screen">
       <Navbar />
       <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-20">
-        <h1 className="font-display text-3xl font-bold text-amber-950 mb-1">Masuk</h1>
+        <h1 className="font-display text-3xl sm:text-4xl font-bold text-amber-950 mb-1">Masuk</h1>
         <p className="text-amber-800/55 text-sm mb-8">Masuk ke akun untuk melanjutkan checkout.</p>
 
-        <form onSubmit={submit} className="bg-white rounded-2xl border border-amber-100 p-6 space-y-4 shadow-sm">
-          <div>
-            <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">No. HP</label>
-            <div className="relative">
-              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
-              <input
-                type="tel" value={phone} onChange={e => setPhone(e.target.value)}
-                placeholder="08xxxxxxxxxx" autoComplete="tel"
-                className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="text-amber-700/60 text-xs font-semibold uppercase tracking-wider mb-1.5 block">Password</label>
-            <div className="relative">
-              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-500/60" />
-              <input
-                type="password" value={password} onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••" autoComplete="current-password"
-                className="w-full pl-10 pr-4 py-3 rounded-xl input-field text-sm"
-              />
-            </div>
-          </div>
+        <form onSubmit={submit} noValidate className="bg-white rounded-2xl border border-amber-100 p-6 space-y-4 shadow-sm">
+          <Field
+            ref={phoneRef} label="No. HP" icon={Phone} type="tel" value={phone}
+            onChange={e => { setPhone(e.target.value); setErrors(v => ({ ...v, phone: undefined })); }}
+            placeholder="08xxxxxxxxxx" autoComplete="tel" inputMode="tel" error={errors.phone}
+          />
+          <Field
+            ref={passwordRef} label="Password" icon={Lock} type="password" value={password}
+            onChange={e => { setPassword(e.target.value); setErrors(v => ({ ...v, password: undefined })); }}
+            placeholder="••••••••" autoComplete="current-password" error={errors.password}
+          />
           <button
             type="submit" disabled={loading}
             className="w-full btn-primary py-3.5 font-bold flex items-center justify-center gap-2 shadow-md disabled:opacity-50 text-sm"
@@ -112,7 +125,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<FormSkeleton />}>
       <LoginForm />
     </Suspense>
   );
