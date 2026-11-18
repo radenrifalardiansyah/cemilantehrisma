@@ -12,6 +12,7 @@ import VisitorTracker from '@/components/VisitorTracker';
 import { logoVariant } from '@/lib/branding';
 import { getCachedBranding } from '@/lib/server/branding';
 import { BrandingProvider } from '@/lib/useLiveBranding';
+import MotionProvider from '@/components/MotionProvider';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -86,7 +87,6 @@ export async function generateViewport(): Promise<Viewport> {
   return {
     width: 'device-width',
     initialScale: 1,
-    maximumScale: 1,
     themeColor: branding.themeColor,
     viewportFit: 'cover',
   };
@@ -105,6 +105,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <BrandingProvider value={branding}>
         <LanguageProvider>
         <AuthProvider>
+        <MotionProvider>
         <SplashScreen />
         <IOSInstallBanner />
         <AndroidInstallBanner />
@@ -113,25 +114,27 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {children}
         <Toaster
           position="bottom-right"
+          containerClassName="app-toaster"
           toastOptions={{
             duration: 2500,
             style: {
-              background: 'rgba(30, 13, 0, 0.95)',
-              color: '#FFF8F0',
-              border: '1px solid rgba(212, 160, 23, 0.3)',
+              background: 'var(--text-primary)',
+              color: 'var(--bg-primary)',
+              border: '1px solid var(--border)',
               backdropFilter: 'blur(16px)',
               borderRadius: '12px',
               fontSize: '14px',
               fontFamily: 'Inter, sans-serif',
             },
             success: {
-              iconTheme: { primary: '#D4A017', secondary: '#050200' },
+              iconTheme: { primary: 'var(--accent)', secondary: 'var(--text-primary)' },
             },
             error: {
-              iconTheme: { primary: '#EF4444', secondary: '#050200' },
+              iconTheme: { primary: '#EF4444', secondary: 'var(--text-primary)' },
             },
           }}
         />
+        </MotionProvider>
         </AuthProvider>
         </LanguageProvider>
         </BrandingProvider>
