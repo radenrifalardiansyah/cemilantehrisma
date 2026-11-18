@@ -26,6 +26,12 @@ export default function AndroidInstallBanner() {
 
     if (isStandalone) return;
 
+    // beforeinstallprompt juga ditembakkan Chrome/Edge desktop; banner ini khusus HP.
+    // UA Android (HP/tablet), bukan sekadar layar kecil, supaya jendela desktop yang
+    // diperkecil tidak ikut memunculkannya.
+    const isAndroidMobile = /Android/i.test(window.navigator.userAgent);
+    if (!isAndroidMobile) return;
+
     const dismissed = sessionStorage.getItem('android_banner_dismissed');
     if (dismissed) return;
 
